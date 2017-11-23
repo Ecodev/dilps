@@ -6,5 +6,6 @@
 /.php_cs.cache
 /phpunit.xml
 /vendor/
+/db.backup.sql.gz
 
 .DS_Store

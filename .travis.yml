@@ -1,0 +1,32 @@
+language: php
+php:
+  - 7.1
+
+addons:
+    mariadb: 10.1
+
+cache:
+  directories:
+    - vendor
+    - $HOME/.composer/cache
+    - $HOME/.cache/yarn
+    - node_modules
+
+before_install:
+  - nvm install 8
+  - nvm use 8
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
+
+before_script:
+  - mysql -e 'CREATE DATABASE dilps;'
+  - ./bin/build.sh
+  - ./bin/load-test-data.php
+
+script:
+  - ./vendor/bin/doctrine orm:validate-schema
+  - ./vendor/bin/php-cs-fixer fix --diff --verbose --dry-run
+  - ./vendor/bin/phpunit --coverage-clover coverage-clover.xml
+
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage-clover.xml

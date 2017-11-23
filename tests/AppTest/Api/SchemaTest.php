@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace AppTest\Api;
 
-use App\Api\DefaultFieldResolver;
 use App\Api\Schema;
-use App\Model\User;
-use Bootstrap;
 use GraphQL\Error\Debug;
 use GraphQL\GraphQL;
 use GraphQL\Server\OperationParams;
@@ -34,14 +31,11 @@ class SchemaTest extends TestCase
      */
     public function testQuery(?string $user, string $query, array $variables, array $expected): void
     {
-        Bootstrap::initAcl();
-        User::setCurrent(_em()->getRepository(User::class)->getOneByLogin($user));
-
         // Use this flag to easily debug API test issues
         $debug = false;
 
         // Configure server
-        GraphQL::setDefaultFieldResolver(new DefaultFieldResolver());
+        GraphQL::setDefaultFieldResolver(new \GraphQL\Doctrine\DefaultFieldResolver());
         $schema = new Schema();
         $server = new StandardServer([
             'schema' => $schema,
