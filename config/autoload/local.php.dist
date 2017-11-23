@@ -14,7 +14,7 @@ return [
                 'params' => [
                     'host' => 'localhost',
                     'dbname' => 'dilps',
-                    'user' => 'dilps',
+                    'user' => 'root',
                     'password' => '',
                     'port' => 3306,
                 ],
