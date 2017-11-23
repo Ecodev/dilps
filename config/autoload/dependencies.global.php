@@ -17,6 +17,7 @@ return [
         // key is the alias name, the value is the service to which it points.
         'aliases' => [
             'Zend\Expressive\Delegate\DefaultDelegate' => Delegate\NotFoundDelegate::class,
+            \Doctrine\ORM\EntityManager::class => 'doctrine.entity_manager.orm_default',
         ],
         // Use 'invokables' for constructor-less services, or services that do
         // not require arguments to the constructor. Map a service name to the
@@ -24,6 +25,7 @@ return [
         'invokables' => [
             // Fully\Qualified\InterfaceName::class => Fully\Qualified\ClassName::class,
             Helper\ServerUrlHelper::class => Helper\ServerUrlHelper::class,
+            Doctrine\ORM\Mapping\UnderscoreNamingStrategy::class => Doctrine\ORM\Mapping\UnderscoreNamingStrategy::class,
         ],
         // Use 'factories' for services provided by callbacks/factory classes.
         'factories' => [
@@ -37,7 +39,7 @@ return [
             Middleware\ErrorResponseGenerator::class => Container\ErrorResponseGeneratorFactory::class,
             Middleware\NotFoundHandler::class => Container\NotFoundHandlerFactory::class,
             'doctrine.entity_manager.orm_default' => ContainerInteropDoctrine\EntityManagerFactory::class,
-            GraphQLAction::class => GraphQLFactory::class
+            GraphQLAction::class => GraphQLFactory::class,
         ],
     ],
 ];

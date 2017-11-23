@@ -2,6 +2,7 @@
 
 namespace App\Action;
 
+use App\Model\User;
 use Doctrine\ORM\EntityManager;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
@@ -29,10 +30,13 @@ class GraphQLAction implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
+        $users = $this->entityManger->getRepository(User::class)->findAll();
 
-        $res = $this->entityManger->getConnection()->executeQuery('SELECT 1+1 AS resultFromDB')->fetchAll();
+        $data = [];
+        foreach ($users as $user) {
+            $data[] = $user->getId() . ' ' . $user->getFirstname();
+        }
 
-        // Vrai GraphQL
-        return new JsonResponse(['mon graphql' => $res]);
+        return new JsonResponse(['mes users' => $data]);
     }
 }

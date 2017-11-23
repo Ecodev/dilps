@@ -30,6 +30,8 @@ return [
         ],
         'configuration' => [
             'orm_default' => [
+                'naming_strategy' => \Doctrine\ORM\Mapping\UnderscoreNamingStrategy::class,
+
                 'proxy_dir' => 'data/cache/DoctrineORMModule/Proxy',
                 'generate_proxies' => false,
             ],
