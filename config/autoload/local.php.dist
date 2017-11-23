@@ -8,4 +8,17 @@
  */
 
 return [
+    'doctrine' => [
+        'connection' => [
+            'orm_default' => [
+                'params' => [
+                    'host' => 'localhost',
+                    'dbname' => 'dilps',
+                    'user' => 'dilps',
+                    'password' => '',
+                    'port' => 3306,
+                ],
+            ],
+        ],
+    ],
 ];

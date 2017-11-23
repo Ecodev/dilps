@@ -1,6 +1,7 @@
 <?php
 
 use App\Action\GraphQLAction;
+use App\Action\GraphQLFactory;
 use Zend\Expressive\Application;
 use Zend\Expressive\Container;
 use Zend\Expressive\Delegate;
@@ -23,19 +24,20 @@ return [
         'invokables' => [
             // Fully\Qualified\InterfaceName::class => Fully\Qualified\ClassName::class,
             Helper\ServerUrlHelper::class => Helper\ServerUrlHelper::class,
-            GraphQLAction::class => GraphQLAction::class,
         ],
         // Use 'factories' for services provided by callbacks/factory classes.
-        'factories'  => [
-            Application::class                => Container\ApplicationFactory::class,
-            Delegate\NotFoundDelegate::class  => Container\NotFoundDelegateFactory::class,
+        'factories' => [
+            Application::class => Container\ApplicationFactory::class,
+            Delegate\NotFoundDelegate::class => Container\NotFoundDelegateFactory::class,
             Helper\ServerUrlMiddleware::class => Helper\ServerUrlMiddlewareFactory::class,
-            Helper\UrlHelper::class           => Helper\UrlHelperFactory::class,
+            Helper\UrlHelper::class => Helper\UrlHelperFactory::class,
             Helper\UrlHelperMiddleware::class => Helper\UrlHelperMiddlewareFactory::class,
 
             Zend\Stratigility\Middleware\ErrorHandler::class => Container\ErrorHandlerFactory::class,
-            Middleware\ErrorResponseGenerator::class         => Container\ErrorResponseGeneratorFactory::class,
-            Middleware\NotFoundHandler::class                => Container\NotFoundHandlerFactory::class,
+            Middleware\ErrorResponseGenerator::class => Container\ErrorResponseGeneratorFactory::class,
+            Middleware\NotFoundHandler::class => Container\NotFoundHandlerFactory::class,
+            'doctrine.entity_manager.orm_default' => ContainerInteropDoctrine\EntityManagerFactory::class,
+            GraphQLAction::class => GraphQLFactory::class
         ],
     ],
 ];
