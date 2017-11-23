@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -17,6 +19,7 @@ trait Name
 
     /**
      * Constructor
+     *
      * @param string $name
      */
     public function __construct($name = '')
@@ -26,7 +29,9 @@ trait Name
 
     /**
      * Set name
+     *
      * @param string $name
+     *
      * @return self
      */
     public function setName($name)
@@ -38,6 +43,7 @@ trait Name
 
     /**
      * Get name
+     *
      * @return string
      */
     public function getName()

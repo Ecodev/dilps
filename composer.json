@@ -8,19 +8,17 @@
         "sort-packages": true
     },
     "scripts": {
-        "post-create-project-cmd": [
-            "@development-enable"
-        ],
         "development-disable": "zf-development-mode disable",
         "development-enable": "zf-development-mode enable",
         "development-status": "zf-development-mode status",
         "check": [
-            "@cs-check",
+            "php-cs-fixer fix --ansi --dry-run --diff",
             "@test"
         ],
+        "fix": [
+            "php-cs-fixer fix --ansi"
+        ],
         "clear-config-cache": "php bin/clear-config-cache.php",
-        "cs-check": "phpcs",
-        "cs-fix": "phpcbf",
         "serve": "php -S 0.0.0.0:8080 -t htdocs htdocs/index.php",
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
@@ -41,8 +39,8 @@
         "zendframework/zend-stdlib": "^3.1"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.8",
         "phpunit/phpunit": "^6.0.8",
-        "squizlabs/php_codesniffer": "^2.8.1",
         "zendframework/zend-expressive-tooling": "^0.4.4",
         "zfcampus/zf-development-mode": "^3.1"
     },

@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 use Doctrine\DBAL\Migrations\Configuration\Configuration;
 use Doctrine\DBAL\Migrations\Tools\Console\Helper\ConfigurationHelper;
-
 use Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper;

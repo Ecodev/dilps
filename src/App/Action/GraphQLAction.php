@@ -1,20 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Action;
 
-use App\Model\User;
+use App\Api\Schema;
 use Doctrine\ORM\EntityManager;
+use GraphQL\Doctrine\DefaultFieldResolver;
+use GraphQL\Error\Debug;
+use GraphQL\GraphQL;
+use GraphQL\Server\StandardServer;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\JsonResponse;
-
-use GraphQL\Error\Debug;
-use GraphQL\GraphQL;
-use GraphQL\Server\StandardServer;
-use GraphQL\Doctrine\DefaultFieldResolver;
-use App\Api\Schema;
 
 class GraphQLAction implements MiddlewareInterface
 {
@@ -36,7 +36,6 @@ class GraphQLAction implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-
         GraphQL::setDefaultFieldResolver(new DefaultFieldResolver());
 
         $schema = new Schema();

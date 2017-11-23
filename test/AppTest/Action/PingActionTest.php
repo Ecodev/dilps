@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppTest\Action;
 
 use App\Action\PingAction;
@@ -10,7 +12,7 @@ use Zend\Diactoros\Response\JsonResponse;
 
 class PingActionTest extends TestCase
 {
-    public function testResponse()
+    public function testResponse(): void
     {
         $pingAction = new PingAction();
         $response = $pingAction->process(

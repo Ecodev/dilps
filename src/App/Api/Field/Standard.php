@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Api\Field;
 
-use GraphQL\Type\Definition\Type;
 use App\Api\Helper;
 use App\Api\Input\Filter\Filters;
 use App\Api\Input\PaginationInputType;
 use App\Api\Output\PaginationType;
 use App\Model\AbstractModel;
+use GraphQL\Type\Definition\Type;
 use ReflectionClass;
 
 /**

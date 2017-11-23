@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppTest\Action;
 
 use App\Action\HomePageAction;
@@ -14,7 +16,7 @@ class HomePageFactoryTest extends TestCase
     /** @var ContainerInterface */
     protected $container;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->container = $this->prophesize(ContainerInterface::class);
         $router = $this->prophesize(RouterInterface::class);
@@ -22,7 +24,7 @@ class HomePageFactoryTest extends TestCase
         $this->container->get(RouterInterface::class)->willReturn($router);
     }
 
-    public function testFactoryWithoutTemplate()
+    public function testFactoryWithoutTemplate(): void
     {
         $factory = new HomePageFactory();
         $this->container->has(TemplateRendererInterface::class)->willReturn(false);
@@ -34,7 +36,7 @@ class HomePageFactoryTest extends TestCase
         $this->assertInstanceOf(HomePageAction::class, $homePage);
     }
 
-    public function testFactoryWithTemplate()
+    public function testFactoryWithTemplate(): void
     {
         $factory = new HomePageFactory();
         $this->container->has(TemplateRendererInterface::class)->willReturn(true);

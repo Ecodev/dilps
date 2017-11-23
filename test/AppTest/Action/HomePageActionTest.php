@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppTest\Action;
 
 use App\Action\HomePageAction;
@@ -17,12 +19,12 @@ class HomePageActionTest extends TestCase
     /** @var RouterInterface */
     protected $router;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->router = $this->prophesize(RouterInterface::class);
     }
 
-    public function testReturnsJsonResponseWhenNoTemplateRendererProvided()
+    public function testReturnsJsonResponseWhenNoTemplateRendererProvided(): void
     {
         $homePage = new HomePageAction($this->router->reveal(), null);
         $response = $homePage->process(
@@ -33,7 +35,7 @@ class HomePageActionTest extends TestCase
         $this->assertInstanceOf(JsonResponse::class, $response);
     }
 
-    public function testReturnsHtmlResponseWhenTemplateRendererProvided()
+    public function testReturnsHtmlResponseWhenTemplateRendererProvided(): void
     {
         $renderer = $this->prophesize(TemplateRendererInterface::class);
         $renderer

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Model;
 
 use App\Utility;
@@ -58,7 +60,7 @@ abstract class AbstractModel
      *
      * @return null|int
      */
-    public function getId():?int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -98,7 +100,7 @@ abstract class AbstractModel
      *
      * @return null|DateTimeImmutable
      */
-    public function getDateModified():?DateTimeImmutable
+    public function getDateModified(): ?DateTimeImmutable
     {
         return $this->dateModified;
     }
@@ -118,7 +120,7 @@ abstract class AbstractModel
      *
      * @return null|User
      */
-    public function getCreator():?User
+    public function getCreator(): ?User
     {
         return $this->creator;
     }
@@ -138,7 +140,7 @@ abstract class AbstractModel
      *
      * @return null|User
      */
-    public function getModifier():?User
+    public function getModifier(): ?User
     {
         return $this->modifier;
     }
@@ -148,7 +150,7 @@ abstract class AbstractModel
      *
      * @ORM\PrePersist
      */
-    public function timestampCreation()
+    public function timestampCreation(): void
     {
         $this->setDateCreated(Utility::getNow());
         $this->setCreator(User::getCurrentUser());
@@ -159,7 +161,7 @@ abstract class AbstractModel
      *
      * @ORM\PreUpdate
      */
-    public function timestampModification()
+    public function timestampModification(): void
     {
         $this->setDateModified(Utility::getNow());
         $this->setModifier(User::getCurrentUser());

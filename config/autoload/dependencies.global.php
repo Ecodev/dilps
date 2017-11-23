@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 use App\Action\GraphQLAction;
 use App\Action\GraphQLFactory;
 use Zend\Expressive\Application;

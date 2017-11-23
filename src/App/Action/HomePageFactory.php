@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Action;
 
 use Interop\Container\ContainerInterface;
@@ -10,7 +12,7 @@ class HomePageFactory
 {
     public function __invoke(ContainerInterface $container)
     {
-        $router   = $container->get(RouterInterface::class);
+        $router = $container->get(RouterInterface::class);
         $template = $container->has(TemplateRendererInterface::class)
             ? $container->get(TemplateRendererInterface::class)
             : null;

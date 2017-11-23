@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 use Zend\Expressive\Helper\ServerUrlMiddleware;
 use Zend\Expressive\Helper\UrlHelperMiddleware;
 use Zend\Expressive\Middleware\ImplicitHeadMiddleware;
@@ -7,9 +8,7 @@ use Zend\Expressive\Middleware\ImplicitOptionsMiddleware;
 use Zend\Expressive\Middleware\NotFoundHandler;
 use Zend\Stratigility\Middleware\ErrorHandler;
 
-/**
- * Setup middleware pipeline:
- */
+// Setup middleware pipeline:
 
 // The error handler should be the first (most outer) middleware to catch
 // all Exceptions.

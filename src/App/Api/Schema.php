@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Api;
+declare(strict_types=1);
 
-use GraphQL\Type\Definition\ObjectType;
-use GraphQL\Type\Definition\Type;
+namespace App\Api;
 
 /**
  * Our API schema

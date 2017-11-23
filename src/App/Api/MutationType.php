@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Api;
 
-use GraphQL\Type\Definition\ObjectType;
 use App\Api\Field\Standard;
 use App\Model\User;
+use GraphQL\Type\Definition\ObjectType;
 
 class MutationType extends ObjectType
 {

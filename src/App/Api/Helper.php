@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Api;
 
+use App\Model\AbstractModel;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use GraphQL\Doctrine\Definition\EntityID;
-use App\Model\AbstractModel;
 
 abstract class Helper
 {

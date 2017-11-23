@@ -1,14 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Model;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use GraphQL\Doctrine\Annotation as API;
 
-
 /**
  * User
+ *
  * @ORM\Table(uniqueConstraints={
  *     @ORM\UniqueConstraint(name="user_email", columns={"email"}),
  * })
@@ -29,7 +30,7 @@ class User extends AbstractModel
      *
      * @param \App\Model\User $user
      */
-    public static function setCurrentUser(User $user = null)
+    public static function setCurrentUser(self $user = null): void
     {
         self::$currentUser = $user;
     }
@@ -37,7 +38,7 @@ class User extends AbstractModel
     /**
      * Returns currently logged user or null
      *
-     * @return self|null
+     * @return null|self
      */
     public static function getCurrentUser()
     {
@@ -257,7 +258,7 @@ class User extends AbstractModel
      * If photo is non-existent or already a gravatar, then
      * update it with latest email information
      */
-    private function useGravatarAsDefaultPhoto()
+    private function useGravatarAsDefaultPhoto(): void
     {
         $photo = $this->getPhoto();
         $email = $this->getEmail();
@@ -330,7 +331,7 @@ class User extends AbstractModel
      * Returns whether the user is administrator and thus have can do anything.
      * This property should only be set manually in DB by a developer.
      */
-    public function isAdministrator():bool
+    public function isAdministrator(): bool
     {
         return $this->isAdministrator;
     }
@@ -339,6 +340,7 @@ class User extends AbstractModel
      * Sets whether the user is administrator
      *
      * @API\Exclude
+     *
      * @param bool $isAdministrator
      *
      * @return self
@@ -541,5 +543,4 @@ class User extends AbstractModel
 
         return $this;
     }
-
 }

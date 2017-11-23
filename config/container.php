@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 use Doctrine\ORM\EntityManager;
 use GraphQL\Doctrine\Types;
 use Zend\ServiceManager\Config;

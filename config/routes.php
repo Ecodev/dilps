@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Setup routes with a single request method:
  *
@@ -25,7 +27,6 @@
  *     'contact'
  * );
  */
-
 $app->get('/', App\Action\HomePageAction::class, 'home');
 $app->get('/api/ping', App\Action\PingAction::class, 'api.ping');
 $app->get('/graphql', App\Action\GraphQLAction::class, 'graphql');

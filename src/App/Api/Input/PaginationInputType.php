@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Api\Input;
 
 use GraphQL\Type\Definition\InputObjectType;

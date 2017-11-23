@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App;
 
 /**
@@ -21,7 +23,7 @@ class ConfigProvider
     {
         return [
             'dependencies' => $this->getDependencies(),
-            'templates'    => $this->getTemplates(),
+            'templates' => $this->getTemplates(),
         ];
     }
 
@@ -36,7 +38,7 @@ class ConfigProvider
             'invokables' => [
                 Action\PingAction::class => Action\PingAction::class,
             ],
-            'factories'  => [
+            'factories' => [
                 Action\HomePageAction::class => Action\HomePageFactory::class,
             ],
         ];
@@ -51,8 +53,8 @@ class ConfigProvider
     {
         return [
             'paths' => [
-                'app'    => ['templates/app'],
-                'error'  => ['templates/error'],
+                'app' => ['templates/app'],
+                'error' => ['templates/error'],
                 'layout' => ['templates/layout'],
             ],
         ];

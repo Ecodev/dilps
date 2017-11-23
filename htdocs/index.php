@@ -1,7 +1,8 @@
 <?php
 
+declare(strict_types=1);
 // Delegate static file requests back to the PHP built-in webserver
-if (php_sapi_name() === 'cli-server'
+if (PHP_SAPI === 'cli-server'
     && is_file(__DIR__ . parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))
 ) {
     return false;
@@ -10,10 +11,8 @@ if (php_sapi_name() === 'cli-server'
 chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
 
-/**
- * Self-called anonymous function that creates its own scope and keep the global namespace clean.
- */
-call_user_func(function () {
+// Self-called anonymous function that creates its own scope and keep the global namespace clean.
+call_user_func(function (): void {
     /** @var \Interop\Container\ContainerInterface $container */
     $container = require 'config/container.php';
 
@@ -26,7 +25,7 @@ call_user_func(function () {
     require 'config/routes.php';
 
     // we only run the application if this file was NOT included (otherwise, the file was included to access misc functions)
-    if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
+    if (realpath(__FILE__) === realpath($_SERVER['SCRIPT_FILENAME'])) {
         $app->run();
     }
 });

@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppTest\Api;
 
+use App\Api\DefaultFieldResolver;
+use App\Api\Schema;
+use App\Model\User;
 use Bootstrap;
 use GraphQL\Error\Debug;
 use GraphQL\GraphQL;
 use GraphQL\Server\OperationParams;
 use GraphQL\Server\StandardServer;
-use App\Api\DefaultFieldResolver;
-use App\Api\Schema;
-use App\Model\User;
 use PHPUnit\Framework\TestCase;
 
 class SchemaTest extends TestCase
