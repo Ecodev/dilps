@@ -1,5 +1,6 @@
 <?php
 
+use App\Action\GraphQLAction;
 use Zend\Expressive\Application;
 use Zend\Expressive\Container;
 use Zend\Expressive\Delegate;
@@ -22,6 +23,7 @@ return [
         'invokables' => [
             // Fully\Qualified\InterfaceName::class => Fully\Qualified\ClassName::class,
             Helper\ServerUrlHelper::class => Helper\ServerUrlHelper::class,
+            GraphQLAction::class => GraphQLAction::class,
         ],
         // Use 'factories' for services provided by callbacks/factory classes.
         'factories'  => [
