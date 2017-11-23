@@ -4,6 +4,8 @@ namespace App\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use GraphQL\Doctrine\Annotation as API;
+
 
 /**
  * User
@@ -328,7 +330,7 @@ class User extends AbstractModel
      * Returns whether the user is administrator and thus have can do anything.
      * This property should only be set manually in DB by a developer.
      */
-    public function isAdministrator()
+    public function isAdministrator():bool
     {
         return $this->isAdministrator;
     }
@@ -336,6 +338,7 @@ class User extends AbstractModel
     /**
      * Sets whether the user is administrator
      *
+     * @API\Exclude
      * @param bool $isAdministrator
      *
      * @return self

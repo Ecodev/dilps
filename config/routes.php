@@ -29,3 +29,4 @@
 $app->get('/', App\Action\HomePageAction::class, 'home');
 $app->get('/api/ping', App\Action\PingAction::class, 'api.ping');
 $app->get('/graphql', App\Action\GraphQLAction::class, 'graphql');
+$app->post('/graphql', App\Action\GraphQLAction::class, 'graphql');

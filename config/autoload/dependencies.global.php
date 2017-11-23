@@ -40,6 +40,7 @@ return [
             Middleware\NotFoundHandler::class => Container\NotFoundHandlerFactory::class,
             'doctrine.entity_manager.orm_default' => ContainerInteropDoctrine\EntityManagerFactory::class,
             GraphQLAction::class => GraphQLFactory::class,
+            \GraphQL\Doctrine\Types::class => \App\Api\TypesFactory::class,
         ],
     ],
 ];

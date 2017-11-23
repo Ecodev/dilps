@@ -10,6 +10,12 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\JsonResponse;
 
+use GraphQL\Error\Debug;
+use GraphQL\GraphQL;
+use GraphQL\Server\StandardServer;
+use GraphQL\Doctrine\DefaultFieldResolver;
+use App\Api\Schema;
+
 class GraphQLAction implements MiddlewareInterface
 {
     private $entityManger;
@@ -30,13 +36,19 @@ class GraphQLAction implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        $users = $this->entityManger->getRepository(User::class)->findAll();
 
-        $data = [];
-        foreach ($users as $user) {
-            $data[] = $user->getId() . ' ' . $user->getFirstname();
-        }
+        GraphQL::setDefaultFieldResolver(new DefaultFieldResolver());
 
-        return new JsonResponse(['mes users' => $data]);
+        $schema = new Schema();
+        $server = new StandardServer([
+            'schema' => $schema,
+            'queryBatching' => true,
+            'debug' => true,
+        ]);
+
+        $request = $request->withParsedBody(json_decode($request->getBody()->getContents(), true));
+        $response = $server->executePsrRequest($request);
+
+        return new JsonResponse($response);
     }
 }

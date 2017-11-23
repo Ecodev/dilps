@@ -25,5 +25,8 @@ call_user_func(function () {
     require 'config/pipeline.php';
     require 'config/routes.php';
 
-    $app->run();
+    // we only run the application if this file was NOT included (otherwise, the file was included to access misc functions)
+    if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
+        $app->run();
+    }
 });
