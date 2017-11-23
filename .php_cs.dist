@@ -6,6 +6,7 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude('node_modules')
     ->exclude('vendor')
     ->name('*.phtml')
+    ->name('*.php.dist')
     ->in(__DIR__);
 
 return PhpCsFixer\Config::create()

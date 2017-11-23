@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-/**
+/*
  * Development-only configuration.
  *
  * Put settings you want enabled when under development mode in this file, and

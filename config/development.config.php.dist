@@ -1,6 +1,7 @@
 <?php
 
-/**
+declare(strict_types=1);
+/*
  * File required to allow enablement of development mode.
  *
  * For use with the zf-development-mode tool.
@@ -20,7 +21,6 @@
  * - The `debug` flag is _enabled_.
  * - Configuration caching is _disabled_.
  */
-
 use Zend\ConfigAggregator\ConfigAggregator;
 
 return [

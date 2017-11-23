@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-/**
+/*
  * Local configuration.
  *
  * Copy this file to `local.php` and change its settings as required.

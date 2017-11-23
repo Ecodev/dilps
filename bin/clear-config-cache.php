@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-/**
+/*
  * Script for clearing the configuration cache.
  *
  * Can also be invoked as `composer clear-config-cache`.
