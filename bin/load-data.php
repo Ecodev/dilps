@@ -1,7 +1,7 @@
 #! /usr/bin/env php
 <?php
 
-use App\Service\AbstractDatabase;
+use Application\Service\AbstractDatabase;
 
 require __DIR__ . '/../htdocs/index.php';
 

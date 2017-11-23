@@ -4,7 +4,7 @@
          bootstrap="htdocs/index.php"
          colors="true">
     <testsuites>
-        <testsuite name="App\\Tests">
+        <testsuite name="Application\\Tests">
             <directory>./tests</directory>
         </testsuite>
     </testsuites>
@@ -12,7 +12,7 @@
     <filter>
         <whitelist>
             <!-- Include only our own code for code coverage statistics -->
-            <directory>./src</directory>
+            <directory>./server</directory>
         </whitelist>
     </filter>
 </phpunit>

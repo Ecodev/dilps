@@ -1,105 +1,45 @@
-# Expressive Skeleton and Installer
+# Dilps
 
-[![Build Status](https://secure.travis-ci.org/zendframework/zend-expressive-skeleton.svg?branch=master)](https://secure.travis-ci.org/zendframework/zend-expressive-skeleton)
-[![Coverage Status](https://coveralls.io/repos/github/zendframework/zend-expressive-skeleton/badge.svg?branch=master)](https://coveralls.io/github/zendframework/zend-expressive-skeleton?branch=master)
+Master:
+[![Build Status](https://travis-ci.org/Ecodev/dilps.svg?branch=master)](https://travis-ci.org/Ecodev/dilps) &nbsp;
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Ecodev/dilps/badges/quality-score.png?b=master&s=2b6588a62b5d35d80bd104014502605b7520f49a)](https://scrutinizer-ci.com/g/Ecodev/dilps/?branch=master) &nbsp;
+[![Code Coverage](https://scrutinizer-ci.com/g/Ecodev/dilps/badges/coverage.png?b=master&s=cc2eec510484f44409973822e7e3a805df6a1e91)](https://scrutinizer-ci.com/g/Ecodev/dilps/?branch=master)
 
-*Begin developing PSR-7 middleware applications in seconds!*
+Develop:
+[![Build Status](https://travis-ci.org/Ecodev/dilps.svg?branch=develop)](https://travis-ci.org/Ecodev/dilps) &nbsp;
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Ecodev/dilps/badges/quality-score.png?b=develop&s=2b6588a62b5d35d80bd104014502605b7520f49a)](https://scrutinizer-ci.com/g/Ecodev/dilps/?branch=develop) &nbsp;
+[![Code Coverage](https://scrutinizer-ci.com/g/Ecodev/dilps/badges/coverage.png?b=develop&s=cc2eec510484f44409973822e7e3a805df6a1e91)](https://scrutinizer-ci.com/g/Ecodev/dilps/?branch=develop)
 
-[zend-expressive](https://github.com/zendframework/zend-expressive) builds on
-[zend-stratigility](https://github.com/zendframework/zend-stratigility) to
-provide a minimalist PSR-7 middleware framework for PHP with routing, DI
-container, optional templating, and optional error handling capabilities.
+## Introduction
 
-This installer will setup a skeleton application based on zend-expressive by
-choosing optional packages based on user input as demonstrated in the following
-screenshot:
+Dilps is a web application based on GraphQL for the API and Angular for the client.
 
-![screenshot-installer](https://cloud.githubusercontent.com/assets/459648/10410494/16bdc674-6f6d-11e5-8190-3c1466e93361.png)
 
-The user selected packages are saved into `composer.json` so that everyone else
-working on the project have the same packages installed. Configuration files and
-templates are prepared for first use. The installer command is removed from
-`composer.json` after setup succeeded, and all installer related files are
-removed.
+## Installation
 
-## Getting Started
+The recommended way to get a working copy is the following:
 
-Start your new Expressive project with composer:
-
-```bash
-$ composer create-project zendframework/zend-expressive-skeleton <project-path>
+1. Set up a nginx virtual host to point to `htdocs/` directory and to include `configuration/nginx.conf`
+2. Create a database in MariaDB named "dilps"
+3. Configure database in `config/autoload/local.php` (see example ``config/autoload/local.php.dist``)
+4. Finally, build the app:
+```sh
+./bin/build.sh
 ```
 
-After choosing and installing the packages you want, go to the
-`<project-path>` and start PHP's built-in web server to verify installation:
+## Development
 
-```bash
-$ composer run --timeout=0 serve
+### Server
+
+To switch the API to development (to enable logging), run:
+
+```sh
+composer development-enable
 ```
 
-You can then browse to http://localhost:8080.
+Logs will be available in ``logs/all.log``.
 
-> ### Setting a timeout
->
-> Composer commands time out after 300 seconds (5 minutes). On Linux-based
-> systems, the `php -S` command that `composer serve` spawns continues running
-> as a background process, but on other systems halts when the timeout occurs.
->
-> As such, we recommend running the `serve` script using a timeout. This can
-> be done by using `composer run` to execute the `serve` script, with a
-> `--timeout` option. When set to `0`, as in the previous example, no timeout
-> will be used, and it will run until you cancel the process (usually via
-> `Ctrl-C`). Alternately, you can specify a finite timeout; as an example,
-> the following will extend the timeout to a full day:
->
-> ```bash
-> $ composer run --timeout=86400 serve
-> ```
-
-## Troubleshooting
-
-If the installer fails during the ``composer create-project`` phase, please go
-through the following list before opening a new issue. Most issues we have seen
-so far can be solved by `self-update` and `clear-cache`.
-
-1. Be sure to work with the latest version of composer by running `composer self-update`.
-2. Try clearing Composer's cache by running `composer clear-cache`.
-
-If neither of the above help, you might face more serious issues:
-
-- Info about the [zlib_decode error](https://github.com/composer/composer/issues/4121).
-- Info and solutions for [composer degraded mode](https://getcomposer.org/doc/articles/troubleshooting.md#degraded-mode).
-
-## Application Development Mode Tool
-
-This skeleton comes with [zf-development-mode](https://github.com/zfcampus/zf-development-mode). 
-It provides a composer script to allow you to enable and disable development mode.
-
-### To enable development mode
-
-**Note:** Do NOT run development mode on your production server!
-
-```bash
-$ composer development-enable
-```
-
-**Note:** Enabling development mode will also clear your configuration cache, to 
-allow safely updating dependencies and ensuring any new configuration is picked 
-up by your application.
-
-### To disable development mode
-
-```bash
-$ composer development-disable
-```
-
-### Development mode status
-
-```bash
-$ composer development-status
-```
-
-## Configuration caching
+#### Configuration caching
 
 By default, the skeleton will create a configuration cache in
 `data/config-cache.php`. When in development mode, the configuration cache is
@@ -117,22 +57,31 @@ You may also change the location of the configuration cache itself by editing
 the `config/config.php` file and changing the `config_cache_path` entry of the
 local `$cacheConfig` variable.
 
-## Skeleton Development
+### Client
 
-This section applies only if you cloned this repo with `git clone`, not when you
-installed expressive with `composer create-project ...`.
+Run `yarn dev` for a dev server. Navigate to `http://localhost:4200/`. The app will
+automatically reload if you change any of the source files.
 
-If you want to run tests against the installer, you need to clone this repo and
-setup all dependencies with composer.  Make sure you **prevent composer running
-scripts** with `--no-scripts`, otherwise it will remove the installer and all
-tests.
+## Testing
 
-```bash
-$ composer update --no-scripts
-$ composer test
+### PHPUnit
+
+PHPUnit tests require a reference database dump. When the dump is loaded it **will destroy**
+existing database. This must be done once before running tests. Then each test is ran
+within a transaction which is rolled back, so the database state is always predictable.
+
+To run PHPunit test:
+
+```sh
+./bin/load-test-data.php
+./vendor/bin/phpunit # as many times as necessary
 ```
 
-Please note that the installer tests remove installed config files and templates
-before and after running the tests.
+### Karma
 
-Before contributing read [the contributing guide](CONTRIBUTING.md).
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+### Protractor
+
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+

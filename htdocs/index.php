@@ -10,7 +10,7 @@ if (PHP_SAPI === 'cli-server'
 
 chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
-require 'src/Debug.php';
+require 'server/Debug.php';
 
 // Self-called anonymous function that creates its own scope and keep the global namespace clean.
 call_user_func(function (): void {

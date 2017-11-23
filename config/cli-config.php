@@ -15,8 +15,8 @@ $entityManager = $container->get(EntityManager::class);
 // Configure migrations
 $connection = $entityManager->getConnection();
 $configuration = new Configuration($connection);
-$configuration->setMigrationsDirectory('src/App/Migration');
-$configuration->setMigrationsNamespace('App\Migration');
+$configuration->setMigrationsDirectory('server/Application/Migration');
+$configuration->setMigrationsNamespace('Application\Migration');
 
 return new HelperSet([
     'em' => new EntityManagerHelper($entityManager),

@@ -1,11 +1,16 @@
 /config/autoload/*.local.php
 /config/autoload/local.php
 /config/development.config.php
+/db.backup.sql.gz
+/htdocs/favicon.ico
+/htdocs/*.html
+/htdocs/*.js
+/htdocs/*.map
 /.idea/
 /logs/
+/node_modules/
 /.php_cs.cache
 /phpunit.xml
 /vendor/
-/db.backup.sql.gz
 
 .DS_Store

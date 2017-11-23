@@ -27,7 +27,7 @@ return [
             'orm_default' => [
                 'class' => Doctrine\ORM\Mapping\Driver\AnnotationDriver::class,
                 'cache' => 'array',
-                'paths' => ['src/App/Model'],
+                'paths' => ['server/Application/Model'],
             ],
         ],
         'configuration' => [
@@ -41,8 +41,8 @@ return [
         // migrations configuration
         'migrations_configuration' => [
             'orm_default' => [
-                'directory' => 'src/App/Migration',
-                'namespace' => 'App\Migration',
+                'directory' => 'server/Application/Migration',
+                'namespace' => 'Application\Migration',
             ],
         ],
     ],
