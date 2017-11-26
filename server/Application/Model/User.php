@@ -4,20 +4,26 @@ declare(strict_types=1);
 
 namespace Application\Model;
 
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use GraphQL\Doctrine\Annotation as API;
 
 /**
  * User
  *
- * @ORM\Table(uniqueConstraints={
- *     @ORM\UniqueConstraint(name="user_email", columns={"email"}),
- * })
  * @ORM\Entity(repositoryClass="Application\Repository\UserRepository")
  */
 class User extends AbstractModel
 {
-    use \Application\Traits\Name;
+    /**
+     * Someone who is a normal user, not part of UNIL
+     */
+    const TYPE_DEFAULT = 'default';
+
+    /**
+     * Someone who log in via UNIL system
+     */
+    const TYPE_UNIL = 'unil';
 
     /**
      * @var User
@@ -47,41 +53,30 @@ class User extends AbstractModel
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @ORM\Column(type="string", length=50, unique=true)
      */
-    private $title;
+    private $login = '';
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @ORM\Column(type="string", length=255)
      */
-    private $firstname;
+    private $password = '';
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $lastname;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=191, nullable=true)
+     * @ORM\Column(type="string", length=191)
      */
     private $email;
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=2, options={"default" = "fr"}))
-     */
-    private $language = 'fr';
-
-    /**
-     * URL of photo for the user
      *
-     * @var string
      * @ORM\Column(type="string", length=255)
      */
-    private $photo;
+    private $organization = '';
 
     /**
      * @var bool
@@ -90,58 +85,22 @@ class User extends AbstractModel
     private $isAdministrator = false;
 
     /**
-     * @var string
-     * @ORM\Column(type="text")
+     * @var DateTimeImmutable
+     * @ORM\Column(type="datetime_immutable", nullable=true)
      */
-    private $description = '';
+    private $activeUntil;
 
     /**
-     * @var int sex according to ISO/IEC 5218
-     * @ORM\Column(type="smallint", options={"default" = "0"}))
+     * @var DateTimeImmutable
+     * @ORM\Column(type="datetime_immutable", nullable=true)
      */
-    private $sex = 0;
-
-    /**
-     * @var bool
-     * @ORM\Column(type="boolean")
-     */
-    private $newsletter = true;
+    private $termsAgreement;
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=25, nullable=true)
+     * @ORM\Column(type="UserType", options={"default" = User::TYPE_DEFAULT})
      */
-    private $phone;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $skype;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $profession;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $ministry;
-
-    /**
-     * @var \DateTimeImmutable
-     * @ORM\Column(type="datetimetz", nullable=true)
-     */
-    private $lastLogin;
-
-    /**
-     * @var \DateTimeImmutable
-     * @ORM\Column(type="datetimetz", nullable=true)
-     */
-    private $firstLogin;
+    private $type = self::TYPE_DEFAULT;
 
     /**
      * Constructor
@@ -151,122 +110,61 @@ class User extends AbstractModel
     }
 
     /**
-     * Set the name automatically from firstname and lastname
+     * Set login (eg: johndoe)
      *
-     * @param string $name
+     * @API\Input(type="Application\Api\Scalar\LoginType")
      *
-     * @return self
+     * @param string $login
      */
-    private function setName($name = null)
+    public function setLogin(string $login): void
     {
-        $this->name = trim(trim($this->getFirstname()) . ' ' . trim($this->getLastname()));
-
-        return $this;
+        $this->login = $login;
     }
 
     /**
-     * Set title (eg: Sir, Doctor)
+     * Get login (eg: johndoe)
      *
-     * @param string $title
-     *
-     * @return self
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title (eg: Sir, Doctor)
+     * @API\Field(type="Application\Api\Scalar\LoginType")
      *
      * @return string
      */
-    public function getTitle()
+    public function getLogin(): string
     {
-        return $this->title;
+        return $this->login;
     }
 
     /**
-     * Set firstname
+     * Encrypt and change the user password
      *
-     * @param string $firstname
+     * @API\Exclude
      *
-     * @return self
+     * @param string $password
      */
-    public function setFirstname($firstname)
+    public function setPassword(string $password): void
     {
-        $this->firstname = $firstname;
-        $this->setName();
-
-        return $this;
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
     }
 
     /**
-     * Get firstname
+     * Returns the hashed password
+     *
+     * @API\Exclude
      *
      * @return string
      */
-    public function getFirstname()
+    public function getPassword(): string
     {
-        return $this->firstname;
-    }
-
-    /**
-     * Set lastname
-     *
-     * @param string $lastname
-     *
-     * @return self
-     */
-    public function setLastname($lastname)
-    {
-        $this->lastname = $lastname;
-        $this->setName();
-
-        return $this;
-    }
-
-    /**
-     * Get lastname
-     *
-     * @return string
-     */
-    public function getLastname()
-    {
-        return $this->lastname;
+        return $this->password;
     }
 
     /**
      * Set email
-     * Nobody can set an email, except via a Profile
      *
      * @param string $email
-     *
-     * @return self
      */
-    private function setEmail($email)
+    public function setEmail(string $email): void
     {
         $this->email = $email;
-        $this->useGravatarAsDefaultPhoto();
-
-        return $this;
-    }
-
-    /**
-     * If photo is non-existent or already a gravatar, then
-     * update it with latest email information
-     */
-    private function useGravatarAsDefaultPhoto(): void
-    {
-        $photo = $this->getPhoto();
-        $email = $this->getEmail();
-        $gravatarBase = 'https://secure.gravatar.com/avatar/';
-        if ($email && (!$photo || mb_strpos($photo, $gravatarBase) !== false)) {
-            $gravatar = $gravatarBase . md5(mb_strtolower(trim($email))) . '?d=identicon';
-            $this->setPhoto($gravatar);
-        }
     }
 
     /**
@@ -274,62 +172,33 @@ class User extends AbstractModel
      *
      * @return string
      */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
     /**
-     * Get ISO 639-1 language code
+     * Set organization
      *
-     * @param string $language
-     *
-     * @return self
+     * @param string $organization
      */
-    public function setLanguage($language)
+    public function setOrganization(string $organization): void
     {
-        $this->language = $language;
-
-        return $this;
+        $this->organization = $organization;
     }
 
     /**
-     * Set ISO 639-1 language code
+     * Get organization
      *
      * @return string
      */
-    public function getLanguage()
+    public function getOrganization(): string
     {
-        return $this->language;
-    }
-
-    /**
-     * Set photo URL
-     *
-     * @param string $photo
-     *
-     * @return self
-     */
-    public function setPhoto($photo)
-    {
-        $this->photo = $photo;
-
-        return $this;
-    }
-
-    /**
-     * Get photo URL
-     *
-     * @return string
-     */
-    public function getPhoto()
-    {
-        return $this->photo;
+        return $this->organization;
     }
 
     /**
      * Returns whether the user is administrator and thus have can do anything.
-     * This property should only be set manually in DB by a developer.
      */
     public function isAdministrator(): bool
     {
@@ -339,208 +208,84 @@ class User extends AbstractModel
     /**
      * Sets whether the user is administrator
      *
+     * This property should only be set manually in DB by a developer.
+     *
      * @API\Exclude
      *
      * @param bool $isAdministrator
-     *
-     * @return self
      */
-    public function setIsAdministrator($isAdministrator)
+    public function setIsAdministrator(bool $isAdministrator): void
     {
         $this->isAdministrator = $isAdministrator;
-
-        return $this;
     }
 
     /**
-     * Get the description
+     * The date until the user is active. Or `null` if there is not limit in time
+     *
+     * @return null|DateTimeImmutable
+     */
+    public function getActiveUntil(): ?DateTimeImmutable
+    {
+        return $this->activeUntil;
+    }
+
+    /**
+     * The date until the user is active. Or `null` if there is not limit in time
+     *
+     * @param null|DateTimeImmutable $activeUntil
+     *
+     * @return self
+     */
+    public function setActiveUntil(?DateTimeImmutable $activeUntil)
+    {
+        $this->activeUntil = $activeUntil;
+    }
+
+    /**
+     * The date when the user agreed to the terms of usage
+     *
+     * @return null|DateTimeImmutable
+     */
+    public function getTermsAgreement(): ?DateTimeImmutable
+    {
+        return $this->termsAgreement;
+    }
+
+    /**
+     * The date when the user agreed to the terms of usage.
+     *
+     * A user cannot un-agree once he agreed.
+     *
+     * @param DateTimeImmutable $termsAgreement
+     *
+     * @return self
+     */
+    public function setTermsAgreement(DateTimeImmutable $termsAgreement)
+    {
+        $this->termsAgreement = $termsAgreement;
+    }
+
+    /**
+     * Set user type
+     *
+     * @API\Input(type="Application\Api\Enum\UserTypeType")
+     *
+     * @param string $type
+     */
+    public function setType(string $type): void
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * Get user type
+     *
+     * @API\Field(type="Application\Api\Enum\UserTypeType")
      *
      * @return string
      */
-    public function getDescription()
+    public function getType(): string
     {
-        return $this->description;
-    }
-
-    /**
-     * Set the description
-     *
-     * @param string $description
-     *
-     * @return self
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Set the ISO/IEC 5218 sex
-     *
-     * @param int $sex
-     *
-     * @return self
-     */
-    public function setSex($sex)
-    {
-        $this->sex = $sex;
-
-        return $this;
-    }
-
-    /**
-     * Get the ISO/IEC 5218 sex
-     *
-     * @return int
-     */
-    public function getSex()
-    {
-        return $this->sex;
-    }
-
-    /**
-     * Get the newsletter
-     *
-     * @return bool
-     */
-    public function getNewsletter()
-    {
-        return $this->newsletter;
-    }
-
-    /**
-     * Set the newsletter
-     *
-     * @param bool $newsletter
-     *
-     * @return self
-     */
-    public function setNewsletter($newsletter)
-    {
-        $this->newsletter = $newsletter;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPhone()
-    {
-        return $this->phone;
-    }
-
-    /**
-     * @param string $phone
-     *
-     * @return self
-     */
-    public function setPhone($phone)
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSkype()
-    {
-        return $this->skype;
-    }
-
-    /**
-     * @param string $skype
-     *
-     * @return self
-     */
-    public function setSkype($skype)
-    {
-        $this->skype = $skype;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getProfession()
-    {
-        return $this->profession;
-    }
-
-    /**
-     * @param string $profession
-     *
-     * @return self
-     */
-    public function setProfession($profession)
-    {
-        $this->profession = $profession;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMinistry()
-    {
-        return $this->ministry;
-    }
-
-    /**
-     * @param string $ministry
-     *
-     * @return self
-     */
-    public function setMinistry($ministry)
-    {
-        $this->ministry = $ministry;
-
-        return $this;
-    }
-
-    /**
-     * @return \DateTimeImmutable
-     */
-    public function getLastLogin()
-    {
-        return $this->lastLogin;
-    }
-
-    /**
-     * @param \DateTimeImmutable $lastLogin
-     *
-     * @return self
-     */
-    public function setLastLogin(\DateTimeImmutable $lastLogin)
-    {
-        $this->lastLogin = $lastLogin;
-
-        return $this;
-    }
-
-    /**
-     * @return \DateTimeImmutable
-     */
-    public function getFirstLogin()
-    {
-        return $this->firstLogin;
-    }
-
-    /**
-     * @param \DateTimeImmutable $firstLogin
-     *
-     * @return self
-     */
-    public function setFirstLogin(\DateTimeImmutable $firstLogin)
-    {
-        $this->firstLogin = $firstLogin;
-
-        return $this;
+        return $this->type;
     }
 }

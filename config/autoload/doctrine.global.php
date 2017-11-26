@@ -33,10 +33,12 @@ return [
         'configuration' => [
             'orm_default' => [
                 'naming_strategy' => \Doctrine\ORM\Mapping\UnderscoreNamingStrategy::class,
-
                 'proxy_dir' => 'data/cache/DoctrineORMModule/Proxy',
                 'generate_proxies' => false,
             ],
+        ],
+        'types' => [
+            'UserType' => Application\DBAL\Types\UserTypeType::class,
         ],
         // migrations configuration
         'migrations_configuration' => [

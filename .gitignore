@@ -6,6 +6,8 @@
 /htdocs/*.html
 /htdocs/*.js
 /htdocs/*.map
+/htdocs/*.txt
+/htdocs/*.css
 /.idea/
 /logs/
 /node_modules/

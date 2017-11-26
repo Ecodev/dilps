@@ -30,16 +30,16 @@ abstract class AbstractModel
     /**
      * @var DateTimeImmutable
      *
-     * @ORM\Column(type="datetimetz", nullable=true)
+     * @ORM\Column(type="datetime_immutable", nullable=true)
      */
     private $dateCreated;
 
     /**
      * @var DateTimeImmutable
      *
-     * @ORM\Column(type="datetimetz", nullable=true)
+     * @ORM\Column(type="datetime_immutable", nullable=true)
      */
-    private $dateModified;
+    private $dateUpdated;
 
     /**
      * @var User
@@ -53,7 +53,7 @@ abstract class AbstractModel
      *
      * @ORM\ManyToOne(targetEntity="User")
      */
-    private $modifier;
+    private $updater;
 
     /**
      * Get id
@@ -86,23 +86,23 @@ abstract class AbstractModel
     }
 
     /**
-     * Set dateModified
+     * Set dateUpdated
      *
-     * @param DateTimeImmutable $dateModified
+     * @param DateTimeImmutable $dateUpdated
      */
-    private function setDateModified(DateTimeImmutable $dateModified = null): void
+    private function setDateUpdated(DateTimeImmutable $dateUpdated = null): void
     {
-        $this->dateModified = $dateModified;
+        $this->dateUpdated = $dateUpdated;
     }
 
     /**
-     * Get dateModified
+     * Get dateUpdated
      *
      * @return null|DateTimeImmutable
      */
-    public function getDateModified(): ?DateTimeImmutable
+    public function getDateUpdated(): ?DateTimeImmutable
     {
-        return $this->dateModified;
+        return $this->dateUpdated;
     }
 
     /**
@@ -126,23 +126,23 @@ abstract class AbstractModel
     }
 
     /**
-     * Set modifier
+     * Set updater
      *
-     * @param null|User $modifier
+     * @param null|User $updater
      */
-    private function setModifier(User $modifier = null): void
+    private function setUpdater(User $updater = null): void
     {
-        $this->modifier = $modifier;
+        $this->updater = $updater;
     }
 
     /**
-     * Get modifier
+     * Get updater
      *
      * @return null|User
      */
-    public function getModifier(): ?User
+    public function getUpdater(): ?User
     {
-        return $this->modifier;
+        return $this->updater;
     }
 
     /**
@@ -161,9 +161,9 @@ abstract class AbstractModel
      *
      * @ORM\PreUpdate
      */
-    public function timestampModification(): void
+    public function timestampUpdate(): void
     {
-        $this->setDateModified(Utility::getNow());
-        $this->setModifier(User::getCurrentUser());
+        $this->setDateUpdated(Utility::getNow());
+        $this->setUpdater(User::getCurrentUser());
     }
 }

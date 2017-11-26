@@ -8,7 +8,7 @@ const Users = gql`
     users {
       items {
         id
-        name
+        login
       }
     }
   }

@@ -13,10 +13,7 @@ class UserFilterType extends InputObjectType
         $config = [
             'fields' => function (): array {
                 return [
-                    'firstname' => [
-                        'type' => self::string(),
-                    ],
-                    'lastname' => [
+                    'login' => [
                         'type' => self::string(),
                     ],
                     'email' => [
