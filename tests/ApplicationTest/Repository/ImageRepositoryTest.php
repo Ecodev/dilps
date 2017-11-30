@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ApplicationTest\Repository;
 
+use Application\Model\Collection;
 use Application\Model\Image;
 use ApplicationTest\Traits\TestWithTransaction;
 use PHPUnit\Framework\TestCase;
@@ -17,7 +18,10 @@ class ImageRepositoryTest extends TestCase
 
     public function testImageOnDiskIsDeletedWhenRecordInDbIsDeleted(): void
     {
+        $collection = _em()->getReference(Collection::class, 2000);
         $image = new Image('test image');
+        $image->setCollection($collection);
+
         $image->setFilename('test image.jpg');
         $this->getEntityManager()->persist($image);
         $this->getEntityManager()->flush();

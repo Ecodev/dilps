@@ -9,6 +9,7 @@ use Application\Traits\HasOrganization;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection as DoctrineCollection;
 use Doctrine\ORM\Mapping as ORM;
+use GraphQL\Doctrine\Annotation as API;
 use InvalidArgumentException;
 
 /**
@@ -37,7 +38,7 @@ class Collection extends AbstractModel
     /**
      * @var Collection
      *
-     * @ORM\ManyToOne(targetEntity="Application\Model\Collection", inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="Collection", inversedBy="children")
      * @ORM\JoinColumns({
      *     @ORM\JoinColumn(onDelete="CASCADE")
      * })
@@ -45,15 +46,15 @@ class Collection extends AbstractModel
     private $parent;
 
     /**
-     * @var DocwwtrineCollection
+     * @var DoctrineCollection
      *
-     * @ORM\OneToMany(targetEntity="Application\Model\Collection", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="Collection", mappedBy="parent")
      * @ORM\OrderBy({"name" = "ASC", "id" = "ASC"})
      */
     private $children;
 
     /**
-     * @ORM\OneToMany(targetEntity="Application\Model\Image", mappedBy="collection")
+     * @ORM\OneToMany(targetEntity="Image", mappedBy="collection")
      */
     private $images;
 
@@ -151,7 +152,9 @@ class Collection extends AbstractModel
     /**
      * Get children collections
      *
-     * @return Collection[]
+     * @API\Field(type="Collection[]")
+     *
+     * @return DoctrineCollection
      */
     public function getChildren(): DoctrineCollection
     {

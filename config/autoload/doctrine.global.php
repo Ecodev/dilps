@@ -39,6 +39,8 @@ return [
         ],
         'types' => [
             'UserType' => Application\DBAL\Types\UserTypeType::class,
+            'ImageType' => Application\DBAL\Types\ImageTypeType::class,
+            'ImageStatus' => Application\DBAL\Types\ImageStatusType::class,
         ],
         // migrations configuration
         'migrations_configuration' => [

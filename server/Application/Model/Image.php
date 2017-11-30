@@ -6,6 +6,8 @@ namespace Application\Model;
 
 use Application\Traits\HasName;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection as DoctrineCollection;
 use Doctrine\ORM\Mapping as ORM;
 use GraphQL\Doctrine\Annotation as API;
 
@@ -20,6 +22,12 @@ class Image extends AbstractModel
     use HasName;
 
     private const IMAGE_PATH = 'data/images/';
+    const TYPE_DEFAULT = 'default';
+    const TYPE_IMAGE = 'image';
+    const TYPE_ARCHITECTURE = 'architecture';
+    const STATUS_NEW = 'new';
+    const STATUS_EDITED = 'edited';
+    const STATUS_REVIEWED = 'reviewed';
 
     /**
      * @var string
@@ -36,15 +44,17 @@ class Image extends AbstractModel
     /**
      * @var string
      *
-     * @ORM\Column(type="string", options={"default" = ""}))
+     * @ORM\Column(type="string", options={"default" = ""})
      */
     private $dating = '';
+
     /**
      * @var null|DateTimeImmutable
      *
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
     private $datingFrom;
+
     /**
      * @var null|DateTimeImmutable
      *
@@ -55,9 +65,157 @@ class Image extends AbstractModel
     /**
      * @var Collection
      * @ORM\ManyToOne(targetEntity="Collection", inversedBy="images")
-     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
+     * @ORM\JoinColumns({
+     *     @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
+     * })
      */
     private $collection;
+
+    /**
+     * @var DoctrineCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Artist")
+     */
+    private $artists;
+
+    /**
+     * @var DoctrineCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Tag")
+     */
+    private $tags;
+
+    /**
+     * @var null|Institution
+     * @ORM\ManyToOne(targetEntity="Institution")
+     * @ORM\JoinColumns({
+     *     @ORM\JoinColumn(onDelete="SET NULL")
+     * })
+     */
+    private $institution;
+
+    /**
+     * @var null|Image
+     * @ORM\ManyToOne(targetEntity="Image")
+     * @ORM\JoinColumns({
+     *     @ORM\JoinColumn(onDelete="SET NULL")
+     * })
+     */
+    private $original;
+
+    /**
+     * @var string
+     * @ORM\Column(type="ImageType", options={"default" = Image::TYPE_DEFAULT})
+     */
+    private $type = self::TYPE_DEFAULT;
+
+    /**
+     * @var string
+     * @ORM\Column(type="ImageStatus", options={"default" = Image::STATUS_NEW})
+     */
+    private $status = self::STATUS_NEW;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", options={"default" = ""})
+     */
+    private $addition = '';
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", options={"default" = ""})
+     */
+    private $expandedName = '';
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", options={"default" = ""})
+     */
+    private $material = '';
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", options={"default" = ""})
+     */
+    private $technique = '';
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", options={"default" = ""})
+     */
+    private $techniqueAuthor = '';
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", options={"default" = ""})
+     */
+    private $format = '';
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", options={"default" = ""})
+     */
+    private $literature = '';
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=10, options={"default" = ""})
+     */
+    private $page = '';
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=10, options={"default" = ""})
+     */
+    private $figure = '';
+
+    /**
+     * @var string
+     * @ORM\Column(name="`table`", type="string", length=10, options={"default" = ""})
+     */
+    private $table = '';
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=20, options={"default" = ""})
+     */
+    private $isbn = '';
+
+    /**
+     * @var string
+     * @ORM\Column(type="text")
+     */
+    private $comment = '';
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", options={"default" = ""})
+     */
+    private $rights = '';
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", options={"default" = ""})
+     */
+    private $muserisUrl = '';
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", options={"default" = ""})
+     */
+    private $muserisCote = '';
+
+    /**
+     * Constructor
+     *
+     * @param string $name
+     */
+    public function __construct(string $name = '')
+    {
+        $this->setName($name);
+        $this->artists = new ArrayCollection();
+        $this->tags = new ArrayCollection();
+    }
 
     /**
      * Set filename (without path)
@@ -248,5 +406,401 @@ class Image extends AbstractModel
     public function setDatingTo(?DateTimeImmutable $datingTo): void
     {
         $this->datingTo = $datingTo;
+    }
+
+    /**
+     * Add artist
+     *
+     * @param Artist $artist
+     */
+    public function addArtist(Artist $artist): void
+    {
+        if (!$this->artists->contains($artist)) {
+            $this->artists[] = $artist;
+        }
+    }
+
+    /**
+     * Remove artist
+     *
+     * @param Artist $artist
+     */
+    public function removeArtist(Artist $artist): void
+    {
+        $this->artists->removeElement($artist);
+    }
+
+    /**
+     * Get artists
+     *
+     * @API\Field(type="Artist[]")
+     *
+     * @return DoctrineCollection
+     */
+    public function getArtists(): DoctrineCollection
+    {
+        return $this->artists;
+    }
+
+    /**
+     * Add tag
+     *
+     * @param Tag $tag
+     */
+    public function addTag(Tag $tag): void
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+        }
+    }
+
+    /**
+     * Remove tag
+     *
+     * @param Tag $tag
+     */
+    public function removeTag(Tag $tag): void
+    {
+        $this->tags->removeElement($tag);
+    }
+
+    /**
+     * Get tags
+     *
+     * @API\Field(type="Tag[]")
+     *
+     * @return DoctrineCollection
+     */
+    public function getTags(): DoctrineCollection
+    {
+        return $this->tags;
+    }
+
+    /**
+     * Get the institution where the image is located
+     *
+     * @return null|Institution
+     */
+    public function getInstitution(): ?Institution
+    {
+        return $this->institution;
+    }
+
+    /**
+     * Set the institution where the image is located
+     *
+     * @param null|Institution $institution
+     */
+    public function setInstitution(?Institution $institution): void
+    {
+        $this->institution = $institution;
+    }
+
+    /**
+     * Set image type
+     *
+     * @API\Input(type="Application\Api\Enum\ImageTypeType")
+     *
+     * @param string $type
+     */
+    public function setType(string $type): void
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * Get image type
+     *
+     * @API\Field(type="Application\Api\Enum\ImageTypeType")
+     *
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set image status
+     *
+     * @API\Input(type="Application\Api\Enum\ImageStatusType")
+     *
+     * @param string $status
+     */
+    public function setStatus(string $status): void
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * Get image status
+     *
+     * @API\Field(type="Application\Api\Enum\ImageStatusType")
+     *
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    /**
+     * The original image if this is a suggestion
+     *
+     * @return null|Image
+     */
+    public function getOriginal(): ?self
+    {
+        return $this->original;
+    }
+
+    /**
+     * Defines this image as suggestion for the $original
+     *
+     * @param null|Image $original
+     */
+    public function setOriginal(?self $original): void
+    {
+        $this->original = $original;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAddition(): string
+    {
+        return $this->addition;
+    }
+
+    /**
+     * @param string $addition
+     */
+    public function setAddition(string $addition): void
+    {
+        $this->addition = $addition;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExpandedName(): string
+    {
+        return $this->expandedName;
+    }
+
+    /**
+     * @param string $expandedName
+     */
+    public function setExpandedName(string $expandedName): void
+    {
+        $this->expandedName = $expandedName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMaterial(): string
+    {
+        return $this->material;
+    }
+
+    /**
+     * @param string $material
+     */
+    public function setMaterial(string $material): void
+    {
+        $this->material = $material;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTechnique(): string
+    {
+        return $this->technique;
+    }
+
+    /**
+     * @param string $technique
+     */
+    public function setTechnique(string $technique): void
+    {
+        $this->technique = $technique;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTechniqueAuthor(): string
+    {
+        return $this->techniqueAuthor;
+    }
+
+    /**
+     * @param string $techniqueAuthor
+     */
+    public function setTechniqueAuthor(string $techniqueAuthor): void
+    {
+        $this->techniqueAuthor = $techniqueAuthor;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormat(): string
+    {
+        return $this->format;
+    }
+
+    /**
+     * @param string $format
+     */
+    public function setFormat(string $format): void
+    {
+        $this->format = $format;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLiterature(): string
+    {
+        return $this->literature;
+    }
+
+    /**
+     * @param string $literature
+     */
+    public function setLiterature(string $literature): void
+    {
+        $this->literature = $literature;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPage(): string
+    {
+        return $this->page;
+    }
+
+    /**
+     * @param string $page
+     */
+    public function setPage(string $page): void
+    {
+        $this->page = $page;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFigure(): string
+    {
+        return $this->figure;
+    }
+
+    /**
+     * @param string $figure
+     */
+    public function setFigure(string $figure): void
+    {
+        $this->figure = $figure;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTable(): string
+    {
+        return $this->table;
+    }
+
+    /**
+     * @param string $table
+     */
+    public function setTable(string $table): void
+    {
+        $this->table = $table;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIsbn(): string
+    {
+        return $this->isbn;
+    }
+
+    /**
+     * @param string $isbn
+     */
+    public function setIsbn(string $isbn): void
+    {
+        $this->isbn = $isbn;
+    }
+
+    /**
+     * @return string
+     */
+    public function getComment(): string
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param string $comment
+     */
+    public function setComment(string $comment): void
+    {
+        $this->comment = $comment;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRights(): string
+    {
+        return $this->rights;
+    }
+
+    /**
+     * @param string $rights
+     */
+    public function setRights(string $rights): void
+    {
+        $this->rights = $rights;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMuserisUrl(): string
+    {
+        return $this->muserisUrl;
+    }
+
+    /**
+     * @param string $muserisUrl
+     */
+    public function setMuserisUrl(string $muserisUrl): void
+    {
+        $this->muserisUrl = $muserisUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMuserisCote(): string
+    {
+        return $this->muserisCote;
+    }
+
+    /**
+     * @param string $muserisCote
+     */
+    public function setMuserisCote(string $muserisCote): void
+    {
+        $this->muserisCote = $muserisCote;
     }
 }
