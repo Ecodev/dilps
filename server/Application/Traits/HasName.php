@@ -7,9 +7,9 @@ namespace Application\Traits;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Trait for all objects with a name (not localized)
+ * Trait for all objects with a name
  */
-trait Name
+trait HasName
 {
     /**
      * @var string
@@ -31,14 +31,10 @@ trait Name
      * Set name
      *
      * @param string $name
-     *
-     * @return self
      */
-    public function setName($name)
+    public function setName($name): void
     {
         $this->name = $name;
-
-        return $this;
     }
 
     /**
@@ -46,7 +42,7 @@ trait Name
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }

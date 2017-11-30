@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 return [
     '{
-        user(id: "10000") {
+        user(id: "1000") {
             id
         }
     }',
@@ -12,7 +12,7 @@ return [
     [
         'data' => [
             'user' => [
-                'id' => '10000',
+                'id' => '1000',
             ],
         ],
     ],

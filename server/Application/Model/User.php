@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Model;
 
+use Application\Traits\HasOrganization;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use GraphQL\Doctrine\Annotation as API;
@@ -15,6 +16,8 @@ use GraphQL\Doctrine\Annotation as API;
  */
 class User extends AbstractModel
 {
+    use HasOrganization;
+
     /**
      * Someone who is a normal user, not part of UNIL
      */
@@ -70,13 +73,6 @@ class User extends AbstractModel
      * @ORM\Column(type="string", length=191)
      */
     private $email;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255)
-     */
-    private $organization = '';
 
     /**
      * @var bool
@@ -178,26 +174,6 @@ class User extends AbstractModel
     }
 
     /**
-     * Set organization
-     *
-     * @param string $organization
-     */
-    public function setOrganization(string $organization): void
-    {
-        $this->organization = $organization;
-    }
-
-    /**
-     * Get organization
-     *
-     * @return string
-     */
-    public function getOrganization(): string
-    {
-        return $this->organization;
-    }
-
-    /**
      * Returns whether the user is administrator and thus have can do anything.
      */
     public function isAdministrator(): bool
@@ -233,10 +209,8 @@ class User extends AbstractModel
      * The date until the user is active. Or `null` if there is not limit in time
      *
      * @param null|DateTimeImmutable $activeUntil
-     *
-     * @return self
      */
-    public function setActiveUntil(?DateTimeImmutable $activeUntil)
+    public function setActiveUntil(?DateTimeImmutable $activeUntil): void
     {
         $this->activeUntil = $activeUntil;
     }
@@ -257,10 +231,8 @@ class User extends AbstractModel
      * A user cannot un-agree once he agreed.
      *
      * @param DateTimeImmutable $termsAgreement
-     *
-     * @return self
      */
-    public function setTermsAgreement(DateTimeImmutable $termsAgreement)
+    public function setTermsAgreement(DateTimeImmutable $termsAgreement): void
     {
         $this->termsAgreement = $termsAgreement;
     }

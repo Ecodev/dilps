@@ -51,7 +51,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "ApplicationTest\\": "test/ApplicationTest/"
+            "ApplicationTest\\": "tests/ApplicationTest/"
         }
     }
 }
