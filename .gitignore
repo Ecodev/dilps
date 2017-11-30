@@ -1,6 +1,11 @@
 /config/autoload/*.local.php
 /config/autoload/local.php
 /config/development.config.php
+/data/cache/
+/data/images/*.*
+/data/images/small/*.*
+!/data/images/dw4jV3zYSPsqE2CB8BcP8ABD0.jpg
+!/data/images/small/dw4jV3zYSPsqE2CB8BcP8ABD0.jpg
 /db.backup.sql.gz
 /htdocs/favicon.ico
 /htdocs/*.html
