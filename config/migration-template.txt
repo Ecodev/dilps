@@ -1,0 +1,15 @@
+<?php
+
+declare(strict_types=1);
+
+namespace <namespace>;
+
+use Doctrine\DBAL\Schema\Schema;
+
+class Version<version> extends AbstractMigration
+{
+    public function up(Schema $schema): void
+    {
+<up>
+    }
+}

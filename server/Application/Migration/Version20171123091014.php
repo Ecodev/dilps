@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Application\Migration;
 
-use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 class Version20171123091014 extends AbstractMigration
@@ -49,10 +48,5 @@ class Version20171123091014 extends AbstractMigration
         $this->addSql('ALTER TABLE `change` ADD CONSTRAINT FK_4057FE20E37ECFB0 FOREIGN KEY (updater_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE `change` ADD CONSTRAINT FK_4057FE20108B7592 FOREIGN KEY (original_id) REFERENCES image (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE `change` ADD CONSTRAINT FK_4057FE20A41BB822 FOREIGN KEY (suggestion_id) REFERENCES image (id) ON DELETE SET NULL');
-    }
-
-    public function down(Schema $schema): void
-    {
-        $this->throwIrreversibleMigrationException();
     }
 }
