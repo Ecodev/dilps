@@ -32,14 +32,14 @@ abstract class AbstractModel
      *
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
-    private $dateCreated;
+    private $creationDate;
 
     /**
      * @var DateTimeImmutable
      *
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
-    private $dateUpdated;
+    private $updateDate;
 
     /**
      * @var User
@@ -66,43 +66,43 @@ abstract class AbstractModel
     }
 
     /**
-     * Set dateCreated
+     * Set creation date
      *
-     * @param DateTimeImmutable $dateCreated
+     * @param DateTimeImmutable $creationDate
      */
-    private function setDateCreated(DateTimeImmutable $dateCreated = null): void
+    private function setCreationDate(DateTimeImmutable $creationDate = null): void
     {
-        $this->dateCreated = $dateCreated;
+        $this->creationDate = $creationDate;
     }
 
     /**
-     * Get dateCreated
+     * Get creation date
      *
      * @return null|DateTimeImmutable
      */
-    public function getDateCreated(): ?DateTimeImmutable
+    public function getCreationDate(): ?DateTimeImmutable
     {
-        return $this->dateCreated;
+        return $this->creationDate;
     }
 
     /**
-     * Set dateUpdated
+     * Set update date
      *
-     * @param DateTimeImmutable $dateUpdated
+     * @param DateTimeImmutable $updateDate
      */
-    private function setDateUpdated(DateTimeImmutable $dateUpdated = null): void
+    private function setUpdateDate(DateTimeImmutable $updateDate = null): void
     {
-        $this->dateUpdated = $dateUpdated;
+        $this->updateDate = $updateDate;
     }
 
     /**
-     * Get dateUpdated
+     * Get update date
      *
      * @return null|DateTimeImmutable
      */
-    public function getDateUpdated(): ?DateTimeImmutable
+    public function getUpdateDate(): ?DateTimeImmutable
     {
-        return $this->dateUpdated;
+        return $this->updateDate;
     }
 
     /**
@@ -152,7 +152,7 @@ abstract class AbstractModel
      */
     public function timestampCreation(): void
     {
-        $this->setDateCreated(Utility::getNow());
+        $this->setCreationDate(Utility::getNow());
         $this->setCreator(User::getCurrentUser());
     }
 
@@ -163,7 +163,7 @@ abstract class AbstractModel
      */
     public function timestampUpdate(): void
     {
-        $this->setDateUpdated(Utility::getNow());
+        $this->setUpdateDate(Utility::getNow());
         $this->setUpdater(User::getCurrentUser());
     }
 }

@@ -56,7 +56,7 @@ class Collection extends AbstractModel
     /**
      * @var DoctrineCollection
      *
-     * @ORM\ManyToMany(targetEntity="Image")
+     * @ORM\ManyToMany(targetEntity="Image", inversedBy="collections")
      */
     private $images;
 
