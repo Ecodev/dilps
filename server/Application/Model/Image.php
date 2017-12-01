@@ -63,13 +63,11 @@ class Image extends AbstractModel
     private $datingTo;
 
     /**
-     * @var Collection
-     * @ORM\ManyToOne(targetEntity="Collection", inversedBy="images")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
-     * })
+     * @var DoctrineCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Collection", mappedBy="images")
      */
-    private $collection;
+    private $collections;
 
     /**
      * @var DoctrineCollection
@@ -213,6 +211,8 @@ class Image extends AbstractModel
     public function __construct(string $name = '')
     {
         $this->setName($name);
+
+        $this->collections = new ArrayCollection();
         $this->artists = new ArrayCollection();
         $this->tags = new ArrayCollection();
     }
@@ -266,24 +266,15 @@ class Image extends AbstractModel
     }
 
     /**
-     * Set collection
+     * Get collections this image belongs to
      *
-     * @param Collection $collection
-     */
-    public function setCollection(Collection $collection): void
-    {
-        $this->collection = $collection;
-        $this->collection->imageAdded($this);
-    }
-
-    /**
-     * Get collection
+     * @API\Field(type="Collection[]")
      *
-     * @return Collection
+     * @return DoctrineCollection
      */
-    public function getCollection(): Collection
+    public function getCollections(): DoctrineCollection
     {
-        return $this->collection;
+        return $this->collections;
     }
 
     /**
@@ -802,5 +793,27 @@ class Image extends AbstractModel
     public function setMuserisCote(string $muserisCote): void
     {
         $this->muserisCote = $muserisCote;
+    }
+
+    /**
+     * Notify the Image that it was added to a Collection.
+     * This should only be called by Collection::addImage()
+     *
+     * @param Collection $collection
+     */
+    public function collectionAdded(Collection $collection): void
+    {
+        $this->collections->add($collection);
+    }
+
+    /**
+     * Notify the Image that it was removed from a Collection.
+     * This should only be called by Collection::removeImage()
+     *
+     * @param Collection $collection
+     */
+    public function collectionRemoved(Collection $collection): void
+    {
+        $this->collections->removeElement($collection);
     }
 }

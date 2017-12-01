@@ -32,7 +32,7 @@ class HomePageActionTest extends TestCase
             $this->prophesize(DelegateInterface::class)->reveal()
         );
 
-        $this->assertInstanceOf(JsonResponse::class, $response);
+        self::assertInstanceOf(JsonResponse::class, $response);
     }
 
     public function testReturnsHtmlResponseWhenTemplateRendererProvided(): void
@@ -49,6 +49,6 @@ class HomePageActionTest extends TestCase
             $this->prophesize(DelegateInterface::class)->reveal()
         );
 
-        $this->assertInstanceOf(HtmlResponse::class, $response);
+        self::assertInstanceOf(HtmlResponse::class, $response);
     }
 }

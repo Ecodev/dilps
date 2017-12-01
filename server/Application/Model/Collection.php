@@ -54,7 +54,9 @@ class Collection extends AbstractModel
     private $children;
 
     /**
-     * @ORM\OneToMany(targetEntity="Image", mappedBy="collection")
+     * @var DoctrineCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Image")
      */
     private $images;
 
@@ -178,23 +180,38 @@ class Collection extends AbstractModel
     }
 
     /**
+     * Add image
+     *
+     * @param Image $image
+     */
+    public function addImage(Image $image): void
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->collectionAdded($this);
+        }
+    }
+
+    /**
+     * Remove image
+     *
+     * @param Image $image
+     */
+    public function removeImage(Image $image): void
+    {
+        $this->images->removeElement($image);
+        $image->collectionRemoved($this);
+    }
+
+    /**
      * Get images
      *
-     * @return Image[]
+     * @API\Field(type="Image[]")
+     *
+     * @return DoctrineCollection
      */
     public function getImages(): DoctrineCollection
     {
         return $this->images;
-    }
-
-    /**
-     * Notify the collection that an Image was added.
-     * This should only be called by Image::setCollection()
-     *
-     * @param \Application\Model\Image $image
-     */
-    public function imageAdded(Image $image): void
-    {
-        $this->images->add($image);
     }
 }

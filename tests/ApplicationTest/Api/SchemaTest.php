@@ -54,7 +54,7 @@ class SchemaTest extends TestCase
             unset($actual['errors'][0]['trace']);
         }
 
-        $this->assertEquals($expected, $actual);
+        self::assertEquals($expected, $actual);
     }
 
     public function providerQuery(): array

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ApplicationTest\Model;
 
-use Application\Model\Collection;
 use Application\Model\Image;
 use PHPUnit\Framework\TestCase;
 
@@ -16,10 +15,10 @@ class ImageTest extends TestCase
     public function testName(): void
     {
         $withoutName = new Image();
-        $this->assertSame('', $withoutName->getName());
+        self::assertSame('', $withoutName->getName());
 
         $withName = new Image('test name');
-        $this->assertSame('test name', $withName->getName());
+        self::assertSame('test name', $withName->getName());
     }
 
     public function testGetPath(): void
@@ -27,25 +26,12 @@ class ImageTest extends TestCase
         $image = new Image();
         $image->setFilename('photo.jpg');
 
-        $this->assertSame('photo.jpg', $image->getFilename());
+        self::assertSame('photo.jpg', $image->getFilename());
         $appPath = realpath('.');
         $expected = $appPath . '/data/images/photo.jpg';
-        $this->assertSame($expected, $image->getPath());
+        self::assertSame($expected, $image->getPath());
 
         $expected = $appPath . '/data/images/small/photo.jpg';
-        $this->assertSame($expected, $image->getSmallPath());
-    }
-
-    public function testCollectionRelation(): void
-    {
-        $collection = new Collection();
-        $image = new Image();
-
-        $this->assertCount(0, $collection->getImages());
-
-        $image->setCollection($collection);
-
-        $this->assertSame($collection, $image->getCollection());
-        $this->assertSame($image, $collection->getImages()[0]);
+        self::assertSame($expected, $image->getSmallPath());
     }
 }

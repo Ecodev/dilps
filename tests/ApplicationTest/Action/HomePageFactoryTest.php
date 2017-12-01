@@ -29,11 +29,11 @@ class HomePageFactoryTest extends TestCase
         $factory = new HomePageFactory();
         $this->container->has(TemplateRendererInterface::class)->willReturn(false);
 
-        $this->assertInstanceOf(HomePageFactory::class, $factory);
+        self::assertInstanceOf(HomePageFactory::class, $factory);
 
         $homePage = $factory($this->container->reveal());
 
-        $this->assertInstanceOf(HomePageAction::class, $homePage);
+        self::assertInstanceOf(HomePageAction::class, $homePage);
     }
 
     public function testFactoryWithTemplate(): void
@@ -44,10 +44,10 @@ class HomePageFactoryTest extends TestCase
             ->get(TemplateRendererInterface::class)
             ->willReturn($this->prophesize(TemplateRendererInterface::class));
 
-        $this->assertInstanceOf(HomePageFactory::class, $factory);
+        self::assertInstanceOf(HomePageFactory::class, $factory);
 
         $homePage = $factory($this->container->reveal());
 
-        $this->assertInstanceOf(HomePageAction::class, $homePage);
+        self::assertInstanceOf(HomePageAction::class, $homePage);
     }
 }

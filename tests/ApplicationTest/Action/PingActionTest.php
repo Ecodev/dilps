@@ -22,7 +22,7 @@ class PingActionTest extends TestCase
 
         $json = json_decode((string) $response->getBody());
 
-        $this->assertInstanceOf(JsonResponse::class, $response);
-        $this->assertTrue(isset($json->ack));
+        self::assertInstanceOf(JsonResponse::class, $response);
+        self::assertTrue(isset($json->ack));
     }
 }
