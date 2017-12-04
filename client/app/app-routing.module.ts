@@ -22,6 +22,10 @@ export const routes: Routes = [
                 path: '',
                 component: UserComponent,
             },
+            {
+                path: 'user',
+                component: UserComponent,
+            },
         ],
     },
 

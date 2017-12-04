@@ -36,3 +36,24 @@ pre.debug {
 [debug][children][grandchildren] > * > * {
     border: 2px solid green;
 }
+
+
+#appContent {
+    & > *:not(router-outlet) {
+        display: flex;
+        flex: 1 0 auto;
+    }
+}
+
+perfect-scrollbar {
+    position: relative;
+    overflow: hidden;
+    .ps-content {
+        flex: auto;
+    }
+}
+
+.mat-drawer-content {
+    display: flex !important;
+    flex: 1 1 auto !important;
+}

@@ -9,6 +9,11 @@
     app-home {
         #menu {
             background: mat-color($primary);
+
+            mat-nav-list {
+                padding: 0;
+            }
+
             .mat-list-item {
                 color: mat-color($primary, default-contrast);
             }
