@@ -39,5 +39,8 @@ export class ThemeService {
         this.set(this.theme.getValue());
     }
 
+    public toggle() {
+        this.setNightMode(!this.darkActivated);
+    }
 
 }

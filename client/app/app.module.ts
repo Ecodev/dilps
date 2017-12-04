@@ -5,7 +5,10 @@ import { Apollo, ApolloModule } from 'apollo-angular';
 import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCheckboxModule, MatIconModule, MatInputModule, MatSnackBarModule } from '@angular/material';
+import {
+    MatButtonModule, MatCheckboxModule, MatIconModule, MatInputModule, MatListModule, MatSidenavModule,
+    MatSnackBarModule,
+} from '@angular/material';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -47,6 +50,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
         MatInputModule,
         MatSnackBarModule,
         FlexLayoutModule,
+        MatSidenavModule,
+        MatListModule,
     ],
     providers: [
         AuthGuard,

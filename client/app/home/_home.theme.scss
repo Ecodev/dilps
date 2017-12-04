@@ -1,0 +1,34 @@
+@mixin home($theme) {
+
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+    $bg: map-get($theme, background);
+    $fg: map-get($theme, foreground);
+
+    app-home {
+        #menu {
+            background: mat-color($primary);
+            .mat-list-item {
+                color: mat-color($primary, default-contrast);
+            }
+            .mat-list-item.active {
+                background: rgba(255, 255, 255, 0.2);
+            }
+            .mat-list-item:not(.active):hover {
+                background: rgba(0, 0, 0, 0.2);
+            }
+
+            .mat-divider {
+                border-top-color: rgba(255, 255, 255, 0.2);
+            }
+
+            .mat-nav-list .mat-list-item .mat-list-item-content {
+                padding: 9px;
+            }
+        }
+
+    }
+}
+
+

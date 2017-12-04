@@ -1,0 +1,16 @@
+@import '../../styles/utils';
+
+:host {
+
+    #menu {
+        @include centerContent();
+
+        &.menuMinimized {
+            &, perfect-scrollbar {
+                width: 50px;
+                min-width: 50px;
+            }
+        }
+    }
+
+}

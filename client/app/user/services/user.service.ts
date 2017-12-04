@@ -22,7 +22,6 @@ export class UserService {
     public getCurrentUser(): Observable<any> {
 
         const user = localStorage.getItem('dilps-user');
-        console.log('user', user);
         return Observable.of(user);
 
         // return this.apollo

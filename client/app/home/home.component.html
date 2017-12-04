@@ -1,1 +1,79 @@
-adfaésldfkjaséldkjasf
+<div fxFlexFill fxLayout="row">
+
+    <mat-sidenav-container #navContainer fxFlex fxLayout="column">
+
+        <mat-sidenav *ngIf="initialized"
+                     id="menu"
+                     align="start"
+                     [mode]="sidemenuSvc.activeMode"
+                     [opened]="sidemenuSvc.isOpened"
+                     [ngClass]="sidemenuSvc.isMinimized ? 'menuMinimized' : null"
+        >
+            <perfect-scrollbar fxFlex fxLayout="row" fxFlexAlign="start center">
+
+                <div class="centered-content" fxLayout="column">
+
+                    <mat-nav-list>
+
+                        <!-- Dashboard -->
+                        <a mat-list-item
+                           [routerLink]="[currentBaseUrl]"
+                           (click)="sidemenuSvc.navItemClicked()"
+                           routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }"
+                        >
+                            <mat-icon mat-list-icon>dashboard</mat-icon>
+                            <span matLine i18n>Tableau de bord</span>
+                        </a>
+
+                        <!-- Navigation provided by NavigationService -->
+                        <ng-container *ngFor="let section of navigation">
+                            <a *ngFor="let button of section.links"
+                               mat-list-item
+                               [routerLink]="[currentBaseUrl, button.link]"
+                               (click)="sidemenuSvc.navItemClicked()"
+                               routerLinkActive="active"
+                            >
+                                <mat-icon mat-list-icon>{{ button.icon }}</mat-icon>
+                                <span matLine>{{ button.name }}</span>
+                            </a>
+                        </ng-container>
+
+                        <mat-divider></mat-divider>
+
+                        <a mat-list-item (click)="toggleTheme()">
+                            <mat-icon mat-list-icon>invert_colors</mat-icon>
+                        </a>
+
+                        <mat-divider></mat-divider>
+
+                        <a mat-list-item
+                           *ngIf="!sidemenuSvc.isMinimized && !sidemenuSvc.isMobileView()"
+                           (click)="sidemenuSvc.setMinimized(true)"
+                        >
+                            <mat-icon mat-list-icon>keyboard_arrow_left</mat-icon>
+                        </a>
+
+                        <a mat-list-item
+                           *ngIf="sidemenuSvc.isMinimized && !sidemenuSvc.isMobileView()"
+                           (click)="sidemenuSvc.setMinimized(false)"
+                        >
+                            <mat-icon mat-list-icon>keyboard_arrow_right</mat-icon>
+                        </a>
+
+                    </mat-nav-list>
+                </div>
+
+            </perfect-scrollbar>
+
+        </mat-sidenav>
+
+        <perfect-scrollbar id="appBody" fxFlex fxLayout="column">
+            <div id="appContent" fxFlex fxLayout="column">
+                <router-outlet (activate)="initialized = true"></router-outlet>
+            </div>
+        </perfect-scrollbar>
+
+    </mat-sidenav-container>
+
+</div>
