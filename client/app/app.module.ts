@@ -1,31 +1,59 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { ApolloModule } from 'apollo-angular';
-import { HttpLinkModule } from 'apollo-angular-link-http';
-import { Apollo } from 'apollo-angular';
-import { HttpLink } from 'apollo-angular-link-http';
+import { Apollo, ApolloModule } from 'apollo-angular';
+import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCheckboxModule, MatIconModule } from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatIconModule, MatInputModule, MatSnackBarModule } from '@angular/material';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './shared/services/auth.guard';
+import { UserComponent } from './user/user/user.component';
+import { ThemeService } from './shared/services/theme.service';
+import { HomeComponent } from './home/home.component';
+import { NgProgressModule } from 'ngx-progressbar';
+import { BootLoaderComponent } from './shared/components/boot-loader/boot-loader.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NetworkActivityService } from './shared/services/network-activity.service';
+import { UserService } from './user/services/user.service';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
     declarations: [
         AppComponent,
+        LoginComponent,
+        UserComponent,
+        HomeComponent,
+        BootLoaderComponent,
     ],
     imports: [
         BrowserModule,
-        HttpClientModule, // provides HttpClient for HttpLink
+        AppRoutingModule,
+        HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule,
         ApolloModule,
         HttpLinkModule,
         BrowserAnimationsModule,
         MatButtonModule,
         MatCheckboxModule,
-        MatIconModule
+        MatIconModule,
+        NgProgressModule,
+        PerfectScrollbarModule,
+        MatInputModule,
+        MatSnackBarModule,
+        FlexLayoutModule,
     ],
-    providers: [],
+    providers: [
+        AuthGuard,
+        ThemeService,
+        NetworkActivityService,
+        UserService,
+    ],
     bootstrap: [AppComponent],
 })
 export class AppModule {

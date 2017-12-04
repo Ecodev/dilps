@@ -1,15 +1,9 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1><mat-icon>home</mat-icon>
-    Welcome to {{ title }}!
-  </h1>
+<div fxFlexFill>
+    <ng-progress [trickleSpeed]="100" [showSpinner]="false"></ng-progress>
+    <router-outlet (activate)="initialized = true"></router-outlet>
+    <app-boot-loader *ngIf="!initialized"></app-boot-loader>
 </div>
 
 
-<h2>Users from API</h2>
-
-<pre>{{ users | json }}</pre>
-
-
-<button mat-raised-button color="primary">Click me!</button>
-<mat-checkbox>Une super checkbox</mat-checkbox>
+<!--<h2>Users from API</h2>-->
+<!--<pre>{{ users | json }}</pre>-->

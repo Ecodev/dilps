@@ -1,0 +1,58 @@
+@mixin scroll($theme) {
+
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+
+    $scrollWidth: 6px;
+
+    // For future update
+    perfect-scrollbar {
+        .ps__rail-y,
+        .ps__rail-x {
+            background: transparent !important
+        }
+
+        .ps__thumb-y::before {
+            transform: translateX(-2px);
+        }
+
+        .ps__thumb-x::before {
+            transform: translateY(-2px);
+        }
+
+        .ps__thumb-y,
+        .ps__thumb-x {
+            background: transparent !important;
+            &::before {
+                content: "";
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: mat-color($foreground, base, 0.5);
+                border-radius: 99px;
+            }
+        }
+
+        .ps__rail-y {
+            width: $scrollWidth + 2 !important;
+        }
+        .ps__thumb-y {
+            right: 0;
+            width: $scrollWidth !important;
+        }
+
+        .ps__rail-x {
+            height: $scrollWidth + 2 !important;
+
+        }
+        .ps__thumb-x {
+            height: $scrollWidth !important;
+        }
+    }
+
+}

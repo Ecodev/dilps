@@ -1,0 +1,52 @@
+<form fxLayout="column" fxFlexFill>
+
+    <perfect-scrollbar fxFlex fxLayout="row" fxFlexAlign="center center">
+
+        <div class="login padding-v centered-content" fxFlex fxLayout="column" fxLayoutAlign="center center">
+
+            <div fxLayout="column" fxLayoutGap="15px">
+
+                <img src="assets/images/logo-bleu.svg" />
+
+                <mat-form-field class="width-auto">
+                    <input matInput
+                           autofocus
+                           name="login"
+                           [(ngModel)]="loginForm.login"
+                           placeholder="login"
+                           required="required"
+                           [disabled]="loading"
+                           (focus)="snackBar.dismiss()"
+                    >
+                </mat-form-field>
+
+                <mat-form-field class="width-auto">
+                    <input matInput
+                           type="password"
+                           name="password"
+                           color="warn"
+                           [(ngModel)]="loginForm.password"
+                           placeholder="password"
+                           required="required"
+                           [disabled]="loading"
+                           (focus)="snackBar.dismiss()"
+                    >
+                </mat-form-field>
+
+                <div fxLayout="column" fxLayoutGap="10px">
+                    <button type="submit"
+                            mat-button
+                            mat-raised-button
+                            color="primary"
+                            (click)="login()"
+                            [disabled]="loading || !loginForm.login || !loginForm.password"
+                    >Se connecter</button>
+                    <a mat-button (click)="login()">Accès direct</a>
+
+                </div>
+            </div>
+        </div>
+
+    </perfect-scrollbar>
+
+</form>

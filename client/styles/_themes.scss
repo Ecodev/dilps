@@ -1,0 +1,39 @@
+/**
+ * !!! NEVER INCLUDE THIS FILE IN A SCSS FILE
+ * See source doc here https://github.com/angular/material2/tree/master/src/lib/core/theming
+ */
+// Import theming files full relative way or karma will display warning
+@import '../../node_modules/@angular/material/_theming.scss';
+@import 'typography';
+@import '../app/app.theme';
+@import '../app/shared/components/boot-loader/boot-loader.theme';
+@import 'scroll';
+
+// Include material core (only once !)
+@include mat-core($custom-typography-gt-sm);
+
+// Include components themes
+@mixin components-theme($theme) {
+    @include app($theme);
+    @include boot-loader($theme);
+    @include scroll($theme);
+}
+
+// Configure themes
+$okPilot-primary: mat-palette($mat-blue);
+$okPilot-accent: mat-palette($mat-orange);
+$okPilot-warn: mat-palette($mat-red);
+$okPilot-theme-light: mat-light-theme($okPilot-primary, $okPilot-accent, $okPilot-warn);
+$okPilot-theme-dark: mat-dark-theme($okPilot-primary, $okPilot-accent, $okPilot-warn);
+
+@include angular-material-theme($okPilot-theme-light);
+
+.default {
+    @include components-theme($okPilot-theme-light);
+}
+
+.defaultDark {
+    @include angular-material-theme($okPilot-theme-dark);
+    @include components-theme($okPilot-theme-dark);
+}
+

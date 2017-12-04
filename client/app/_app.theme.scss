@@ -1,0 +1,40 @@
+@mixin app($theme) {
+
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+
+    @at-root app-root#{&} > div {
+        background: mat-color($background, background);
+    }
+
+    // links without class, but valid (for raw html insertion, like in a question > help panel > help tab)
+    .cdk-overlay-container,
+    app-root {
+        a[href]:not([class]) {
+            color: mat-color($primary);
+            text-decoration: none;
+        }
+    }
+
+    ng-progress-bar {
+
+        .bar {
+            height: 3px !important;
+            background-color: mat-color($accent) !important;
+            box-shadow: mat-color($accent) 0 0 5px !important;
+        }
+
+        .bar-shadow {
+            opacity: 1 !important;
+            transform: none !important;
+            width: 25px !important;
+            top: 0 !important;
+            box-shadow: mat-color($accent) 0 0 20px !important;
+        }
+    }
+
+}
+
+
