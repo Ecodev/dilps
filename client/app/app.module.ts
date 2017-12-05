@@ -6,8 +6,7 @@ import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
-    MatButtonModule, MatCheckboxModule, MatIconModule, MatInputModule, MatListModule, MatSidenavModule,
-    MatSnackBarModule,
+    MatButtonModule, MatCheckboxModule, MatIconModule, MatInputModule, MatListModule, MatSidenavModule, MatSnackBarModule, MatToolbarModule,
 } from '@angular/material';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
@@ -24,6 +23,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NetworkActivityService } from './shared/services/network-activity.service';
 import { UserService } from './user/services/user.service';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ListComponent } from './list/list.component';
 
 @NgModule({
     declarations: [
@@ -32,6 +32,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
         UserComponent,
         HomeComponent,
         BootLoaderComponent,
+        ListComponent,
     ],
     imports: [
         BrowserModule,
@@ -52,6 +53,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
         FlexLayoutModule,
         MatSidenavModule,
         MatListModule,
+        MatToolbarModule,
     ],
     providers: [
         AuthGuard,

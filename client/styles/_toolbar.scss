@@ -1,0 +1,13 @@
+@mixin toolbar($theme) {
+
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+
+    mat-toolbar[color=app] {
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+    }
+
+}

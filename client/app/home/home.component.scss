@@ -7,8 +7,8 @@
 
         &.menuMinimized {
             &, perfect-scrollbar {
-                width: 50px;
-                min-width: 50px;
+                width:0;
+                min-width: 64px;
             }
         }
     }

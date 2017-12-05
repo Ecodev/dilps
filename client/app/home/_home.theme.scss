@@ -16,6 +16,7 @@
 
             .mat-list-item {
                 color: mat-color($primary, default-contrast);
+                height: 64px;
             }
             .mat-list-item.active {
                 background: rgba(255, 255, 255, 0.2);
@@ -29,7 +30,7 @@
             }
 
             .mat-nav-list .mat-list-item .mat-list-item-content {
-                padding: 9px;
+                //padding: 9px;
             }
         }
 

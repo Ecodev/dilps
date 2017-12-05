@@ -4,6 +4,7 @@ import { AuthGuard } from './shared/services/auth.guard';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { UserComponent } from './user/user/user.component';
+import { ListComponent } from './list/list.component';
 
 export const routes: Routes = [
 
@@ -20,7 +21,7 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                component: UserComponent,
+                component: ListComponent,
             },
             {
                 path: 'user',
