@@ -37,10 +37,9 @@ pre.debug {
     border: 2px solid green;
 }
 
-
 #appContent {
+    overflow-y: auto;
     & > *:not(router-outlet) {
-        display: flex;
         flex: 1 0 auto;
     }
 }

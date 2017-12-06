@@ -9,6 +9,7 @@
 @import '../app/shared/components/boot-loader/boot-loader.theme';
 @import '../app/home/_home.theme.scss';
 @import 'scroll';
+@import 'toolbar';
 
 // Include material core (only once !)
 @include mat-core($custom-typography-gt-sm);
@@ -19,6 +20,7 @@
     @include boot-loader($theme);
     @include scroll($theme);
     @include home($theme);
+    @include toolbar($theme);
 }
 
 $mat-dilps: (

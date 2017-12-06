@@ -25,6 +25,8 @@ import { UserService } from './user/services/user.service';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ListComponent } from './list/list.component';
 
+import { NaturalGalleryModule } from 'angular-natural-gallery';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -54,6 +56,7 @@ import { ListComponent } from './list/list.component';
         MatSidenavModule,
         MatListModule,
         MatToolbarModule,
+        NaturalGalleryModule,
     ],
     providers: [
         AuthGuard,

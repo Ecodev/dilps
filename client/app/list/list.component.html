@@ -1,3 +1,9 @@
-<mat-toolbar color="app">
+<div fxFlex fxLayout="column" #scrollable id="listWrapper">
 
-</mat-toolbar>
+    <mat-toolbar fxFlex="none" color="app">
+        <div fxFlex></div>
+        <mat-icon>delete</mat-icon>
+    </mat-toolbar>
+
+    <natural-gallery class="padding" fxFlex [images]="images" [scrollable]="scrollable"></natural-gallery>
+</div>
