@@ -5,9 +5,8 @@
         <mat-sidenav *ngIf="initialized"
                      id="menu"
                      align="start"
-                     [mode]="sidemenuSvc.activeMode"
-                     [opened]="sidemenuSvc.isOpened"
-                     [ngClass]="sidemenuSvc.isMinimized ? 'menuMinimized' : null"
+                     mode="side"
+                     opened="true"
         >
             <div fxFlex fxLayout="row" fxFlexAlign="start center">
 
@@ -16,18 +15,14 @@
                     <mat-nav-list fxFlex>
 
                         <!-- Dashboard -->
-                        <a mat-list-item
-                           routerLink="/"
-                           (click)="sidemenuSvc.navItemClicked()"
-                           routerLinkActive="active"
-                           [routerLinkActiveOptions]="{ exact: true }"
+                        <a mat-list-item routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
                         >
                             <mat-icon mat-list-icon>home</mat-icon>
                             <span matLine i18n>Accueil</span>
                         </a>
 
                         <!-- Account -->
-                        <a mat-list-item routerLink="/user" (click)="sidemenuSvc.navItemClicked()" routerLinkActive="active"
+                        <a mat-list-item routerLink="/user" routerLinkActive="active"
                         >
                             <mat-icon mat-list-icon>person</mat-icon>
                             <span matLine i18n>Mon compte</span>
@@ -43,21 +38,6 @@
                             <span matLine>Changer couleurs</span>
                         </a>
 
-                        <mat-divider></mat-divider>
-
-                        <a mat-list-item
-                           *ngIf="!sidemenuSvc.isMinimized && !sidemenuSvc.isMobileView()"
-                           (click)="sidemenuSvc.setMinimized(true)"
-                        >
-                            <mat-icon mat-list-icon>keyboard_arrow_left</mat-icon>
-                        </a>
-
-                        <a mat-list-item
-                           *ngIf="sidemenuSvc.isMinimized && !sidemenuSvc.isMobileView()"
-                           (click)="sidemenuSvc.setMinimized(false)"
-                        >
-                            <mat-icon mat-list-icon>keyboard_arrow_right</mat-icon>
-                        </a>
 
                     </mat-nav-list>
                 </div>
@@ -66,11 +46,9 @@
 
         </mat-sidenav>
 
-        <perfect-scrollbar id="appBody" fxFlex fxLayout="column">
-            <div id="appContent" fxFlex fxLayout="column">
-                <router-outlet (activate)="initialized = true"></router-outlet>
-            </div>
-        </perfect-scrollbar>
+        <div id="appBody" fxFlex fxLayout="column">
+            <router-outlet (activate)="initialized = true"></router-outlet>
+        </div>
 
     </mat-sidenav-container>
 
