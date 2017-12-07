@@ -6,7 +6,8 @@ import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
-    MatButtonModule, MatCheckboxModule, MatIconModule, MatInputModule, MatListModule, MatSidenavModule, MatSnackBarModule, MatToolbarModule,
+    MatButtonModule, MatCheckboxModule, MatIconModule, MatInputModule, MatListModule, MatPaginatorModule, MatProgressSpinnerModule,
+    MatSidenavModule, MatSnackBarModule, MatTableModule, MatToolbarModule,
 } from '@angular/material';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
@@ -18,16 +19,18 @@ import { AuthGuard } from './shared/services/auth.guard';
 import { ThemeService } from './shared/services/theme.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NetworkActivityService } from './shared/services/network-activity.service';
-import { UserService } from './user/services/user.service';
+import { UserService } from './users/services/user.service';
 
 import { AppComponent } from './app.component';
-import { UserComponent } from './user/user/user.component';
+import { UserComponent } from './users/user/user.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { BootLoaderComponent } from './shared/components/boot-loader/boot-loader.component';
 import { ListComponent } from './list/list.component';
 import { ImageComponent } from './image/image.component';
 import { NaturalGalleryModule } from 'angular-natural-gallery';
+import { UsersComponent } from './users/users/users.component';
+import { TableButtonComponent } from './shared/components/table-button/table-button.component';
 
 @NgModule({
     declarations: [
@@ -38,6 +41,8 @@ import { NaturalGalleryModule } from 'angular-natural-gallery';
         BootLoaderComponent,
         ListComponent,
         ImageComponent,
+        UsersComponent,
+        TableButtonComponent,
     ],
     imports: [
         BrowserModule,
@@ -60,6 +65,9 @@ import { NaturalGalleryModule } from 'angular-natural-gallery';
         MatListModule,
         MatToolbarModule,
         NaturalGalleryModule,
+        MatTableModule,
+        MatProgressSpinnerModule,
+        MatPaginatorModule
     ],
     providers: [
         AuthGuard,

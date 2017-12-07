@@ -8,19 +8,24 @@
                         <!-- Dashboard -->
                         <a mat-list-item routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                             <mat-icon mat-list-icon>home</mat-icon>
-                            <span matLine >Accueil</span>
+                            <span matLine>Accueil</span>
+                        </a>
+
+                        <a mat-list-item routerLink="/user" routerLinkActive="active">
+                            <mat-icon mat-list-icon>group</mat-icon>
+                            <span matLine>Utilisateurs</span>
                         </a>
 
                         <!-- Account -->
-                        <a mat-list-item routerLink="/user" routerLinkActive="active">
+                        <a mat-list-item routerLink="/profile" routerLinkActive="active">
                             <mat-icon mat-list-icon>account_circle</mat-icon>
-                            <span matLine >Mon compte</span>
+                            <span matLine>Mon compte</span>
                         </a>
 
                         <!-- Logout -->
                         <a mat-list-item (click)="userSvc.logout()">
                             <mat-icon mat-list-icon>exit_to_app</mat-icon>
-                            <span matLine >Se déconnecter</span>
+                            <span matLine>Se déconnecter</span>
                         </a>
                     </mat-nav-list>
 

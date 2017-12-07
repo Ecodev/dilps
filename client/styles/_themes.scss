@@ -12,6 +12,8 @@
 @import '../app/image/image.theme';
 @import 'scroll';
 @import 'toolbar';
+@import 'table';
+@import '../app/shared/components/table-button/table-button.theme';
 
 // Include material core (only once !)
 @include mat-core($custom-typography-gt-sm);
@@ -25,6 +27,8 @@
     @include toolbar($theme);
     @include app-image($theme);
     @include natural-gallery-theme($theme);
+    @include table($theme);
+    @include table-button($theme);
 }
 
 $mat-dilps: (

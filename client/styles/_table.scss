@@ -1,0 +1,28 @@
+@mixin table($theme) {
+
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+
+    mat-table {
+
+        mat-cell {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        mat-row {
+            align-items: stretch;
+            &:hover {
+                background: mat-color($background, hover);
+            }
+        }
+
+        mat-header-row {
+            background: mat-color($background, app-bar);
+        }
+    }
+
+}

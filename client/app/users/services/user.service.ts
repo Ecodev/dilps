@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { updateUserMutation } from '../../shared/queries/user';
-import { ThemeService } from '../../shared/services/theme.service';
+import { updateUserMutation, usersQuery } from '../../shared/queries/user';
 import 'rxjs/add/observable/of';
+import { map } from 'rxjs/operators';
+import { QueryVariablesService } from '../../shared/services/query-variables.service';
 
 @Injectable()
 export class UserService {
@@ -16,7 +17,19 @@ export class UserService {
         lastname: 'Baptista',
     };
 
-    constructor(private apollo: Apollo, private router: Router, private themeSvc: ThemeService) {
+    constructor(private apollo: Apollo, private router: Router) {
+    }
+
+    public watchAll(variables: Observable<any>): Observable<any> {
+        return this
+            .apollo
+            .watchQuery({
+                query: usersQuery,
+                variables: QueryVariablesService.getVariables(variables),
+            }).valueChanges
+            .pipe(map((data: any) => {
+                return data.data.users;
+            }));
     }
 
     public getCurrentUser(): Observable<any> {
@@ -58,7 +71,6 @@ export class UserService {
 
         localStorage.removeItem('dilps-user');
         this.router.navigate(['/login']);
-
     }
 
     public update(user) {

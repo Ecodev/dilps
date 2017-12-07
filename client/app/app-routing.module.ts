@@ -3,9 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './shared/services/auth.guard';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
-import { UserComponent } from './user/user/user.component';
+import { UserComponent } from './users/user/user.component';
 import { ListComponent } from './list/list.component';
 import { ImageComponent } from './image/image.component';
+import { UsersComponent } from './users/users/users.component';
 
 export const routes: Routes = [
 
@@ -29,8 +30,21 @@ export const routes: Routes = [
                 component: ImageComponent,
             },
             {
-                path: 'user',
+                path: 'profile',
                 component: UserComponent,
+            },
+            {
+                path: 'user',
+                children: [
+                    {
+                        path: '',
+                        component: UsersComponent,
+                    },
+                    {
+                        path: ':userId',
+                        component: UserComponent,
+                    },
+                ],
             },
         ],
     },

@@ -1,20 +1,6 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
 import { ThemeService } from './shared/services/theme.service';
 import { OverlayContainer } from '@angular/cdk/overlay';
-
-// We use the gql tag to parse our query string into a query document
-const Users = gql`
-  query Users {
-    users {
-      items {
-        id
-        login
-      }
-    }
-  }
-`;
 
 @Component({
     selector: 'app-root',
@@ -22,8 +8,6 @@ const Users = gql`
     styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-
-    users: any;
 
     /**
      * Bind theme at root-app level
@@ -36,19 +20,10 @@ export class AppComponent implements OnInit {
      */
     public initialized: boolean;
 
-    constructor(private themeSvc: ThemeService, private overlayContainer: OverlayContainer, apollo: Apollo) {
-
+    constructor(private themeSvc: ThemeService, private overlayContainer: OverlayContainer) {
     }
 
     public ngOnInit() {
-
-        // this.apollo.watchQuery<any>({
-        //     query: Users,
-        // })
-        //     .valueChanges
-        //     .subscribe(({data}) => {
-        //         this.users = data.users;
-        //     });
 
         this.themeSvc.theme.subscribe(newTheme => {
 
