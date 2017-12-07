@@ -10,6 +10,8 @@ import { UserService } from '../user/services/user.service';
 })
 export class HomeComponent implements OnInit {
 
+    public initialized;
+
     constructor(private themeSvc: ThemeService, private userSvc: UserService) {
     }
 

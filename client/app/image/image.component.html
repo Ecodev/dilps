@@ -8,26 +8,28 @@
         </mat-toolbar>
 
         <div class="scrollable">
-            <div fxLayout="column" class="padding-top">
+            <div fxLayout="column">
                 <mat-form-field>
-                    <input matInput [(ngModel)]="name" placeholder="Nom" >
+                    <input matInput [(ngModel)]="data.name" placeholder="Nom" >
                 </mat-form-field>
                 <mat-form-field>
-                    <input matInput [(ngModel)]="name" placeholder="Nom" >
+                    <input matInput [(ngModel)]="data.name" placeholder="Nom" >
                 </mat-form-field>
                 <mat-form-field>
-                    <input matInput [(ngModel)]="name" placeholder="Nom" >
+                    <input matInput [(ngModel)]="data.name" placeholder="Nom" >
                 </mat-form-field>
                 <mat-form-field>
-                    <input matInput [(ngModel)]="name" placeholder="Nom" >
+                    <input matInput [(ngModel)]="data.name" placeholder="Nom" >
                 </mat-form-field>
 
                 <div fxLayout="row" fxLayoutAlign="end" class="padding">
                     <button mat-raised-button color="primary">Sauver</button>
                 </div>
             </div>
+
         </div>
     </div>
+
 
     <div fxFlex class="containerWithToolbar" fxLayout="column" >
         <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center">
