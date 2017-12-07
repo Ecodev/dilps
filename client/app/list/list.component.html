@@ -1,12 +1,12 @@
-<div fxFlex fxLayout="column" id="listWrapper">
+<div fxFlex fxLayout="column" class="containerWithToolbar">
 
     <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center">
-        <img src="assets/images/logo-blanc.svg" style="max-width:100%;height:30px;"/>
+        <img src="assets/images/logo-blanc.svg" style="max-width:100%;height:30px;" />
         <div fxFlex></div>
         <mat-icon>delete</mat-icon>
     </mat-toolbar>
 
-    <div id="galleryContainer" #scrollable>
+    <div class="scrollable" #scrollable>
         <natural-gallery class="padding" fxFlex [images]="images" [scrollable]="scrollable"></natural-gallery>
     </div>
 </div>

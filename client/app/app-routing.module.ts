@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { UserComponent } from './user/user/user.component';
 import { ListComponent } from './list/list.component';
+import { ImageComponent } from './image/image.component';
 
 export const routes: Routes = [
 
@@ -22,6 +23,10 @@ export const routes: Routes = [
             {
                 path: '',
                 component: ListComponent,
+            },
+            {
+                path: 'image/:imageId',
+                component: ImageComponent,
             },
             {
                 path: 'user',

@@ -1,0 +1,41 @@
+<div fxFlex fxLayout="row">
+
+    <div fxFlex="400px" class="containerWithToolbar" fxLayout="column">
+        <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center">
+            <img src="assets/images/logo-blanc.svg" style="max-width:100%;height:30px;" />
+            <div fxFlex></div>
+            <mat-icon>delete</mat-icon>
+        </mat-toolbar>
+
+        <div class="scrollable">
+            <div fxLayout="column" class="padding-top">
+                <mat-form-field>
+                    <input matInput [(ngModel)]="name" placeholder="Nom" >
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput [(ngModel)]="name" placeholder="Nom" >
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput [(ngModel)]="name" placeholder="Nom" >
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput [(ngModel)]="name" placeholder="Nom" >
+                </mat-form-field>
+
+                <div fxLayout="row" fxLayoutAlign="end" class="padding">
+                    <button mat-raised-button color="primary">Sauver</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div fxFlex class="containerWithToolbar" fxLayout="column" >
+        <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center">
+            <div fxFlex></div>
+            <mat-icon>delete</mat-icon>
+        </mat-toolbar>
+
+        <div class="image" fxFlex style="background-image: url(https://images.unsplash.com/photo-1499615767948-e6a89ef6060f?auto=format&fit=crop&w=2850&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D)"></div>
+    </div>
+
+</div>

@@ -2,9 +2,9 @@
 
 :host {
     flex: auto;
-    display: flex;
-    flex-direction: column;
-
     @include fixedToolbar();
-}
 
+    .image {
+        background-size:cover;
+    }
+}

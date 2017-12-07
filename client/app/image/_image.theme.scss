@@ -1,0 +1,17 @@
+@mixin app-image($theme) {
+
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+
+    app-image {
+        //.mat-input-infix,
+        .mat-form-field-infix {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+    }
+}
+
+

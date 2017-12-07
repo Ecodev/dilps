@@ -8,6 +8,7 @@
 @import '../app/app.theme';
 @import '../app/shared/components/boot-loader/boot-loader.theme';
 @import '../app/home/_home.theme.scss';
+@import '../app/image/image.theme';
 @import 'scroll';
 @import 'toolbar';
 
@@ -21,6 +22,7 @@
     @include scroll($theme);
     @include home($theme);
     @include toolbar($theme);
+    @include app-image($theme);
 }
 
 $mat-dilps: (
@@ -55,7 +57,6 @@ $mat-dilps: (
                 A700: white,
         )
 );
-
 
 // Configure themes
 $okPilot-primary: mat-palette($mat-dilps);

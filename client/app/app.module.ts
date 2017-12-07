@@ -26,6 +26,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ListComponent } from './list/list.component';
 
 import { NaturalGalleryModule } from 'angular-natural-gallery';
+import { ImageComponent } from './image/image.component';
 
 @NgModule({
     declarations: [
@@ -35,6 +36,7 @@ import { NaturalGalleryModule } from 'angular-natural-gallery';
         HomeComponent,
         BootLoaderComponent,
         ListComponent,
+        ImageComponent,
     ],
     imports: [
         BrowserModule,

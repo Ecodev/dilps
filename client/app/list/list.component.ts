@@ -1708,8 +1708,7 @@ export class ListComponent implements OnInit {
             },
         ];
         this.images = images.map((image: any) => {
-            image.link = 'https://ecodev.ch';
-            image.linkTarget = '_blank';
+            image.link = '/image/123';
             return image;
         });
     }
