@@ -10,23 +10,24 @@ import {
 } from '@angular/material';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { AuthGuard } from './shared/services/auth.guard';
-import { UserComponent } from './user/user/user.component';
-import { ThemeService } from './shared/services/theme.service';
-import { HomeComponent } from './home/home.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgProgressModule } from 'ngx-progressbar';
-import { BootLoaderComponent } from './shared/components/boot-loader/boot-loader.component';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AuthGuard } from './shared/services/auth.guard';
+import { ThemeService } from './shared/services/theme.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NetworkActivityService } from './shared/services/network-activity.service';
 import { UserService } from './user/services/user.service';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { ListComponent } from './list/list.component';
 
-import { NaturalGalleryModule } from 'angular-natural-gallery';
+import { AppComponent } from './app.component';
+import { UserComponent } from './user/user/user.component';
+import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
+import { BootLoaderComponent } from './shared/components/boot-loader/boot-loader.component';
+import { ListComponent } from './list/list.component';
 import { ImageComponent } from './image/image.component';
+import { NaturalGalleryModule } from 'angular-natural-gallery';
 
 @NgModule({
     declarations: [
