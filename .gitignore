@@ -2,6 +2,7 @@
 /config/autoload/local.php
 /config/development.config.php
 /data/cache/
+/data/config-cache.php
 /data/images/*.*
 /data/images/small/*.*
 !/data/images/dw4jV3zYSPsqE2CB8BcP8ABD0.jpg
@@ -13,6 +14,11 @@
 /htdocs/*.map
 /htdocs/*.txt
 /htdocs/*.css
+/htdocs/*.woff
+/htdocs/*.woff2
+/htdocs/*.ttf
+/htdocs/*.eot
+/htdocs/assets
 /.idea/
 /logs/
 /node_modules/
