@@ -1,50 +1,33 @@
 <div fxFlexFill>
 
     <mat-sidenav-container #navContainer fxFlex fxLayout="column">
-
-        <mat-sidenav *ngIf="initialized"
-                     id="menu"
-                     align="start"
-                     mode="side"
-                     opened="true"
-                     class="menuMinimized"
-        >
+        <mat-sidenav *ngIf="initialized" id="menu" align="start" mode="side" opened="true" class="menuMinimized">
             <div fxFlex fxLayout="row" fxFlexAlign="start center">
-
                 <div fxLayout="column">
-
                     <mat-nav-list fxFlex>
-
                         <!-- Dashboard -->
-                        <a mat-list-item routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-                        >
+                        <a mat-list-item routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                             <mat-icon mat-list-icon>home</mat-icon>
                             <span matLine i18n>Accueil</span>
                         </a>
 
                         <!-- Account -->
-                        <a mat-list-item routerLink="/user" routerLinkActive="active"
-                        >
+                        <a mat-list-item routerLink="/user" routerLinkActive="active">
                             <mat-icon mat-list-icon>person</mat-icon>
                             <span matLine i18n>Mon compte</span>
                         </a>
                     </mat-nav-list>
 
+                    <!-- Bottom nav -->
                     <mat-nav-list>
-
-                        <mat-divider></mat-divider>
-
+                        <!-- Theme -->
                         <a mat-list-item (click)="toggleTheme()">
                             <mat-icon mat-list-icon>invert_colors</mat-icon>
                             <span matLine>Changer couleurs</span>
                         </a>
-
-
                     </mat-nav-list>
                 </div>
-
             </div>
-
         </mat-sidenav>
 
         <div id="appBody" fxFlex fxLayout="column">
