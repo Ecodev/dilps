@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Apollo } from 'apollo-angular';
 import { NgProgress } from 'ngx-progressbar';
 
 @Injectable()
@@ -19,30 +18,7 @@ export class NetworkActivityService {
     public readonly isPending = new BehaviorSubject<boolean>(false);
     public readonly errors = new BehaviorSubject<any[]>([]);
 
-    constructor(private apollo: Apollo, private progressService: NgProgress) {
-        const self = this;
-
-
-        // // New request : increment
-        // this.apollo.getClient().networkInterface.use([
-        //     {
-        //         applyBatchMiddleware(req, next) {
-        //             self.increase();
-        //             next();
-        //         },
-        //     },
-        // ]);
-        //
-        // // Receive response : decrement
-        // this.apollo.getClient().networkInterface.useAfter([
-        //     {
-        //         applyBatchAfterware({responses}, next) {
-        //             self.updateErrors(responses);
-        //             self.decrease();
-        //             next();
-        //         },
-        //     },
-        // ]);
+    constructor(private progressService: NgProgress) {
     }
 
     public increase() {
@@ -59,7 +35,7 @@ export class NetworkActivityService {
         this.pending--;
         this.isPending.next(this.pending > 0);
 
-        // Mark progress a completed, after waiting 20ms in case a refrechQueries would be used
+        // Mark progress a completed, after waiting 20ms in case a refetchQueries would be used
         if (this.pending === 0) {
             setTimeout(() => {
                 if (this.pending === 0) {
@@ -70,10 +46,9 @@ export class NetworkActivityService {
         }
     }
 
-    private updateErrors(responses) {
-        if (responses.length) {
-            const errors = responses.map(r => r.errors).filter(er => !!er);
-            this.errors.next([].concat.apply([], errors));
+    public updateErrors(response) {
+        if (response && response.errors && response.errors.length) {
+            this.errors.next([].concat.apply([], response.errors));
         }
     }
 

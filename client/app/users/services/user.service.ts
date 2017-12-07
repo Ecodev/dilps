@@ -21,6 +21,7 @@ export class UserService {
     }
 
     public watchAll(variables: Observable<any>): Observable<any> {
+
         return this
             .apollo
             .watchQuery({

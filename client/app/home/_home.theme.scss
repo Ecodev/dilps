@@ -6,7 +6,27 @@
     $bg: map-get($theme, background);
     $fg: map-get($theme, foreground);
 
+
+    .mat-snack-bar-container {
+        margin-left:88px;
+
+    }
+    .snackbar-error {
+        border: 1px solid red !important;
+        background-color: mat-color($warn) !important;
+        color: mat-color($warn, default-contrast) !important;
+    }
+
     app-home {
+
+        .mat-menu-panel.error-menu {
+            max-width: 450px;
+
+            .error:not(:last-child) {
+                padding-bottom: 20px;
+            }
+        }
+
         #menu {
             background: mat-color($primary);
 

@@ -3,7 +3,7 @@
     <mat-sidenav-container #navContainer fxFlex fxLayout="column">
         <mat-sidenav *ngIf="initialized" id="menu" align="start" mode="side" opened="true" class="menuMinimized">
             <div fxFlex fxLayout="row" fxFlexAlign="start center">
-                <div fxLayout="column">
+                <div fxLayout="column" >
                     <mat-nav-list fxFlex>
                         <!-- Dashboard -->
                         <a mat-list-item routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
@@ -30,6 +30,11 @@
                     </mat-nav-list>
 
                     <!-- Bottom nav -->
+
+                    <a mat-icon-button mat-raised-button [matMenuTriggerFor]="errorsMenu" color="warn" *ngIf="errors.length" style="margin:0 11px">
+                        <mat-icon>error</mat-icon>
+                    </a>
+
                     <mat-nav-list>
                         <!-- Theme -->
                         <a mat-list-item (click)="themeSvc.toggle()">
@@ -48,3 +53,14 @@
     </mat-sidenav-container>
 
 </div>
+
+<mat-menu #errorsMenu="matMenu" [overlapTrigger]="false" class="padding error-menu" fxLayout="column" fxLayoutGap="60px">
+    <div mat-menu-item *ngFor="let error of errors" fxLayout="column" class="error">
+        <span class="mat-caption" style="font-weight:bold">{{ error.category }}</span>
+        <span class="mat-caption">{{ error.message }}</span>
+        <span class="mat-caption">{{ error.debugMessage }}</span>
+    </div>
+    <button mat-menu-item (click)="errors = []">
+        <mat-icon>close</mat-icon> Masquer
+    </button>
+</mat-menu>
