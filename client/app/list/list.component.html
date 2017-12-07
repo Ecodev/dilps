@@ -7,6 +7,12 @@
     </mat-toolbar>
 
     <div class="scrollable" #scrollable>
-        <natural-gallery class="padding" fxFlex [images]="images" [scrollable]="scrollable"></natural-gallery>
+        <natural-gallery class="padding"
+                         fxFlex
+                         [images]="images"
+                         [options]="options"
+                         [scrollable]="scrollable"
+                         (navigate)="goTo($event)"
+        ></natural-gallery>
     </div>
 </div>

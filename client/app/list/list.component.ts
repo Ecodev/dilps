@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-list',
@@ -8,8 +9,9 @@ import { Component, OnInit } from '@angular/core';
 export class ListComponent implements OnInit {
 
     public images = null;
+    public options = null;
 
-    constructor() {
+    constructor(private router: Router) {
     }
 
     ngOnInit() {
@@ -1707,10 +1709,23 @@ export class ListComponent implements OnInit {
                 'eHeight': 2907,
             },
         ];
+
+        this.options = {
+            margin: 5,
+            showLabels: 'true',
+        };
+
         this.images = images.map((image: any) => {
             image.link = '/image/123';
             return image;
         });
+    }
+
+    public goTo(item) {
+        this.router.navigate([
+            'image',
+            item.id,
+        ]);
     }
 
 }
