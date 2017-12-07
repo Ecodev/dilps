@@ -8,20 +8,26 @@
                         <!-- Dashboard -->
                         <a mat-list-item routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                             <mat-icon mat-list-icon>home</mat-icon>
-                            <span matLine i18n>Accueil</span>
+                            <span matLine >Accueil</span>
                         </a>
 
                         <!-- Account -->
                         <a mat-list-item routerLink="/user" routerLinkActive="active">
-                            <mat-icon mat-list-icon>person</mat-icon>
-                            <span matLine i18n>Mon compte</span>
+                            <mat-icon mat-list-icon>account_circle</mat-icon>
+                            <span matLine >Mon compte</span>
+                        </a>
+
+                        <!-- Logout -->
+                        <a mat-list-item (click)="userSvc.logout()">
+                            <mat-icon mat-list-icon>exit_to_app</mat-icon>
+                            <span matLine >Se déconnecter</span>
                         </a>
                     </mat-nav-list>
 
                     <!-- Bottom nav -->
                     <mat-nav-list>
                         <!-- Theme -->
-                        <a mat-list-item (click)="toggleTheme()">
+                        <a mat-list-item (click)="themeSvc.toggle()">
                             <mat-icon mat-list-icon>invert_colors</mat-icon>
                             <span matLine>Changer couleurs</span>
                         </a>

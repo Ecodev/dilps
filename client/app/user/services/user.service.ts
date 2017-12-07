@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { logoutMutation, updateUserMutation } from '../../shared/queries/user';
+import { updateUserMutation } from '../../shared/queries/user';
 import { ThemeService } from '../../shared/services/theme.service';
 import 'rxjs/add/observable/of';
 
@@ -46,15 +46,19 @@ export class UserService {
 
     public logout(): void {
 
-        this.apollo
-            .mutate({
-                mutation: logoutMutation,
-            })
-            .subscribe(() => {
-                this.apollo.getClient().resetStore();
-                this.router.navigate(['/login']);
-                this.themeSvc.set(null);
-            });
+        // this.apollo
+        //     .mutate({
+        //         mutation: logoutMutation,
+        //     })
+        //     .subscribe(() => {
+        //         this.apollo.getClient().resetStore();
+        //         this.router.navigate(['/login']);
+        //         this.themeSvc.set(null);
+        //     });
+
+        localStorage.removeItem('dilps-user');
+        this.router.navigate(['/login']);
+
     }
 
     public update(user) {

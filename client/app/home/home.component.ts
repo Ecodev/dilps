@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemeService } from '../shared/services/theme.service';
+import { UserService } from '../user/services/user.service';
 
 @Component({
     selector: 'app-home',
@@ -9,14 +10,10 @@ import { ThemeService } from '../shared/services/theme.service';
 })
 export class HomeComponent implements OnInit {
 
-    constructor(private themeSvc: ThemeService) {
+    constructor(private themeSvc: ThemeService, private userSvc: UserService) {
     }
 
     ngOnInit() {
-    }
-
-    toggleTheme() {
-        this.themeSvc.toggle();
     }
 
 }
