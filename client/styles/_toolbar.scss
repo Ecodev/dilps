@@ -6,7 +6,7 @@
     $foreground: map-get($theme, foreground);
 
     mat-toolbar[color=app] {
-        background: rgba(0, 0, 0, 0.5);
+        background: rgba(66,66,66 , 0.7);
         color: white;
     }
 
