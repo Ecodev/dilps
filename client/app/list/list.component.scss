@@ -6,10 +6,15 @@
     #listWrapper {
         padding-top: 64px;
         position: relative;
-        overflow-y: auto;
+
+        #galleryContainer {
+            overflow-y: auto;
+            margin-top:-64px;
+            padding-top:64px;
+        }
 
         mat-toolbar {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             right: 0;
