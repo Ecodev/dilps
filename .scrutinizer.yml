@@ -11,6 +11,7 @@ coding_style:
 
 build:
     nodes:
+        tests: false
         analysis:
             tests:
                 override:
