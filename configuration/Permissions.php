@@ -18,6 +18,18 @@ return [
         'permissions' => '0770',
     ],
     [
+        'path' => 'bin/dump-data.php',
+        'permissions' => '0770',
+    ],
+    [
+        'path' => 'bin/load-data.php',
+        'permissions' => '0770',
+    ],
+    [
+        'path' => 'bin/load-test-data.php',
+        'permissions' => '0770',
+    ],
+    [
         'path' => 'node_modules/.bin/*',
         'permissions' => '0770',
     ],
