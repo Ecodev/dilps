@@ -2,6 +2,7 @@
 
     $primary: map-get($theme, primary);
     $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
     $background: map-get($theme, background);
     $foreground: map-get($theme, foreground);
 
@@ -33,6 +34,13 @@
             top: 0 !important;
             box-shadow: mat-color($accent) 0 0 20px !important;
         }
+    }
+
+    .natural-gallery .figure .selectBtn {
+        background: rgba(255, 255, 255, 0.7);
+    }
+    .natural-gallery .figure.selected .selectBtn {
+        background: mat-color($accent) !important;
     }
 
 }

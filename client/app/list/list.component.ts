@@ -10,6 +10,7 @@ export class ListComponent implements OnInit {
 
     public images = null;
     public options = null;
+    public selected;
 
     constructor(private router: Router) {
     }
@@ -1721,11 +1722,15 @@ export class ListComponent implements OnInit {
         });
     }
 
-    public goTo(item) {
+    public activate(item) {
         this.router.navigate([
             'image',
             item.id,
         ]);
+    }
+
+    public select(items) {
+        this.selected = items;
     }
 
 }

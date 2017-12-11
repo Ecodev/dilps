@@ -3,16 +3,22 @@
     <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center">
         <img src="assets/images/logo-blanc.svg" style="max-width:100%;height:30px;" />
         <div fxFlex></div>
-        <mat-icon>delete</mat-icon>
+
+        <button *ngIf="selected?.length" mat-icon-button (click)="gallery.unselectAll()">
+            <mat-icon>select_all</mat-icon>
+        </button>
+
     </mat-toolbar>
 
     <div class="scrollable" #scrollable>
-        <natural-gallery class="padding"
+        <natural-gallery #gallery
+                         class="padding"
                          fxFlex
                          [images]="images"
                          [options]="options"
                          [scrollable]="scrollable"
-                         (activate)="goTo($event)"
+                         (activate)="activate($event)"
+                         (selectChange)="select($event)"
         ></natural-gallery>
     </div>
 </div>
