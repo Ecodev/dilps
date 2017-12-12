@@ -14,7 +14,7 @@ export class ThemeService {
 
     constructor() {
         const theme = localStorage.getItem('dilps-theme');
-        this.theme.next(theme ? theme : this.themes[0]);
+        this.theme.next(theme ? theme : this.themes[0] + 'Dark');
         if (theme && theme.indexOf('Dark') > -1) {
             this.darkActivated = true;
         }
