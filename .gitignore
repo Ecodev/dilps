@@ -1,8 +1,7 @@
 /config/autoload/*.local.php
 /config/autoload/local.php
 /config/development.config.php
-/data/cache/
-/data/config-cache.php
+/data/cache/*
 /data/images/*.*
 /data/images/small/*.*
 !/data/images/dw4jV3zYSPsqE2CB8BcP8ABD0.jpg
@@ -27,3 +26,6 @@
 /vendor/
 
 .DS_Store
+
+# keep it at the end of the file
+!.gitkeep
