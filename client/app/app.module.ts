@@ -7,8 +7,18 @@ import { ApolloLink, concat } from 'apollo-link';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
-    MatButtonModule, MatCheckboxModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatPaginatorModule,
-    MatProgressSpinnerModule, MatSidenavModule, MatSnackBarModule, MatTableModule, MatToolbarModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatSidenavModule,
+    MatSnackBarModule,
+    MatTableModule,
+    MatToolbarModule,
 } from '@angular/material';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
