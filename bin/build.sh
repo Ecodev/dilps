@@ -2,6 +2,20 @@
 
 # This script build all assets for production environment
 
+# If the deploy user exists on the machine, re-run script with that user
+DEPLOY_USER="dilpsch"
+if id "$DEPLOY_USER" >/dev/null 2>&1; then
+
+    if [ ! "$DEPLOY_USER" == "$USER" ]; then
+        echo "Restarting script with user '$DEPLOY_USER'"
+        sudo -H -u $DEPLOY_USER "${BASH_SOURCE}"
+        exit
+    fi
+
+    # Declare a fake HOME, so that cache and various config files can be created
+    export HOME="/tmp/dilps-home"
+fi
+
 # Exit script on any error
 set -e
 
