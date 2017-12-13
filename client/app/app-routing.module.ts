@@ -7,6 +7,7 @@ import { UserComponent } from './users/user/user.component';
 import { ListComponent } from './list/list.component';
 import { ImageComponent } from './image/image.component';
 import { UsersComponent } from './users/users/users.component';
+import { CollectionsComponent } from './collections/collections.component';
 
 export const routes: Routes = [
 
@@ -24,6 +25,7 @@ export const routes: Routes = [
             {
                 path: '',
                 component: ListComponent,
+                data: {showLogo: true},
             },
             {
                 path: 'image/:imageId',
@@ -43,6 +45,17 @@ export const routes: Routes = [
                     {
                         path: ':userId',
                         component: UserComponent,
+                    },
+                ],
+            },
+            {
+                path: 'collection',
+                component: CollectionsComponent,
+                children: [
+                    {
+                        path: ':collectionId',
+                        component: ListComponent,
+                        data: {showLogo: false},
                     },
                 ],
             },

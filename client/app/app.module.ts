@@ -42,6 +42,7 @@ import { ImageComponent } from './image/image.component';
 import { NaturalGalleryModule } from 'angular-natural-gallery';
 import { UsersComponent } from './users/users/users.component';
 import { TableButtonComponent } from './shared/components/table-button/table-button.component';
+import { CollectionsComponent } from './collections/collections.component';
 
 @NgModule({
     declarations: [
@@ -54,6 +55,7 @@ import { TableButtonComponent } from './shared/components/table-button/table-but
         ImageComponent,
         UsersComponent,
         TableButtonComponent,
+        CollectionsComponent,
     ],
     imports: [
         BrowserModule,

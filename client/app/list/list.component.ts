@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-list',
@@ -12,10 +12,15 @@ export class ListComponent implements OnInit {
     public options = null;
     public selected;
 
-    constructor(private router: Router) {
+    public showLogo = true;
+
+    constructor(private router: Router, private route: ActivatedRoute) {
     }
 
     ngOnInit() {
+
+        this.route.data.subscribe(data => this.showLogo = data.showLogo);
+
         const images = [
             {
                 'thumbnail': 'https://images.unsplash.com/photo-1461511540000-cadab67b2b84?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&w=400&fit=max&s=2aa8a0e35aaaae42a40f7bd8c83754bb',
