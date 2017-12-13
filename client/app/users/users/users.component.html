@@ -1,74 +1,89 @@
-<div class="padding" fxLayout="column" fxLayoutGap="40px">
+<div fxFlex fxLayout="column">
 
-    <div fxLayout="row"fxLayoutGap="20px" fxLayoutAlign="start center">
-        <h1 class="mat-headline no-margin" fxLayout="row" fxLayoutAlign="start center" fxFlex>
-            <mat-icon>group</mat-icon>
-            <span >Utilisateurs</span>
-        </h1>
+    <div class="containerWithToolbar" fxLayout="column">
+        <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center">
+            <img src="assets/images/logo-blanc.svg" style="max-width:100%;height:30px;" />
+            <div fxFlex></div>
+            <button mat-icon-button routerLink="new">
+                <mat-icon>add_box</mat-icon>
+            </button>
+        </mat-toolbar>
+
+        <div class="scrollable">
+
+            <div class="padding">
+
+                <mat-form-field class="width-auto no-padding">
+                    <input matInput
+                           appFocus
+
+                           placeholder="Rechercher"
+                           [ngModel]="dataSource.snapshot.options?.filters?.search"
+                           (change)="dataSource.filter({search : $event.target.value})"
+                           (keyup.esc)="dataSource.filter({search : ''})"
+                    >
+
+                    <mat-icon matPrefix>search</mat-icon>
+                </mat-form-field>
+
+                <mat-table [dataSource]="dataSource">
+
+                    <!-- Id Column -->
+                    <ng-container matColumnDef="id">
+                        <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{ element.id }}</mat-cell>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="name">
+                        <mat-header-cell *matHeaderCellDef>Login</mat-header-cell>
+                        <mat-cell *matCellDef="let element">
+                            <app-table-button [label]="element.login" icon="edit" [navigate]="[element.id]" matTooltip="Éditer"
+                            ></app-table-button>
+                        </mat-cell>
+                    </ng-container>
+
+                    <!-- Email Column -->
+                    <ng-container matColumnDef="email">
+                        <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{ element.email }}</mat-cell>
+                    </ng-container>
+
+                    <!-- Organization Column -->
+                    <ng-container matColumnDef="organization">
+                        <mat-header-cell *matHeaderCellDef>Org.</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{ element.organization }}</mat-cell>
+                    </ng-container>
+
+                    <!-- activeUntil Column -->
+                    <ng-container matColumnDef="activeUntil">
+                        <mat-header-cell *matHeaderCellDef>Validité</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{ element.activeUntil | date:'shortDate' }}</mat-cell>
+                    </ng-container>
+
+                    <!-- Licence Column -->
+                    <ng-container matColumnDef="termsAgreement">
+                        <mat-header-cell *matHeaderCellDef>Licence</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{ element.termsAgreement | date:'shortDate' }}</mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                </mat-table>
+
+                <div fxLayout="column" fxLayoutAlign="center center">
+                    <mat-progress-spinner *ngIf="!dataSource.snapshot.data.items" mode="indeterminate" [diameter]="40"
+                    ></mat-progress-spinner>
+                    <div *ngIf="dataSource.snapshot.data.items?.length === 0">Pas de résultats</div>
+                </div>
+
+                <mat-paginator [length]="dataSource.snapshot.data.length"
+                               [pageSize]="dataSource.snapshot.options.pagination.pageSize"
+                               [pageIndex]="dataSource.snapshot.options.pagination.pageIndex"
+                               [pageSizeOptions]="dataSource.pageSizeOptions"
+                               (page)="dataSource.paging($event)"
+                ></mat-paginator>
+            </div>
+        </div>
     </div>
-
-    <mat-form-field class="width-auto no-padding">
-        <input matInput
-               appFocus
-
-               placeholder="Rechercher"
-               [ngModel]="dataSource.snapshot.options?.filters?.search"
-               (change)="dataSource.filter({search : $event.target.value})"
-               (keyup.esc)="dataSource.filter({search : ''})"
-        >
-
-        <mat-icon matPrefix>search</mat-icon>
-    </mat-form-field>
-
-    <mat-table [dataSource]="dataSource">
-
-        <!-- Id Column -->
-        <ng-container matColumnDef="id">
-            <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.id }}</mat-cell>
-        </ng-container>
-
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-            <mat-header-cell *matHeaderCellDef>Login</mat-header-cell>
-            <mat-cell *matCellDef="let element">
-                <app-table-button [label]="element.login" icon="edit" [navigate]="[element.id]" matTooltip="Éditer"></app-table-button>
-            </mat-cell>
-        </ng-container>
-
-        <!-- Email Column -->
-        <ng-container matColumnDef="email">
-            <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.email }}</mat-cell>
-        </ng-container>
-
-        <!-- Organization Column -->
-        <ng-container matColumnDef="organization">
-            <mat-header-cell *matHeaderCellDef>Org.</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.organization }}</mat-cell>
-        </ng-container>
-
-        <!-- activeUntil Column -->
-        <ng-container matColumnDef="activeUntil">
-            <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.activeUntil | date:'shortDate' }}</mat-cell>
-        </ng-container>
-
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
-
-    <div fxLayout="column" fxLayoutAlign="center center">
-        <mat-progress-spinner *ngIf="!dataSource.snapshot.data.items" mode="indeterminate" [diameter]="40"
-        ></mat-progress-spinner>
-        <div *ngIf="dataSource.snapshot.data.items?.length === 0">Pas de résultats</div>
-    </div>
-
-    <mat-paginator [length]="dataSource.snapshot.data.length"
-                   [pageSize]="dataSource.snapshot.options.pagination.pageSize"
-                   [pageIndex]="dataSource.snapshot.options.pagination.pageIndex"
-                   [pageSizeOptions]="dataSource.pageSizeOptions"
-                   (page)="dataSource.paging($event)"
-    ></mat-paginator>
-
 </div>

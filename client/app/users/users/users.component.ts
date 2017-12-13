@@ -16,6 +16,7 @@ export class UsersComponent implements OnInit {
         'email',
         'organization',
         'activeUntil',
+        'termsAgreement',
     ];
     public dataSource;
     private listingOptions = new IncrementSubject({});

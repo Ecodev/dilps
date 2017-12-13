@@ -44,6 +44,10 @@ export const routes: Routes = [
                         component: UsersComponent,
                     },
                     {
+                        path: 'new',
+                        component: UserComponent,
+                    },
+                    {
                         path: ':userId',
                         component: UserComponent,
                         resolve: {user: UserResolver},

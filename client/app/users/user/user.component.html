@@ -2,39 +2,39 @@
     <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center">
         <img src="assets/images/logo-blanc.svg" style="max-width:100%;height:30px;" />
         <div fxFlex></div>
-        <button mat-icon-button (click)="confirmDelete()">
+        <button mat-icon-button color="warn" (click)="confirmDelete()">
             <mat-icon>delete_forever</mat-icon>
         </button>
     </mat-toolbar>
 
     <div fxLayout="row" fxLayoutAlign="center">
 
-        <form fxFlex="400px" fxLayout="column" fxLayoutAlign="start stretch" class="padding" #userForm="ngForm" (ngSubmit)="save()">
+        <form fxFlex="400px" fxLayout="column" fxLayoutAlign="start stretch" class="padding" #userForm="ngForm" (ngSubmit)="onSubmit()">
 
             <div fxLayout="column" fxLayoutGap="10px">
 
                 <mat-form-field class="width-auto" matTooltip="L'identifiant de connexion ne peut pas être modifié">
-                    <input matInput disabled name="login" placeholder="login" [value]="data.login" >
+                    <input matInput [disabled]="!!data.id" name="login" placeholder="login" [(ngModel)]="data.login" >
                 </mat-form-field>
 
                 <mat-form-field>
-                    <input matInput name="email" placeholder="Email" [value]="data.email" >
+                    <input matInput name="email" placeholder="Email" [(ngModel)]="data.email" >
                 </mat-form-field>
 
                 <mat-form-field>
-                    <input matInput name="organization" placeholder="Organisation" [value]="data.organization" >
+                    <input matInput name="organization" placeholder="Organisation" [(ngModel)]="data.organization" >
                 </mat-form-field>
 
                 <mat-form-field>
-                    <input matInput name="activeUntil" placeholder="Active jusqu'au" [value]="data.activeUntil" >
+                    <input matInput name="activeUntil" placeholder="Active jusqu'au" [(ngModel)]="data.activeUntil" >
                 </mat-form-field>
 
-                <mat-form-field>
-                    <input matInput disabled name="termsAgreement" placeholder="Licence" [value]="data.termsAgreement" >
+                <mat-form-field *ngIf="data.id">
+                    <input matInput disabled name="termsAgreement" placeholder="Licence" [(ngModel)]="data.termsAgreement" >
                 </mat-form-field>
 
-                <mat-form-field>
-                    <input matInput disabled name="type" placeholder="Type d'utilisateur" [value]="data.type" >
+                <mat-form-field *ngIf="data.id">
+                    <input matInput disabled name="type" placeholder="Type d'utilisateur" [(ngModel)]="data.type" >
                 </mat-form-field>
 
                 <button type="submit" mat-raised-button color="primary" [disabled]="!userForm.form.valid">Sauver</button>

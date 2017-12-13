@@ -12,7 +12,9 @@ import { AlertService } from '../../shared/services/alert.service';
 })
 export class UserComponent implements OnInit {
 
-    public data: any = {};
+    public data: any = {
+        type: 'default'
+    };
 
     public theme: string;
 
@@ -43,9 +45,27 @@ export class UserComponent implements OnInit {
         this.userSvc.logout();
     }
 
-    public save() {
+    public onSubmit() {
+        if (this.data.id) {
+            this.update();
+        } else {
+            this.create();
+        }
+    }
+
+    public update() {
         this.userSvc.update(this.data).subscribe(() => {
             this.alertSvc.info('Mis à jour');
+        });
+    }
+
+    public create() {
+        this.userSvc.create(this.data).subscribe(user => {
+            this.alertSvc.info('Créé');
+            this.router.navigate([
+                '..',
+                user.id,
+            ], {relativeTo: this.route});
         });
     }
 

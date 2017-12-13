@@ -27,7 +27,6 @@ export class HomeComponent implements OnInit {
 
         // Watch errors
         this.network.errors.subscribe(errors => {
-            console.log('errors', errors);
             this.errors = this.errors.concat(errors);
             if (errors.length) {
                 this.alertSvc.error('Quelque chose s\'est mal passé !');

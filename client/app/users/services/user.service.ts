@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { deleteUserMutation, updateUserMutation, userQuery, usersQuery } from '../../shared/queries/user';
+import { createUserMutation, deleteUserMutation, updateUserMutation, userQuery, usersQuery } from '../../shared/queries/user';
 import 'rxjs/add/observable/of';
 import { map } from 'rxjs/operators';
 import { QueryVariablesService } from '../../shared/services/query-variables.service';
@@ -89,6 +89,16 @@ export class UserService {
         this.router.navigate(['/login']);
     }
 
+    public create(user: any): Observable<any> {
+
+        return this.apollo.mutate({
+            mutation: createUserMutation,
+            variables: {
+                input: user,
+            },
+        }).pipe(map(({data: {createUser}}: any) => createUser));
+
+    }
     public update(user): Observable<any> {
 
         return this.apollo.mutate({
