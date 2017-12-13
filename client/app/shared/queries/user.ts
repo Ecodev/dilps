@@ -18,9 +18,24 @@ query Users($filters: UserFilter, $pagination: PaginationInput) {
     }
 }`;
 
+export const userQuery = gql`
+query User($id: UserID!) {
+    user(id: $id) {
+        id
+        email
+        login
+        organization
+        activeUntil
+        isAdministrator
+        termsAgreement
+        type
+    }
+}`;
+
+
 export const updateUserMutation = gql`
-mutation UpdateUser($user: UpdateUserInput!) {
-    updateUser(input:$user) {
+mutation UpdateUser($id: UserID!, $input: UserInput!) {
+    updateUser(id: $id, input: $input) {
         id
         email
         login
@@ -30,6 +45,12 @@ mutation UpdateUser($user: UpdateUserInput!) {
         updateDate
     }
 }`;
+
+export const deleteUserMutation = gql`
+mutation DeleteUser ($id: UserID!){
+    deleteUser(id: $id)
+}`;
+
 
 export const logoutMutation = gql`
 mutation  {

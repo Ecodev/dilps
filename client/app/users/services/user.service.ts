@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { updateUserMutation, usersQuery } from '../../shared/queries/user';
+import { deleteUserMutation, updateUserMutation, userQuery, usersQuery } from '../../shared/queries/user';
 import 'rxjs/add/observable/of';
 import { map } from 'rxjs/operators';
 import { QueryVariablesService } from '../../shared/services/query-variables.service';
+import { AlertService } from '../../shared/services/alert.service';
 
 @Injectable()
 export class UserService {
@@ -17,7 +18,7 @@ export class UserService {
         lastname: 'Baptista',
     };
 
-    constructor(private apollo: Apollo, private router: Router) {
+    constructor(private apollo: Apollo, private router: Router, private alertSvc: AlertService) {
     }
 
     public watchAll(variables: Observable<any>): Observable<any> {
@@ -30,6 +31,20 @@ export class UserService {
             }).valueChanges
             .pipe(map((data: any) => {
                 return data.data.users;
+            }));
+    }
+
+    public getOne(id): Observable<any> {
+        return this
+            .apollo
+            .query({
+                query: userQuery,
+                variables: {
+                    id: id,
+                },
+            })
+            .pipe(map((data: any) => {
+                return data.data.user;
             }));
     }
 
@@ -74,19 +89,31 @@ export class UserService {
         this.router.navigate(['/login']);
     }
 
-    public update(user) {
+    public update(user): Observable<any> {
 
-        // Extract just the fields we need
-        const partialUser = (({id, firstname, lastname}: any) => ({
-            id,
-            firstname,
-            lastname,
-        }))(user);
-
-        this.apollo.mutate({
+        return this.apollo.mutate({
             mutation: updateUserMutation,
-            variables: {user: partialUser},
+            variables: {
+                id: user.id,
+                input: {
+                    email: user.email,
+                    login: user.login,
+                    activeUntil: user.activeUntil,
+                    isAdministrator: user.idAdministrator,
+                    organization: user.organization,
+                    termsAgreement: user.termsAgreement,
+                    type: user.type,
+                },
+            },
         });
     }
 
+    public delete(user: any): Observable<any> {
+        return this.apollo.mutate({
+            mutation: deleteUserMutation,
+            variables: {
+                id: user.id,
+            },
+        });
+    }
 }

@@ -8,6 +8,7 @@ import { ListComponent } from './list/list.component';
 import { ImageComponent } from './image/image.component';
 import { UsersComponent } from './users/users/users.component';
 import { CollectionsComponent } from './collections/collections.component';
+import { UserResolver } from './users/services/user.resolver';
 
 export const routes: Routes = [
 
@@ -45,6 +46,7 @@ export const routes: Routes = [
                     {
                         path: ':userId',
                         component: UserComponent,
+                        resolve: {user: UserResolver},
                     },
                 ],
             },

@@ -1,39 +1,45 @@
-<div class="padding" fxLayout="column" fxLayoutGap="40px">
+<div class="containerWithToolbar" fxLayout="column">
+    <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center">
+        <img src="assets/images/logo-blanc.svg" style="max-width:100%;height:30px;" />
+        <div fxFlex></div>
+        <button mat-icon-button (click)="confirmDelete()">
+            <mat-icon>delete_forever</mat-icon>
+        </button>
+    </mat-toolbar>
 
-    <div fxLayout="row"fxLayoutGap="20px" fxLayoutAlign="start center">
-        <h1 class="mat-headline no-margin" fxLayout="row" fxLayoutAlign="start center" fxFlex>
-            <mat-icon>account_circle</mat-icon>
-            <span >Mon profil</span>
-        </h1>
+    <div fxLayout="row" fxLayoutAlign="center">
+
+        <form fxFlex="400px" fxLayout="column" fxLayoutAlign="start stretch" class="padding" #userForm="ngForm" (ngSubmit)="save()">
+
+            <div fxLayout="column" fxLayoutGap="10px">
+
+                <mat-form-field class="width-auto" matTooltip="L'identifiant de connexion ne peut pas être modifié">
+                    <input matInput disabled name="login" placeholder="login" [value]="data.login" >
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput name="email" placeholder="Email" [value]="data.email" >
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput name="organization" placeholder="Organisation" [value]="data.organization" >
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput name="activeUntil" placeholder="Active jusqu'au" [value]="data.activeUntil" >
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput disabled name="termsAgreement" placeholder="Licence" [value]="data.termsAgreement" >
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput disabled name="type" placeholder="Type d'utilisateur" [value]="data.type" >
+                </mat-form-field>
+
+                <button type="submit" mat-raised-button color="primary" [disabled]="!userForm.form.valid">Sauver</button>
+            </div>
+        </form>
+
     </div>
-
-    <form #userForm="ngForm" (ngSubmit)="onSubmit()" class="panelBody">
-
-        <div fxLayout="row" fxLayoutAlign="start center">
-            <mat-form-field class="width-auto" matTooltip="L'identifiant de connexion ne peut pas être modifié" fxFlex>
-                <input matInput disabled name="login" placeholder="login" value="{{ data.login }}" >
-            </mat-form-field>
-
-        </div>
-
-        <div fxLayout="row" fxLayoutGap="20px">
-            <mat-form-field class="width-auto" fxFlex>
-                <input matInput type="text" [(ngModel)]="data.firstname" name="firstname" placeholder="Prénom" required >
-            </mat-form-field>
-
-            <mat-form-field class="width-auto" fxFlex>
-                <input matInput type="text" [(ngModel)]="data.lastname" name="lastname" placeholder="Nom" >
-            </mat-form-field>
-        </div>
-
-        <div fxLayout="row">
-            <button mat-raised-button (click)="logout()" color="warn">
-                <mat-icon>exit_to_app</mat-icon>
-                <ng-container >Se déconnecter</ng-container>
-            </button>
-            <div fxFlex></div>
-            <button type="submit" mat-raised-button color="accent" [disabled]="!userForm.form.valid" >Sauver</button>
-        </div>
-    </form>
-
 </div>

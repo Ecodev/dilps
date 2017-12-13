@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ThemeService } from '../../shared/services/theme.service';
 import { UserService } from '../services/user.service';
 import { merge } from 'lodash';
+import { AlertService } from '../../shared/services/alert.service';
 
 @Component({
     selector: 'app-profile',
@@ -15,10 +16,15 @@ export class UserComponent implements OnInit {
 
     public theme: string;
 
-    constructor(private route: ActivatedRoute, public themeSvc: ThemeService, private userSvc: UserService) {
+    constructor(private route: ActivatedRoute,
+        private router: Router,
+        public themeSvc: ThemeService,
+        private userSvc: UserService,
+        private alertSvc: AlertService) {
     }
 
     ngOnInit() {
+
         const user = this.route.snapshot.data['user'];
         if (user) {
             merge(this.data, user);
@@ -37,7 +43,22 @@ export class UserComponent implements OnInit {
         this.userSvc.logout();
     }
 
-    public onSubmit() {
-        this.userSvc.update(this.data);
+    public save() {
+        this.userSvc.update(this.data).subscribe(() => {
+            this.alertSvc.info('Mis à jour');
+        });
     }
+
+    public confirmDelete() {
+        this.alertSvc.confirm('Suppression', 'Voulez-vous supprimer définitivement cet élément ?', 'Supprimer définitivement')
+            .subscribe(confirmed => {
+                if (confirmed) {
+                    this.userSvc.delete(this.data).subscribe(() => {
+                        this.alertSvc.info('Supprimé');
+                        this.router.navigate(['..'], {relativeTo: this.route});
+                    });
+                }
+            });
+    }
+
 }
