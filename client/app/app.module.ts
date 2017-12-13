@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
     MatButtonModule,
     MatCheckboxModule,
+    MatDialogModule,
     MatIconModule,
     MatInputModule,
     MatListModule,
@@ -43,6 +44,9 @@ import { NaturalGalleryModule } from 'angular-natural-gallery';
 import { UsersComponent } from './users/users/users.component';
 import { TableButtonComponent } from './shared/components/table-button/table-button.component';
 import { CollectionsComponent } from './collections/collections.component';
+import { UserResolver } from './users/services/user.resolver';
+import { ConfirmComponent } from './shared/components/confirm/confirm.component';
+import { AlertService } from './shared/services/alert.service';
 
 @NgModule({
     declarations: [
@@ -56,6 +60,10 @@ import { CollectionsComponent } from './collections/collections.component';
         UsersComponent,
         TableButtonComponent,
         CollectionsComponent,
+        ConfirmComponent,
+    ],
+    entryComponents: [
+        ConfirmComponent,
     ],
     imports: [
         BrowserModule,
@@ -82,12 +90,15 @@ import { CollectionsComponent } from './collections/collections.component';
         MatProgressSpinnerModule,
         MatPaginatorModule,
         MatMenuModule,
+        MatDialogModule,
     ],
     providers: [
         AuthGuard,
         ThemeService,
         NetworkActivityService,
         UserService,
+        UserResolver,
+        AlertService,
     ],
     bootstrap: [AppComponent],
 })
