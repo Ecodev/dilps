@@ -4,9 +4,8 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { createUserMutation, deleteUserMutation, updateUserMutation, userQuery, usersQuery } from '../../shared/queries/user';
 import 'rxjs/add/observable/of';
-import { map } from 'rxjs/operators';
-import { QueryVariablesService } from '../../shared/services/query-variables.service';
-import { AlertService } from '../../shared/services/alert.service';
+import { map, filter } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class UserService {
@@ -18,18 +17,27 @@ export class UserService {
         lastname: 'Baptista',
     };
 
-    constructor(private apollo: Apollo, private router: Router, private alertSvc: AlertService) {
+    constructor(private apollo: Apollo, private router: Router) {
     }
 
-    public watchAll(variables: Observable<any>): Observable<any> {
+    public watchAll(variables: BehaviorSubject<any>): Observable<any> {
 
-        return this
+        const query = this
             .apollo
             .watchQuery({
                 query: usersQuery,
-                variables: QueryVariablesService.getVariables(variables),
-            }).valueChanges
-            .pipe(map((data: any) => {
+                variables: variables.getValue(),
+                fetchPolicy: 'cache-and-network',
+            });
+
+        variables.subscribe(vars => {
+            console.log('variables changed', vars);
+            query.setVariables(vars);
+        });
+
+        return query
+            .valueChanges
+            .pipe(filter((data: any) => !!data.data), map((data: any) => {
                 return data.data.users;
             }));
     }
@@ -99,6 +107,7 @@ export class UserService {
         }).pipe(map(({data: {createUser}}: any) => createUser));
 
     }
+
     public update(user): Observable<any> {
 
         return this.apollo.mutate({

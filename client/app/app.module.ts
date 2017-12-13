@@ -47,6 +47,7 @@ import { CollectionsComponent } from './collections/collections.component';
 import { UserResolver } from './users/services/user.resolver';
 import { ConfirmComponent } from './shared/components/confirm/confirm.component';
 import { AlertService } from './shared/services/alert.service';
+import { FocusDirective } from './shared/directives/focus';
 
 @NgModule({
     declarations: [
@@ -61,6 +62,7 @@ import { AlertService } from './shared/services/alert.service';
         TableButtonComponent,
         CollectionsComponent,
         ConfirmComponent,
+        FocusDirective
     ],
     entryComponents: [
         ConfirmComponent,

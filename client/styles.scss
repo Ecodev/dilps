@@ -60,3 +60,19 @@ perfect-scrollbar {
 .mat-form-field.width-auto {
     width: auto !important;
 }
+
+
+.mat-icon[matSuffix],
+.mat-icon[matPrefix] {
+    position: relative;
+    top: 0.3em;
+}
+
+.mat-icon-button[matSuffix] {
+    position: relative;
+    top: -0.12em;
+}
+
+.searchField {
+    font-size:16px;
+}
