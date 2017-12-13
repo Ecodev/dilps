@@ -230,9 +230,9 @@ class User extends AbstractModel
      *
      * A user cannot un-agree once he agreed.
      *
-     * @param DateTimeImmutable $termsAgreement
+     * @param null|DateTimeImmutable $termsAgreement
      */
-    public function setTermsAgreement(DateTimeImmutable $termsAgreement): void
+    public function setTermsAgreement(?DateTimeImmutable $termsAgreement): void
     {
         $this->termsAgreement = $termsAgreement;
     }
