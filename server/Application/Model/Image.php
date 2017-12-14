@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Application\Model;
 
 use Application\Traits\HasName;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection as DoctrineCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -36,6 +35,24 @@ class Image extends AbstractModel
     private $filename = '';
 
     /**
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    private $fileSize = 0;
+
+    /**
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    private $width = 0;
+
+    /**
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    private $height = 0;
+
+    /**
      * @var bool
      * @ORM\Column(type="boolean", options={"default" = false}))
      */
@@ -47,20 +64,6 @@ class Image extends AbstractModel
      * @ORM\Column(type="string", options={"default" = ""})
      */
     private $dating = '';
-
-    /**
-     * @var null|DateTimeImmutable
-     *
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
-    private $datingFrom;
-
-    /**
-     * @var null|DateTimeImmutable
-     *
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
-    private $datingTo;
 
     /**
      * @var DoctrineCollection
@@ -82,6 +85,13 @@ class Image extends AbstractModel
      * @ORM\ManyToMany(targetEntity="Tag")
      */
     private $tags;
+
+    /**
+     * @var DoctrineCollection
+     *
+     * @ORM\OneToMany(targetEntity="Dating", mappedBy="image")
+     */
+    private $datings;
 
     /**
      * @var null|Institution
@@ -215,6 +225,7 @@ class Image extends AbstractModel
         $this->collections = new ArrayCollection();
         $this->artists = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->datings = new ArrayCollection();
     }
 
     /**
@@ -360,43 +371,15 @@ class Image extends AbstractModel
     }
 
     /**
-     * Return the automatically computed beginning of dating period
+     * Return the automatically computed dating periods
      *
-     * @return null|DateTimeImmutable
-     */
-    public function getDatingFrom(): ?DateTimeImmutable
-    {
-        return $this->datingFrom;
-    }
-
-    /**
-     * @API\Exclude
+     * @API\Field(type="Dating[]")
      *
-     * @param null|DateTimeImmutable $datingFrom
+     * @return DoctrineCollection
      */
-    public function setDatingFrom(?DateTimeImmutable $datingFrom): void
+    public function getDatings(): DoctrineCollection
     {
-        $this->datingFrom = $datingFrom;
-    }
-
-    /**
-     * Return the automatically computed end of dating period
-     *
-     * @return null|DateTimeImmutable
-     */
-    public function getDatingTo(): ?DateTimeImmutable
-    {
-        return $this->datingTo;
-    }
-
-    /**
-     * @API\Exclude
-     *
-     * @param null|DateTimeImmutable $datingTo
-     */
-    public function setDatingTo(?DateTimeImmutable $datingTo): void
-    {
-        $this->datingTo = $datingTo;
+        return $this->datings;
     }
 
     /**
@@ -815,5 +798,93 @@ class Image extends AbstractModel
     public function collectionRemoved(Collection $collection): void
     {
         $this->collections->removeElement($collection);
+    }
+
+    /**
+     * Notify the Image that a Dating was added.
+     * This should only be called by Dating::setImage()
+     *
+     * @param Dating $dating
+     */
+    public function datingAdded(Dating $dating): void
+    {
+        $this->datings->add($dating);
+    }
+
+    /**
+     * Notify the Image that a Dating was removed.
+     * This should only be called by Dating::setImage()
+     *
+     * @param Dating $dating
+     */
+    public function datingRemoved(Dating $dating): void
+    {
+        $this->datings->removeElement($dating);
+    }
+
+    /**
+     * Get file size in bytes
+     *
+     * @return int
+     */
+    public function getFileSize(): int
+    {
+        return $this->fileSize;
+    }
+
+    /**
+     * Set file size in bytes
+     *
+     * @API\Exclude
+     *
+     * @param int $fileSize
+     */
+    public function setFileSize(int $fileSize): void
+    {
+        $this->fileSize = $fileSize;
+    }
+
+    /**
+     * Get image width
+     *
+     * @return int
+     */
+    public function getWidth(): int
+    {
+        return $this->width;
+    }
+
+    /**
+     * Set image width
+     *
+     * @API\Exclude
+     *
+     * @param int $width
+     */
+    public function setWidth(int $width): void
+    {
+        $this->width = $width;
+    }
+
+    /**
+     * Get image height
+     *
+     * @return int
+     */
+    public function getHeight(): int
+    {
+        return $this->height;
+    }
+
+    /**
+     * Set image height
+     *
+     * @API\Exclude
+     *
+     * @param int $height
+     */
+    public function setHeight(int $height): void
+    {
+        $this->height = $height;
     }
 }

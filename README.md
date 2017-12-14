@@ -41,25 +41,20 @@ Logs will be available in ``logs/all.log``.
 
 #### Configuration caching
 
-By default, the skeleton will create a configuration cache in
-`data/config-cache.php`. When in development mode, the configuration cache is
+When in development mode, the configuration cache is
 disabled, and switching in and out of development mode will remove the
 configuration cache.
 
 You may need to clear the configuration cache in production when deploying if
 you deploy to the same directory. You may do so using the following:
 
-```bash
+```sh
 $ composer clear-config-cache
 ```
 
-You may also change the location of the configuration cache itself by editing
-the `config/config.php` file and changing the `config_cache_path` entry of the
-local `$cacheConfig` variable.
-
 ### Client
 
-Run `yarn dev` for a dev server. Navigate to `http://localhost:4200/`. The app will
+Run `yarn dev` for a dev server. Navigate to `http://dilps.lan:4200/`. The app will
 automatically reload if you change any of the source files.
 
 ## Testing

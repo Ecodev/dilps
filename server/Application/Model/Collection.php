@@ -36,6 +36,12 @@ class Collection extends AbstractModel
     private $isSource = false;
 
     /**
+     * @var int
+     * @ORM\Column(type="integer", options={"default" = 0}))
+     */
+    private $sorting = 0;
+
+    /**
      * @var Collection
      *
      * @ORM\ManyToOne(targetEntity="Collection", inversedBy="children")
@@ -213,5 +219,25 @@ class Collection extends AbstractModel
     public function getImages(): DoctrineCollection
     {
         return $this->images;
+    }
+
+    /**
+     * Get sorting value
+     *
+     * @return int
+     */
+    public function getSorting(): int
+    {
+        return $this->sorting;
+    }
+
+    /**
+     * Set sorting value
+     *
+     * @param int $sorting
+     */
+    public function setSorting(int $sorting): void
+    {
+        $this->sorting = $sorting;
     }
 }
