@@ -16,6 +16,8 @@ export class ImageComponent implements OnInit {
         name: '',
     };
 
+    public edit = false;
+
     constructor(private route: ActivatedRoute,
         private router: Router,
         public themeSvc: ThemeService,
