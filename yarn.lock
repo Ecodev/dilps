@@ -319,8 +319,8 @@ amdefine@>=0.0.4:
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
 angular-natural-gallery@^0.1.7:
-  version "0.1.11"
-  resolved "https://registry.yarnpkg.com/angular-natural-gallery/-/angular-natural-gallery-0.1.11.tgz#72951889b1355645938925081f8b8fdbd3605a85"
+  version "0.1.13"
+  resolved "https://registry.yarnpkg.com/angular-natural-gallery/-/angular-natural-gallery-0.1.13.tgz#88c7cbeba2ad27a9f327a9aa02481ae8f95a281f"
   dependencies:
     natural-gallery-js "^2.6.1"
 
@@ -3703,8 +3703,8 @@ nan@^2.3.0, nan@^2.3.2:
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.8.0.tgz#ed715f3fe9de02b57a5e6252d90a96675e1f085a"
 
 natural-gallery-js@^2.6.1:
-  version "2.6.4"
-  resolved "https://registry.yarnpkg.com/natural-gallery-js/-/natural-gallery-js-2.6.4.tgz#f13222043e00d397db2916245836b0aca3897bde"
+  version "2.6.5"
+  resolved "https://registry.yarnpkg.com/natural-gallery-js/-/natural-gallery-js-2.6.5.tgz#1595703b218fcc9a2cd4577b1ed8f6bcdb4c8600"
   dependencies:
     photoswipe "^4.1.2"
 

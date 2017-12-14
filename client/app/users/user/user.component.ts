@@ -13,7 +13,7 @@ import { AlertService } from '../../shared/services/alert.service';
 export class UserComponent implements OnInit {
 
     public data: any = {
-        type: 'default'
+        type: 'default',
     };
 
     public theme: string;
@@ -32,17 +32,6 @@ export class UserComponent implements OnInit {
             merge(this.data, user);
         }
 
-        this.themeSvc.theme.subscribe(theme => {
-            this.theme = theme;
-        });
-    }
-
-    public setTheme(theme) {
-        this.themeSvc.set(theme);
-    }
-
-    public logout() {
-        this.userSvc.logout();
     }
 
     public onSubmit() {

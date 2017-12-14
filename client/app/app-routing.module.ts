@@ -9,6 +9,7 @@ import { ImageComponent } from './image/image.component';
 import { UsersComponent } from './users/users/users.component';
 import { CollectionsComponent } from './collections/collections.component';
 import { UserResolver } from './users/services/user.resolver';
+import { ImageResolver } from './image/services/image.resolver';
 
 export const routes: Routes = [
 
@@ -31,6 +32,8 @@ export const routes: Routes = [
             {
                 path: 'image/:imageId',
                 component: ImageComponent,
+                resolve: {image: ImageResolver},
+
             },
             {
                 path: 'profile',

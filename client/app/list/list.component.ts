@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ImageService } from '../image/services/image.service';
 
 @Component({
     selector: 'app-list',
@@ -14,7 +15,7 @@ export class ListComponent implements OnInit {
 
     public showLogo = true;
 
-    constructor(private router: Router, private route: ActivatedRoute) {
+    constructor(private router: Router, private route: ActivatedRoute, private imageSvc: ImageService) {
     }
 
     ngOnInit() {
@@ -572,9 +573,12 @@ export class ListComponent implements OnInit {
             showLabels: 'true',
         };
 
-        this.images = images.map((image: any) => {
-            image.link = '/image/123';
-            return image;
+        this.imageSvc.watchAll().subscribe(data => {
+            this.images = images.map((image: any) => {
+                image.id = data.items[0].id;
+                image.link = true;
+                return image;
+            });
         });
     }
 

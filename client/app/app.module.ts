@@ -7,19 +7,8 @@ import { ApolloLink, concat } from 'apollo-link';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
-    MatButtonModule,
-    MatCheckboxModule,
-    MatDialogModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    MatMenuModule,
-    MatPaginatorModule,
-    MatProgressSpinnerModule,
-    MatSidenavModule,
-    MatSnackBarModule,
-    MatTableModule,
-    MatToolbarModule,
+    MatButtonModule, MatCheckboxModule, MatDialogModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatPaginatorModule,
+    MatProgressSpinnerModule, MatSidenavModule, MatSnackBarModule, MatTableModule, MatToolbarModule, MatTooltipModule,
 } from '@angular/material';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
@@ -48,6 +37,8 @@ import { UserResolver } from './users/services/user.resolver';
 import { ConfirmComponent } from './shared/components/confirm/confirm.component';
 import { AlertService } from './shared/services/alert.service';
 import { FocusDirective } from './shared/directives/focus';
+import { ImageResolver } from './image/services/image.resolver';
+import { ImageService } from './image/services/image.service';
 
 @NgModule({
     declarations: [
@@ -93,6 +84,7 @@ import { FocusDirective } from './shared/directives/focus';
         MatPaginatorModule,
         MatMenuModule,
         MatDialogModule,
+        MatTooltipModule
     ],
     providers: [
         AuthGuard,
@@ -100,6 +92,8 @@ import { FocusDirective } from './shared/directives/focus';
         NetworkActivityService,
         UserService,
         UserResolver,
+        ImageResolver,
+        ImageService,
         AlertService,
     ],
     bootstrap: [AppComponent],
