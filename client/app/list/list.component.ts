@@ -169,7 +169,8 @@ export class ListComponent implements OnInit {
             {
                 'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149939.jpg',
                 'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149939.jpg',
-                'title': 'Page du journal "Novy Byt" avec le manteau d\'hiver et le costume de Tatlin et des dessins d\'habits dessinés par Tatlin',
+                'title': 'Page du journal "Novy Byt" avec le manteau d\'hiver et le costume de Tatlin ' +
+                         'et des dessins d\'habits dessinés par Tatlin',
                 'tWidth': 263,
                 'tHeight': 300,
                 'eWidth': 1039,
@@ -277,7 +278,8 @@ export class ListComponent implements OnInit {
             {
                 'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149751.jpg',
                 'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149751.jpg',
-                'title': 'Ménologe de Basile II : Martyrs d\'Anthimus, évêque de Nicomédie, Théophile le Diacre, Dorotheus, Mardonius, Migdonius, Peter, Indes, Gorgonius, Zeno, la vierge Donna et Euthymius de Nicomédie',
+                'title': 'Ménologe de Basile II : Martyrs d\'Anthimus, évêque de Nicomédie, Théophile le Diacre, Dorotheus, ' +
+                         'Mardonius, Migdonius, Peter, Indes, Gorgonius, Zeno, la vierge Donna et Euthymius de Nicomédie',
                 'tWidth': 439,
                 'tHeight': 300,
                 'eWidth': 1949,
@@ -502,7 +504,8 @@ export class ListComponent implements OnInit {
             {
                 'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-148898.jpg',
                 'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-148898.jpg',
-                'title': 'Rome, Cité du Vatican, Saint-Pierre: Plans superposés de la basilique de Constantin, du projet d\'extension de Nicolas V et du premier projet de Bramante',
+                'title': 'Rome, Cité du Vatican, Saint-Pierre: Plans superposés de la basilique de Constantin, ' +
+                         'du projet d\'extension de Nicolas V et du premier projet de Bramante',
                 'tWidth': 289,
                 'tHeight': 300,
                 'eWidth': 1820,
