@@ -8,7 +8,6 @@ use Doctrine\ORM\QueryBuilder;
 
 class UserRepository extends AbstractRepository
 {
-
     public function getFindAllQuery(array $filters = []): QueryBuilder
     {
         $qb = $this->createQueryBuilder('user');
@@ -30,5 +29,4 @@ class UserRepository extends AbstractRepository
 
         return $qb;
     }
-
 }
