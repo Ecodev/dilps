@@ -18,7 +18,10 @@ export class ImageService {
             .apollo
             .watchQuery({
                 query: imagesQuery,
-                variables: null,
+                variables: {
+                    pageIndex: 0,
+                    pageSize: 1,
+                },
                 fetchPolicy: 'cache-and-network',
             });
 
