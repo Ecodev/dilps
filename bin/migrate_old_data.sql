@@ -5,10 +5,27 @@
 -- A quick way to ensure all those assumptions and do the migration are the following commands:
 --
 --     ./vendor/bin/doctrine orm:schema-tool:drop --full-database --force
---     ./vendor/bin/doctrine orm:schema-tool:update --force
---     more data/old.sql | mysql -u dilps dilps
---     more bin/migrate_old_data.sql | mysql -u dilps dilps
+--     ./vendor/bin/doctrine-migrations migrations:migrate --ansi --no-interaction
+--     more data/old.sql | mysql -u dilps -p dilps
+--     more bin/migrate_old_data.sql | mysql -u dilps -p dilps
 
+ALTER TABLE `ng_meta`
+  ADD INDEX (`institution`),
+  ADD INDEX (`name1`),
+  ADD INDEX (`name2`),
+  ADD INDEX (metaeditor),
+  ADD INDEX (metacreator);
+ALTER TABLE `ng_meta_additional`
+  ADD INDEX (`parentid`),
+  ADD INDEX (`institution`),
+  ADD INDEX (`name1`),
+  ADD INDEX (`name2`);
+ALTER TABLE `ng_collection`
+  ADD INDEX (`sammlung_ort`);
+ALTER TABLE ng_licence
+  ADD INDEX (utilisateur);
+ALTER TABLE ng_img_tag
+  ADD INDEX (tag);
 
 -- Procedure to try as best as we can to explode concatenated ID and migrate them into proper FK
 -- However some of those IDs don't exist anymore and will thus be ignored
@@ -22,7 +39,8 @@ CREATE PROCEDURE createRelationBetweenCollectionAndImage()
     DECLARE imageIds TEXT;
     DECLARE cur1 CURSOR FOR SELECT
                               2000 + id,
-                              imageid FROM ng_panier WHERE imageid != '';
+                              imageid FROM ng_panier
+                            WHERE imageid != '';
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
     OPEN cur1;
@@ -63,6 +81,19 @@ DELIMITER ;
 
 START TRANSACTION;
 
+INSERT INTO institution (name)
+  SELECT institution FROM ng_meta
+  UNION DISTINCT
+  SELECT institution FROM ng_meta_additional
+  UNION DISTINCT
+  SELECT CONVERT(CAST(institution AS BINARY) USING utf8mb4) FROM ng_users
+  UNION DISTINCT
+  SELECT sammlung_ort FROM ng_collection;
+
+-- Delete a few invalid institution
+DELETE FROM artist
+WHERE name IN ('', '-', '--', '?', 'A EFFACER');
+
 INSERT INTO artist (name)
   SELECT DISTINCT name
   FROM ng_artist;
@@ -80,15 +111,19 @@ INSERT INTO artist (name)
 DELETE FROM artist
 WHERE name IN ('', '-', '--', '?', 'A EFFACER');
 
-INSERT INTO collection (id, name, description, organization, sorting, is_source)
+INSERT INTO collection (id, name, description, sorting, is_source)
   SELECT
-    collectionid,
-    name,
-    descr,
-    sammlung_ort,
-    indexfeld,
+    ng_collection.collectionid,
+    ng_collection.name,
+    ng_collection.descr,
+    ng_collection.indexfeld,
     TRUE
   FROM ng_collection;
+
+UPDATE collection
+  JOIN ng_collection ON collection.id = ng_collection.collectionid
+  JOIN institution ON institution.name = ng_collection.sammlung_ort
+SET collection.institution_id = institution.id;
 
 
 INSERT INTO image (id, filename, creation_date, update_date, width, height, file_size)
@@ -123,7 +158,7 @@ UPDATE collection
 SET parent_id = 1000 + ng_group.id;
 
 
-INSERT INTO user (id, creation_date, login, password, email, is_administrator, active_until, type, organization)
+INSERT INTO user (id, creation_date, login, password, email, is_administrator, active_until, type)
   SELECT
     id,
     date_ajout,
@@ -132,14 +167,15 @@ INSERT INTO user (id, creation_date, login, password, email, is_administrator, a
     mail,
     groupe = 'archivmaster',
     IF(validite = '', NULL, STR_TO_DATE(CONCAT('01-', validite), '%d-%m-%Y')),
-    IF(type = 'externe', 'default', 'unil'),
-    CONVERT(CAST(institution AS BINARY) USING utf8mb4)
+    IF(type = 'externe', 'default', 'unil')
   FROM ng_users;
 
--- Update existing user with their agreement
+-- Update image with their institution
 UPDATE user
-  JOIN ng_licence ON user.login = ng_licence.utilisateur
-SET user.terms_agreement = ng_licence.date;
+  JOIN ng_users ON user.id = ng_users.id
+  JOIN institution
+    ON CONVERT(institution.name USING utf8mb4) = CONVERT(CAST(ng_users.institution AS BINARY) USING utf8mb4)
+SET user.institution_id = institution.id;
 
 -- Inject non-existing user based on their agreement
 INSERT INTO user (login, terms_agreement, type)
@@ -149,6 +185,11 @@ INSERT INTO user (login, terms_agreement, type)
     'unil'
   FROM ng_licence
   WHERE utilisateur NOT IN (SELECT login FROM user);
+
+-- Update existing user with their agreement
+UPDATE user
+  JOIN ng_licence ON user.login = ng_licence.utilisateur
+SET user.terms_agreement = ng_licence.date;
 
 -- Update group user with their owner
 UPDATE collection
@@ -197,6 +238,11 @@ SET
   image.museris_url      = ng_meta.museris_link,
   image.museris_cote     = ng_meta.museris_cote,
   image.technique_author = ng_meta.auteur_technique;
+
+UPDATE image
+  JOIN ng_meta ON image.id = CONCAT(ng_meta.collectionid, ng_meta.imageid)
+  JOIN institution ON institution.name = ng_meta.institution
+SET image.institution_id = institution.id;
 
 -- Link image to artist 1
 REPLACE INTO image_artist (image_id, artist_id)
@@ -295,6 +341,12 @@ INSERT INTO image (
 
   FROM ng_meta_additional
     JOIN ng_meta ON ng_meta.imageid = ng_meta_additional.parentid;
+
+UPDATE image
+  JOIN ng_meta ON image.original_id = CONCAT(ng_meta.collectionid, ng_meta.imageid)
+  JOIN ng_meta_additional ON ng_meta.imageid = ng_meta_additional.parentid
+  JOIN institution ON institution.name = ng_meta_additional.institution
+SET image.institution_id = institution.id;
 
 -- Link image to artist 1
 REPLACE INTO image_artist (image_id, artist_id)

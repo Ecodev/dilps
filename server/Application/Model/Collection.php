@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Application\Model;
 
+use Application\Traits\HasInstitution;
 use Application\Traits\HasName;
-use Application\Traits\HasOrganization;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection as DoctrineCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,11 +16,12 @@ use InvalidArgumentException;
  * A collection of images
  *
  * @ORM\Entity(repositoryClass="Application\Repository\CollectionRepository")
+ * @ORM\Table(indexes={@ORM\Index(name="name", columns={"name"})})
  */
 class Collection extends AbstractModel
 {
     use HasName;
-    use HasOrganization;
+    use HasInstitution;
 
     /**
      * @var string

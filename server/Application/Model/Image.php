@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Model;
 
+use Application\Traits\HasInstitution;
 use Application\Traits\HasName;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection as DoctrineCollection;
@@ -15,10 +16,12 @@ use GraphQL\Doctrine\Annotation as API;
  *
  * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="Application\Repository\ImageRepository")
+ * @ORM\Table(indexes={@ORM\Index(name="name", columns={"name"})})
  */
 class Image extends AbstractModel
 {
     use HasName;
+    use HasInstitution;
 
     private const IMAGE_PATH = 'data/images/';
     const TYPE_DEFAULT = 'default';
@@ -92,15 +95,6 @@ class Image extends AbstractModel
      * @ORM\OneToMany(targetEntity="Dating", mappedBy="image")
      */
     private $datings;
-
-    /**
-     * @var null|Institution
-     * @ORM\ManyToOne(targetEntity="Institution")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(onDelete="SET NULL")
-     * })
-     */
-    private $institution;
 
     /**
      * @var null|Image
@@ -448,26 +442,6 @@ class Image extends AbstractModel
     public function getTags(): DoctrineCollection
     {
         return $this->tags;
-    }
-
-    /**
-     * Get the institution where the image is located
-     *
-     * @return null|Institution
-     */
-    public function getInstitution(): ?Institution
-    {
-        return $this->institution;
-    }
-
-    /**
-     * Set the institution where the image is located
-     *
-     * @param null|Institution $institution
-     */
-    public function setInstitution(?Institution $institution): void
-    {
-        $this->institution = $institution;
     }
 
     /**

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Model;
 
-use Application\Traits\HasOrganization;
+use Application\Traits\HasInstitution;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use GraphQL\Doctrine\Annotation as API;
@@ -16,7 +16,7 @@ use GraphQL\Doctrine\Annotation as API;
  */
 class User extends AbstractModel
 {
-    use HasOrganization;
+    use HasInstitution;
 
     /**
      * Someone who is a normal user, not part of UNIL

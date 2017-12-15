@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * An institution
  *
  * @ORM\Entity(repositoryClass="Application\Repository\InstitutionRepository")
+ * @ORM\Table(indexes={@ORM\Index(name="name", columns={"name"})})
  */
 class Institution extends AbstractModel
 {
