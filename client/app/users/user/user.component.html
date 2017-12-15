@@ -14,7 +14,7 @@
             <div fxLayout="column" fxLayoutGap="10px">
 
                 <mat-form-field class="width-auto" matTooltip="L'identifiant de connexion ne peut pas être modifié">
-                    <input matInput [disabled]="!!data.id" name="login" placeholder="login" [(ngModel)]="data.login" >
+                    <input matInput [disabled]="!!data.id" name="login" placeholder="Login" [(ngModel)]="data.login" >
                 </mat-form-field>
 
                 <mat-form-field>
@@ -22,7 +22,7 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                    <input matInput name="organization" placeholder="Organisation" [(ngModel)]="data.organization" >
+                    <input matInput name="institution" placeholder="Institution" [(ngModel)]="data.institution.name" disabled="disabled" >
                 </mat-form-field>
 
                 <mat-form-field>

@@ -7,7 +7,6 @@ query Users($filters: UserFilter, $pagination: PaginationInput) {
             id
             email
             login
-            organization
             activeUntil
             creationDate
             updateDate
@@ -24,11 +23,14 @@ query User($id: UserID!) {
         id
         email
         login
-        organization
         activeUntil
         isAdministrator
         termsAgreement
         type
+        institution {
+            id
+            name
+        }
     }
 }`;
 
@@ -45,7 +47,6 @@ mutation UpdateUser($id: UserID!, $input: UserInput!) {
         id
         email
         login
-        organization
         activeUntil
         creationDate
         updateDate
@@ -68,7 +69,6 @@ mutation Login($login: Login!, $password: String!) {
         id
         email
         login
-        organization
         activeUntil
         creationDate
         updateDate

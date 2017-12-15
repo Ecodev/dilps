@@ -119,7 +119,6 @@ export class UserService {
                     login: user.login,
                     activeUntil: user.activeUntil,
                     isAdministrator: user.idAdministrator,
-                    organization: user.organization,
                     termsAgreement: user.termsAgreement,
                     type: user.type,
                 },

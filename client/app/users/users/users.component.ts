@@ -15,7 +15,6 @@ export class UsersComponent implements OnInit {
     public displayedColumns = [
         'name',
         'email',
-        'organization',
         'activeUntil',
         'termsAgreement',
     ];
