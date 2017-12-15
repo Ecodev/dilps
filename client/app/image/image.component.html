@@ -7,13 +7,37 @@
             <button mat-icon-button (click)="edit = !edit">
                 <mat-icon>edit</mat-icon>
             </button>
+            <button mat-icon-button color="primary" (click)="update()" *ngIf="edit">
+                <mat-icon>save</mat-icon>
+            </button>
             <button mat-icon-button color="warn" (click)="confirmDelete()">
                 <mat-icon>delete_forever</mat-icon>
             </button>
         </mat-toolbar>
 
-        <div class="scrollable">
+        <div class="scrollable" fxFlex>
             <div fxLayout="column" class="padding-top" fxLayoutAlign="start stretch">
+
+                <div class="innerSpacing" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+                    <mat-slide-toggle [disabled]="!edit"
+                                      matTooltipPosition="after"
+                                      matTooltip="Afficher pour les utilisateurs déconnectés"
+                                      [(ngModel)]="data.isPublic"
+                    >Public
+                    </mat-slide-toggle>
+
+                    <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                        <mat-slider fxFlex
+                                    [disabled]="!edit"
+                                    [min]="1"
+                                    [max]="3"
+                                    [ngModel]="status"
+                                    (input)="updateStatus($event);status = $event.value"
+                                    [color]="statuses[status].color"
+                        ></mat-slider>
+                        <span>{{ statuses[status].text }}</span>
+                    </div>
+                </div>
 
                 <mat-form-field class="innerSpacing">
                     <input [readonly]="!edit"

@@ -8,7 +8,8 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
     MatButtonModule, MatCheckboxModule, MatDialogModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatPaginatorModule,
-    MatProgressSpinnerModule, MatSidenavModule, MatSnackBarModule, MatTableModule, MatToolbarModule, MatTooltipModule,
+    MatProgressSpinnerModule, MatSidenavModule, MatSliderModule, MatSlideToggleModule, MatSnackBarModule, MatTableModule, MatToolbarModule,
+    MatTooltipModule,
 } from '@angular/material';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
@@ -53,7 +54,7 @@ import { ImageService } from './image/services/image.service';
         TableButtonComponent,
         CollectionsComponent,
         ConfirmComponent,
-        FocusDirective
+        FocusDirective,
     ],
     entryComponents: [
         ConfirmComponent,
@@ -84,7 +85,9 @@ import { ImageService } from './image/services/image.service';
         MatPaginatorModule,
         MatMenuModule,
         MatDialogModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatSlideToggleModule,
+        MatSliderModule,
     ],
     providers: [
         AuthGuard,

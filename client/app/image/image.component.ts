@@ -3,7 +3,7 @@ import { ThemeService } from '../shared/services/theme.service';
 import { ImageService } from './services/image.service';
 import { AlertService } from '../shared/services/alert.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { merge } from 'lodash';
+import { merge, findKey } from 'lodash';
 
 @Component({
     selector: 'app-image',
@@ -17,6 +17,24 @@ export class ImageComponent implements OnInit {
     };
 
     public edit = false;
+    public status = 1;
+
+    public statuses = {
+        1: {
+            value: 'new',
+            text: 'Nouveau',
+        },
+        2: {
+            value: 'edited',
+            text: 'Restreint',
+            color: 'warn'
+        },
+        3: {
+            value: 'reviewed',
+            text: 'Libre',
+            color: 'primary'
+        },
+    };
 
     constructor(private route: ActivatedRoute,
         private router: Router,
@@ -29,7 +47,17 @@ export class ImageComponent implements OnInit {
         const image = this.route.snapshot.data['image'];
         if (image) {
             merge(this.data, image);
+
+            // Init status
+            this.status = +findKey(this.statuses, (s) => {
+                return s.value === this.data.status;
+            });
+            console.log('this.status', this.status);
         }
+    }
+
+    public updateStatus(ev) {
+        this.data.status = this.statuses[ev.value].value;
     }
 
     public onSubmit() {
