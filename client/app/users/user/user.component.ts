@@ -14,6 +14,7 @@ export class UserComponent implements OnInit {
 
     public data: any = {
         type: 'default',
+        institution: {}
     };
 
     public theme: string;
@@ -30,6 +31,9 @@ export class UserComponent implements OnInit {
         const user = this.route.snapshot.data['user'];
         if (user) {
             merge(this.data, user);
+            if (!this.data.institution) {
+                this.data.institution = {};
+            }
         }
 
     }
