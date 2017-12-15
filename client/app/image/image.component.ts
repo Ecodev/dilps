@@ -52,7 +52,6 @@ export class ImageComponent implements OnInit {
             this.status = +findKey(this.statuses, (s) => {
                 return s.value === this.data.status;
             });
-            console.log('this.status', this.status);
         }
     }
 

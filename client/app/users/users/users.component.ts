@@ -27,11 +27,6 @@ export class UsersComponent implements OnInit {
     ngOnInit() {
         const observer = this.userSvc.watchAll(this.listingOptions);
         this.dataSource = new PaginatedDataSource(observer, this.listingOptions, {}, true, this.router, this.route, 'users');
-        this.listingOptions.subscribe(data => console.log('data', data));
-    }
-
-    public test() {
-        console.log('sdf');
     }
 
 }

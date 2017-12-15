@@ -11,7 +11,7 @@
                            placeholder="Rechercher"
                            [ngModel]="dataSource.snapshot.options?.filters?.search"
                            (change)="dataSource.filter({search : $event.target.value})"
-                           (keyup.esc)="test();dataSource.filter({search : ''})"
+                           (keyup.esc)="dataSource.filter({search : ''})"
                     >
                     <mat-icon matPrefix>search</mat-icon>
                     <button mat-icon-button matSuffix (click)="dataSource.filter({search : ''})">

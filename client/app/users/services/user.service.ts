@@ -31,7 +31,6 @@ export class UserService {
             });
 
         variables.subscribe(vars => {
-            console.log('variables changed', vars);
             query.setVariables(vars);
         });
 
