@@ -91,8 +91,8 @@ INSERT INTO institution (name)
   SELECT sammlung_ort FROM ng_collection;
 
 -- Delete a few invalid institution
-DELETE FROM artist
-WHERE name IN ('', '-', '--', '?', 'A EFFACER');
+DELETE FROM institution
+WHERE name IN ('', '-', '--', '?', 'A EFFACER', 'X', 'xx');
 
 INSERT INTO artist (name)
   SELECT DISTINCT name
