@@ -13,16 +13,16 @@ abstract class Helper
 {
     public static function paginate(array $pagination, QueryBuilder $query): array
     {
-        $page = $pagination['pageIndex'] + 1;
-        $perPage = $pagination['pageSize'];
+        $pageIndex = $pagination['pageIndex'];
+        $pageSize = $pagination['pageSize'];
 
         $paginator = new Paginator($query);
+        $paginator
+            ->getQuery()
+            ->setFirstResult($pageSize * $pageIndex)
+            ->setMaxResults($pageSize);
 
         $pagination['length'] = $paginator->count();
-        $pagination['items'] = $paginator->getIterator();
-
-        $query->setFirstResult($page);
-        $query->setMaxResults($perPage);
         $pagination['items'] = $paginator->getIterator();
 
         return $pagination;
