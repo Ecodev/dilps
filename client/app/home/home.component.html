@@ -11,28 +11,29 @@
                             <span matLine>Accueil</span>
                         </a>
 
-                        <!-- Collections -->
-                        <a mat-list-item routerLink="/collection" routerLinkActive="active">
+                        <!-- Collections publiques -->
+                        <a mat-list-item routerLink="/collection" routerLinkActive="active" matTooltipPosition="after" matTooltip="Collections publiques">
                             <mat-icon mat-list-icon>collections</mat-icon>
-                            <span matLine>Utilisateurs</span>
+                        </a>
+
+                        <!-- Mes collections -->
+                        <a mat-list-item routerLink="/collection" routerLinkActive="active" matTooltipPosition="after" matTooltip="Mes collections">
+                            <mat-icon mat-list-icon>collections_bookmark</mat-icon>
                         </a>
 
                         <!-- Users -->
-                        <a mat-list-item routerLink="/user" routerLinkActive="active">
+                        <a mat-list-item routerLink="/user" routerLinkActive="active" matTooltipPosition="after" matTooltip="Liste des utilisateurs">
                             <mat-icon mat-list-icon>group</mat-icon>
-                            <span matLine>Utilisateurs</span>
                         </a>
 
                         <!-- Account -->
-                        <a mat-list-item routerLink="/profile" routerLinkActive="active">
+                        <a mat-list-item routerLink="/profile" routerLinkActive="active" matTooltipPosition="after" matTooltip="Mon compte">
                             <mat-icon mat-list-icon>account_circle</mat-icon>
-                            <span matLine>Mon compte</span>
                         </a>
 
                         <!-- Logout -->
-                        <a mat-list-item (click)="userSvc.logout()">
+                        <a mat-list-item (click)="userSvc.logout()" matTooltipPosition="after" matTooltip="Se déconnecter">
                             <mat-icon mat-list-icon>exit_to_app</mat-icon>
-                            <span matLine>Se déconnecter</span>
                         </a>
                     </mat-nav-list>
 
