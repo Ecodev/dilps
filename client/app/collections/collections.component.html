@@ -4,7 +4,6 @@
         <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center">
             <img src="assets/images/logo-blanc.svg" style="max-width:100%;height:30px;" />
             <div fxFlex></div>
-            <!--<mat-icon>delete</mat-icon>-->
         </mat-toolbar>
 
         <div class="scrollable">
@@ -12,9 +11,9 @@
 
                 <mat-nav-list fxFlex>
                     <!-- Dashboard -->
-                    <a *ngFor="let item of [1,2,3,4]" mat-list-item [routerLink]="item">
+                    <a *ngFor="let item of [1,2,3,4,5]" mat-list-item [routerLink]="item">
                         <mat-icon mat-list-icon>collections</mat-icon>
-                        <span matLine>Accueil {{ item }}</span>
+                        <span matLine>Collection {{ item }}</span>
                     </a>
 
                 </mat-nav-list>
