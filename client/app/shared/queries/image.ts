@@ -6,10 +6,8 @@ query Images($pagination: PaginationInput) {
         items {
             id
             name
-            original {
-                width
-                height
-            }
+            width
+            height
         }
         pageSize
         pageIndex

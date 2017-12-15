@@ -4,10 +4,26 @@ import { Observable } from 'rxjs/Observable';
 import { createImageMutation, deleteImageMutation, imageQuery, imagesQuery, updateImageMutation } from '../../shared/queries/image';
 import 'rxjs/add/observable/of';
 import { filter, map } from 'rxjs/operators';
-import { omit } from 'lodash';
+import { merge, omit } from 'lodash';
 
 @Injectable()
 export class ImageService {
+
+    public static getImageFormat(image, height): any {
+        height = Math.min(image.height, height);
+        const ratio = image.width / image.height;
+        return {
+            height: height,
+            width: height * ratio,
+        };
+    }
+
+    public static formatImage(image, height) {
+        const sizes = this.getImageFormat(image, height);
+        const imageLink = '/image-src/' + image.id + '/';
+        const fields = {src: imageLink + sizes.height};
+        return merge({}, image, fields);
+    }
 
     constructor(private apollo: Apollo) {
     }
@@ -87,4 +103,5 @@ export class ImageService {
             },
         });
     }
+
 }

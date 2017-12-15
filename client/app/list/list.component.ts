@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ImageService } from '../image/services/image.service';
+import { merge } from 'lodash';
 
 @Component({
     selector: 'app-list',
@@ -15,6 +16,9 @@ export class ListComponent implements OnInit {
 
     public showLogo = true;
 
+    private thumbnailHeight = 400;
+    private enlargedHeight = 2000;
+
     constructor(private router: Router, private route: ActivatedRoute, private imageSvc: ImageService) {
     }
 
@@ -22,564 +26,44 @@ export class ListComponent implements OnInit {
 
         this.route.data.subscribe(data => this.showLogo = data.showLogo);
 
-        const images = [
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-150106.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-150106.jpg',
-                'title': 'Polyptyque de la Relique de la Croix: Saint Martin (détail)',
-                'tWidth': 258,
-                'tHeight': 300,
-                'eWidth': 3168,
-                'eHeight': 3683,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-150082.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-150082.jpg',
-                'title': 'Louise Brongniart',
-                'tWidth': 231,
-                'tHeight': 300,
-                'eWidth': 1156,
-                'eHeight': 1500,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-150079.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-150079.jpg',
-                'title': 'Antependium avec scènes de la vie de la Vierge, panneau central: Vierge à l\'Enfant',
-                'tWidth': 229,
-                'tHeight': 300,
-                'eWidth': 2853,
-                'eHeight': 3736,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-150063.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-150063.jpg',
-                'title': 'Autoportrait à vingt-quatre ans',
-                'tWidth': 241,
-                'tHeight': 300,
-                'eWidth': 989,
-                'eHeight': 1230,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-150056.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-150056.jpg',
-                'title': 'Portrait de la Princesse de Broglie',
-                'tWidth': 222,
-                'tHeight': 300,
-                'eWidth': 2229,
-                'eHeight': 3008,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-150044.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-150044.jpg',
-                'title': 'São Paulo, MASP Musée d\'art de São Paulo',
-                'tWidth': 400,
-                'tHeight': 300,
-                'eWidth': 2000,
-                'eHeight': 1500,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-150040.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-150040.jpg',
-                'title': 'Vierge à l\'enfant (Madonna Litta)',
-                'tWidth': 236,
-                'tHeight': 300,
-                'eWidth': 2745,
-                'eHeight': 3496,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-150015.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-150015.jpg',
-                'title': 'Honneurs rendus à la mémoire de Le Pelletier',
-                'tWidth': 432,
-                'tHeight': 300,
-                'eWidth': 1518,
-                'eHeight': 1054,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-150021.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-150021.jpg',
-                'title': 'La mort du jeune Bara',
-                'tWidth': 397,
-                'tHeight': 300,
-                'eWidth': 1400,
-                'eHeight': 1057,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149986.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149986.jpg',
-                'title': 'Baigneuse',
-                'tWidth': 370,
-                'tHeight': 300,
-                'eWidth': 1440,
-                'eHeight': 1166,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149988.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149988.jpg',
-                'title': 'La piste d\'atterrissage',
-                'tWidth': 452,
-                'tHeight': 300,
-                'eWidth': 4961,
-                'eHeight': 3290,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149992.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149992.jpg',
-                'title': 'De arte venandi cum avibus de Frédéric II, fol. 16r',
-                'tWidth': 207,
-                'tHeight': 300,
-                'eWidth': 1736,
-                'eHeight': 2513,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149996.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149996.jpg',
-                'title': 'De arte venandi cum avibus de Frédéric II, fol. 1v',
-                'tWidth': 220,
-                'tHeight': 300,
-                'eWidth': 1752,
-                'eHeight': 2387,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149963.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149963.jpg',
-                'title': 'Strasbourg, cathédrale, portail du bras sud du transept: Tympan de la Domition (détail d\'un Apôtre)',
-                'tWidth': 225,
-                'tHeight': 300,
-                'eWidth': 3456,
-                'eHeight': 4608,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149968.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149968.jpg',
-                'title': 'Strasbourg, cathédrale, portail du bras sud du transept: Tympan de la Domition (détail de l\'âme de la Vierge)',
-                'tWidth': 225,
-                'tHeight': 300,
-                'eWidth': 3456,
-                'eHeight': 4608,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149936.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149936.jpg',
-                'title': 'Psautier de Paris, MS Grec 139, fol. 435v: La Nuit et l\'Aurore entourant Isaïe',
-                'tWidth': 203,
-                'tHeight': 300,
-                'eWidth': 1024,
-                'eHeight': 1515,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149939.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149939.jpg',
-                'title': 'Page du journal "Novy Byt" avec le manteau d\'hiver et le costume de Tatlin ' +
-                         'et des dessins d\'habits dessinés par Tatlin',
-                'tWidth': 263,
-                'tHeight': 300,
-                'eWidth': 1039,
-                'eHeight': 1185,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149927.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149927.jpg',
-                'title': 'Pipes turques',
-                'tWidth': 211,
-                'tHeight': 300,
-                'eWidth': 1657,
-                'eHeight': 2355,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149899.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149899.jpg',
-                'title': 'Jupiter et Thétis',
-                'tWidth': 228,
-                'tHeight': 300,
-                'eWidth': 3723,
-                'eHeight': 4888,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149898.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149898.jpg',
-                'title': 'La Femme aux trois bras',
-                'tWidth': 313,
-                'tHeight': 300,
-                'eWidth': 1024,
-                'eHeight': 983,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149929.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149929.jpg',
-                'title': 'Le Marin (Autoportrait)',
-                'tWidth': 294,
-                'tHeight': 300,
-                'eWidth': 1005,
-                'eHeight': 1024,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149892.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149892.jpg',
-                'title': 'La Baigneuse à mi-corps',
-                'tWidth': 241,
-                'tHeight': 300,
-                'eWidth': 2367,
-                'eHeight': 2941,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149865.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149865.jpg',
-                'title': 'Jeune fille tenant une lettre',
-                'tWidth': 238,
-                'tHeight': 300,
-                'eWidth': 2328,
-                'eHeight': 2932,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149807.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149807.jpg',
-                'title': 'Etude de draperie d\'une figure féminine assise de profil à droite',
-                'tWidth': 252,
-                'tHeight': 300,
-                'eWidth': 1681,
-                'eHeight': 2004,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149808.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149808.jpg',
-                'title': 'La famille Gatteaux',
-                'tWidth': 413,
-                'tHeight': 300,
-                'eWidth': 1998,
-                'eHeight': 1452,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149820.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149820.jpg',
-                'title': 'Baptême du Christ (détail des anges)',
-                'tWidth': 450,
-                'tHeight': 300,
-                'eWidth': 4412,
-                'eHeight': 2944,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149804.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149804.jpg',
-                'title': 'Madame Riviere',
-                'tWidth': 240,
-                'tHeight': 300,
-                'eWidth': 1612,
-                'eHeight': 2012,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149777.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149777.jpg',
-                'title': 'Monastère et site de l\'Escurial, basilique: Retable principal dit "retablo mayor"',
-                'tWidth': 225,
-                'tHeight': 300,
-                'eWidth': 2691,
-                'eHeight': 3588,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149751.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149751.jpg',
-                'title': 'Ménologe de Basile II : Martyrs d\'Anthimus, évêque de Nicomédie, Théophile le Diacre, Dorotheus, ' +
-                         'Mardonius, Migdonius, Peter, Indes, Gorgonius, Zeno, la vierge Donna et Euthymius de Nicomédie',
-                'tWidth': 439,
-                'tHeight': 300,
-                'eWidth': 1949,
-                'eHeight': 1331,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149748.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149748.jpg',
-                'title': 'Propaganda',
-                'tWidth': 244,
-                'tHeight': 300,
-                'eWidth': 1808,
-                'eHeight': 2224,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149729.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149729.jpg',
-                'title': 'Pape Innocent X',
-                'tWidth': 235,
-                'tHeight': 300,
-                'eWidth': 4545,
-                'eHeight': 5799,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149705.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149705.jpg',
-                'title': 'Le Serment des Horaces',
-                'tWidth': 389,
-                'tHeight': 300,
-                'eWidth': 2332,
-                'eHeight': 1797,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149609.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149609.jpg',
-                'title': 'Portrait de Henri VIII',
-                'tWidth': 245,
-                'tHeight': 300,
-                'eWidth': 2024,
-                'eHeight': 2476,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149582.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149582.jpg',
-                'title': 'Klosterneuburg, abbaye, autel - ambon: Nativité (II, 2)',
-                'tWidth': 337,
-                'tHeight': 300,
-                'eWidth': 2986,
-                'eHeight': 2659,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149496.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149496.jpg',
-                'title': 'Sainte famille à la cheminée (détail)',
-                'tWidth': 199,
-                'tHeight': 300,
-                'eWidth': 2838,
-                'eHeight': 4278,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149482.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149482.jpg',
-                'title': 'Affiche pour l\'exposition "Entartete Kunst" de Berlin en 1938',
-                'tWidth': 419,
-                'tHeight': 300,
-                'eWidth': 1775,
-                'eHeight': 1270,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149465.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149465.jpg',
-                'title': 'Metaesquema',
-                'tWidth': 371,
-                'tHeight': 300,
-                'eWidth': 2248,
-                'eHeight': 1817,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149333.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149333.jpg',
-                'title': 'Bible dite de Farfa ou de Ripoll: Premier jour de la Création',
-                'tWidth': 222,
-                'tHeight': 300,
-                'eWidth': 999,
-                'eHeight': 1352,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149211.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149211.jpg',
-                'title': 'Prato artificiale',
-                'tWidth': 516,
-                'tHeight': 300,
-                'eWidth': 3136,
-                'eHeight': 1825,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149179.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149179.jpg',
-                'title': 'Actualités. \'Aurions-nous donc travailler jusqu\'à présent pour le roi de Prusse?\'',
-                'tWidth': 341,
-                'tHeight': 300,
-                'eWidth': 2243,
-                'eHeight': 1975,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149178.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149178.jpg',
-                'title': 'Triste Actualité. Apprêts du Carnaval',
-                'tWidth': 224,
-                'tHeight': 300,
-                'eWidth': 1129,
-                'eHeight': 1515,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149167.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149167.jpg',
-                'title': 'Violante (La Bella Gatta)',
-                'tWidth': 237,
-                'tHeight': 300,
-                'eWidth': 789,
-                'eHeight': 1000,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149031.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149031.jpg',
-                'title': 'Caprarola, Palais Farnèse, salle de la Mappemonde, voûte: Phaéton',
-                'tWidth': 423,
-                'tHeight': 300,
-                'eWidth': 3465,
-                'eHeight': 2456,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149032.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149032.jpg',
-                'title': 'Caprarola, Palais Farnèse, Salle de Jupiter: Voûte',
-                'tWidth': 387,
-                'tHeight': 300,
-                'eWidth': 2490,
-                'eHeight': 1928,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149022.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149022.jpg',
-                'title': 'Chaussure droite de Franco Angeli',
-                'tWidth': 346,
-                'tHeight': 300,
-                'eWidth': 3224,
-                'eHeight': 2797,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149007.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149007.jpg',
-                'title': 'A guardia della qualità (gardien de la qualité)',
-                'tWidth': 367,
-                'tHeight': 300,
-                'eWidth': 2517,
-                'eHeight': 2057,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149010.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149010.jpg',
-                'title': 'Souvenir',
-                'tWidth': 432,
-                'tHeight': 300,
-                'eWidth': 3101,
-                'eHeight': 2155,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149012.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149012.jpg',
-                'title': 'L\'uomo dell\'organizzazione. Week-end al parco',
-                'tWidth': 242,
-                'tHeight': 300,
-                'eWidth': 2302,
-                'eHeight': 2855,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-149027.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-149027.jpg',
-                'title': 'Caprarola, Palais Farnèse, salle de la Mappemonde, voûte: Lion',
-                'tWidth': 343,
-                'tHeight': 300,
-                'eWidth': 2424,
-                'eHeight': 2120,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-148981.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-148981.jpg',
-                'title': 'Cassetta: objets achetés',
-                'tWidth': 392,
-                'tHeight': 300,
-                'eWidth': 3854,
-                'eHeight': 2952,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-148951.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-148951.jpg',
-                'title': 'Montmorillon, Notre-Dame, crypte: vue de l\'abside',
-                'tWidth': 452,
-                'tHeight': 300,
-                'eWidth': 5336,
-                'eHeight': 3540,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-148916.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-148916.jpg',
-                'title': 'David',
-                'tWidth': 221,
-                'tHeight': 300,
-                'eWidth': 3727,
-                'eHeight': 5052,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-148913.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-148913.jpg',
-                'title': 'Le juriste',
-                'tWidth': 238,
-                'tHeight': 300,
-                'eWidth': 3067,
-                'eHeight': 3867,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-148898.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-148898.jpg',
-                'title': 'Rome, Cité du Vatican, Saint-Pierre: Plans superposés de la basilique de Constantin, ' +
-                         'du projet d\'extension de Nicolas V et du premier projet de Bramante',
-                'tWidth': 289,
-                'tHeight': 300,
-                'eWidth': 1820,
-                'eHeight': 1892,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-148884.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-148884.jpg',
-                'title': 'Eléphant composé de dessins de femmes enchevêtrées',
-                'tWidth': 306,
-                'tHeight': 300,
-                'eWidth': 2000,
-                'eHeight': 1961,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-148886.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-148886.jpg',
-                'title': 'L\'eau',
-                'tWidth': 224,
-                'tHeight': 300,
-                'eWidth': 2240,
-                'eHeight': 3000,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-148899.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-148899.jpg',
-                'title': 'Ileana Sonnabend',
-                'tWidth': 605,
-                'tHeight': 300,
-                'eWidth': 1756,
-                'eHeight': 871,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-148855.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-148855.jpg',
-                'title': 'Coffret de Projecta: Côté gauche',
-                'tWidth': 423,
-                'tHeight': 300,
-                'eWidth': 2500,
-                'eHeight': 1774,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-148844.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-148844.jpg',
-                'title': 'Autoportrait dans un costume indien',
-                'tWidth': 183,
-                'tHeight': 300,
-                'eWidth': 2327,
-                'eHeight': 3815,
-            },
-            {
-                'thumbnail': 'https://www.rolli.ch/dev/dilps/thumbnails/DILPS-12-150165.jpg',
-                'enlarged': 'https://www.rolli.ch/dev/dilps/images/DILPS-12-150165.jpg',
-                'title': 'Chartres, cathédrale Notre-Dame, portail royal, baie centrale: Christ en gloire et tétramorphe',
-                'tWidth': 450,
-                'tHeight': 300,
-                'eWidth': 6000,
-                'eHeight': 4000,
-            },
-        ];
-
         this.options = {
             margin: 5,
             showLabels: 'true',
+            rowHeight: this.thumbnailHeight,
         };
 
         this.imageSvc.watchAll().subscribe(data => {
-            this.images = images.map((image: any) => {
-                image.id = data.items[0].id;
-                image.link = true;
-                return image;
-            });
+            this.images = this.formatImages(data.items);
         });
+    }
+
+    private formatImages(images) {
+
+        images = images.map(image => {
+            let thumb = ImageService.formatImage(image, this.thumbnailHeight);
+            let big = ImageService.formatImage(image, this.enlargedHeight);
+
+            thumb = {
+                thumbnail: thumb.src,
+                tWidth: thumb.width,
+                tHeight: thumb.height,
+            };
+
+            big = {
+                enlarged: big.src,
+                eWidth: big.width,
+                eHeight: big.height,
+            };
+
+            const fields = {
+                link: 'true',
+                title: image.name,
+            };
+
+            return merge({}, image, thumb, big, fields);
+        });
+
+        return images;
     }
 
     public activate(item) {
