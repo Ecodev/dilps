@@ -21,6 +21,8 @@ query Image($id: ImageID!) {
         id
         name
         expandedName
+        height,
+        width,
         isPublic
         dating
         artists {

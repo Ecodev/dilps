@@ -175,9 +175,7 @@
 
     <div fxFlex class="containerWithToolbar" fxLayout="column">
         <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center"></mat-toolbar>
-        <div class="image"
-             fxFlex
-             style="background-image: url(https://images.unsplash.com/photo-1499615767948-e6a89ef6060f?auto=format&fit=crop&w=2850&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D)"
+        <div class="image" fxFlex [ngStyle]="{'background-image': 'url(' + imageSrc + ')'}"
         ></div>
     </div>
 

@@ -18,6 +18,7 @@ export class ImageComponent implements OnInit {
 
     public edit = false;
     public status = 1;
+    public imageSrc;
 
     public statuses = {
         1: {
@@ -52,6 +53,8 @@ export class ImageComponent implements OnInit {
             this.status = +findKey(this.statuses, (s) => {
                 return s.value === this.data.status;
             });
+
+            this.imageSrc = ImageService.formatImage(image, 2000).src;
         }
     }
 
