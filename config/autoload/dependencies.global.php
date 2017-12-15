@@ -1,8 +1,11 @@
 <?php
 
 declare(strict_types=1);
+
 use Application\Action\GraphQLAction;
 use Application\Action\GraphQLFactory;
+use Application\Action\ImageAction;
+use Application\Action\ImageFactory;
 use Zend\Expressive\Application;
 use Zend\Expressive\Container;
 use Zend\Expressive\Delegate;
@@ -41,6 +44,7 @@ return [
             Middleware\NotFoundHandler::class => Container\NotFoundHandlerFactory::class,
             'doctrine.entity_manager.orm_default' => ContainerInteropDoctrine\EntityManagerFactory::class,
             GraphQLAction::class => GraphQLFactory::class,
+            ImageAction::class => ImageFactory::class,
             \GraphQL\Doctrine\Types::class => \Application\Api\TypesFactory::class,
         ],
     ],

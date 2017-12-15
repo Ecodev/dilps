@@ -259,18 +259,6 @@ class Image extends AbstractModel
     }
 
     /**
-     * Get absolute path to small image on disk
-     *
-     * @API\Exclude
-     *
-     * @return string
-     */
-    public function getSmallPath(): string
-    {
-        return realpath('.') . '/' . self::IMAGE_PATH . 'small/' . $this->getFilename();
-    }
-
-    /**
      * Get collections this image belongs to
      *
      * @API\Field(type="Collection[]")
@@ -294,11 +282,6 @@ class Image extends AbstractModel
         $path = $this->getPath();
         if (file_exists($path)) {
             unlink($path);
-        }
-
-        $smallPath = $this->getSmallPath();
-        if (file_exists($smallPath)) {
-            unlink($smallPath);
         }
     }
 

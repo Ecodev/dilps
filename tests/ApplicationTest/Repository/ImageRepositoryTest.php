@@ -24,13 +24,10 @@ class ImageRepositoryTest extends TestCase
         $this->getEntityManager()->flush();
 
         touch($image->getPath());
-        touch($image->getSmallPath());
         self::assertFileExists($image->getPath(), 'test file must exist, because we just touch()ed it');
-        self::assertFileExists($image->getSmallPath(), 'thumb file must exist, because we just touch()ed it');
 
         $this->getEntityManager()->remove($image);
         $this->getEntityManager()->flush();
         self::assertFileNotExists($image->getPath(), 'test file must have been deleted when record was deleted');
-        self::assertFileNotExists($image->getSmallPath(), 'thumb file must have been deleted when record was deleted');
     }
 }

@@ -30,8 +30,5 @@ class ImageTest extends TestCase
         $appPath = realpath('.');
         $expected = $appPath . '/data/images/photo.jpg';
         self::assertSame($expected, $image->getPath());
-
-        $expected = $appPath . '/data/images/small/photo.jpg';
-        self::assertSame($expected, $image->getSmallPath());
     }
 }

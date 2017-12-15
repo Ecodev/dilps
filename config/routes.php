@@ -29,5 +29,5 @@ declare(strict_types=1);
  */
 $app->get('/', Application\Action\HomePageAction::class, 'home');
 $app->get('/api/ping', Application\Action\PingAction::class, 'api.ping');
-$app->get('/graphql', Application\Action\GraphQLAction::class, 'graphql');
 $app->post('/graphql', Application\Action\GraphQLAction::class, 'graphql');
+$app->get('/image-src/{id:\d+}[/{maxHeight:\d+}]', Application\Action\ImageAction::class, 'image');
