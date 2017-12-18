@@ -368,6 +368,9 @@ REPLACE INTO image_artist (image_id, artist_id)
     JOIN ng_meta ON ng_meta.imageid = ng_meta_additional.parentid
     JOIN image ON image.original_id = CONCAT(ng_meta.collectionid, ng_meta.imageid);
 
+-- Ensure that we don't leave invalid empty values
+UPDATE image SET type = 'default' WHERE type = '';
+
 COMMIT;
 
 DROP PROCEDURE createRelationBetweenCollectionAndImage;
