@@ -47,15 +47,14 @@ class ImageAction implements MiddlewareInterface
             return $this->getError("Image $id not found in database");
         }
 
+        $path = $image->getPath();
+        if (!is_readable($path)) {
+            return $this->getError("Image $id not found on disk, or not readable");
+        }
+
         $maxHeight = (int) $request->getAttribute('maxHeight');
         if ($maxHeight) {
             $path = $this->resize($image, $maxHeight);
-        } else {
-            $path = $image->getPath();
-        }
-
-        if (!is_readable($path)) {
-            return $this->getError("Image $id not found on disk");
         }
 
         $resource = fopen($path, 'r');
