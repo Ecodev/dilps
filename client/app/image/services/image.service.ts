@@ -83,6 +83,8 @@ export class ImageService {
             'updateDate',
             'creator',
             'updater',
+            'height',
+            'width',
             '__typename',
         ];
         const imageInput = omit(image, ignoreFields);
