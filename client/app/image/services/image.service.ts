@@ -28,22 +28,23 @@ export class ImageService {
     constructor(private apollo: Apollo) {
     }
 
-    public watchAll(): Observable<any> {
+    public watchAll(variables): Observable<any> {
 
         const query = this
             .apollo
             .watchQuery({
                 query: imagesQuery,
-                variables: {
-                    pageIndex: 0,
-                    pageSize: 1,
-                },
+                variables: variables.getValue(),
                 fetchPolicy: 'cache-and-network',
             });
 
+        variables.subscribe(data => {
+            query.setVariables(data);
+        });
+
         return query
             .valueChanges
-            .pipe(filter((data: any) => !!data.data), map((data: any) => {
+            .pipe(filter((data: any) => !!data.data && !data.loading), map((data: any) => {
                 return data.data.images;
             }));
     }

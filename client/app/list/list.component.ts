@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ImageService } from '../image/services/image.service';
 import { merge } from 'lodash';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Component({
     selector: 'app-list',
@@ -9,6 +10,8 @@ import { merge } from 'lodash';
     styleUrls: ['./list.component.scss'],
 })
 export class ListComponent implements OnInit {
+
+    @ViewChild('gallery') gallery;
 
     public images = null;
     public options = null;
@@ -18,6 +21,8 @@ export class ListComponent implements OnInit {
 
     private thumbnailHeight = 400;
     private enlargedHeight = 2000;
+    private sub;
+    private filter;
 
     constructor(private router: Router, private route: ActivatedRoute, private imageSvc: ImageService) {
     }
@@ -32,9 +37,6 @@ export class ListComponent implements OnInit {
             rowHeight: this.thumbnailHeight,
         };
 
-        this.imageSvc.watchAll().subscribe(data => {
-            this.images = this.formatImages(data.items);
-        });
     }
 
     private formatImages(images) {
@@ -75,6 +77,33 @@ export class ListComponent implements OnInit {
 
     public select(items) {
         this.selected = items;
+
+    }
+
+    public loadMore(ev) {
+
+        if (!this.sub) {
+
+            this.filter = new BehaviorSubject<any>({
+                pagination: {
+                    offset: ev.offset,
+                    pageSize: ev.limit,
+                },
+            });
+            this.sub = this.imageSvc.watchAll(this.filter);
+            this.sub.subscribe(data => {
+                this.gallery.addItems(this.formatImages(data.items));
+            });
+
+        } else {
+            this.filter.next({
+                pagination: {
+                    offset: ev.offset,
+                    pageSize: ev.limit,
+                },
+            });
+        }
+
     }
 
 }

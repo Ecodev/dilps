@@ -10,15 +10,16 @@
 
     </mat-toolbar>
 
-    <div class="scrollable" #scrollable>
+    <div fxFlex class="scrollable" #scrollable>
         <natural-gallery #gallery
-                         class="padding"
                          fxFlex
+                         class="padding"
                          [images]="images"
                          [options]="options"
                          [scrollable]="scrollable"
                          (activate)="activate($event)"
                          (selectChange)="select($event)"
+                         (pagination)="loadMore($event)"
         ></natural-gallery>
     </div>
 </div>
