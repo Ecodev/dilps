@@ -14,6 +14,7 @@ class PaginationInputType extends InputObjectType
             'name' => 'pagination',
             'type' => _types()->get(self::class),
             'defaultValue' => [
+                'offset' => null,
                 'pageIndex' => 0,
                 'pageSize' => 50,
             ],
@@ -26,8 +27,12 @@ class PaginationInputType extends InputObjectType
             'description' => 'Describe what page we want',
             'fields' => function (): array {
                 return [
+                    'offset' => [
+                        'type' => self::int(),
+                        'description' => 'The zero-based index of the displayed list of items',
+                    ],
                     'pageIndex' => [
-                        'type' => self::nonNull(self::int()),
+                        'type' => self::int(),
                         'description' => 'The zero-based page index of the displayed list of items',
                     ],
                     'pageSize' => [

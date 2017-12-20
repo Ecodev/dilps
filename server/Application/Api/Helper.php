@@ -13,13 +13,14 @@ abstract class Helper
 {
     public static function paginate(array $pagination, QueryBuilder $query): array
     {
-        $pageIndex = $pagination['pageIndex'];
+        $offset = $pagination['offset'] ?? 0;
+        $pageIndex = $pagination['pageIndex'] ?? 0;
         $pageSize = $pagination['pageSize'];
 
         $paginator = new Paginator($query);
         $paginator
             ->getQuery()
-            ->setFirstResult($pageSize * $pageIndex)
+            ->setFirstResult($offset ? $offset : $pageSize * $pageIndex)
             ->setMaxResults($pageSize);
 
         $pagination['length'] = $paginator->count();
