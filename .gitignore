@@ -6,7 +6,7 @@
 /data/cache/images/*
 /data/images/*
 !/data/images/dw4jV3zYSPsqE2CB8BcP8ABD0.jpg
-/db.backup.sql.gz
+/*.backup.sql.gz
 /htdocs/favicon.ico
 /htdocs/*.html
 /htdocs/*.js
@@ -26,6 +26,7 @@
 /vendor/
 
 .DS_Store
+
 
 # keep it at the end of the file
 !.gitkeep
