@@ -124,7 +124,7 @@ return PhpCsFixer\Config::create()
             'phpdoc_separation' => true,
             'phpdoc_single_line_var_spacing' => true,
             'phpdoc_summary' => false, // We usually don't generate documentation so punctuation is not important
-            'phpdoc_to_comment' => true,
+            'phpdoc_to_comment' => false, // Cannot be used safely because of https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues/3011
             'phpdoc_trim' => true,
             'phpdoc_types_order' => true,
             'phpdoc_types' => true,
