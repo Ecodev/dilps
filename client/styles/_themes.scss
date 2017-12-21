@@ -14,6 +14,7 @@
 @import 'toolbar';
 @import 'table';
 @import '../app/shared/components/table-button/table-button.theme';
+@import '../app/collections/collections/collections.theme';
 
 // Include material core (only once !)
 @include mat-core($custom-typography-gt-sm);
@@ -29,6 +30,7 @@
     @include natural-gallery-theme($theme);
     @include table($theme);
     @include table-button($theme);
+    @include collections($theme);
 }
 
 $mat-dilps: (

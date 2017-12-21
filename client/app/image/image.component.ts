@@ -3,7 +3,7 @@ import { ThemeService } from '../shared/services/theme.service';
 import { ImageService } from './services/image.service';
 import { AlertService } from '../shared/services/alert.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { merge, findKey } from 'lodash';
+import { findKey, merge } from 'lodash';
 
 @Component({
     selector: 'app-image',
@@ -28,12 +28,12 @@ export class ImageComponent implements OnInit {
         2: {
             value: 'edited',
             text: 'Restreint',
-            color: 'warn'
+            color: 'warn',
         },
         3: {
             value: 'reviewed',
             text: 'Libre',
-            color: 'primary'
+            color: 'primary',
         },
     };
 

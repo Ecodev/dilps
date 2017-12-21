@@ -1,0 +1,14 @@
+@mixin collections($theme) {
+
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+    $bg: map-get($theme, background);
+    $fg: map-get($theme, foreground);
+
+    .mat-list-item.active {
+        background: mat-color($bg, card);
+    }
+}
+
+

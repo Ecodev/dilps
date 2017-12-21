@@ -7,6 +7,7 @@ import {
 import 'rxjs/add/observable/of';
 import { filter, map } from 'rxjs/operators';
 import { merge, omit } from 'lodash';
+import { UtilityService } from '../../shared/services/utility.service';
 
 @Injectable()
 export class CollectionService {
@@ -76,8 +77,9 @@ export class CollectionService {
             mutation: updateCollectionMutation,
             variables: {
                 id: collection.id,
-                input: collectionInput,
+                input: UtilityService.relationsToIds(collectionInput),
             },
+            refetchQueries: [{query: collectionsQuery}],
         });
     }
 
@@ -87,6 +89,7 @@ export class CollectionService {
             variables: {
                 id: collection.id,
             },
+            refetchQueries: [{query: collectionsQuery}],
         });
     }
 

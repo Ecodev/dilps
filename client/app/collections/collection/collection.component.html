@@ -1,5 +1,42 @@
-<p>
-  collection works!
+<mat-dialog-content>
+    <mat-tab-group>
+        <mat-tab label="Collection">
 
+            <div fxLayout="column" class="padding" fxLayoutGap="10px">
+                <mat-form-field>
+                    <input matInput [(ngModel)]="collection.name" placeholder="Nom" >
+                </mat-form-field>
 
-</p>
+                <mat-form-field>
+                    <input matInput [(ngModel)]="collection.description" placeholder="Description" >
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput [(ngModel)]="collection.institution" placeholder="Institution" >
+                </mat-form-field>
+
+                <mat-slide-toggle [(ngModel)]="collection.isSource">Source</mat-slide-toggle>
+            </div>
+
+        </mat-tab>
+        <mat-tab label="Utilisateurs">Utilisateurs</mat-tab>
+    </mat-tab-group>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <div fxFlex></div>
+    <button mat-button mat-dialog-close>Annuler</button>
+
+    <button *ngIf="collection.id" mat-raised-button (click)="delete()" color="warn">
+        <mat-icon>delete_forever</mat-icon>
+    </button>
+    <button *ngIf="collection.id" mat-raised-button (click)="update()" color="primary">
+        <mat-icon>save</mat-icon>
+        Sauvegarder
+    </button>
+
+    <button *ngIf="!collection.id" mat-raised-button (click)="create()" color="primary">
+        <mat-icon>add</mat-icon>
+        Ajouter
+    </button>
+</mat-dialog-actions>

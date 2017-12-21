@@ -4,18 +4,20 @@
         <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center">
             <img src="assets/images/logo-blanc.svg" style="max-width:100%;height:30px;" />
             <div fxFlex></div>
+
+            <button mat-icon-button (click)="add()"><mat-icon>add</mat-icon></button>
         </mat-toolbar>
 
         <div class="scrollable">
             <div fxLayout="column">
 
                 <mat-nav-list fxFlex>
-                    <a *ngFor="let item of collections" mat-list-item [routerLink]="item.id">
+                    <a *ngFor="let item of collections" mat-list-item [routerLink]="item.id" routerLinkActive="active">
                         <mat-icon mat-list-icon>collections</mat-icon>
-                        <span matLine  fxLayout="row" fxLayoutAlign="start center">
+                        <span matLine fxLayout="row" fxLayoutAlign="start center">
                             <span fxFlex>{{ item.name }}</span>
-                            <button mat-icon-button>
-                                <mat-icon>edit</mat-icon>
+                            <button mat-icon-button (click)="edit(item)">
+                            <mat-icon>edit</mat-icon>
                             </button>
                         </span>
                     </a>

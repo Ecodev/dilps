@@ -15,9 +15,16 @@ query Collections($pagination: PaginationInput) {
 
 export const collectionQuery = gql`
 query Collection($id: CollectionID!) {
-    collection(id: $ide) {
+    collection(id: $id) {
         id
         name
+        description
+        isSource
+        sorting
+        institution {
+            id
+            name
+        }
         creationDate
         updateDate
         creator
