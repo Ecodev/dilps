@@ -7,9 +7,10 @@ import { UserComponent } from './users/user/user.component';
 import { ListComponent } from './list/list.component';
 import { ImageComponent } from './image/image.component';
 import { UsersComponent } from './users/users/users.component';
-import { CollectionsComponent } from './collections/collections.component';
+import { CollectionsComponent } from './collections/collections/collections.component';
 import { UserResolver } from './users/services/user.resolver';
 import { ImageResolver } from './image/services/image.resolver';
+import { CollectionComponent } from './collections/collection/collection.component';
 
 export const routes: Routes = [
 
@@ -65,6 +66,23 @@ export const routes: Routes = [
                         path: ':collectionId',
                         component: ListComponent,
                         data: {showLogo: false},
+                    },
+                ],
+            },
+            {
+                path: 'my-collection',
+                component: CollectionsComponent,
+                children: [
+                    {
+                        path: ':collectionId',
+                        component: ListComponent,
+                        data: {showLogo: false},
+                        children: [
+                            {
+                                path: 'edit',
+                                component: CollectionComponent,
+                            },
+                        ],
                     },
                 ],
             },

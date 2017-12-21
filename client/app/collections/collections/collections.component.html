@@ -10,12 +10,15 @@
             <div fxLayout="column">
 
                 <mat-nav-list fxFlex>
-                    <!-- Dashboard -->
-                    <a *ngFor="let item of [1,2,3,4,5]" mat-list-item [routerLink]="item">
+                    <a *ngFor="let item of collections" mat-list-item [routerLink]="item.id">
                         <mat-icon mat-list-icon>collections</mat-icon>
-                        <span matLine>Collection {{ item }}</span>
+                        <span matLine  fxLayout="row" fxLayoutAlign="start center">
+                            <span fxFlex>{{ item.name }}</span>
+                            <button mat-icon-button>
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </span>
                     </a>
-
                 </mat-nav-list>
 
             </div>

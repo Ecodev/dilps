@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ImageService } from '../image/services/image.service';
 import { merge } from 'lodash';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { IncrementSubject } from '../shared/services/increment-subject';
 
 @Component({
     selector: 'app-list',
@@ -13,7 +13,7 @@ export class ListComponent implements OnInit {
 
     @ViewChild('gallery') gallery;
 
-    public images = null;
+    public galleryCollection = null;
     public options = null;
     public selected;
 
@@ -22,7 +22,8 @@ export class ListComponent implements OnInit {
     private thumbnailHeight = 400;
     private enlargedHeight = 2000;
     private sub;
-    private filter;
+
+    private queryVariables = new IncrementSubject({});
 
     constructor(private router: Router, private route: ActivatedRoute, private imageSvc: ImageService) {
     }
@@ -30,6 +31,13 @@ export class ListComponent implements OnInit {
     ngOnInit() {
 
         this.route.data.subscribe(data => this.showLogo = data.showLogo);
+
+        this.route.params.subscribe(params => {
+            if (params.collectionId) {
+                this.galleryCollection = [];
+                this.queryVariables.patch({filters: {collections: [params.collectionId]}});
+            }
+        });
 
         this.options = {
             margin: 5,
@@ -82,28 +90,19 @@ export class ListComponent implements OnInit {
 
     public loadMore(ev) {
 
-        if (!this.sub) {
+        this.queryVariables.patch({
+            pagination: {
+                offset: ev.offset,
+                pageSize: ev.limit,
+            },
+        });
 
-            this.filter = new BehaviorSubject<any>({
-                pagination: {
-                    offset: ev.offset,
-                    pageSize: ev.limit,
-                },
-            });
-            this.sub = this.imageSvc.watchAll(this.filter);
+        if (!this.sub) {
+            this.sub = this.imageSvc.watchAll(this.queryVariables);
             this.sub.subscribe(data => {
                 this.gallery.addItems(this.formatImages(data.items));
             });
-
-        } else {
-            this.filter.next({
-                pagination: {
-                    offset: ev.offset,
-                    pageSize: ev.limit,
-                },
-            });
         }
-
     }
 
 }

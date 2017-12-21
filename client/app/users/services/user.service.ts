@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { createUserMutation, deleteUserMutation, updateUserMutation, userQuery, usersQuery } from '../../shared/queries/user';
 import 'rxjs/add/observable/of';
-import { map, filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
@@ -57,7 +57,7 @@ export class UserService {
 
     public getCurrentUser(): Observable<any> {
 
-        const user = localStorage.getItem('dilps-user');
+        const user = JSON.parse(localStorage.getItem('dilps-user'));
         return Observable.of(user);
 
         // return this.apollo

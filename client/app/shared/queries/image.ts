@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const imagesQuery = gql`
-query Images($pagination: PaginationInput) {
-    images(pagination: $pagination) {
+query Images($filters: ImageFilter, $pagination: PaginationInput) {
+    images(filters: $filters, pagination: $pagination) {
         items {
             id
             name

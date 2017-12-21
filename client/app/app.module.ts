@@ -7,8 +7,21 @@ import { ApolloLink, concat } from 'apollo-link';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
-    MatButtonModule, MatCheckboxModule, MatDialogModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatPaginatorModule,
-    MatProgressSpinnerModule, MatSidenavModule, MatSliderModule, MatSlideToggleModule, MatSnackBarModule, MatTableModule, MatToolbarModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatSidenavModule,
+    MatSliderModule,
+    MatSlideToggleModule,
+    MatSnackBarModule,
+    MatTableModule,
+    MatToolbarModule,
     MatTooltipModule,
 } from '@angular/material';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
@@ -33,13 +46,15 @@ import { ImageComponent } from './image/image.component';
 import { NaturalGalleryModule } from 'angular-natural-gallery';
 import { UsersComponent } from './users/users/users.component';
 import { TableButtonComponent } from './shared/components/table-button/table-button.component';
-import { CollectionsComponent } from './collections/collections.component';
+import { CollectionsComponent } from './collections/collections/collections.component';
 import { UserResolver } from './users/services/user.resolver';
 import { ConfirmComponent } from './shared/components/confirm/confirm.component';
 import { AlertService } from './shared/services/alert.service';
 import { FocusDirective } from './shared/directives/focus';
 import { ImageResolver } from './image/services/image.resolver';
 import { ImageService } from './image/services/image.service';
+import { CollectionComponent } from './collections/collection/collection.component';
+import { CollectionService } from './collections/services/collection.service';
 
 @NgModule({
     declarations: [
@@ -55,6 +70,7 @@ import { ImageService } from './image/services/image.service';
         CollectionsComponent,
         ConfirmComponent,
         FocusDirective,
+        CollectionComponent,
     ],
     entryComponents: [
         ConfirmComponent,
@@ -93,6 +109,7 @@ import { ImageService } from './image/services/image.service';
         AuthGuard,
         ThemeService,
         NetworkActivityService,
+        CollectionService,
         UserService,
         UserResolver,
         ImageResolver,
