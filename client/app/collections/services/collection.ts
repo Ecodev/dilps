@@ -6,6 +6,7 @@ query Collections($pagination: PaginationInput) {
         items {
             id
             name
+            description
         }
         pageSize
         pageIndex

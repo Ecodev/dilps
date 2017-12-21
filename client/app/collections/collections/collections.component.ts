@@ -15,6 +15,7 @@ export class CollectionsComponent implements OnInit {
 
     public collections;
 
+    public showDescs;
     private queryVariables = new IncrementSubject({});
 
     constructor(private route: ActivatedRoute,
@@ -54,7 +55,7 @@ export class CollectionsComponent implements OnInit {
             if (collection) {
                 this.router.navigate([
                     '..',
-                    collection.id
+                    collection.id,
                 ], {relativeTo: this.route.firstChild});
 
             }
