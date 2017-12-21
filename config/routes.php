@@ -1,6 +1,10 @@
 <?php
 
 declare(strict_types=1);
+
+use Application\Action\GraphQLAction;
+use Zend\Expressive\Helper\BodyParams\BodyParamsMiddleware;
+
 /*
  * Setup routes with a single request method:
  *
@@ -27,7 +31,9 @@ declare(strict_types=1);
  *     'contact'
  * );
  */
+
+/** @var \Zend\Expressive\Application $app */
 $app->get('/', Application\Action\HomePageAction::class, 'home');
 $app->get('/api/ping', Application\Action\PingAction::class, 'api.ping');
-$app->post('/graphql', Application\Action\GraphQLAction::class, 'graphql');
+$app->post('/graphql', [BodyParamsMiddleware::class, GraphQLAction::class], 'graphql');
 $app->get('/image-src/{id:\d+}[/{maxHeight:\d+}]', Application\Action\ImageAction::class, 'image');

@@ -45,7 +45,6 @@ class GraphQLAction implements MiddlewareInterface
             'debug' => true,
         ]);
 
-        $request = $request->withParsedBody(json_decode($request->getBody()->getContents(), true));
         $response = $server->executePsrRequest($request);
 
         return new JsonResponse($response);
