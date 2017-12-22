@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { CollectionService } from '../services/collection.service';
 import { merge } from 'lodash';
 import { AlertService } from '../../shared/services/alert.service';
+import { InstitutionService } from '../../shared/services/institution.service';
 
 @Component({
     selector: 'app-collection',
@@ -20,7 +21,8 @@ export class CollectionComponent implements OnInit {
     constructor(@Inject(MAT_DIALOG_DATA) public data: any,
         public dialogRef: MatDialogRef<CollectionComponent>,
         private collectionSvc: CollectionService,
-        private alertSvc: AlertService) {
+        private alertSvc: AlertService,
+        public institutionSvc: InstitutionService) {
     }
 
     ngOnInit() {

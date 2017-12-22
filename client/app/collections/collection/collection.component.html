@@ -11,9 +11,7 @@
                     <input matInput [(ngModel)]="collection.description" placeholder="Description" >
                 </mat-form-field>
 
-                <mat-form-field>
-                    <input matInput [(ngModel)]="collection.institution" placeholder="Institution" >
-                </mat-form-field>
+                <app-select [service]="institutionSvc" [(model)]="collection.institution" placeholder="Institution"></app-select>
 
                 <mat-slide-toggle [(ngModel)]="collection.isSource">Source</mat-slide-toggle>
             </div>

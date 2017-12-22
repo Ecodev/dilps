@@ -1,0 +1,56 @@
+<div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+
+    <ng-content></ng-content>
+
+    <mat-form-field class="width-auto">
+
+        <!-- Input -->
+        <input matInput
+               [placeholder]="placeholder"
+               aria-label="recherche et sélection"
+               i18n-aria-label
+               [ngModel]="selected"
+               (ngModelChange)="search($event)"
+               (keydown.esc)="clear()"
+               [formControl]="formCtrl"
+               [matAutocomplete]="ac"
+        >
+
+        <!-- Meta data -->
+        <mat-icon matPrefix *ngIf="!loading">search</mat-icon>
+        <mat-progress-spinner matPrefix *ngIf="loading" [diameter]="24" [strokeWidth]="5" mode="indeterminate"></mat-progress-spinner>
+
+        <!-- Totals -->
+        <span matSuffix *ngIf="nbTotal > 0">{{ nbListed }} / {{ nbTotal }}</span>
+
+        <!-- Clear button -->
+        <button *ngIf="selected"
+                (click)="clear()"
+                mat-icon-button
+                matSuffix
+                i18n-matTooltip
+                matTooltip="Désélectionner"
+                matTooltipPosition="above"
+        >
+            <mat-icon>close</mat-icon>
+        </button>
+
+        <!-- Hints -->
+        <mat-hint align="end" *ngIf="nbTotal > 0">Listés / Trouvés</mat-hint>
+        <mat-hint *ngIf="nbTotal === 0">Aucun élément trouvé</mat-hint>
+
+        <ng-template #defaultACItem let-item="item">
+            <span>{{ item.name }}</span>
+        </ng-template>
+
+        <!-- Autocomplete menu -->
+        <mat-autocomplete #ac="matAutocomplete" [displayWith]="displayWith || displayFn" (optionSelected)="notify($event)">
+            <mat-option *ngFor="let item of items | async" [value]="item">
+                <ng-template [ngTemplateOutlet]="itemTemplate ? itemTemplate : defaultACItem"
+                             [ngTemplateOutletContext]="{ item: item }"
+                ></ng-template>
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+</div>

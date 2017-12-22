@@ -122,15 +122,7 @@
                     >
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing">
-                    <input [readonly]="!edit"
-                           matInput
-                           [(ngModel)]="data.institution"
-                           placeholder="Institution"
-                           matTooltipPosition="after"
-                           [matTooltip]="!edit ? '' : 'Maecenas sed diam eget risus varius blandit sit amet non magna. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla.'"
-                    >
-                </mat-form-field>
+                <app-select [service]="institutionSvc" [(model)]="data.institution" placeholder="Institution"></app-select>
 
                 <mat-form-field class="innerSpacing">
                     <input [readonly]="!edit"

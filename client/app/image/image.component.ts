@@ -4,6 +4,7 @@ import { ImageService } from './services/image.service';
 import { AlertService } from '../shared/services/alert.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { findKey, merge } from 'lodash';
+import { InstitutionService } from '../shared/services/institution.service';
 
 @Component({
     selector: 'app-image',
@@ -41,7 +42,8 @@ export class ImageComponent implements OnInit {
         private router: Router,
         public themeSvc: ThemeService,
         private imageSvc: ImageService,
-        private alertSvc: AlertService) {
+        private alertSvc: AlertService,
+        public institutionSvc: InstitutionService) {
     }
 
     ngOnInit() {

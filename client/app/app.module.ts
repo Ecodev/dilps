@@ -7,9 +7,9 @@ import { ApolloLink, concat } from 'apollo-link';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
-    MatButtonModule, MatCheckboxModule, MatDialogModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatPaginatorModule,
-    MatProgressSpinnerModule, MatSidenavModule, MatSliderModule, MatSlideToggleModule, MatSnackBarModule, MatTableModule, MatTabsModule,
-    MatToolbarModule, MatTooltipModule,
+    MatAutocompleteModule, MatButtonModule, MatCheckboxModule, MatDialogModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule,
+    MatPaginatorModule, MatProgressSpinnerModule, MatSidenavModule, MatSliderModule, MatSlideToggleModule, MatSnackBarModule,
+    MatTableModule, MatTabsModule, MatToolbarModule, MatTooltipModule,
 } from '@angular/material';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
@@ -42,6 +42,8 @@ import { ImageResolver } from './image/services/image.resolver';
 import { ImageService } from './image/services/image.service';
 import { CollectionComponent } from './collections/collection/collection.component';
 import { CollectionService } from './collections/services/collection.service';
+import { SelectComponent } from './shared/components/select/select.component';
+import { InstitutionService } from './shared/services/institution.service';
 
 @NgModule({
     declarations: [
@@ -58,6 +60,7 @@ import { CollectionService } from './collections/services/collection.service';
         ConfirmComponent,
         FocusDirective,
         CollectionComponent,
+        SelectComponent
     ],
     entryComponents: [
         ConfirmComponent,
@@ -91,7 +94,8 @@ import { CollectionService } from './collections/services/collection.service';
         MatTooltipModule,
         MatSlideToggleModule,
         MatSliderModule,
-        MatTabsModule
+        MatTabsModule,
+        MatAutocompleteModule
     ],
     providers: [
         AuthGuard,
@@ -103,6 +107,7 @@ import { CollectionService } from './collections/services/collection.service';
         ImageResolver,
         ImageService,
         AlertService,
+        InstitutionService,
     ],
     bootstrap: [AppComponent],
 })

@@ -1,30 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs/Observable';
-import { createImageMutation, deleteImageMutation, imageQuery, imagesQuery, updateImageMutation } from './image';
+import {
+    createInstitutionMutation, deleteInstitutionMutation, institutionQuery, institutionsQuery, updateInstitutionMutation,
+} from '../queries/institution';
 import 'rxjs/add/observable/of';
 import { filter, map } from 'rxjs/operators';
 import { merge, omit } from 'lodash';
-import { UtilityService } from '../../shared/services/utility.service';
 
 @Injectable()
-export class ImageService {
-
-    public static getImageFormat(image, height): any {
-        height = Math.min(image.height, height);
-        const ratio = image.width / image.height;
-        return {
-            height: height,
-            width: height * ratio,
-        };
-    }
-
-    public static formatImage(image, height) {
-        const sizes = this.getImageFormat(image, height);
-        const imageLink = '/image-src/' + image.id + '/';
-        const fields = {src: imageLink + sizes.height};
-        return merge({}, image, fields);
-    }
+export class InstitutionService {
 
     constructor(private apollo: Apollo) {
     }
@@ -34,8 +19,7 @@ export class ImageService {
         const query = this
             .apollo
             .watchQuery({
-                query: imagesQuery,
-                variables: variables.getValue(),
+                query: institutionsQuery,
                 fetchPolicy: 'cache-and-network',
             });
 
@@ -46,7 +30,7 @@ export class ImageService {
         return query
             .valueChanges
             .pipe(filter((data: any) => !!data.data && !data.loading), map((data: any) => {
-                return data.data.images;
+                return data.data.institutions;
             }));
     }
 
@@ -54,28 +38,28 @@ export class ImageService {
         return this
             .apollo
             .query({
-                query: imageQuery,
+                query: institutionQuery,
                 variables: {
                     id: id,
                 },
             })
             .pipe(map((data: any) => {
-                return data.data.image;
+                return data.data.institution;
             }));
     }
 
-    public create(image: any): Observable<any> {
+    public create(institution: any): Observable<any> {
 
         return this.apollo.mutate({
-            mutation: createImageMutation,
+            mutation: createInstitutionMutation,
             variables: {
-                input: image,
+                input: institution,
             },
-        }).pipe(map(({data: {createImage}}: any) => createImage));
+        }).pipe(map(({data: {createInstitution}}: any) => createInstitution));
 
     }
 
-    public update(image): Observable<any> {
+    public update(institution): Observable<any> {
 
         const ignoreFields = [
             'id',
@@ -88,22 +72,22 @@ export class ImageService {
             'width',
             '__typename',
         ];
-        const imageInput = omit(image, ignoreFields);
+        const institutionInput = omit(institution, ignoreFields);
 
         return this.apollo.mutate({
-            mutation: updateImageMutation,
+            mutation: updateInstitutionMutation,
             variables: {
-                id: image.id,
-                input: UtilityService.relationsToIds(imageInput),
+                id: institution.id,
+                input: institutionInput,
             },
         });
     }
 
-    public delete(image: any): Observable<any> {
+    public delete(institution: any): Observable<any> {
         return this.apollo.mutate({
-            mutation: deleteImageMutation,
+            mutation: deleteInstitutionMutation,
             variables: {
-                id: image.id,
+                id: institution.id,
             },
         });
     }
