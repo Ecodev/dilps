@@ -143,10 +143,11 @@ abstract class Standard
      *
      * @param string $ownerClass The class owning the relation
      * @param string $otherClass The other class, not-owning the relation
+     * @param bool $byName if true, the name of $other will define the relation instead of its ID
      *
      * @return array
      */
-    public static function buildRelationMutation(string $ownerClass, string $otherClass): array
+    public static function buildRelationMutation(string $ownerClass, string $otherClass, bool $byName = false): array
     {
         $ownerReflect = new ReflectionClass($ownerClass);
         $ownerName = $ownerReflect->getShortName();
@@ -158,7 +159,7 @@ abstract class Standard
 
         $args = [
             $lowerOwnerName => Type::nonNull(_types()->getId($ownerClass)),
-            $lowerOtherName => Type::nonNull(_types()->getId($otherClass)),
+            $lowerOtherName => Type::nonNull($byName ? Type::string() : _types()->getId($otherClass)),
         ];
 
         return [
@@ -167,9 +168,13 @@ abstract class Standard
                 'description' => 'Create a relation between ' . $ownerName . ' and ' . $otherName . '.' . PHP_EOL . PHP_EOL .
                     'If the relation already exists, it will have no effect.',
                 'args' => $args,
-                'resolve' => function ($root, array $args) use ($lowerOwnerName, $lowerOtherName, $otherName): AbstractModel {
+                'resolve' => function ($root, array $args) use ($lowerOwnerName, $lowerOtherName, $otherName, $otherClass, $byName): AbstractModel {
                     $owner = $args[$lowerOwnerName]->getEntity();
-                    $other = $args[$lowerOtherName]->getEntity();
+                    if ($byName) {
+                        $other = self::getByName($otherClass, $args[$lowerOtherName], true);
+                    } else {
+                        $other = $args[$lowerOtherName]->getEntity();
+                    }
 
                     // Check ACL
 //                    Helper::loadContextFromObject($owner);
@@ -188,23 +193,52 @@ abstract class Standard
                 'description' => 'Delete a relation between ' . $ownerName . ' and ' . $otherName . '.' . PHP_EOL . PHP_EOL .
                     'If the relation does not exist, it will have no effect.',
                 'args' => $args,
-                'resolve' => function ($root, array $args) use ($lowerOwnerName, $lowerOtherName, $otherName): AbstractModel {
+                'resolve' => function ($root, array $args) use ($lowerOwnerName, $lowerOtherName, $otherName, $otherClass, $byName): AbstractModel {
                     $owner = $args[$lowerOwnerName]->getEntity();
-                    $other = $args[$lowerOtherName]->getEntity();
+                    if ($byName) {
+                        $other = self::getByName($otherClass, $args[$lowerOtherName], false);
+                    } else {
+                        $other = $args[$lowerOtherName]->getEntity();
+                    }
 
                     // Check ACL
 //                    Helper::loadContextFromObject($owner);
 //                    Helper::throwIfDenied($owner, 'edit');
 
                     // Do it
-                    $method = 'remove' . $otherName;
-                    $owner->$method($other);
-                    _em()->flush();
+                    if ($other) {
+                        $method = 'remove' . $otherName;
+                        $owner->$method($other);
+                        _em()->flush();
+                    }
 
                     return $owner;
                 },
             ],
         ];
+    }
+
+    /**
+     * Load object from DB and optionally create new one if not found
+     *
+     * @param string $class
+     * @param string $name
+     * @param bool $createIfNotFound
+     *
+     * @return null|AbstractModel
+     */
+    private static function getByName(string $class, string $name, bool $createIfNotFound): ?AbstractModel
+    {
+        $name = trim($name);
+        $other = _em()->getRepository($class)->findOneByName($name);
+
+        if (!$other && $createIfNotFound) {
+            $other = new $class();
+            $other->setName($name);
+            _em()->persist($other);
+        }
+
+        return $other;
     }
 
     /**

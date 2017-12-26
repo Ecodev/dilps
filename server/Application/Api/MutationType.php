@@ -28,6 +28,9 @@ class MutationType extends ObjectType
         $config['fields'] += Standard::buildMutation(Tag::class);
         $config['fields'] += Standard::buildMutation(Image::class);
         $config['fields'] += Standard::buildMutation(User::class);
+        $config['fields'] += Standard::buildRelationMutation(Collection::class, Image::class);
+        $config['fields'] += Standard::buildRelationMutation(Image::class, Artist::class, true);
+        $config['fields'] += Standard::buildRelationMutation(Image::class, Tag::class, true);
 
         parent::__construct($config);
     }

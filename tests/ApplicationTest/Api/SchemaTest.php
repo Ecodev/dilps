@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AppTest\Api;
 
 use Application\Api\Schema;
+use ApplicationTest\Traits\TestWithTransaction;
 use GraphQL\Error\Debug;
 use GraphQL\GraphQL;
 use GraphQL\Server\OperationParams;
@@ -13,6 +14,8 @@ use PHPUnit\Framework\TestCase;
 
 class SchemaTest extends TestCase
 {
+    use TestWithTransaction;
+
     public function testSchemaIsValid(): void
     {
         $schema = new Schema();
