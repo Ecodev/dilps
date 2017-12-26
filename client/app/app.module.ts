@@ -2,8 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { Apollo, ApolloModule } from 'apollo-angular';
-import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http';
 import { ApolloLink, concat } from 'apollo-link';
+import { createUploadLink } from 'apollo-upload-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -72,7 +72,6 @@ import { InstitutionService } from './shared/services/institution.service';
         FormsModule,
         ReactiveFormsModule,
         ApolloModule,
-        HttpLinkModule,
         BrowserAnimationsModule,
         MatButtonModule,
         MatCheckboxModule,
@@ -112,8 +111,8 @@ import { InstitutionService } from './shared/services/institution.service';
     bootstrap: [AppComponent],
 })
 export class AppModule {
-    constructor(apollo: Apollo, httpLink: HttpLink, networkActivitySvc: NetworkActivityService) {
-        const link = httpLink.create({uri: '/graphql'});
+    constructor(apollo: Apollo, networkActivitySvc: NetworkActivityService) {
+        const link = createUploadLink({uri: '/graphql'});
 
         const middleware = new ApolloLink((operation, forward) => {
             networkActivitySvc.increase();
