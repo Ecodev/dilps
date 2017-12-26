@@ -8,8 +8,8 @@ use Application\Model\Image;
 use Application\Repository\ImageRepository;
 use Imagine\Image\Box;
 use Imagine\Image\ImagineInterface;
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Interop\Http\Server\MiddlewareInterface;
+use Interop\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response;
@@ -24,20 +24,26 @@ class ImageAction implements MiddlewareInterface
      */
     private $imageRepository;
 
-    public function __construct(ImageRepository $imageRepository)
+    /**
+     * @var ImagineInterface
+     */
+    private $imagine;
+
+    public function __construct(ImageRepository $imageRepository, ImagineInterface $imagine)
     {
         $this->imageRepository = $imageRepository;
+        $this->imagine = $imagine;
     }
 
     /**
      * Serve an image from disk, with optional dynamic resizing
      *
      * @param ServerRequestInterface $request
-     * @param DelegateInterface $delegate
+     * @param RequestHandlerInterface $handler
      *
      * @return ResponseInterface
      */
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $id = $request->getAttribute('id');
 
@@ -97,27 +103,9 @@ class ImageAction implements MiddlewareInterface
             return $path;
         }
 
-        $imagine = $this->getImagine();
-        $image = $imagine->open($image->getPath());
+        $image = $this->imagine->open($image->getPath());
         $image->thumbnail(new Box(1000000, $maxHeight))->save($path);
 
         return $path;
-    }
-
-    /**
-     * Return the preferred driver available on this system
-     *
-     * @return \Imagine\Image\AbstractImagine
-     */
-    private function getImagine(): ImagineInterface
-    {
-        if (class_exists('Gmagick')) {
-            return new \Imagine\Gmagick\Imagine();
-        }
-        if (class_exists('Imagick')) {
-            return new \Imagine\Imagick\Imagine();
-        }
-
-        return new \Imagine\Gd\Imagine();
     }
 }

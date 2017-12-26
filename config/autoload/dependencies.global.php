@@ -46,6 +46,7 @@ return [
             GraphQLAction::class => GraphQLFactory::class,
             ImageAction::class => ImageFactory::class,
             \GraphQL\Doctrine\Types::class => \Application\Api\TypesFactory::class,
+            \Imagine\Image\ImagineInterface::class => \Application\Service\ImagineFactory::class,
         ],
     ],
 ];

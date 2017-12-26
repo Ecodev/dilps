@@ -9,7 +9,9 @@ use Application\Api\Input\Filter\Filters;
 use Application\Api\Input\PaginationInputType;
 use Application\Api\Output\PaginationType;
 use Application\Model\AbstractModel;
+use Application\Model\Image;
 use GraphQL\Type\Definition\Type;
+use GraphQL\Upload\UploadType;
 use ReflectionClass;
 
 /**
@@ -69,7 +71,11 @@ abstract class Standard
         $name = $reflect->getShortName();
         $lowerName = lcfirst($name);
 
+        $isImage = $class === Image::class;
         $createArgs = [];
+        if ($isImage) {
+            $createArgs['file'] = Type::nonNull(_types()->get(UploadType::class));
+        }
         $createArgs['input'] = Type::nonNull(_types()->getInput($class));
 
         return [
@@ -77,11 +83,15 @@ abstract class Standard
                 'type' => Type::nonNull(_types()->get($class)),
                 'description' => 'Create a new ' . $name,
                 'args' => $createArgs,
-                'resolve' => function ($root, array $args) use ($class, $lowerName): AbstractModel {
+                'resolve' => function ($root, array $args) use ($class, $lowerName, $isImage): AbstractModel {
                     // Check ACL
                     $object = new $class();
 //                    Helper::loadContextFromArgs($args, $object);
 //                    Helper::throwIfDenied($lowerName, 'add');
+
+                    if ($isImage) {
+                        Helper::hydrateImage($object, $args['file']);
+                    }
 
                     // Do it
                     $input = $args['input'];
