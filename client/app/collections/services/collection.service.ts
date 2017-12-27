@@ -6,7 +6,7 @@ import {
 } from '../services/collection';
 import 'rxjs/add/observable/of';
 import { filter, map } from 'rxjs/operators';
-import { merge, omit } from 'lodash';
+import { merge, omit, cloneDeep } from 'lodash';
 import { UtilityService } from '../../shared/services/utility.service';
 
 @Injectable()
@@ -21,12 +21,12 @@ export class CollectionService {
             .apollo
             .watchQuery({
                 query: collectionsQuery,
-                variables: variables.getValue(),
+                variables: cloneDeep(variables.getValue()),
                 fetchPolicy: 'cache-and-network',
             });
 
         variables.subscribe(data => {
-            query.setVariables(data);
+            query.setVariables(cloneDeep(data));
         });
 
         return query

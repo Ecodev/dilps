@@ -6,6 +6,7 @@ import { createUserMutation, deleteUserMutation, updateUserMutation, userQuery, 
 import 'rxjs/add/observable/of';
 import { filter, map } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { cloneDeep } from 'lodash';
 
 @Injectable()
 export class UserService {
@@ -26,12 +27,12 @@ export class UserService {
             .apollo
             .watchQuery({
                 query: usersQuery,
-                variables: variables.getValue(),
+                variables: cloneDeep(variables.getValue()),
                 fetchPolicy: 'cache-and-network',
             });
 
-        variables.subscribe(vars => {
-            query.setVariables(vars);
+        variables.subscribe(data => {
+            query.setVariables(cloneDeep(data));
         });
 
         return query

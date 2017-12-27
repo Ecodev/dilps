@@ -6,7 +6,7 @@ import {
 } from '../queries/institution';
 import 'rxjs/add/observable/of';
 import { filter, map } from 'rxjs/operators';
-import { merge, omit } from 'lodash';
+import { merge, omit, cloneDeep } from 'lodash';
 
 @Injectable()
 export class InstitutionService {
@@ -24,7 +24,7 @@ export class InstitutionService {
             });
 
         variables.subscribe(data => {
-            query.setVariables(data);
+            query.setVariables(cloneDeep(data));
         });
 
         return query
