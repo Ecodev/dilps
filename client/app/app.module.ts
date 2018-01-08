@@ -7,9 +7,26 @@ import { createUploadLink } from 'apollo-upload-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
-    MatAutocompleteModule, MatButtonModule, MatCheckboxModule, MatDialogModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule,
-    MatPaginatorModule, MatProgressSpinnerModule, MatSidenavModule, MatSliderModule, MatSlideToggleModule, MatSnackBarModule,
-    MatTableModule, MatTabsModule, MatToolbarModule, MatTooltipModule,
+    MatAutocompleteModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatDialogModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatNativeDateModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatSidenavModule,
+    MatSliderModule,
+    MatSlideToggleModule,
+    MatSnackBarModule,
+    MatTableModule,
+    MatTabsModule,
+    MatToolbarModule,
+    MatTooltipModule,
 } from '@angular/material';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
@@ -94,7 +111,9 @@ import { InstitutionService } from './shared/services/institution.service';
         MatSlideToggleModule,
         MatSliderModule,
         MatTabsModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
     ],
     providers: [
         AuthGuard,

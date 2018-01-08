@@ -4,6 +4,7 @@ import { ThemeService } from '../../shared/services/theme.service';
 import { UserService } from '../services/user.service';
 import { merge } from 'lodash';
 import { AlertService } from '../../shared/services/alert.service';
+import { InstitutionService } from '../../shared/services/institution.service';
 
 @Component({
     selector: 'app-profile',
@@ -14,7 +15,7 @@ export class UserComponent implements OnInit {
 
     public data: any = {
         type: 'default',
-        institution: {}
+        institution: null
     };
 
     public theme: string;
@@ -22,6 +23,7 @@ export class UserComponent implements OnInit {
     constructor(private route: ActivatedRoute,
         private router: Router,
         public themeSvc: ThemeService,
+        public institutionSvc: InstitutionService,
         private userSvc: UserService,
         private alertSvc: AlertService) {
     }
@@ -32,7 +34,7 @@ export class UserComponent implements OnInit {
         if (user) {
             merge(this.data, user);
             if (!this.data.institution) {
-                this.data.institution = {};
+                // this.data.institution = {};
             }
         }
 

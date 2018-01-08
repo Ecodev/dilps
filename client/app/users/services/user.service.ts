@@ -6,7 +6,9 @@ import { createUserMutation, deleteUserMutation, updateUserMutation, userQuery, 
 import 'rxjs/add/observable/of';
 import { filter, map } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, omit } from 'lodash';
+import { UtilityService } from '../../shared/services/utility.service';
+import { collectionsQuery, updateCollectionMutation } from '../../collections/services/collection';
 
 @Injectable()
 export class UserService {
@@ -102,7 +104,7 @@ export class UserService {
         return this.apollo.mutate({
             mutation: createUserMutation,
             variables: {
-                input: user,
+                input: UtilityService.relationsToIds(user),
             },
         }).pipe(map(({data: {createUser}}: any) => createUser));
 
@@ -110,19 +112,24 @@ export class UserService {
 
     public update(user): Observable<any> {
 
+        const ignoreFields = [
+            'id',
+            'creationDate',
+            'updateDate',
+            'creator',
+            'updater',
+            '__typename',
+            'isAdministrator',
+        ];
+        const userInput = omit(user, ignoreFields);
+
         return this.apollo.mutate({
             mutation: updateUserMutation,
             variables: {
                 id: user.id,
-                input: {
-                    email: user.email,
-                    login: user.login,
-                    activeUntil: user.activeUntil,
-                    isAdministrator: user.idAdministrator,
-                    termsAgreement: user.termsAgreement,
-                    type: user.type,
-                },
+                input: UtilityService.relationsToIds(userInput),
             },
+            refetchQueries: [{query: usersQuery}],
         });
     }
 

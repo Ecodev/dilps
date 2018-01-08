@@ -18,19 +18,21 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                    <input matInput name="email" placeholder="Email" [(ngModel)]="data.email" >
+                    <input matInput type="email" name="email" placeholder="Email" [(ngModel)]="data.email" >
                 </mat-form-field>
 
-                <mat-form-field>
-                    <input matInput name="institution" placeholder="Institution" [(ngModel)]="data.institution.name" disabled="disabled" >
-                </mat-form-field>
+                <app-select [service]="institutionSvc" [(model)]="data.institution" placeholder="Institution"></app-select>
 
                 <mat-form-field>
-                    <input matInput name="activeUntil" placeholder="Active jusqu'au" [(ngModel)]="data.activeUntil" >
+                    <input matInput name="activeUntil" placeholder="Active jusqu'au" [(ngModel)]="data.activeUntil" [matDatepicker]="picker" >
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
 
                 <mat-form-field *ngIf="data.id">
-                    <input matInput disabled name="termsAgreement" placeholder="Licence" [(ngModel)]="data.termsAgreement" >
+                    <input matInput disabled name="termsAgreement" placeholder="Licence" [(ngModel)]="data.termsAgreement"  [matDatepicker]="picker2" >
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
                 </mat-form-field>
 
                 <mat-form-field *ngIf="data.id">
