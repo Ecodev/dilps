@@ -54,7 +54,7 @@ export class CollectionsComponent implements OnInit {
         dialogRef.afterClosed().subscribe(collection => {
             if (collection) {
                 this.router.navigate([
-                    '..',
+                    '/collection',
                     collection.id,
                 ], {relativeTo: this.route.firstChild});
 
