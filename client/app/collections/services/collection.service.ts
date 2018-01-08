@@ -55,7 +55,7 @@ export class CollectionService {
         return this.apollo.mutate({
             mutation: createCollectionMutation,
             variables: {
-                input: collection,
+                input: UtilityService.relationsToIds(collection),
             },
         }).pipe(map(({data: {createCollection}}: any) => createCollection));
 
