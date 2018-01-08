@@ -26,7 +26,7 @@
                         <mat-icon mat-list-icon>collections</mat-icon>
                         <span matLine fxLayout="row" fxLayoutAlign="start center">{{ item.name }}</span>
                         <span matLine *ngIf="showDescs && item.description" class="description">{{ item.description }}</span>
-                        <button mat-icon-button (click)="edit(item)">
+                        <button mat-icon-button (click)="edit($event, item)">
                             <mat-icon>edit</mat-icon>
                         </button>
                     </a>

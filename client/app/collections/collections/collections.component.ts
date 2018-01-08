@@ -32,7 +32,10 @@ export class CollectionsComponent implements OnInit {
         this.collectionsSvc.watchAll(this.queryVariables).subscribe(collections => this.collections = collections.items);
     }
 
-    public edit(collection) {
+    public edit(event, collection) {
+        event.preventDefault();
+        event.stopPropagation();
+
         const dialogRef = this.dialog.open(CollectionComponent, {
             width: '500px',
             data: {collection: collection},
