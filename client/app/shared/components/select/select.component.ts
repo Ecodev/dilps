@@ -34,6 +34,7 @@ export class SelectComponent implements OnInit {
      */
     @Input() service;
     @Input() placeholder: string;
+    @Input() readonly = false;
 
     /**
      * The filter to update when searching for a term

@@ -6,6 +6,7 @@
 
         <!-- Input -->
         <input matInput
+               [readonly]="readonly"
                [placeholder]="placeholder"
                aria-label="recherche et sélection"
                i18n-aria-label
@@ -21,10 +22,10 @@
         <mat-progress-spinner matPrefix *ngIf="loading" [diameter]="24" [strokeWidth]="5" mode="indeterminate"></mat-progress-spinner>
 
         <!-- Totals -->
-        <span matSuffix *ngIf="nbTotal > 0">{{ nbListed }} / {{ nbTotal }}</span>
+        <span matSuffix *ngIf="!readonly && nbTotal > 0">{{ nbListed }} / {{ nbTotal }}</span>
 
         <!-- Clear button -->
-        <button *ngIf="selected"
+        <button *ngIf="!readonly && selected"
                 (click)="clear()"
                 mat-icon-button
                 matSuffix
@@ -36,8 +37,8 @@
         </button>
 
         <!-- Hints -->
-        <mat-hint align="end" *ngIf="nbTotal > 0">Listés / Trouvés</mat-hint>
-        <mat-hint *ngIf="nbTotal === 0">Aucun élément trouvé</mat-hint>
+        <mat-hint align="end" *ngIf="!readonly && nbTotal > 0">Listés / Trouvés</mat-hint>
+        <mat-hint *ngIf="!readonly && nbTotal === 0">Aucun élément trouvé</mat-hint>
 
         <ng-template #defaultACItem let-item="item">
             <span>{{ item.name }}</span>
