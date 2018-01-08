@@ -37,6 +37,7 @@ export class CollectionComponent implements OnInit {
     public update() {
         this.collectionSvc.update(this.collection).subscribe(() => {
             this.alertSvc.info('Mis à jour');
+            this.dialogRef.close(this.collection);
         });
     }
 
