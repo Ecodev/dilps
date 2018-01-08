@@ -17,19 +17,19 @@
                         </a>
 
                         <!-- Mes collections -->
-                        <!--<a mat-list-item routerLink="/my-collection" routerLinkActive="active" matTooltipPosition="after" matTooltip="Mes collections">-->
-                            <!--<mat-icon mat-list-icon>collections_bookmark</mat-icon>-->
-                        <!--</a>-->
+                        <a mat-list-item routerLink="/my-collection" routerLinkActive="active" matTooltipPosition="after" matTooltip="Mes collections">
+                            <mat-icon mat-list-icon>collections_bookmark</mat-icon>
+                        </a>
 
                         <!-- Users -->
-                        <!--<a mat-list-item routerLink="/user" routerLinkActive="active" matTooltipPosition="after" matTooltip="Liste des utilisateurs">-->
-                            <!--<mat-icon mat-list-icon>group</mat-icon>-->
-                        <!--</a>-->
+                        <a mat-list-item routerLink="/user" routerLinkActive="active" matTooltipPosition="after" matTooltip="Liste des utilisateurs">
+                            <mat-icon mat-list-icon>group</mat-icon>
+                        </a>
 
                         <!-- Account -->
-                        <!--<a mat-list-item routerLink="/profile" routerLinkActive="active" matTooltipPosition="after" matTooltip="Mon compte">-->
-                            <!--<mat-icon mat-list-icon>account_circle</mat-icon>-->
-                        <!--</a>-->
+                        <a mat-list-item routerLink="/profile" routerLinkActive="active" matTooltipPosition="after" matTooltip="Mon compte">
+                            <mat-icon mat-list-icon>account_circle</mat-icon>
+                        </a>
 
                         <!-- Logout -->
                         <a mat-list-item (click)="userSvc.logout()" matTooltipPosition="after" matTooltip="Se déconnecter">
@@ -43,13 +43,13 @@
                         <mat-icon>error</mat-icon>
                     </a>
 
-                    <!--<mat-nav-list>-->
-                        <!--&lt;!&ndash; Theme &ndash;&gt;-->
-                        <!--<a mat-list-item (click)="themeSvc.toggle()">-->
-                            <!--<mat-icon mat-list-icon>invert_colors</mat-icon>-->
-                            <!--<span matLine>Changer couleurs</span>-->
-                        <!--</a>-->
-                    <!--</mat-nav-list>-->
+                    <mat-nav-list>
+                        <!-- Theme -->
+                        <a mat-list-item (click)="themeSvc.toggle()">
+                            <mat-icon mat-list-icon>invert_colors</mat-icon>
+                            <span matLine>Changer couleurs</span>
+                        </a>
+                    </mat-nav-list>
                 </div>
             </div>
         </mat-sidenav>
