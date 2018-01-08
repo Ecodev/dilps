@@ -1,9 +1,9 @@
 INSERT INTO `user` (`id`, `login`, `email`) VALUES
   (1000, 'Alice', 'alice@example.com');
 
-INSERT INTO `collection` (`id`, `name`) VALUES
-  (2000, 'Test collection 2000'),
-  (2001, 'Test collection 2001');
+INSERT INTO `collection` (`id`, `name`, `description`) VALUES
+  (2000, 'Test collection 2000', 'Roads? Where we''re going we don''t need roads.'),
+  (2001, 'Test collection 2001', 'Hello. My name is Inigo Montoya. You killed my father. Prepare to die.');
 
 INSERT INTO `artist` (`id`, `name`) VALUES
   (3000, 'Test artist 3000');
