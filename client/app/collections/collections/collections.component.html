@@ -5,10 +5,10 @@
             <img src="assets/images/logo-blanc.svg" style="max-width:100%;height:30px;" />
             <div fxFlex></div>
 
-            <button mat-icon-button (click)="showDescs = !showDescs">
+            <button mat-icon-button (click)="showDescs = !showDescs" [matTooltip]="'Voir les descriptions'">
                 <mat-icon>short_text</mat-icon>
             </button>
-            <button mat-icon-button (click)="add()">
+            <button mat-icon-button (click)="add()" [matTooltip]="'Créer une collection'">
                 <mat-icon>add</mat-icon>
             </button>
         </mat-toolbar>
