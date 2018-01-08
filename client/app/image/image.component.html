@@ -4,11 +4,11 @@
         <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center">
             <img src="assets/images/logo-blanc.svg" style="max-width:100%;height:30px;" />
             <div fxFlex></div>
-            <button mat-icon-button (click)="edit = !edit">
-                <mat-icon>edit</mat-icon>
-            </button>
             <button mat-icon-button color="primary" (click)="update()" *ngIf="edit">
                 <mat-icon>save</mat-icon>
+            </button>
+            <button mat-icon-button (click)="edit = !edit">
+                <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button color="warn" (click)="confirmDelete()">
                 <mat-icon>delete_forever</mat-icon>
