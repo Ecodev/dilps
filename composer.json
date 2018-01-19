@@ -30,7 +30,7 @@
         "dasprid/container-interop-doctrine": "^1.0",
         "doctrine/migrations": "^1.6",
         "ecodev/graphql-doctrine": "^1.0",
-        "ecodev/graphql-upload": "dev-master",
+        "ecodev/graphql-upload": "^1.0",
         "imagine/imagine": "^0.7.1",
         "roave/security-advisories": "dev-master",
         "zendframework/zend-component-installer": "^1.0",

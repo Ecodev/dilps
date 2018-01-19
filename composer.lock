@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "00bad09653bf8255028d153d998faf15",
+    "content-hash": "9269c98ada747086c8421236577f1137",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -798,16 +798,16 @@
         },
         {
             "name": "ecodev/graphql-upload",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ecodev/graphql-upload.git",
-                "reference": "84726badf996a6c079cafc21ecab0b8c76c64fdd"
+                "reference": "57907b95618e5b506ef25101bdf16975e5fd15d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ecodev/graphql-upload/zipball/84726badf996a6c079cafc21ecab0b8c76c64fdd",
-                "reference": "84726badf996a6c079cafc21ecab0b8c76c64fdd",
+                "url": "https://api.github.com/repos/Ecodev/graphql-upload/zipball/57907b95618e5b506ef25101bdf16975e5fd15d0",
+                "reference": "57907b95618e5b506ef25101bdf16975e5fd15d0",
                 "shasum": ""
             },
             "require": {
@@ -831,7 +831,14 @@
                 "MIT"
             ],
             "description": "A middleware to support file uploads in GraphQL",
-            "time": "2018-01-05T11:45:42+00:00"
+            "keywords": [
+                "api",
+                "graphql",
+                "middleware",
+                "multipart",
+                "upload"
+            ],
+            "time": "2018-01-19T05:20:28+00:00"
         },
         {
             "name": "fig/http-message-util",
@@ -4773,7 +4780,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "ecodev/graphql-upload": 20,
         "roave/security-advisories": 20,
         "zendframework/zend-expressive": 20,
         "zendframework/zend-expressive-fastroute": 20,
