@@ -1,43 +1,57 @@
 import { Observable } from 'rxjs/Observable';
-import { merge } from 'lodash';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { merge, isPlainObject } from 'lodash';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { QueryRef } from 'apollo-angular';
+import { Literal } from '../types';
 
 @Injectable()
 export class QueryVariablesService {
 
     /**
+     * Create and return an observable for variables with optional default values.
      *
-     * @param variables
-     * @param completeWith
-     * @param defaults
-     * @returns {any}
+     * This should usually be used with `setVariables()` below
      */
-    public static getVariables(variables, defaults = {}, completeWith = {}) {
-        if (variables instanceof Observable) {
-            const vars: Observable<any> = variables.pipe(map(v => this.defaultsVariables(v, defaults, completeWith)));
-            return this.observableToPlain(vars, defaults);
-        } else {
-            return this.defaultsVariables(variables, defaults, completeWith);
+    public static getVariables(variables: Literal | Observable<Literal>,
+                               defaults: Literal = {},
+                               context: Literal = {}): BehaviorSubject<Literal> {
+
+        // Find initial value
+        let initialValue = {};
+        if (variables instanceof BehaviorSubject) {
+            initialValue = variables.getValue();
+        } else if (isPlainObject(variables)) {
+            initialValue = variables;
         }
-    }
 
-    private static defaultsVariables(variables, defaults, completeWith) {
-        return merge({}, defaults, completeWith, variables);
-    }
+        const result = new BehaviorSubject(this.defaultsVariables(initialValue, defaults, context));
 
-    /**
-     * Transform an observable that contains attributes into a plain object where each attribute contains it's own observable
-     * @param {Observable<any>} variables
-     * @param defaults
-     * @returns {{}}
-     */
-    private static observableToPlain(variables: Observable<any>, defaults): Object {
-        const result = {};
-        Object.keys(defaults).forEach(key => {
-            result[key] = variables.pipe(map(v => v[key]));
-        });
+        // Forward the next variables
+        if (variables instanceof Observable) {
+            variables.subscribe((v) => {
+                result.next(this.defaultsVariables(v, defaults, context));
+            });
+        }
+
         return result;
     }
 
+    private static defaultsVariables(variables: Literal, defaults: Literal, context: Literal): Literal {
+        return merge({}, defaults, context, variables);
+    }
+
+    /**
+     * Set the initial variables and optionally wire up automatic refetch if original variables were an observable
+     */
+    public static setVariables(queryRef: QueryRef<any>,
+                               variables: Literal | Observable<Literal>,
+                               variablesSubject: BehaviorSubject<Literal>) {
+        queryRef.setVariables(variablesSubject.getValue());
+
+        // If original variables were observable, then automatically refetch the query when they change
+        if (variables instanceof Observable) {
+            variablesSubject.subscribe(v => queryRef.setVariables(v));
+        }
+    }
 }
