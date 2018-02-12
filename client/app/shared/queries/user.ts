@@ -57,20 +57,3 @@ export const deleteUserMutation = gql`
 mutation DeleteUser ($id: UserID!){
     deleteUser(id: $id)
 }`;
-
-export const logoutMutation = gql`
-mutation  {
-    logout
-}`;
-
-export const loginMutation = gql`
-mutation Login($login: Login!, $password: String!) {
-    login(login:$login, password:$password) {
-        id
-        email
-        login
-        activeUntil
-        creationDate
-        updateDate
-    }
-}`;

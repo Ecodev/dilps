@@ -762,16 +762,16 @@
         },
         {
             "name": "ecodev/graphql-doctrine",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ecodev/graphql-doctrine.git",
-                "reference": "82ad8f13ec32e253612e464d4facf34137222789"
+                "reference": "d507e922afd540078a8f5b425cf4b6b624276214"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ecodev/graphql-doctrine/zipball/82ad8f13ec32e253612e464d4facf34137222789",
-                "reference": "82ad8f13ec32e253612e464d4facf34137222789",
+                "url": "https://api.github.com/repos/Ecodev/graphql-doctrine/zipball/d507e922afd540078a8f5b425cf4b6b624276214",
+                "reference": "d507e922afd540078a8f5b425cf4b6b624276214",
                 "shasum": ""
             },
             "require": {
@@ -780,8 +780,8 @@
                 "webonyx/graphql-php": "^0.10.1"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.4",
-                "phpunit/phpunit": "^6.4"
+                "friendsofphp/php-cs-fixer": "@stable",
+                "phpunit/phpunit": "@stable"
             },
             "type": "library",
             "autoload": {
@@ -794,7 +794,13 @@
                 "MIT"
             ],
             "description": "Declare GraphQL types from Doctrine entities and annotations",
-            "time": "2017-11-22T07:08:52+00:00"
+            "keywords": [
+                "api",
+                "doctrine",
+                "doctrine-orm",
+                "graphql"
+            ],
+            "time": "2018-01-26T05:15:08+00:00"
         },
         {
             "name": "ecodev/graphql-upload",
@@ -940,6 +946,7 @@
                 "response",
                 "server"
             ],
+            "abandoned": "psr/http-server-handler",
             "time": "2017-11-09T18:35:22+00:00"
         },
         {
@@ -995,6 +1002,7 @@
                 "request",
                 "response"
             ],
+            "abandoned": "psr/http-server-middleware",
             "time": "2017-11-09T21:42:30+00:00"
         },
         {

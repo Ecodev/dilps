@@ -1,0 +1,23 @@
+#! /usr/bin/env node
+
+/**
+ * This script will dump the GraphQL schema to a module
+ */
+const execFileSync = require('child_process').execFileSync;
+const fs = require('fs');
+const utilities = require('graphql/utilities');
+
+const query = utilities.getIntrospectionQuery();
+const introspectedSchema = execFileSync('./bin/graphql.php', [query]).toString();
+const folder = 'data/tmp/schema/';
+const filename = 'index.ts';
+
+if (!fs.existsSync(folder)) {
+    fs.mkdirSync(folder)
+}
+
+fs.writeFileSync(folder + filename, 'export const schema = ' + introspectedSchema + ';');
+fs.writeFileSync(folder + 'schema.json', introspectedSchema);
+
+process.stdout.write(folder + filename + ' was written\n');
+

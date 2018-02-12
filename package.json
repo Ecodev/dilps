@@ -4,11 +4,12 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "dev": "ng serve",
+    "dev": "yarn codegen && ng serve",
     "prod": "ng build --aot -prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "codegen": "./bin/dump-schema && apollo-codegen generate 'client/**/*.ts' --schema data/tmp/schema/schema.json --target typescript --output client/app/shared/generated-types.ts"
   },
   "dependencies": {
     "@angular/animations": "^5.2.4",
@@ -28,6 +29,7 @@
     "apollo-angular-link-http": "^1.0.2-beta.0",
     "apollo-cache-inmemory": "^1.1.7",
     "apollo-client": "^2.2.3",
+    "apollo-codegen": "^0.18.3",
     "apollo-link": "^1.1.0",
     "apollo-upload-client": "7.0.0-alpha.4",
     "core-js": "^2.5.3",

@@ -69,8 +69,8 @@ query Image($id: ImageID!) {
 }`;
 
 export const createImageMutation = gql`
-mutation CreateImage ($input: ImageInput!) {
-    createImage (input: $input) {
+mutation CreateImage ($input: ImageInput!, $file: Upload!) {
+    createImage (input: $input, file: $file) {
         id
     }
 }`;

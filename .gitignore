@@ -1,6 +1,8 @@
 /config/autoload/*.local.php
 /config/autoload/local.php
 /config/development.config.php
+/data/tmp/*.*
+/data/tmp/*/*
 /data/cache/*.*
 /data/cache/DoctrineORMModule/*
 /data/cache/images/*
@@ -24,7 +26,7 @@
 /.php_cs.cache
 /phpunit.xml
 /vendor/
-
+client/app/shared/generated-types.ts
 .DS_Store
 
 
