@@ -78,12 +78,12 @@ export class PaginatedDataSource extends BasicDataSource {
      * @param {string} key Identifier to store listing options in localstorage
      */
     constructor(data: Observable<any> | any,
-        private listingOptions = null,
-        defaultOptions: Observable<any> | Object = {},
-        private persist: boolean = false,
-        @Inject(Router) private router: Router = null,
-        @Inject(ActivatedRoute) private route: ActivatedRoute = null,
-        private key: string = null) {
+                private listingOptions = null,
+                defaultOptions: Observable<any> | Object = {},
+                private persist: boolean = false,
+                @Inject(Router) private router: Router = null,
+                @Inject(ActivatedRoute) private route: ActivatedRoute = null,
+                private key: string = null) {
 
         super(data);
 
@@ -178,10 +178,10 @@ export class PaginatedDataSource extends BasicDataSource {
 
         // Remove default values from options, to prevent useless data in url that shows up unconditionally
         const cleanedOptions = UtilityService.cleanSameValues(merge({}, options), this.defaultOptions);
-        const stringified = qs.stringify(cleanedOptions, this.encodeParams);
+        const serialized = qs.stringify(cleanedOptions, this.encodeParams);
 
         // Merge options with other matrix params, and clean options key if empty string
-        options = merge({}, this.route.snapshot.params, {options: stringified});
+        options = {options: serialized};
         if (options.options === '') {
             delete options.options;
         }

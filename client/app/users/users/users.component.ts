@@ -3,7 +3,6 @@ import { UserService } from '../services/user.service';
 import { PaginatedDataSource } from '../../shared/services/paginated.data.source';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IncrementSubject } from '../../shared/services/increment-subject';
-import { merge } from 'lodash';
 
 @Component({
     selector: 'app-users',
@@ -25,8 +24,17 @@ export class UsersComponent implements OnInit {
     }
 
     ngOnInit() {
-        const observer = this.userSvc.watchAll(this.listingOptions);
-        this.dataSource = new PaginatedDataSource(observer, this.listingOptions, {}, true, this.router, this.route, 'users');
+
+        const queryRef = this.userSvc.watchAll(this.listingOptions);
+        this.dataSource = new PaginatedDataSource(
+            queryRef.valueChanges,
+            this.listingOptions,
+            {},
+            true,
+            this.router,
+            this.route,
+            'users',
+        );
     }
 
 }
