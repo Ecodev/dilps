@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "dev": "yarn codegen && ng serve",
-    "prod": "ng build --aot -prod",
+    "prod": "ng build --aot -prod --build-optimizer false",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
