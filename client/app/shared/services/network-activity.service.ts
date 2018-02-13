@@ -46,9 +46,9 @@ export class NetworkActivityService {
         }
     }
 
-    public updateErrors(response) {
-        if (response && response.errors && response.errors.length) {
-            this.errors.next([].concat.apply([], response.errors));
+    public updateErrors(errors) {
+        if (errors && errors.length) {
+            this.errors.next(errors);
         }
     }
 
