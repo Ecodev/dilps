@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ThemeService } from '../../shared/services/theme.service';
 import { UserService } from '../services/user.service';
-import { merge } from 'lodash';
 import { InstitutionService } from '../../institutions/services/institution.service';
 import { AlertService } from '../../shared/components/alert/alert.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { CollectionComponent } from '../../collections/collection/collection.component';
+import { merge } from 'lodash';
 
 @Component({
     selector: 'app-profile',
@@ -13,64 +14,54 @@ import { AlertService } from '../../shared/components/alert/alert.service';
 })
 export class UserComponent implements OnInit {
 
-    public data: any = {
+    public user: any = {
         type: 'default',
-        institution: null
+        institution: null,
     };
 
     public theme: string;
 
-    constructor(private route: ActivatedRoute,
-        private router: Router,
-        public themeSvc: ThemeService,
-        public institutionSvc: InstitutionService,
-        private userSvc: UserService,
-        private alertSvc: AlertService) {
+    constructor(public themeSvc: ThemeService,
+                public institutionSvc: InstitutionService,
+                private userSvc: UserService,
+                private alertSvc: AlertService,
+                public dialogRef: MatDialogRef<CollectionComponent>,
+                @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 
     ngOnInit() {
-
-        const user = this.route.snapshot.data['user'];
-        if (user) {
-            merge(this.data, user);
-            if (!this.data.institution) {
-                // this.data.institution = {};
-            }
-        }
-
-    }
-
-    public onSubmit() {
-        if (this.data.id) {
-            this.update();
-        } else {
-            this.create();
+        if (this.data && this.data.user) {
+            console.log('user', this.data);
+            merge(this.user, this.data.user);
+            this.userSvc.getOne(this.data.user.id).subscribe(user => {
+                console.log('user', user);
+                merge(this.user, user);
+            });
         }
     }
 
     public update() {
-        this.userSvc.update(this.data).subscribe(() => {
+        console.log('update', this.user);
+        this.userSvc.update(this.user).subscribe(() => {
             this.alertSvc.info('Mis à jour');
         });
     }
 
     public create() {
-        this.userSvc.create(this.data).subscribe(user => {
+        this.userSvc.create(this.user).subscribe(user => {
+            this.user.id = user.id;
             this.alertSvc.info('Créé');
-            this.router.navigate([
-                '..',
-                user.id,
-            ], {relativeTo: this.route});
+            this.dialogRef.close(this.user);
         });
     }
 
-    public confirmDelete() {
+    public delete() {
         this.alertSvc.confirm('Suppression', 'Voulez-vous supprimer définitivement cet élément ?', 'Supprimer définitivement')
             .subscribe(confirmed => {
                 if (confirmed) {
                     this.userSvc.delete(this.data).subscribe(() => {
                         this.alertSvc.info('Supprimé');
-                        this.router.navigate(['..'], {relativeTo: this.route});
+                        this.dialogRef.close(null);
                     });
                 }
             });

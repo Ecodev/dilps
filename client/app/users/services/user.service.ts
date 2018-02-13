@@ -3,7 +3,7 @@ import { Apollo } from 'apollo-angular';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
-import { CreateUserMutation, DeleteUserMutation, UpdateUserMutation, UserQuery, UsersQuery, } from '../../shared/generated-types';
+import { CreateUserMutation, DeleteUserMutation, UpdateUserMutation, UserQuery, UsersQuery, UserType, } from '../../shared/generated-types';
 import { AbstractModelService } from '../../shared/services/abstract-model.service';
 import { createUserMutation, deleteUserMutation, updateUserMutation, userQuery, usersQuery } from './userQueries';
 
@@ -23,6 +23,17 @@ export class UserService extends AbstractModelService<UserQuery['user'],
 
     constructor(apollo: Apollo, private router: Router) {
         super(apollo, 'user', userQuery, usersQuery, createUserMutation, updateUserMutation, deleteUserMutation);
+    }
+
+    public getEmptyObject() {
+        return {
+            login: '',
+            email: '',
+            activeUntil: '',
+            termsAgreement: null,
+            type: UserType.default,
+            institution: null,
+        };
     }
 
     public getCurrentUser(): Observable<any> {

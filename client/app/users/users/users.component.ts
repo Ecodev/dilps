@@ -3,6 +3,8 @@ import { UserService } from '../services/user.service';
 import { PaginatedDataSource } from '../../shared/services/paginated.data.source';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IncrementSubject } from '../../shared/services/increment-subject';
+import { MatDialog } from '@angular/material';
+import { UserComponent } from '../user/user.component';
 
 @Component({
     selector: 'app-users',
@@ -20,7 +22,7 @@ export class UsersComponent implements OnInit {
     public dataSource;
     private listingOptions = new IncrementSubject({});
 
-    constructor(private userSvc: UserService, private router: Router, private route: ActivatedRoute) {
+    constructor(private userSvc: UserService, private router: Router, private route: ActivatedRoute, private dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -37,4 +39,24 @@ export class UsersComponent implements OnInit {
         );
     }
 
+    public edit(user) {
+
+        const dialogRef = this.dialog.open(UserComponent, {
+            width: '800px',
+            data: {user: user},
+        });
+
+        dialogRef.afterClosed().subscribe(data => {
+            // if returned data is null, it means deletion
+            if (data === null) {
+                this.router.navigate(['..'], {relativeTo: this.route.firstChild});
+            }
+        });
+    }
+
+    public add() {
+        const dialogRef = this.dialog.open(UserComponent, {
+            width: '800px',
+        });
+    }
 }

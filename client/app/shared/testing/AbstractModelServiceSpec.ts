@@ -119,8 +119,8 @@ export abstract class AbstractModelServiceSpec {
             })),
         );
 
-        it('should update immediately', fakeAsync(inject([serviceClass], (service: AbstractModelService<any, any, any, any, any>) => {
-                this.expectNotConfiguredOrEqual(expectedUpdate, (vars) => service.updateNow(vars), {id: 123});
+        it('should update', fakeAsync(inject([serviceClass], (service: AbstractModelService<any, any, any, any, any>) => {
+                this.expectNotConfiguredOrEqual(expectedUpdate, (vars) => service.update(vars), {id: 123});
             })),
         );
 

@@ -1,58 +1,61 @@
-<div class="containerWithToolbar" fxLayout="column">
-    <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center">
-        <img src="assets/images/logo-blanc.svg" style="max-width:100%;height:30px;" />
-        <div fxFlex></div>
-        <button mat-icon-button color="warn" (click)="confirmDelete()">
-            <mat-icon>delete_forever</mat-icon>
-        </button>
-    </mat-toolbar>
+<mat-dialog-content>
+    <mat-tab-group>
+        <mat-tab label="Utilisateur">
 
-    <div fxLayout="row" fxLayoutAlign="center">
-
-        <form fxFlex="400px" fxLayout="column" fxLayoutAlign="start stretch" class="padding" #userForm="ngForm" (ngSubmit)="onSubmit()">
-
-            <div fxLayout="column" fxLayoutGap="10px">
+            <div fxLayout="column" fxLayoutGap="10px" class="padding-v">
 
                 <mat-form-field class="width-auto" matTooltip="L'identifiant de connexion ne peut pas être modifié">
-                    <input matInput [disabled]="!!data.id" name="login" placeholder="Login" [(ngModel)]="data.login" >
+                    <input matInput [disabled]="!!user.id" name="login" placeholder="Login" [(ngModel)]="user.login" >
                 </mat-form-field>
 
                 <mat-form-field>
-                    <input matInput type="email" name="email" placeholder="Email" [(ngModel)]="data.email" >
+                    <input matInput type="email" name="email" placeholder="Email" [(ngModel)]="user.email" >
                 </mat-form-field>
 
-                <app-select [service]="institutionSvc" [(model)]="data.institution" placeholder="Institution"></app-select>
+                <app-select [service]="institutionSvc" [(model)]="user.institution" placeholder="Institution"></app-select>
 
                 <mat-form-field>
-                    <input matInput
-                           name="activeUntil"
-                           placeholder="Active jusqu'au"
-                           [(ngModel)]="data.activeUntil"
-                           [matDatepicker]="picker"
+                    <input matInput name="activeUntil" placeholder="Active jusqu'au" [(ngModel)]="user.activeUntil" [matDatepicker]="picker"
                     >
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
 
-                <mat-form-field *ngIf="data.id">
+                <mat-form-field *ngIf="user.id">
                     <input matInput
                            disabled
                            name="termsAgreement"
                            placeholder="Licence"
-                           [(ngModel)]="data.termsAgreement"
+                           [(ngModel)]="user.termsAgreement"
                            [matDatepicker]="picker2"
                     >
                     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                     <mat-datepicker #picker2></mat-datepicker>
                 </mat-form-field>
 
-                <mat-form-field *ngIf="data.id">
-                    <input matInput disabled name="type" placeholder="Type d'utilisateur" [(ngModel)]="data.type" >
+                <mat-form-field *ngIf="user.id">
+                    <input matInput disabled name="type" placeholder="Type d'utilisateur" [(ngModel)]="user.type" >
                 </mat-form-field>
-
-                <button type="submit" mat-raised-button color="primary" [disabled]="!userForm.form.valid">Enregistrer</button>
             </div>
-        </form>
+        </mat-tab>
 
-    </div>
-</div>
+    </mat-tab-group>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <div fxFlex></div>
+    <button mat-button mat-dialog-close>Annuler</button>
+
+    <button *ngIf="user.id" mat-raised-button (click)="delete()" color="warn">
+        <mat-icon>delete_forever</mat-icon>
+    </button>
+    <button *ngIf="user.id" mat-raised-button (click)="update()" color="primary">
+        <mat-icon>save</mat-icon>
+        Enregistrer
+    </button>
+
+    <button *ngIf="!user.id" mat-raised-button (click)="create()" color="primary">
+        <mat-icon>add</mat-icon>
+        Ajouter
+    </button>
+</mat-dialog-actions>

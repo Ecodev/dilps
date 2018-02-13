@@ -83,6 +83,7 @@ import { ConfirmComponent } from './shared/components/alert/confirm.component';
     ],
     entryComponents: [
         ConfirmComponent,
+        UserComponent,
     ],
     imports: [
         BrowserModule,

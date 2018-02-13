@@ -5,12 +5,11 @@ import { filter, map } from 'rxjs/operators';
 import { Literal } from '../types';
 import { QueryVariablesService } from './query-variables.service';
 import { DocumentNode } from 'graphql';
-import { debounce, defaults, merge, pick } from 'lodash';
+import { defaults, merge, pick } from 'lodash';
 import { OperatorFunction } from 'rxjs/interfaces';
 import { UtilityService } from './utility.service';
 import { RefetchQueryDescription } from 'apollo-client/core/watchQueryOptions';
 import { FetchResult } from 'apollo-link';
-import { Subject } from 'rxjs/Subject';
 
 export abstract class AbstractModelService<Tone, Tall, Tcreate, Tupdate, Tdelete> {
 
@@ -21,11 +20,6 @@ export abstract class AbstractModelService<Tone, Tall, Tcreate, Tupdate, Tdelete
     protected readonly defaultVariables = {};
 
     protected refetchVariables?: BehaviorSubject<Literal>;
-
-    /**
-     * Stores the debounced update function
-     */
-    protected debouncedUpdate;
 
     constructor(protected readonly apollo: Apollo,
                 private readonly name: string,
@@ -129,33 +123,6 @@ export abstract class AbstractModelService<Tone, Tall, Tcreate, Tupdate, Tdelete
         this.throwIfObservable(object);
         this.throwIfNotQuery(this.updateMutation);
 
-        const resultObservable = new Subject<Tupdate>();
-
-        // Keep a single instance of the debounced update function
-        if (!this.debouncedUpdate) {
-
-            // Create debounced update function
-            this.debouncedUpdate = debounce((o) => {
-                this.updateNow(o).subscribe(data => {
-                    resultObservable.next(merge(object, data));
-                });
-            }, 2000); // Wait 2sec.
-        }
-
-        // Call debounced update function each time we call this update() function
-        this.debouncedUpdate(object);
-
-        // Return and observable that is updated when mutation is done
-        return resultObservable;
-    }
-
-    /**
-     * Update an object
-     */
-    public updateNow(object: { id }): Observable<Tupdate> {
-        this.throwIfObservable(object);
-        this.throwIfNotQuery(this.updateMutation);
-
         return this.apollo.mutate({
             mutation: this.updateMutation,
             variables: {
@@ -244,6 +211,7 @@ export abstract class AbstractModelService<Tone, Tall, Tcreate, Tupdate, Tdelete
      */
     protected getInput(object: Literal): Literal {
 
+        console.log('getInput', object);
         // Convert relations to their IDs for mutation
         object = UtilityService.relationsToIds(object);
 
@@ -252,9 +220,11 @@ export abstract class AbstractModelService<Tone, Tall, Tcreate, Tupdate, Tdelete
         const emptyObject = this.getEmptyObject();
         let input = pick(object, Object.keys(emptyObject));
 
+        console.log('pick', emptyObject);
         // Complete a potentially uncompleted object with default values
         input = defaults(input, emptyObject);
 
+        console.log('defaults', input);
         return input;
     }
 

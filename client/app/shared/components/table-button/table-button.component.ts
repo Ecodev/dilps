@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({
     selector: 'app-table-button',
@@ -6,7 +6,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
     styleUrls: ['./table-button.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class TableButtonComponent implements OnInit {
+export class TableButtonComponent {
 
     @Input() queryParams: any;
     @Input() queryParamsHandling: any;
@@ -16,9 +16,6 @@ export class TableButtonComponent implements OnInit {
     @Input() navigate: string;
 
     constructor() {
-    }
-
-    ngOnInit() {
     }
 
 }
