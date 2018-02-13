@@ -24,13 +24,24 @@
                 <app-select [service]="institutionSvc" [(model)]="data.institution" placeholder="Institution"></app-select>
 
                 <mat-form-field>
-                    <input matInput name="activeUntil" placeholder="Active jusqu'au" [(ngModel)]="data.activeUntil" [matDatepicker]="picker" >
+                    <input matInput
+                           name="activeUntil"
+                           placeholder="Active jusqu'au"
+                           [(ngModel)]="data.activeUntil"
+                           [matDatepicker]="picker"
+                    >
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
 
                 <mat-form-field *ngIf="data.id">
-                    <input matInput disabled name="termsAgreement" placeholder="Licence" [(ngModel)]="data.termsAgreement"  [matDatepicker]="picker2" >
+                    <input matInput
+                           disabled
+                           name="termsAgreement"
+                           placeholder="Licence"
+                           [(ngModel)]="data.termsAgreement"
+                           [matDatepicker]="picker2"
+                    >
                     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                     <mat-datepicker #picker2></mat-datepicker>
                 </mat-form-field>
@@ -39,7 +50,7 @@
                     <input matInput disabled name="type" placeholder="Type d'utilisateur" [(ngModel)]="data.type" >
                 </mat-form-field>
 
-                <button type="submit" mat-raised-button color="primary" [disabled]="!userForm.form.valid">Sauver</button>
+                <button type="submit" mat-raised-button color="primary" [disabled]="!userForm.form.valid">Enregistrer</button>
             </div>
         </form>
 
