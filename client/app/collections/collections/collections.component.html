@@ -16,7 +16,7 @@
         <div class="scrollable">
             <div fxLayout="column">
 
-                <mat-nav-list fxFlex>
+                <mat-nav-list fxFlex *ngIf="collections?.items">
                     <a *ngFor="let item of collections.items"
                        mat-list-item
                        [ngClass]="{'withDesc': showDescs && item.description}"
