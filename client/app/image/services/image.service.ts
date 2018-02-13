@@ -1,8 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import 'rxjs/add/observable/of';
-import { cloneDeep, merge, omit } from 'lodash';
-import { CreateImageMutation, DeleteImageMutation, ImageQuery, ImagesQuery, UpdateImageMutation, } from '../../shared/generated-types';
+import { merge } from 'lodash';
+import {
+    CreateImageMutation,
+    DeleteImageMutation,
+    ImageQuery,
+    ImagesQuery,
+    ImageStatus,
+    ImageType,
+    UpdateImageMutation,
+} from '../../shared/generated-types';
 import { AbstractModelService } from '../../shared/services/abstract-model.service';
 import { createImageMutation, deleteImageMutation, imageQuery, imagesQuery, updateImageMutation } from './imageQueries';
 
@@ -32,4 +40,30 @@ export class ImageService extends AbstractModelService<ImageQuery['image'],
     constructor(apollo: Apollo) {
         super(apollo, 'image', imageQuery, imagesQuery, createImageMutation, updateImageMutation, deleteImageMutation);
     }
+
+    public getEmptyObject() {
+        return {
+            dating: '',
+            type: ImageType.default,
+            status: ImageStatus.new,
+            addition: '',
+            expandedName: '',
+            material: '',
+            technique: '',
+            techniqueAuthor: '',
+            format: '',
+            literature: '',
+            page: '',
+            figure: '',
+            table: '',
+            isbn: '',
+            comment: '',
+            rights: '',
+            muserisUrl: '',
+            muserisCote: '',
+            name: '',
+            isPublic: '',
+        };
+    }
+
 }

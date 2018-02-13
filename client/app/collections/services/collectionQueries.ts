@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import { userMetaFragment } from '../../shared/queries/fragments';
 
 export const collectionsQuery = gql`
 query Collections($pagination: PaginationInput) {
@@ -27,33 +28,36 @@ query Collection($id: CollectionID!) {
             name
         }
         creationDate
-        updateDate
-        creator
-        {
-            id
-            login
+        creator {
+            ...userMeta
         }
-        updater
-        {
-            id
-            login
+        updateDate
+        updater {
+            ...userMeta
         }
     }
-}`;
+}${userMetaFragment}`;
 
 export const createCollectionMutation = gql`
 mutation CreateCollection ($input: CollectionInput!) {
     createCollection (input: $input) {
         id
+        creationDate
+        creator {
+            ...userMeta
+        }
     }
-}`;
+}${userMetaFragment}`;
 
 export const updateCollectionMutation = gql`
 mutation UpdateCollection($id: CollectionID!, $input: CollectionInput!) {
     updateCollection(id: $id, input: $input) {
-        id
+        updateDate
+        updater {
+            ...userMeta
+        }
     }
-}`;
+}${userMetaFragment}`;
 
 export const deleteCollectionMutation = gql`
 mutation DeleteCollection ($id: CollectionID!){

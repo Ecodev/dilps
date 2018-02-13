@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import { userMetaFragment } from '../../shared/queries/fragments';
 
 export const imagesQuery = gql`
 query Images($filters: ImageFilter, $pagination: PaginationInput) {
@@ -21,8 +22,8 @@ query Image($id: ImageID!) {
         id
         name
         expandedName
-        height,
-        width,
+        height
+        width
         isPublic
         dating
         artists {
@@ -54,33 +55,36 @@ query Image($id: ImageID!) {
         muserisUrl
         muserisCote
         creationDate
-        updateDate
-        creator
-        {
-            id
-            login
+        creator {
+            ...userMeta
         }
-        updater
-        {
-            id
-            login
+        updateDate
+        updater {
+            ...userMeta
         }
     }
-}`;
+}${userMetaFragment}`;
 
 export const createImageMutation = gql`
-mutation CreateImage ($input: ImageInput!, $file: Upload!) {
+mutation CreateImage ($input: ImageInput!, $file: Upload) {
     createImage (input: $input, file: $file) {
         id
+        creationDate
+        creator {
+            ...userMeta
+        }
     }
-}`;
+}${userMetaFragment}`;
 
 export const updateImageMutation = gql`
 mutation UpdateImage($id: ImageID!, $input: ImageInput!) {
     updateImage(id: $id, input: $input) {
-        id
+        updateDate
+        updater {
+            ...userMeta
+        }
     }
-}`;
+}${userMetaFragment}`;
 
 export const deleteImageMutation = gql`
 mutation DeleteImage ($id: ImageID!){

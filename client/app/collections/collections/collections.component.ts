@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CollectionService } from '../services/collection.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { merge } from 'lodash';
 import { IncrementSubject } from '../../shared/services/increment-subject';
 import { MatDialog } from '@angular/material';
 import { CollectionComponent } from '../collection/collection.component';
@@ -19,17 +18,22 @@ export class CollectionsComponent implements OnInit {
     private queryVariables = new IncrementSubject({});
 
     constructor(private route: ActivatedRoute,
-        private router: Router,
-        private collectionsSvc: CollectionService,
-        private dialog: MatDialog) {
+                private router: Router,
+                private collectionsSvc: CollectionService,
+                private dialog: MatDialog) {
     }
 
     ngOnInit() {
 
+        const queryRef = this.collectionsSvc.watchAll(this.queryVariables);
+
         this.route.data.subscribe(data => {
             this.queryVariables.patch({filter: data.filter});
         });
-        this.collectionsSvc.watchAll(this.queryVariables).subscribe(collections => this.collections = collections.items);
+
+        queryRef.valueChanges.subscribe(collections => {
+            this.collections = collections;
+        });
     }
 
     public edit(event, collection) {

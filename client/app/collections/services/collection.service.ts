@@ -6,9 +6,8 @@ import {
     createCollectionMutation,
     deleteCollectionMutation,
     updateCollectionMutation,
-} from '../services/collectionQueries';
+} from './collectionQueries';
 import 'rxjs/add/observable/of';
-import { cloneDeep, merge, omit } from 'lodash';
 import { AbstractModelService } from '../../shared/services/abstract-model.service';
 import {
     CollectionQuery,
@@ -34,6 +33,15 @@ export class CollectionService
             createCollectionMutation,
             updateCollectionMutation,
             deleteCollectionMutation);
+    }
+
+    public getEmptyObject() {
+        return {
+            name: '',
+            description: '',
+            isSource: false,
+            sorting: 0,
+        };
     }
 
 }

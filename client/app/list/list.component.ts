@@ -99,7 +99,7 @@ export class ListComponent implements OnInit {
 
         if (!this.sub) {
             this.sub = this.imageSvc.watchAll(this.queryVariables);
-            this.sub.subscribe(data => {
+            this.sub.valueChanges.subscribe(data => {
                 this.gallery.addItems(this.formatImages(data.items));
             });
         }

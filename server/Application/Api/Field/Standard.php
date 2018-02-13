@@ -74,7 +74,7 @@ abstract class Standard
         $isImage = $class === Image::class;
         $createArgs = [];
         if ($isImage) {
-            $createArgs['file'] = Type::nonNull(_types()->get(UploadType::class));
+            $createArgs['file'] = _types()->get(UploadType::class);
         }
         $createArgs['input'] = Type::nonNull(_types()->getInput($class));
 

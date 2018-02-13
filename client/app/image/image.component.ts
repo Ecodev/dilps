@@ -4,7 +4,7 @@ import { ImageService } from './services/image.service';
 import { AlertService } from '../shared/services/alert.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { findKey, merge } from 'lodash';
-import { InstitutionService } from '../shared/services/institution.service';
+import { InstitutionService } from '../institutions/services/institution.service';
 
 @Component({
     selector: 'app-image',

@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import { userMetaFragment } from '../../shared/queries/fragments';
 
 export const institutionsQuery = gql`
 query Institutions($filters: InstitutionFilter, $pagination: PaginationInput) {
@@ -19,33 +20,36 @@ query Institution($id: InstitutionID!) {
         id
         name
         creationDate
-        updateDate
-        creator
-        {
-            id
-            login
+        creator {
+            ...userMeta
         }
-        updater
-        {
-            id
-            login
+        updateDate
+        updater {
+            ...userMeta
         }
     }
-}`;
+}${userMetaFragment}`;
 
 export const createInstitutionMutation = gql`
 mutation CreateInstitution ($input: InstitutionInput!) {
     createInstitution (input: $input) {
         id
+        creationDate
+        creator {
+            ...userMeta
+        }
     }
-}`;
+}${userMetaFragment}`;
 
 export const updateInstitutionMutation = gql`
 mutation UpdateInstitution($id: InstitutionID!, $input: InstitutionInput!) {
     updateInstitution(id: $id, input: $input) {
-        id
+        updateDate
+        updater {
+            ...userMeta
+        }
     }
-}`;
+}${userMetaFragment}`;
 
 export const deleteInstitutionMutation = gql`
 mutation DeleteInstitution ($id: InstitutionID!){

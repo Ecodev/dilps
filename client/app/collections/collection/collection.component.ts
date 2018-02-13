@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { CollectionService } from '../services/collection.service';
 import { merge } from 'lodash';
 import { AlertService } from '../../shared/services/alert.service';
-import { InstitutionService } from '../../shared/services/institution.service';
+import { InstitutionService } from '../../institutions/services/institution.service';
 
 @Component({
     selector: 'app-collection',

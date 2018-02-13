@@ -17,7 +17,7 @@
             <div fxLayout="column">
 
                 <mat-nav-list fxFlex>
-                    <a *ngFor="let item of collections"
+                    <a *ngFor="let item of collections.items"
                        mat-list-item
                        [ngClass]="{'withDesc': showDescs && item.description}"
                        [routerLink]="item.id"

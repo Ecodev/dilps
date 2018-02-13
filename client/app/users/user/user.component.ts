@@ -4,7 +4,7 @@ import { ThemeService } from '../../shared/services/theme.service';
 import { UserService } from '../services/user.service';
 import { merge } from 'lodash';
 import { AlertService } from '../../shared/services/alert.service';
-import { InstitutionService } from '../../shared/services/institution.service';
+import { InstitutionService } from '../../institutions/services/institution.service';
 
 @Component({
     selector: 'app-profile',

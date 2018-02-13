@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { Apollo, ApolloModule } from 'apollo-angular';
-import { ApolloLink, concat } from 'apollo-link';
+import { ApolloLink } from 'apollo-link';
 import { createUploadLink } from 'apollo-upload-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -60,7 +60,9 @@ import { ImageService } from './image/services/image.service';
 import { CollectionComponent } from './collections/collection/collection.component';
 import { CollectionService } from './collections/services/collection.service';
 import { SelectComponent } from './shared/components/select/select.component';
-import { InstitutionService } from './shared/services/institution.service';
+import { apolloDefaultOptions } from './shared/config/apollo.default.options';
+import { onError } from 'apollo-link-error';
+import { InstitutionService } from './institutions/services/institution.service';
 
 @NgModule({
     declarations: [
@@ -77,7 +79,7 @@ import { InstitutionService } from './shared/services/institution.service';
         ConfirmComponent,
         FocusDirective,
         CollectionComponent,
-        SelectComponent
+        SelectComponent,
     ],
     entryComponents: [
         ConfirmComponent,
@@ -130,21 +132,42 @@ import { InstitutionService } from './shared/services/institution.service';
     bootstrap: [AppComponent],
 })
 export class AppModule {
-    constructor(apollo: Apollo, networkActivitySvc: NetworkActivityService) {
-        const link = createUploadLink({uri: '/graphql'});
+    constructor(apollo: Apollo, networkActivitySvc: NetworkActivityService, alertSvc: AlertService) {
+
+        const link = createUploadLink({
+            uri: '/graphql',
+            credentials: 'include',
+        });
 
         const middleware = new ApolloLink((operation, forward) => {
             networkActivitySvc.increase();
             return forward(operation).map(response => {
-                networkActivitySvc.updateErrors(response);
                 networkActivitySvc.decrease();
                 return response;
             });
         });
 
+        const errorLink = onError(({graphQLErrors, networkError}) => {
+
+            // Network errors seems not to be catched by above middleware, and we need to be informed to decrease pending queries
+            if (networkError) {
+                alertSvc.error('Une erreur est survenue sur le réseau');
+                networkActivitySvc.decrease();
+            }
+
+            // Graphql responses with errors are valid responses and are catched by the above middleware.
+            // There seems to be no need to do something here
+            // Seems we have no need to deal
+            if (graphQLErrors) {
+                alertSvc.error('Une erreur est survenue du côté du serveur');
+                networkActivitySvc.updateErrors(graphQLErrors);
+            }
+        });
+
         apollo.create({
-            link: concat(middleware, link),
+            link: middleware.concat(errorLink).concat(link),
             cache: new InMemoryCache(),
+            defaultOptions: apolloDefaultOptions,
         });
     }
 

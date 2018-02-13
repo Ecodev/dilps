@@ -38,13 +38,11 @@ class MockApollo extends Apollo {
             Float: () => 0.5,
             String: () => 'test string',
             Boolean: () => true,
-            Chronos: () => '2018-01-18T11:43:31',
             Date: () => '2018-02-27',
-            ActionPriority: () => 'ActionPriority2',
-            ActionStatus: () => 'ActionStatus2',
-            ReportFactor: () => 'ReportFactor2',
-            Visa: () => 'Visa2',
-            DocumentType: () => 'file',
+            DateTime: () => '2018-01-18T11:43:31',
+            Login: () => 'test string',
+            ImageType: () => 'image',
+            ImageStatus: () => 'new',
         };
 
         addMockFunctionsToSchema({schema, mocks});
