@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ThemeService } from '../shared/services/theme.service';
 import { UserService } from '../users/services/user.service';
 import { NetworkActivityService } from '../shared/services/network-activity.service';
-import { AlertService } from '../shared/services/alert.service';
 import { MatSnackBar } from '@angular/material';
+import { AlertService } from '../shared/components/alert/alert.service';
 
 @Component({
     selector: 'app-home',

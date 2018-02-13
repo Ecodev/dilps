@@ -1,0 +1,20 @@
+@mixin alert($theme) {
+
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+    $bg: map-get($theme, background);
+    $fg: map-get($theme, foreground);
+
+    .mat-snack-bar-container {
+        margin-top: 10px;
+    }
+
+    .snackbar-error {
+        background-color: mat-color($warn) !important;
+        color: mat-color($warn, default-contrast) !important;
+    }
+
+}
+
+

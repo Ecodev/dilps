@@ -52,8 +52,6 @@ import { UsersComponent } from './users/users/users.component';
 import { TableButtonComponent } from './shared/components/table-button/table-button.component';
 import { CollectionsComponent } from './collections/collections/collections.component';
 import { UserResolver } from './users/services/user.resolver';
-import { ConfirmComponent } from './shared/components/confirm/confirm.component';
-import { AlertService } from './shared/services/alert.service';
 import { FocusDirective } from './shared/directives/focus';
 import { ImageResolver } from './image/services/image.resolver';
 import { ImageService } from './image/services/image.service';
@@ -63,6 +61,8 @@ import { SelectComponent } from './shared/components/select/select.component';
 import { apolloDefaultOptions } from './shared/config/apollo.default.options';
 import { onError } from 'apollo-link-error';
 import { InstitutionService } from './institutions/services/institution.service';
+import { AlertService } from './shared/components/alert/alert.service';
+import { ConfirmComponent } from './shared/components/alert/confirm.component';
 
 @NgModule({
     declarations: [

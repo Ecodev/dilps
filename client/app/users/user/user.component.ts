@@ -3,8 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ThemeService } from '../../shared/services/theme.service';
 import { UserService } from '../services/user.service';
 import { merge } from 'lodash';
-import { AlertService } from '../../shared/services/alert.service';
 import { InstitutionService } from '../../institutions/services/institution.service';
+import { AlertService } from '../../shared/components/alert/alert.service';
 
 @Component({
     selector: 'app-profile',

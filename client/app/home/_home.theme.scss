@@ -6,31 +6,7 @@
     $bg: map-get($theme, background);
     $fg: map-get($theme, foreground);
 
-    .mat-snack-bar-container {
-        margin-left: 88px;
-    }
-
-    .snackbar-error {
-        background-color: mat-color($warn) !important;
-        color: mat-color($warn, default-contrast) !important;
-    }
-
-    .error-menu {
-        .mat-menu-item {
-            height: auto;
-        }
-    }
-
     app-home {
-
-        .mat-menu-panel.error-menu {
-            max-width: 450px;
-
-            .error:not(:last-child) {
-                padding-bottom: 20px;
-            }
-        }
-
         #menu {
             background: mat-color($primary);
 
@@ -53,13 +29,26 @@
             .mat-divider {
                 border-top-color: rgba(255, 255, 255, 0.2);
             }
+        }
+    }
 
-            .mat-nav-list .mat-list-item .mat-list-item-content {
-                //padding: 9px;
-            }
+    .mat-menu-panel.error-menu {
+        max-width:none !important;
+        width:auto !important;
+
+        .mat-caption {
+            word-break: break-all;
         }
 
+        .error:not(:last-child) {
+            padding-bottom: 20px;
+        }
+
+        .mat-menu-item {
+            height: auto;
+        }
     }
+
 }
 
 
