@@ -41,7 +41,7 @@ export class CollectionsComponent implements OnInit {
         event.stopPropagation();
 
         const dialogRef = this.dialog.open(CollectionComponent, {
-            width: '500px',
+            width: '800px',
             data: {collection: collection},
         });
 
@@ -55,7 +55,7 @@ export class CollectionsComponent implements OnInit {
 
     public add() {
         const dialogRef = this.dialog.open(CollectionComponent, {
-            width: '500px',
+            width: '800px',
         });
 
         dialogRef.afterClosed().subscribe(collection => {
