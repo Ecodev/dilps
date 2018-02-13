@@ -37,11 +37,11 @@
   "lint": [
     {
       "project": "client/tsconfig.app.json",
-      "exclude": "**/node_modules/**"
+      "exclude": ["**/node_modules/**", "**/data/tmp/**/*"]
     },
     {
       "project": "client/tsconfig.spec.json",
-      "exclude": "**/node_modules/**"
+      "exclude": ["**/node_modules/**", "**/data/tmp/**/*"]
     },
     {
       "project": "e2e/tsconfig.e2e.json",
@@ -63,5 +63,6 @@
       "host": "dilps.lan",
       "proxyConfig": "proxy.conf.json"
     }
-  }
+  },
+  "packageManager": "yarn"
 }
