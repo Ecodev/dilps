@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import { userMetaFragment } from '../../shared/queries/fragments';
 
 export const usersQuery = gql`
 query Users($filters: UserFilter, $pagination: PaginationInput) {
@@ -8,8 +9,6 @@ query Users($filters: UserFilter, $pagination: PaginationInput) {
             email
             login
             activeUntil
-            creationDate
-            updateDate
         }
         pageSize
         pageIndex
@@ -31,27 +30,39 @@ query User($id: UserID!) {
             id
             name
         }
+        creationDate
+        creator {
+            ...userMeta
+        }
+        updateDate
+        updater {
+            ...userMeta
+        }
     }
-}`;
+}${userMetaFragment}`;
 
 export const createUserMutation = gql`
 mutation CreateUser ($input: UserInput!) {
     createUser (input: $input) {
         id
+        creationDate
+        creator {
+            ...userMeta
+        }
     }
-}`;
+}${userMetaFragment}`;
+
 
 export const updateUserMutation = gql`
 mutation UpdateUser($id: UserID!, $input: UserInput!) {
     updateUser(id: $id, input: $input) {
-        id
-        email
-        login
-        activeUntil
-        creationDate
         updateDate
+        updater {
+            ...userMeta
+        }
     }
-}`;
+}${userMetaFragment}`;
+
 
 export const deleteUserMutation = gql`
 mutation DeleteUser ($id: UserID!){
