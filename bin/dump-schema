@@ -16,7 +16,8 @@ if (!fs.existsSync(folder)) {
     fs.mkdirSync(folder)
 }
 
-fs.writeFileSync(folder + filename, 'export const schema = ' + introspectedSchema + ';');
+const disableTsLintMessage = '/* tslint:disable */\n';
+fs.writeFileSync(folder + filename, disableTsLintMessage + 'export const schema = ' + introspectedSchema + ';');
 fs.writeFileSync(folder + 'schema.json', introspectedSchema);
 
 process.stdout.write(folder + filename + ' was written\n');
