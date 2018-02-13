@@ -1,9 +1,13 @@
-import { Component, ContentChild, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
+import { Component, ContentChild, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild, } from '@angular/core';
 import { IncrementSubject } from '../../services/increment-subject';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms';
 import { isObject, merge } from 'lodash';
-import { debounceTime, filter, map } from 'rxjs/operators';
+import { filter, map, sampleTime } from 'rxjs/operators';
+import { QueryRef } from 'apollo-angular';
+import { MatAutocompleteTrigger } from '@angular/material';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Literal } from '../../types';
 
 /**
  * Default usage:
@@ -20,6 +24,9 @@ import { debounceTime, filter, map } from 'rxjs/operators';
  *
  * Placeholder :
  * <app-select placeholder="amazing placeholder">
+ *
+ * Never float placeholder :
+ * <app-select placeholder="amazing placeholder" floatPlaceholder="never">
  */
 @Component({
     selector: 'app-select',
@@ -27,6 +34,8 @@ import { debounceTime, filter, map } from 'rxjs/operators';
 })
 export class SelectComponent implements OnInit {
 
+    @ViewChild(MatAutocompleteTrigger) autoTrigger: MatAutocompleteTrigger;
+    @ViewChild('input') input: ElementRef;
     @ContentChild(TemplateRef) itemTemplate: TemplateRef<any>;
 
     /**
@@ -34,26 +43,39 @@ export class SelectComponent implements OnInit {
      */
     @Input() service;
     @Input() placeholder: string;
+    @Input() floatPlaceholder: string = null;
     @Input() readonly = false;
 
     /**
-     * The filter to update when searching for a term
+     * The filter attribute to bind when searching for a term
      * @type {string}
      */
     @Input() searchField = 'search';
 
     /**
-     * Additionnal filters for query
+     * Whether to show the search icon
+     */
+    @Input() showIcon = true;
+
+    /**
+     * Additional filters for query
      */
     @Input() filters: any = {};
 
     /**
      * Function to customize the rendering of the selected item as text in input
      */
-    @Input() displayWith;
+    @Input() displayWith: (any) => string;
 
     /**
-     * Model ouput
+     * Whether the disabled can be changed
+     */
+    @Input() set disabled(disabled: boolean) {
+        disabled ? this.formCtrl.disable() : this.formCtrl.enable();
+    }
+
+    /**
+     * Model output
      * Usage : (modelChange)
      * @type {EventEmitter<any>}
      */
@@ -66,18 +88,15 @@ export class SelectComponent implements OnInit {
      */
     @Output() change = new EventEmitter();
 
+    @Output() blur = new EventEmitter();
+
     /**
      * Allow to select a model
      * Usage : [model]
      * @param val
      */
-    @Input()
-    set model(val) {
-        if (this.selected && !val) {
-            this.clear(true);
-        } else if (!this.selected && val) {
-            this.selected = val;
-        }
+    @Input() set model(val) {
+        this.selected = val;
     }
 
     /**
@@ -90,20 +109,10 @@ export class SelectComponent implements OnInit {
      */
     public items: Observable<any[]>;
 
-    /**
-     * Nb of shown items in list
-     */
-    public nbListed: number;
-
-    /**
-     * Nb of total elements that correspond to search
-     */
-    public nbTotal: number;
-
     public formCtrl: FormControl = new FormControl();
     public loading = false;
     public ac;
-    private query: Observable<any>;
+    private queryRef: QueryRef<any>;
 
     /**
      * Default page size
@@ -115,10 +124,29 @@ export class SelectComponent implements OnInit {
      * Init search options
      * @type {IncrementSubject}
      */
-    public options;
+    private options: IncrementSubject;
+
+    /**
+     * Number of items not shown in result list
+     * Shows a message after list if positive
+     */
+    public moreNbItems = 0;
+
+    /**
+     * Filter options debounced.
+     * Used by the query
+     */
+    private optionsFiltered: BehaviorSubject<Literal>;
 
     constructor() {
+    }
 
+    public onFocus() {
+        this.startSearch();
+    }
+
+    open() {
+        this.autoTrigger.openPanel();
     }
 
     ngOnInit() {
@@ -139,36 +167,53 @@ export class SelectComponent implements OnInit {
 
         options.filters[this.searchField] = null;
         this.options = new IncrementSubject(options);
-        let test = merge({}, options);
+        this.optionsFiltered = new BehaviorSubject<Literal>(options);
 
         // Debounce search...
         // ...and filter only string search terms (when an item is selected, the value is an object)
-        const newSearchObs = this.options.pipe(debounceTime(400), filter((val: any) => {
-            return !isObject(val.filters[this.searchField]);
-        }), map(val => {
-            test = merge({}, this.filters, val);
-            return merge({}, this.filters, val);
-        }));
+        this.options.pipe(sampleTime(400), filter(val => {
+            return !isObject(val.filters[this.searchField]); // prevent to emit when value is an object
+        })).subscribe(data => {
+            this.optionsFiltered.next(merge({}, {filters: this.filters}, data));
+        });
+
+    }
+
+    public startSearch() {
+
+        /**
+         * Start search only once
+         */
+        if (this.queryRef) {
+            return;
+        }
+
+        this.loading = true;
+
+        this.optionsFiltered.subscribe((data) => {
+            if (data.filters[this.searchField]) {
+                this.loading = true;
+            }
+        });
 
         // Init query
-        this.query = this.service.watchAll(newSearchObs);
-
-        // When debounced options is fired, start loading (apollo starts query)
-        newSearchObs.subscribe((data) => this.loading = true);
+        this.queryRef = this.service.watchAll(this.optionsFiltered);
 
         // When query results arrive, start loading, and count items
-        this.query.subscribe(data => {
+        this.queryRef.valueChanges.subscribe((data: any) => {
             this.loading = false;
-            this.nbTotal = data.length;
-            this.nbListed = Math.min(data.length, this.pageSize);
+
+            const nbTotal = data.length;
+            const nbListed = Math.min(data.length, this.pageSize);
+            this.moreNbItems = nbTotal - nbListed;
+
             if (data.length === 1) {
                 this.selected = data.items[0];
                 this.notify(data.items[0]);
             }
         });
 
-        this.items = this.query.pipe(map(data => data.items));
-
+        this.items = this.queryRef.valueChanges.pipe(map((data: any) => data.items));
     }
 
     public notify(ev) {
@@ -176,13 +221,12 @@ export class SelectComponent implements OnInit {
         this.change.emit(ev && ev.option ? ev.option.value : ev);
     }
 
-    /**
-     * Transform an object into the string to display in the input (managed by displayWith attribute on autocomplete element)
-     * @param item
-     * @returns {string}
-     */
-    public displayFn(item) {
-        return item ? item.name : '';
+    public getDisplayFn(): (item: any) => string {
+        if (this.displayWith) {
+            return this.displayWith;
+        }
+
+        return (item) => item ? item.name : '';
     }
 
     public clear(preventNotify = false) {
