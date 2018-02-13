@@ -31,17 +31,14 @@ export class UserComponent implements OnInit {
 
     ngOnInit() {
         if (this.data && this.data.user) {
-            console.log('user', this.data);
             merge(this.user, this.data.user);
             this.userSvc.getOne(this.data.user.id).subscribe(user => {
-                console.log('user', user);
                 merge(this.user, user);
             });
         }
     }
 
     public update() {
-        console.log('update', this.user);
         this.userSvc.update(this.user).subscribe(() => {
             this.alertSvc.info('Mis à jour');
         });

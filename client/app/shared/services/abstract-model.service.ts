@@ -211,7 +211,6 @@ export abstract class AbstractModelService<Tone, Tall, Tcreate, Tupdate, Tdelete
      */
     protected getInput(object: Literal): Literal {
 
-        console.log('getInput', object);
         // Convert relations to their IDs for mutation
         object = UtilityService.relationsToIds(object);
 
@@ -220,11 +219,9 @@ export abstract class AbstractModelService<Tone, Tall, Tcreate, Tupdate, Tdelete
         const emptyObject = this.getEmptyObject();
         let input = pick(object, Object.keys(emptyObject));
 
-        console.log('pick', emptyObject);
         // Complete a potentially uncompleted object with default values
         input = defaults(input, emptyObject);
 
-        console.log('defaults', input);
         return input;
     }
 

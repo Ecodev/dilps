@@ -43,6 +43,7 @@ class MockApollo extends Apollo {
             Login: () => 'test string',
             ImageType: () => 'image',
             ImageStatus: () => 'new',
+            UserType: () => 'default'
         };
 
         addMockFunctionsToSchema({schema, mocks});
