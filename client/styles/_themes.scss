@@ -69,20 +69,25 @@ $mat-dilps: (
 );
 
 // Configure themes
-$okPilot-primary: mat-palette($mat-dilps);
-$okPilot-accent: mat-palette($mat-orange);
-$okPilot-warn: mat-palette($mat-red);
-$okPilot-theme-light: mat-light-theme($okPilot-primary, $okPilot-accent, $okPilot-warn);
-$okPilot-theme-dark: mat-dark-theme($okPilot-primary, $okPilot-accent, $okPilot-warn);
+$dilps-primary: mat-palette($mat-dilps);
+$dilps-accent: mat-palette($mat-orange);
+$dilps-warn: mat-palette($mat-red);
+$dilps-theme-light: mat-light-theme($dilps-primary, $dilps-accent, $dilps-warn);
+$dilps-theme-dark: mat-dark-theme($dilps-primary, $dilps-accent, $dilps-warn);
 
-@include angular-material-theme($okPilot-theme-light);
+$baseColorLight: mat-color(map-get($dilps-theme-light, foreground), base);
+$baseColorDark: mat-color(map-get($dilps-theme-dark, foreground), base);
+
+@include angular-material-theme($dilps-theme-light);
 
 .default {
-    @include components-theme($okPilot-theme-light);
+    color: $baseColorLight;
+    @include components-theme($dilps-theme-light);
 }
 
 .defaultDark {
-    @include angular-material-theme($okPilot-theme-dark);
-    @include components-theme($okPilot-theme-dark);
+    color: $baseColorDark;
+    @include angular-material-theme($dilps-theme-dark);
+    @include components-theme($dilps-theme-dark);
 }
 
