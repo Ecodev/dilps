@@ -5,6 +5,7 @@
  */
 const execFileSync = require('child_process').execFileSync;
 const fs = require('fs');
+var shell = require('shelljs');
 const utilities = require('graphql/utilities');
 
 const query = utilities.getIntrospectionQuery();
@@ -13,7 +14,7 @@ const folder = 'data/tmp/schema/';
 const filename = 'index.ts';
 
 if (!fs.existsSync(folder)) {
-    fs.mkdirSync(folder)
+    shell.mkdir('-p', folder);
 }
 
 const disableTsLintMessage = '/* tslint:disable */\n';
