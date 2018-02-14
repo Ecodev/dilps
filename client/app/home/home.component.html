@@ -46,11 +46,7 @@
                         </a>
 
                         <!-- Authors -->
-                        <a mat-list-item
-                           routerLink="/artist"
-                           routerLinkActive="active"
-                           matTooltipPosition="after"
-                           matTooltip="Artistes"
+                        <a mat-list-item routerLink="/artist" routerLinkActive="active" matTooltipPosition="after" matTooltip="Artistes"
                         >
                             <mat-icon mat-list-icon>copyright</mat-icon>
                         </a>
@@ -69,7 +65,7 @@
                         </a>
 
                         <!-- Account -->
-                        <a mat-list-item routerLink="/profile" routerLinkActive="active" matTooltipPosition="after" matTooltip="Mon compte">
+                        <a mat-list-item (click)="editUser()" matTooltipPosition="after" matTooltip="Mon compte">
                             <mat-icon mat-list-icon>account_circle</mat-icon>
                         </a>
 
@@ -80,7 +76,6 @@
                     </mat-nav-list>
 
                     <!-- Bottom nav -->
-
                     <a mat-icon-button
                        mat-raised-button
                        [matMenuTriggerFor]="errorsMenu"
