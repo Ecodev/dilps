@@ -4,7 +4,7 @@
         <mat-sidenav *ngIf="initialized" id="menu" align="start" mode="side" opened="true" class="menuMinimized">
             <div fxFlex fxLayout="row" fxFlexAlign="start center">
                 <div fxLayout="column">
-                    <mat-nav-list fxFlex>
+                    <mat-nav-list>
                         <!-- Dashboard -->
                         <a mat-list-item routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                             <mat-icon mat-list-icon>home</mat-icon>
@@ -31,6 +31,10 @@
                             <mat-icon mat-list-icon>collections_bookmark</mat-icon>
                         </a>
 
+                    </mat-nav-list>
+                    <mat-divider></mat-divider>
+                    <mat-nav-list>
+
                         <!-- Institutions -->
                         <a mat-list-item
                            routerLink="/institution"
@@ -41,6 +45,19 @@
                             <mat-icon mat-list-icon>place</mat-icon>
                         </a>
 
+                        <!-- Authors -->
+                        <a mat-list-item
+                           routerLink="/artist"
+                           routerLinkActive="active"
+                           matTooltipPosition="after"
+                           matTooltip="Artistes"
+                        >
+                            <mat-icon mat-list-icon>copyright</mat-icon>
+                        </a>
+
+                    </mat-nav-list>
+                    <mat-divider></mat-divider>
+                    <mat-nav-list fxFlex>
                         <!-- Users -->
                         <a mat-list-item
                            routerLink="/user"

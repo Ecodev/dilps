@@ -66,6 +66,9 @@ import { ConfirmComponent } from './shared/components/alert/confirm.component';
 import { TermsAgreementComponent } from './login/terms-agreement.component';
 import { InstitutionsComponent } from './institutions/institutions/institutions.component';
 import { InstitutionComponent } from './institutions/institution/institution.component';
+import { ArtistComponent } from './artists/artist/artist.component';
+import { ArtistsComponent } from './artists/artists/artist.component';
+import { ArtistService } from './artists/services/artist.service';
 
 @NgModule({
     declarations: [
@@ -86,12 +89,15 @@ import { InstitutionComponent } from './institutions/institution/institution.com
         TermsAgreementComponent,
         InstitutionsComponent,
         InstitutionComponent,
+        ArtistComponent,
+        ArtistsComponent
     ],
     entryComponents: [
         ConfirmComponent,
         UserComponent,
         TermsAgreementComponent,
-        InstitutionComponent
+        InstitutionComponent,
+        ArtistComponent
     ],
     imports: [
         BrowserModule,
@@ -137,6 +143,7 @@ import { InstitutionComponent } from './institutions/institution/institution.com
         ImageService,
         AlertService,
         InstitutionService,
+        ArtistService
     ],
     bootstrap: [AppComponent],
 })

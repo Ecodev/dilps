@@ -11,6 +11,7 @@ import { CollectionsComponent } from './collections/collections/collections.comp
 import { ImageResolver } from './image/services/image.resolver';
 import { CollectionComponent } from './collections/collection/collection.component';
 import { InstitutionsComponent } from './institutions/institutions/institutions.component';
+import { ArtistsComponent } from './artists/artists/artist.component';
 
 export const routes: Routes = [
 
@@ -47,6 +48,10 @@ export const routes: Routes = [
             {
                 path: 'institution',
                 component: InstitutionsComponent,
+            },
+            {
+                path: 'artist',
+                component: ArtistsComponent,
             },
             {
                 path: 'collection',
