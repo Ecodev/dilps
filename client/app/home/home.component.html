@@ -31,6 +31,26 @@
                             <mat-icon mat-list-icon>collections_bookmark</mat-icon>
                         </a>
 
+                        <!-- Users -->
+                        <a mat-list-item
+                           routerLink="/user"
+                           routerLinkActive="active"
+                           matTooltipPosition="after"
+                           matTooltip="Liste des utilisateurs"
+                        >
+                            <mat-icon mat-list-icon>group</mat-icon>
+                        </a>
+
+                        <!-- Notifications -->
+                        <a mat-list-item
+                           routerLink="/notification"
+                           routerLinkActive="active"
+                           matTooltipPosition="after"
+                           matTooltip="Notifications"
+                        >
+                            <mat-icon mat-list-icon>notifications</mat-icon>
+                        </a>
+
                     </mat-nav-list>
                     <mat-divider></mat-divider>
                     <mat-nav-list>
@@ -54,16 +74,6 @@
                     </mat-nav-list>
                     <mat-divider></mat-divider>
                     <mat-nav-list fxFlex>
-                        <!-- Users -->
-                        <a mat-list-item
-                           routerLink="/user"
-                           routerLinkActive="active"
-                           matTooltipPosition="after"
-                           matTooltip="Liste des utilisateurs"
-                        >
-                            <mat-icon mat-list-icon>group</mat-icon>
-                        </a>
-
                         <!-- Account -->
                         <a mat-list-item (click)="editUser()" matTooltipPosition="after" matTooltip="Mon compte">
                             <mat-icon mat-list-icon>account_circle</mat-icon>

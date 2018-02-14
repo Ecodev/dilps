@@ -54,13 +54,16 @@
                     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                 </mat-table>
 
-                <div fxLayout="column" fxLayoutAlign="center center">
-                    <mat-progress-spinner *ngIf="!dataSource.snapshot.data.items" mode="indeterminate" [diameter]="40"
-                    ></mat-progress-spinner>
-                    <div *ngIf="dataSource.snapshot.data.items?.length === 0">Pas de résultats</div>
+                <div fxLayout="column" fxLayoutAlign="center center" class="margin" *ngIf="dataSource.snapshot.data.length === 0">
+                    <div i18n>Pas de résultats</div>
                 </div>
 
-                <mat-paginator [length]="dataSource.snapshot.data.length"
+                <div fxLayout="column" fxLayoutAlign="center center" class="margin" *ngIf="!dataSource.snapshot.data.items">
+                    <mat-progress-spinner mode="indeterminate" [diameter]="40"></mat-progress-spinner>
+                </div>
+
+                <mat-paginator *ngIf="dataSource.snapshot.data.length > 0"
+                               [length]="dataSource.snapshot.data.length"
                                [pageSize]="dataSource.snapshot.options.pagination.pageSize"
                                [pageIndex]="dataSource.snapshot.options.pagination.pageIndex"
                                [pageSizeOptions]="dataSource.pageSizeOptions"

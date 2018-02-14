@@ -21,7 +21,7 @@
             </div>
 
             <div>
-                <button mat-icon-button (click)="add()" matTooltip="Ajouter un utilisateur">
+                <button mat-icon-button (click)="add()" matTooltip="Ajouter un artiste">
                     <mat-icon>add</mat-icon>
                 </button>
             </div>
@@ -31,7 +31,7 @@
 
             <div class="padding">
 
-                <div class="mat-headline">Artists</div>
+                <div class="mat-headline">Artistes</div>
 
                 <mat-table [dataSource]="dataSource">
 
@@ -54,19 +54,21 @@
                     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                 </mat-table>
 
-                <div fxLayout="column" fxLayoutAlign="center center">
-                    <mat-progress-spinner *ngIf="!dataSource.snapshot.data.items" mode="indeterminate" [diameter]="40"
-                    ></mat-progress-spinner>
-                    <div *ngIf="dataSource.snapshot.data.items?.length === 0">Pas de résultats</div>
+                <div fxLayout="column" fxLayoutAlign="center center" class="margin" *ngIf="dataSource.snapshot.data.length === 0">
+                    <div i18n>Pas de résultats</div>
                 </div>
 
-                <mat-paginator [length]="dataSource.snapshot.data.length"
+                <div fxLayout="column" fxLayoutAlign="center center" class="margin" *ngIf="!dataSource.snapshot.data.items">
+                    <mat-progress-spinner mode="indeterminate" [diameter]="40"></mat-progress-spinner>
+                </div>
+
+                <mat-paginator *ngIf="dataSource.snapshot.data.length > 0"
+                               [length]="dataSource.snapshot.data.length"
                                [pageSize]="dataSource.snapshot.options.pagination.pageSize"
                                [pageIndex]="dataSource.snapshot.options.pagination.pageIndex"
                                [pageSizeOptions]="dataSource.pageSizeOptions"
                                (page)="dataSource.paging($event)"
                 ></mat-paginator>
-            </div>
         </div>
     </div>
 </div>
