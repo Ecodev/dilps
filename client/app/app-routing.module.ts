@@ -12,6 +12,7 @@ import { ImageResolver } from './image/services/image.resolver';
 import { CollectionComponent } from './collections/collection/collection.component';
 import { InstitutionsComponent } from './institutions/institutions/institutions.component';
 import { ArtistsComponent } from './artists/artists/artist.component';
+import { NotificationsComponent } from './notifications/notifications/notifications.component';
 
 export const routes: Routes = [
 
@@ -52,6 +53,10 @@ export const routes: Routes = [
             {
                 path: 'artist',
                 component: ArtistsComponent,
+            },
+            {
+                path: 'notification',
+                component: NotificationsComponent,
             },
             {
                 path: 'collection',

@@ -69,6 +69,7 @@ import { InstitutionComponent } from './institutions/institution/institution.com
 import { ArtistComponent } from './artists/artist/artist.component';
 import { ArtistsComponent } from './artists/artists/artist.component';
 import { ArtistService } from './artists/services/artist.service';
+import { NotificationsComponent } from './notifications/notifications/notifications.component';
 
 @NgModule({
     declarations: [
@@ -90,7 +91,8 @@ import { ArtistService } from './artists/services/artist.service';
         InstitutionsComponent,
         InstitutionComponent,
         ArtistComponent,
-        ArtistsComponent
+        ArtistsComponent,
+        NotificationsComponent
     ],
     entryComponents: [
         ConfirmComponent,
