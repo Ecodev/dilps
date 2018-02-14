@@ -6,6 +6,7 @@ import 'rxjs/add/observable/of';
 import { CreateUserMutation, DeleteUserMutation, UpdateUserMutation, UserQuery, UsersQuery, UserType, } from '../../shared/generated-types';
 import { AbstractModelService } from '../../shared/services/abstract-model.service';
 import { createUserMutation, deleteUserMutation, updateUserMutation, userQuery, usersQuery } from './userQueries';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class UserService extends AbstractModelService<UserQuery['user'],
@@ -14,12 +15,7 @@ export class UserService extends AbstractModelService<UserQuery['user'],
     UpdateUserMutation['updateUser'],
     DeleteUserMutation['deleteUser']> {
 
-    private demoUser = {
-        id: '1',
-        login: 'sbaptista',
-        firstname: 'Samuel',
-        lastname: 'Baptista',
-    };
+    private currentUser;
 
     constructor(apollo: Apollo, private router: Router) {
         super(apollo, 'user', userQuery, usersQuery, createUserMutation, updateUserMutation, deleteUserMutation);
@@ -37,17 +33,33 @@ export class UserService extends AbstractModelService<UserQuery['user'],
     }
 
     public getCurrentUser(): Observable<any> {
-        const user = JSON.parse(localStorage.getItem('dilps-user'));
-        return Observable.of(user);
+
+        // todo : replace by real login behavior
+        const id = localStorage.getItem('dilps-userId');
+        if (!id) {
+            return Observable.of(null);
+        }
+
+        if (this.currentUser) {
+            return Observable.of(this.currentUser);
+        }
+
+        return this.getOne(id).pipe(map(user => {
+            this.currentUser = user;
+            return user;
+        }));
+
     }
 
     public login(loginData): Observable<any> {
-        localStorage.setItem('dilps-user', JSON.stringify(this.demoUser));
+        // todo : replace by real login behavior
+        localStorage.setItem('dilps-userId', '2');
         return Observable.of(1);
     }
 
     public logout(): void {
-        localStorage.removeItem('dilps-user');
+        // todo : replace by real login behavior
+        localStorage.removeItem('dilps-userId');
         this.router.navigate(['/login']);
     }
 
