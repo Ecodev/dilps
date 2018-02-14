@@ -54,7 +54,7 @@ export class UserService extends AbstractModelService<UserQuery['user'],
     public login(loginData): Observable<any> {
         // todo : replace by real login behavior
         localStorage.setItem('dilps-userId', '2');
-        return Observable.of(1);
+        return this.getCurrentUser();
     }
 
     public logout(): void {

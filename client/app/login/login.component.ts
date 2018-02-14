@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../users/services/user.service';
-import { MatSnackBar } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { NetworkActivityService } from '../shared/services/network-activity.service';
+import { TermsAgreementComponent } from './terms-agreement.component';
+import { merge } from 'lodash';
 
 @Component({
     selector: 'app-login',
@@ -31,10 +33,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     private currentUser: any;
 
     constructor(private route: ActivatedRoute,
-        private router: Router,
-        private userService: UserService,
-        private network: NetworkActivityService,
-        public snackBar: MatSnackBar) {
+                private router: Router,
+                private userService: UserService,
+                private network: NetworkActivityService,
+                public snackBar: MatSnackBar,
+                public dialog: MatDialog) {
     }
 
     ngOnInit(): void {
@@ -71,9 +74,26 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.snackBar.dismiss();
         this.loading = true;
         this.status = 'loading';
-        this.userService.login(this.loginForm).subscribe(() => {
-            this.redirect();
+        this.userService.login(this.loginForm).subscribe((user) => {
             this.loading = false;
+            if (!user.termsAgreement) {
+                this.showTerms(user);
+            } else {
+                this.redirect();
+            }
+        });
+    }
+
+    private showTerms(user) {
+        this.dialog.open(TermsAgreementComponent).afterClosed().subscribe((accepted) => {
+            if (accepted) {
+                const date = {termsAgreement: (new Date()).toDateString()};
+                this.userService.update(merge({}, user, date)).subscribe(u => {
+                    this.redirect();
+                });
+            } else {
+                this.userService.logout();
+            }
         });
     }
 

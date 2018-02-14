@@ -63,6 +63,7 @@ import { onError } from 'apollo-link-error';
 import { InstitutionService } from './institutions/services/institution.service';
 import { AlertService } from './shared/components/alert/alert.service';
 import { ConfirmComponent } from './shared/components/alert/confirm.component';
+import { TermsAgreementComponent } from './login/terms-agreement.component';
 
 @NgModule({
     declarations: [
@@ -80,10 +81,12 @@ import { ConfirmComponent } from './shared/components/alert/confirm.component';
         FocusDirective,
         CollectionComponent,
         SelectComponent,
+        TermsAgreementComponent,
     ],
     entryComponents: [
         ConfirmComponent,
         UserComponent,
+        TermsAgreementComponent,
     ],
     imports: [
         BrowserModule,
