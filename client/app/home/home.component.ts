@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
     public errors = [];
 
     constructor(private themeSvc: ThemeService,
-        private userSvc: UserService,
+        public userSvc: UserService,
         private network: NetworkActivityService,
         private snackBar: MatSnackBar,
         private alertSvc: AlertService) {

@@ -64,6 +64,8 @@ import { InstitutionService } from './institutions/services/institution.service'
 import { AlertService } from './shared/components/alert/alert.service';
 import { ConfirmComponent } from './shared/components/alert/confirm.component';
 import { TermsAgreementComponent } from './login/terms-agreement.component';
+import { InstitutionsComponent } from './institutions/institutions/institutions.component';
+import { InstitutionComponent } from './institutions/institution/institution.component';
 
 @NgModule({
     declarations: [
@@ -82,11 +84,14 @@ import { TermsAgreementComponent } from './login/terms-agreement.component';
         CollectionComponent,
         SelectComponent,
         TermsAgreementComponent,
+        InstitutionsComponent,
+        InstitutionComponent,
     ],
     entryComponents: [
         ConfirmComponent,
         UserComponent,
         TermsAgreementComponent,
+        InstitutionComponent
     ],
     imports: [
         BrowserModule,

@@ -55,7 +55,7 @@ export class UsersComponent implements OnInit {
     }
 
     public add() {
-        const dialogRef = this.dialog.open(UserComponent, {
+        this.dialog.open(UserComponent, {
             width: '800px',
         });
     }

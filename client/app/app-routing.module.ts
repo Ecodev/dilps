@@ -8,9 +8,9 @@ import { ListComponent } from './list/list.component';
 import { ImageComponent } from './image/image.component';
 import { UsersComponent } from './users/users/users.component';
 import { CollectionsComponent } from './collections/collections/collections.component';
-import { UserResolver } from './users/services/user.resolver';
 import { ImageResolver } from './image/services/image.resolver';
 import { CollectionComponent } from './collections/collection/collection.component';
+import { InstitutionsComponent } from './institutions/institutions/institutions.component';
 
 export const routes: Routes = [
 
@@ -42,21 +42,11 @@ export const routes: Routes = [
             },
             {
                 path: 'user',
-                children: [
-                    {
-                        path: '',
-                        component: UsersComponent,
-                    },
-                    {
-                        path: 'new',
-                        component: UserComponent,
-                    },
-                    {
-                        path: ':userId',
-                        component: UserComponent,
-                        resolve: {user: UserResolver},
-                    },
-                ],
+                component: UsersComponent,
+            },
+            {
+                path: 'institution',
+                component: InstitutionsComponent,
             },
             {
                 path: 'collection',

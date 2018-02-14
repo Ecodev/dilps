@@ -3,7 +3,7 @@
     <mat-sidenav-container #navContainer fxFlex fxLayout="column">
         <mat-sidenav *ngIf="initialized" id="menu" align="start" mode="side" opened="true" class="menuMinimized">
             <div fxFlex fxLayout="row" fxFlexAlign="start center">
-                <div fxLayout="column" >
+                <div fxLayout="column">
                     <mat-nav-list fxFlex>
                         <!-- Dashboard -->
                         <a mat-list-item routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
@@ -12,17 +12,42 @@
                         </a>
 
                         <!-- Collections publiques -->
-                        <a mat-list-item routerLink="/collection" routerLinkActive="active" matTooltipPosition="after" matTooltip="Collections publiques">
+                        <a mat-list-item
+                           routerLink="/collection"
+                           routerLinkActive="active"
+                           matTooltipPosition="after"
+                           matTooltip="Collections publiques"
+                        >
                             <mat-icon mat-list-icon>collections</mat-icon>
                         </a>
 
                         <!-- Mes collections -->
-                        <a mat-list-item routerLink="/my-collection" routerLinkActive="active" matTooltipPosition="after" matTooltip="Mes collections">
+                        <a mat-list-item
+                           routerLink="/my-collection"
+                           routerLinkActive="active"
+                           matTooltipPosition="after"
+                           matTooltip="Mes collections"
+                        >
                             <mat-icon mat-list-icon>collections_bookmark</mat-icon>
                         </a>
 
+                        <!-- Institutions -->
+                        <a mat-list-item
+                           routerLink="/institution"
+                           routerLinkActive="active"
+                           matTooltipPosition="after"
+                           matTooltip="Institutions"
+                        >
+                            <mat-icon mat-list-icon>place</mat-icon>
+                        </a>
+
                         <!-- Users -->
-                        <a mat-list-item routerLink="/user" routerLinkActive="active" matTooltipPosition="after" matTooltip="Liste des utilisateurs">
+                        <a mat-list-item
+                           routerLink="/user"
+                           routerLinkActive="active"
+                           matTooltipPosition="after"
+                           matTooltip="Liste des utilisateurs"
+                        >
                             <mat-icon mat-list-icon>group</mat-icon>
                         </a>
 
@@ -39,7 +64,13 @@
 
                     <!-- Bottom nav -->
 
-                    <a mat-icon-button mat-raised-button [matMenuTriggerFor]="errorsMenu" color="warn" *ngIf="errors.length" style="margin:0 11px">
+                    <a mat-icon-button
+                       mat-raised-button
+                       [matMenuTriggerFor]="errorsMenu"
+                       color="warn"
+                       *ngIf="errors.length"
+                       style="margin:0 11px"
+                    >
                         <mat-icon>error</mat-icon>
                     </a>
 
@@ -69,6 +100,7 @@
         <span class="mat-caption">{{ error.debugMessage }}</span>
     </div>
     <button mat-menu-item (click)="errors = []">
-        <mat-icon>close</mat-icon> Masquer
+        <mat-icon>close</mat-icon>
+        Masquer
     </button>
 </mat-menu>
