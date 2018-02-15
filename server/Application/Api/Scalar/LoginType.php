@@ -78,6 +78,6 @@ class LoginType extends ScalarType
      */
     private function isValid($value): bool
     {
-        return is_string($value) && preg_match("/^[a-zA-Z0-9\.-]+$/", $value);
+        return is_string($value) && preg_match('/^[a-zA-Z0-9\\.-]+$/', $value);
     }
 }
