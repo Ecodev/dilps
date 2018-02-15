@@ -11,6 +11,7 @@ import 'rxjs/add/observable/of';
 import {
     CreateInstitutionMutation,
     DeleteInstitutionsMutation,
+    InstitutionInput,
     InstitutionQuery,
     InstitutionsQuery,
     UpdateInstitutionMutation,
@@ -35,7 +36,7 @@ export class InstitutionService
             deleteInstitutionsMutation);
     }
 
-    public getEmptyObject() {
+    public getEmptyObject(): InstitutionInput {
         return {
             name: '',
         };

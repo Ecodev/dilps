@@ -10,6 +10,7 @@ import {
 import 'rxjs/add/observable/of';
 import { AbstractModelService } from '../../shared/services/abstract-model.service';
 import {
+    CollectionInput,
     CollectionQuery,
     CollectionsQuery,
     CreateCollectionMutation,
@@ -35,7 +36,7 @@ export class CollectionService
             deleteCollectionsMutation);
     }
 
-    public getEmptyObject() {
+    public getEmptyObject(): CollectionInput {
         return {
             name: '',
             description: '',

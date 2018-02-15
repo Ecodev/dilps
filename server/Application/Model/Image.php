@@ -10,6 +10,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection as DoctrineCollection;
 use Doctrine\ORM\Mapping as ORM;
 use GraphQL\Doctrine\Annotation as API;
+use Imagine\Image\ImagineInterface;
+use Psr\Http\Message\UploadedFileInterface;
 
 /**
  * An image
@@ -223,6 +225,29 @@ class Image extends AbstractModel
     }
 
     /**
+     * Set the image file
+     *
+     * @API\Input(type="?GraphQL\Upload\UploadType")
+     *
+     * @param UploadedFileInterface $file
+     *
+     * @throws \Exception
+     */
+    public function setFile(UploadedFileInterface $file): void
+    {
+        $this->generateUniqueFilename($file);
+
+        $path = $this->getPath();
+        if (file_exists($path)) {
+            throw new \Exception('A file already exist with the same name: ' . $this->getFilename());
+        }
+        $file->moveTo($path);
+
+        $this->validateMimeType();
+        $this->readFileInfo();
+    }
+
+    /**
      * Set filename (without path)
      *
      * @API\Exclude
@@ -310,7 +335,7 @@ class Image extends AbstractModel
      *
      * This is a free form string that will be parsed to **try** and extract
      * some actual date range of dates. Any string is valid, but some parseable
-     * values would typically:
+     * values would typically be:
      *
      * - (1620-1652)
      * - 01.05.1917
@@ -331,7 +356,7 @@ class Image extends AbstractModel
      *
      * This is a free form string that will be parsed to **try** and extract
      * some actual date range of dates. Any string is valid, but some parseable
-     * values would typically:
+     * values would typically be:
      *
      * - (1620-1652)
      * - 01.05.1917
@@ -843,5 +868,64 @@ class Image extends AbstractModel
     public function setHeight(int $height): void
     {
         $this->height = $height;
+    }
+
+    /**
+     * Generate unique filename based while trying to preserver original extension
+     *
+     * @param UploadedFileInterface $file
+     */
+    private function generateUniqueFilename(UploadedFileInterface $file): void
+    {
+        $extension = pathinfo($file->getClientFilename(), PATHINFO_EXTENSION);
+        $filename = uniqid() . ($extension ? '.' . $extension : '');
+        $this->setFilename($filename);
+    }
+
+    /**
+     * Delete file and throw exception if MIME type is invalid
+     *
+     * @throws \Exception
+     */
+    private function validateMimeType(): void
+    {
+        $path = $this->getPath();
+        $mime = mime_content_type($path);
+
+        // Validate image mimetype
+        $acceptedMimeTypes = [
+            'image/bmp',
+            'image/gif',
+            'image/jpeg',
+            'image/pjpeg',
+            'image/png',
+            'image/svg+xml',
+            'image/tiff',
+            'image/vnd.adobe.photoshop',
+            'image/webp',
+        ];
+
+        if (!in_array($mime, $acceptedMimeTypes, true)) {
+            unlink($path);
+
+            throw new \Exception('Invalid file type of: ' . $mime);
+        }
+    }
+
+    /**
+     * Read dimension and size from file on disk
+     */
+    private function readFileInfo(): void
+    {
+        global $container;
+        $path = $this->getPath();
+
+        /** @var ImagineInterface $imagine */
+        $imagine = $container->get(ImagineInterface::class);
+        $size = $imagine->open($path)->getSize();
+
+        $this->setWidth($size->getWidth());
+        $this->setHeight($size->getHeight());
+        $this->setFileSize(filesize($path));
     }
 }

@@ -7,6 +7,7 @@ import {
     CreateUserMutation,
     DeleteUsersMutation,
     UpdateUserMutation,
+    UserInput,
     UserQuery,
     UsersQuery,
     UserType,
@@ -28,7 +29,7 @@ export class UserService extends AbstractModelService<UserQuery['user'],
         super(apollo, 'user', userQuery, usersQuery, createUserMutation, updateUserMutation, deleteUsersMutation);
     }
 
-    public getEmptyObject() {
+    public getEmptyObject(): UserInput {
         return {
             login: '',
             email: '',

@@ -5,6 +5,7 @@ import { merge } from 'lodash';
 import {
     CreateImageMutation,
     DeleteImagesMutation,
+    ImageInput,
     ImageQuery,
     ImagesQuery,
     ImageStatus,
@@ -12,7 +13,13 @@ import {
     UpdateImageMutation,
 } from '../../shared/generated-types';
 import { AbstractModelService } from '../../shared/services/abstract-model.service';
-import { createImageMutation, deleteImagesMutation, imageQuery, imagesQuery, updateImageMutation } from './imageQueries';
+import {
+    createImageMutation,
+    deleteImagesMutation,
+    imageQuery,
+    imagesQuery,
+    updateImageMutation,
+} from './imageQueries';
 
 @Injectable()
 export class ImageService extends AbstractModelService<ImageQuery['image'],
@@ -41,8 +48,9 @@ export class ImageService extends AbstractModelService<ImageQuery['image'],
         super(apollo, 'image', imageQuery, imagesQuery, createImageMutation, updateImageMutation, deleteImagesMutation);
     }
 
-    public getEmptyObject() {
+    public getEmptyObject(): ImageInput {
         return {
+            file: null,
             dating: '',
             type: ImageType.default,
             status: ImageStatus.new,
@@ -62,7 +70,7 @@ export class ImageService extends AbstractModelService<ImageQuery['image'],
             muserisUrl: '',
             muserisCote: '',
             name: '',
-            isPublic: '',
+            isPublic: false,
         };
     }
 

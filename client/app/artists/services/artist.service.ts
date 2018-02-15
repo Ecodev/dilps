@@ -14,6 +14,7 @@ import {
     ArtistQuery,
     ArtistsQuery,
     UpdateArtistMutation,
+    ArtistInput,
 } from '../../shared/generated-types';
 import { AbstractModelService } from '../../shared/services/abstract-model.service';
 
@@ -35,7 +36,7 @@ export class ArtistService
             deleteArtistsMutation);
     }
 
-    public getEmptyObject() {
+    public getEmptyObject(): ArtistInput {
         return {
             name: '',
         };

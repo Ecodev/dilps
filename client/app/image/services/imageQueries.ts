@@ -66,8 +66,8 @@ query Image($id: ImageID!) {
 }${userMetaFragment}`;
 
 export const createImageMutation = gql`
-mutation CreateImage ($input: ImageInput!, $file: Upload) {
-    createImage (input: $input, file: $file) {
+mutation CreateImage ($input: ImageInput!) {
+    createImage (input: $input) {
         id
         creationDate
         creator {
