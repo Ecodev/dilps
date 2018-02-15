@@ -51,7 +51,7 @@ mutation UpdateArtist($id: ArtistID!, $input: ArtistInput!) {
     }
 }${userMetaFragment}`;
 
-export const deleteArtistMutation = gql`
-mutation DeleteArtist ($id: ArtistID!){
-    deleteArtist(id: $id)
+export const deleteArtistsMutation = gql`
+mutation DeleteArtists ($ids: [ArtistID!]!){
+    deleteArtists(ids: $ids)
 }`;

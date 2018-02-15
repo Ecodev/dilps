@@ -134,7 +134,7 @@ export abstract class AbstractModelService<Tone, Tall, Tcreate, Tupdate, Tdelete
     }
 
     /**
-     * Delete an objects and then refetch the list of objects
+     * Delete objects and then refetch the list of objects
      */
     public delete(objects: { id } | { id }[]): Observable<Tdelete> {
         this.throwIfObservable(objects);

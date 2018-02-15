@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import {
     createArtistMutation,
-    deleteArtistMutation,
+    deleteArtistsMutation,
     artistQuery,
     artistsQuery,
     updateArtistMutation,
@@ -10,7 +10,7 @@ import {
 import 'rxjs/add/observable/of';
 import {
     CreateArtistMutation,
-    DeleteArtistMutation,
+    DeleteArtistsMutation,
     ArtistQuery,
     ArtistsQuery,
     UpdateArtistMutation,
@@ -23,7 +23,7 @@ export class ArtistService
         ArtistsQuery['artists'],
         CreateArtistMutation['createArtist'],
         UpdateArtistMutation['updateArtist'],
-        DeleteArtistMutation['deleteArtist']> {
+        DeleteArtistsMutation['deleteArtists']> {
 
     constructor(apollo: Apollo) {
         super(apollo,
@@ -32,7 +32,7 @@ export class ArtistService
             artistsQuery,
             createArtistMutation,
             updateArtistMutation,
-            deleteArtistMutation);
+            deleteArtistsMutation);
     }
 
     public getEmptyObject() {

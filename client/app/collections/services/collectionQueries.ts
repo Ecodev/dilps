@@ -59,7 +59,7 @@ mutation UpdateCollection($id: CollectionID!, $input: CollectionInput!) {
     }
 }${userMetaFragment}`;
 
-export const deleteCollectionMutation = gql`
-mutation DeleteCollection ($id: CollectionID!){
-    deleteCollection(id: $id)
+export const deleteCollectionsMutation = gql`
+mutation DeleteCollections ($ids: [CollectionID!]!){
+    deleteCollections(ids: $ids)
 }`;

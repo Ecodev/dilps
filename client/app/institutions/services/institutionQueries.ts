@@ -51,7 +51,7 @@ mutation UpdateInstitution($id: InstitutionID!, $input: InstitutionInput!) {
     }
 }${userMetaFragment}`;
 
-export const deleteInstitutionMutation = gql`
-mutation DeleteInstitution ($id: InstitutionID!){
-    deleteInstitution(id: $id)
+export const deleteInstitutionsMutation = gql`
+mutation DeleteInstitutions ($ids: [InstitutionID!]!){
+    deleteInstitutions(ids: $ids)
 }`;

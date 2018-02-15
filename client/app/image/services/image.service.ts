@@ -4,7 +4,7 @@ import 'rxjs/add/observable/of';
 import { merge } from 'lodash';
 import {
     CreateImageMutation,
-    DeleteImageMutation,
+    DeleteImagesMutation,
     ImageQuery,
     ImagesQuery,
     ImageStatus,
@@ -12,14 +12,14 @@ import {
     UpdateImageMutation,
 } from '../../shared/generated-types';
 import { AbstractModelService } from '../../shared/services/abstract-model.service';
-import { createImageMutation, deleteImageMutation, imageQuery, imagesQuery, updateImageMutation } from './imageQueries';
+import { createImageMutation, deleteImagesMutation, imageQuery, imagesQuery, updateImageMutation } from './imageQueries';
 
 @Injectable()
 export class ImageService extends AbstractModelService<ImageQuery['image'],
     ImagesQuery['images'],
     CreateImageMutation['createImage'],
     UpdateImageMutation['updateImage'],
-    DeleteImageMutation['deleteImage']> {
+    DeleteImagesMutation['deleteImages']> {
 
     public static getImageFormat(image, height): any {
         height = Math.min(image.height, height);
@@ -38,7 +38,7 @@ export class ImageService extends AbstractModelService<ImageQuery['image'],
     }
 
     constructor(apollo: Apollo) {
-        super(apollo, 'image', imageQuery, imagesQuery, createImageMutation, updateImageMutation, deleteImageMutation);
+        super(apollo, 'image', imageQuery, imagesQuery, createImageMutation, updateImageMutation, deleteImagesMutation);
     }
 
     public getEmptyObject() {

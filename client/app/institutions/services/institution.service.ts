@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import {
     createInstitutionMutation,
-    deleteInstitutionMutation,
+    deleteInstitutionsMutation,
     institutionQuery,
     institutionsQuery,
     updateInstitutionMutation,
@@ -10,7 +10,7 @@ import {
 import 'rxjs/add/observable/of';
 import {
     CreateInstitutionMutation,
-    DeleteInstitutionMutation,
+    DeleteInstitutionsMutation,
     InstitutionQuery,
     InstitutionsQuery,
     UpdateInstitutionMutation,
@@ -23,7 +23,7 @@ export class InstitutionService
         InstitutionsQuery['institutions'],
         CreateInstitutionMutation['createInstitution'],
         UpdateInstitutionMutation['updateInstitution'],
-        DeleteInstitutionMutation['deleteInstitution']> {
+        DeleteInstitutionsMutation['deleteInstitutions']> {
 
     constructor(apollo: Apollo) {
         super(apollo,
@@ -32,7 +32,7 @@ export class InstitutionService
             institutionsQuery,
             createInstitutionMutation,
             updateInstitutionMutation,
-            deleteInstitutionMutation);
+            deleteInstitutionsMutation);
     }
 
     public getEmptyObject() {

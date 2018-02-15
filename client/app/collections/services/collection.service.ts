@@ -4,7 +4,7 @@ import {
     collectionQuery,
     collectionsQuery,
     createCollectionMutation,
-    deleteCollectionMutation,
+    deleteCollectionsMutation,
     updateCollectionMutation,
 } from './collectionQueries';
 import 'rxjs/add/observable/of';
@@ -13,7 +13,7 @@ import {
     CollectionQuery,
     CollectionsQuery,
     CreateCollectionMutation,
-    DeleteCollectionMutation,
+    DeleteCollectionsMutation,
     UpdateCollectionMutation,
 } from '../../shared/generated-types';
 
@@ -23,7 +23,7 @@ export class CollectionService
         CollectionsQuery['collections'],
         CreateCollectionMutation['createCollection'],
         UpdateCollectionMutation['updateCollection'],
-        DeleteCollectionMutation['deleteCollection']> {
+        DeleteCollectionsMutation['deleteCollections']> {
 
     constructor(apollo: Apollo) {
         super(apollo,
@@ -32,7 +32,7 @@ export class CollectionService
             collectionsQuery,
             createCollectionMutation,
             updateCollectionMutation,
-            deleteCollectionMutation);
+            deleteCollectionsMutation);
     }
 
     public getEmptyObject() {

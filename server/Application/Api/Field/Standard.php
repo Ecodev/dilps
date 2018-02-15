@@ -69,6 +69,7 @@ abstract class Standard
     {
         $reflect = new ReflectionClass($class);
         $name = $reflect->getShortName();
+        $plural = self::makePlural($name);
         $lowerName = lcfirst($name);
 
         $isImage = $class === Image::class;
@@ -125,21 +126,24 @@ abstract class Standard
                     return $object;
                 },
             ],
-            'delete' . $name => [
+            'delete' . $plural => [
                 'type' => Type::nonNull(Type::boolean()),
-                'description' => 'Delete an existing ' . $name,
+                'description' => 'Delete one or several existing ' . $name,
                 'args' => [
-                    'id' => Type::nonNull(_types()->getId($class)),
+                    'ids' => Type::nonNull(Type::listOf(Type::nonNull(_types()->getId($class)))),
                 ],
                 'resolve' => function ($root, array $args) use ($lowerName): bool {
-                    $object = $args['id']->getEntity();
+                    foreach ($args['ids'] as $id) {
+                        $object = $id->getEntity();
 
-                    // Check ACL
+                        // Check ACL
 //                    Helper::loadContextFromObject($object);
 //                    Helper::throwIfDenied($object, 'edit');
 
-                    // Do it
-                    _em()->remove($object);
+                        // Do it
+                        _em()->remove($object);
+                    }
+
                     _em()->flush();
 
                     return true;

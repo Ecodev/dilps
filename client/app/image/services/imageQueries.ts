@@ -86,7 +86,7 @@ mutation UpdateImage($id: ImageID!, $input: ImageInput!) {
     }
 }${userMetaFragment}`;
 
-export const deleteImageMutation = gql`
-mutation DeleteImage ($id: ImageID!){
-    deleteImage(id: $id)
+export const deleteImagesMutation = gql`
+mutation DeleteImages ($ids: [ImageID!]!){
+    deleteImages(ids: $ids)
 }`;
