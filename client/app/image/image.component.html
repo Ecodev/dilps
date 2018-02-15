@@ -60,29 +60,7 @@
                     >
                 </mat-form-field>
 
-                <!-- Artistes, todo componentize (compact relation) ? -->
-                <div fxLayout="column" class="padding-v">
-                    <div class="innerSpacing" fxLayout="column">
-                        <div class="mat-subheading-2 no-margin-bottom">Artistes</div>
-                        <div *ngFor="let artist of data.artists"
-                             fxLayout="row"
-                             fxLayoutAlign="start center"
-                             class="mat-body-1"
-                             style="position:relative;"
-                        >
-                            <div fxFlex style="height:2.5em;line-height:2.5em">{{ artist.name }}</div>
-                            <button mat-icon-button color="warn" *ngIf="edit" style="position:absolute;right:-10px;">
-                                <mat-icon>remove</mat-icon>
-                            </button>
-                        </div>
-                    </div>
-                    <mat-form-field class="innerSpacing" fxFlex *ngIf="edit">
-                        <input matInput [(ngModel)]="newArtist" placeholder="Ajouter un artiste" >
-                        <button mat-icon-button matSuffix>
-                            <mat-icon>add</mat-icon>
-                        </button>
-                    </mat-form-field>
-                </div>
+                <app-thesaurus placeholder="Artiste" [(model)]="data.artists"></app-thesaurus>
 
                 <mat-form-field class="innerSpacing">
                     <input [readonly]="!edit"
@@ -122,10 +100,7 @@
                     >
                 </mat-form-field>
 
-                <app-select [readonly]="!edit"
-                            [service]="institutionSvc"
-                            [(model)]="data.institution"
-                            placeholder="Institution"
+                <app-select [readonly]="!edit" [service]="institutionSvc" [(model)]="data.institution" placeholder="Institution"
                 ></app-select>
 
                 <mat-form-field class="innerSpacing">

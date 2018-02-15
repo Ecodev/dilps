@@ -9,7 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
     MatAutocompleteModule,
     MatButtonModule,
-    MatCheckboxModule,
+    MatCheckboxModule, MatChipsModule,
     MatDatepickerModule,
     MatDialogModule,
     MatIconModule,
@@ -70,6 +70,7 @@ import { ArtistComponent } from './artists/artist/artist.component';
 import { ArtistsComponent } from './artists/artists/artist.component';
 import { ArtistService } from './artists/services/artist.service';
 import { NotificationsComponent } from './notifications/notifications/notifications.component';
+import { ThesaurusComponent } from './shared/components/thesaurus/thesaurus.component';
 
 @NgModule({
     declarations: [
@@ -92,7 +93,8 @@ import { NotificationsComponent } from './notifications/notifications/notificati
         InstitutionComponent,
         ArtistComponent,
         ArtistsComponent,
-        NotificationsComponent
+        NotificationsComponent,
+        ThesaurusComponent
     ],
     entryComponents: [
         ConfirmComponent,
@@ -133,6 +135,7 @@ import { NotificationsComponent } from './notifications/notifications/notificati
         MatAutocompleteModule,
         MatDatepickerModule,
         MatNativeDateModule,
+        MatChipsModule
     ],
     providers: [
         AuthGuard,

@@ -1,0 +1,14 @@
+<mat-form-field class="innerSpacing">
+    <mat-chip-list #chipList aria-orientation="vertical" class="mat-chip-list-stacked">
+        <mat-chip *ngFor="let item of model" [selectable]="true" [removable]="true" (remove)="remove(item)" fxLayoutRow="row">
+            <span fxFlex>{{ item }}</span>
+            <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input [placeholder]="placeholder"
+               [matChipInputFor]="chipList"
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               [matChipInputAddOnBlur]="true"
+               (matChipInputTokenEnd)="add($event)"
+        />
+    </mat-chip-list>
+</mat-form-field>
