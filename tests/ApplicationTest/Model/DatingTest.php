@@ -7,6 +7,7 @@ namespace ApplicationTest\Model;
 use Application\Model\Dating;
 use Application\Model\Image;
 use DateTimeImmutable;
+use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,7 +18,7 @@ class DatingTest extends TestCase
     public function testFrom(): void
     {
         $dating = new Dating();
-        $d1 = new DateTimeImmutable('2010-02-03');
+        $d1 = new DateTimeImmutable('2010-02-03', new DateTimeZone('UTC'));
         $dating->setFrom($d1);
         $d2 = $dating->getFrom();
 
@@ -28,7 +29,7 @@ class DatingTest extends TestCase
     public function testTo(): void
     {
         $dating = new Dating();
-        $d1 = new DateTimeImmutable('2010-02-03');
+        $d1 = new DateTimeImmutable('2010-02-03', new DateTimeZone('UTC'));
         $dating->setTo($d1);
         $d2 = $dating->getTo();
 
