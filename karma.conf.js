@@ -17,10 +17,10 @@ module.exports = function(config) {
             require('@angular/cli/plugins/karma')
         ],
         files: [
-            { pattern: './src/styles.scss', included: true, watched: true }
+            { pattern: './client/styles.scss', included: true, watched: true }
         ],
         preprocessors: {
-            './src/styles.scss': ['scss']
+            './client/styles.scss': ['scss']
         },
         client: {
             clearContext: false, // leave Jasmine Spec Runner output visible in browser
@@ -39,6 +39,13 @@ module.exports = function(config) {
         logLevel: config.LOG_INFO,
         autoWatch: true,
         browsers: ['Chrome'],
+
+        customLaunchers: {
+            ChromeHeadlessCustom: {
+                base: 'ChromeHeadless',
+                flags: ['--no-sandbox']
+            }
+        },
         singleRun: false,
         browserNoActivityTimeout: 600000, // Wait 10 minutes before assuming browser crashed
         browserDisconnectTolerance: 10,
