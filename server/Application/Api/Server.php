@@ -44,16 +44,6 @@ class Server
     }
 
     /**
-     * Send response using standard PHP `header()` and `echo`.
-     *
-     * @param ExecutionResult|ExecutionResult[] $result
-     */
-    public function sendHttp($result): void
-    {
-        $this->server->getHelper()->sendResponse($result);
-    }
-
-    /**
      * Send response to CLI
      *
      * @param ExecutionResult $result

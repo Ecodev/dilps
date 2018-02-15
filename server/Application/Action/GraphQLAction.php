@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace Application\Action;
 
-use Application\Api\Schema;
+use Application\Api\Server;
 use Doctrine\ORM\EntityManager;
-use GraphQL\Doctrine\DefaultFieldResolver;
-use GraphQL\GraphQL;
-use GraphQL\Server\StandardServer;
 use Interop\Http\Server\MiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -35,16 +32,9 @@ class GraphQLAction implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        GraphQL::setDefaultFieldResolver(new DefaultFieldResolver());
+        $server = new Server(true);
 
-        $schema = new Schema();
-        $server = new StandardServer([
-            'schema' => $schema,
-            'queryBatching' => true,
-            'debug' => true,
-        ]);
-
-        $response = $server->executePsrRequest($request);
+        $response = $server->execute($request);
 
         return new JsonResponse($response);
     }
