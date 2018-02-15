@@ -11,20 +11,6 @@ return [
                     id
                 }
             }
-    
-            linkImageArtist(image: 6001, artist: "Brand new artist name") {
-                id
-                artists {
-                    name
-                }
-            }
-    
-            linkImageTag(image: 6001, tag: "Brand new tag name") {
-                id
-                tags {
-                    name
-                }
-            }
         }',
     ],
     [
@@ -37,22 +23,6 @@ return [
                     ],
                     [
                         'id' => '6001',
-                    ],
-                ],
-            ],
-            'linkImageArtist' => [
-                'id' => '6001',
-                'artists' => [
-                    [
-                        'name' => 'Brand new artist name',
-                    ],
-                ],
-            ],
-            'linkImageTag' => [
-                'id' => '6001',
-                'tags' => [
-                    [
-                        'name' => 'Brand new tag name',
                     ],
                 ],
             ],

@@ -11,20 +11,6 @@ return [
                     id
                 }
             }
-    
-            unlinkImageArtist(image: 6000, artist: "Test artist 3000") {
-                id
-                artists {
-                    name
-                }
-            }
-    
-            unlinkImageTag(image: 6000, tag: "Test tag 4000") {
-                id
-                tags {
-                    name
-                }
-            }
         }',
     ],
     [
@@ -32,14 +18,6 @@ return [
             'unlinkCollectionImage' => [
                 'id' => '2000',
                 'images' => [],
-            ],
-            'unlinkImageArtist' => [
-                'id' => '6000',
-                'artists' => [],
-            ],
-            'unlinkImageTag' => [
-                'id' => '6000',
-                'tags' => [],
             ],
         ],
     ],

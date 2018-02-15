@@ -32,12 +32,14 @@ trait HasInstitution
     }
 
     /**
-     * Set the institution this object belongs to
+     * Set name of the institution this object belongs to.
      *
-     * @param null|Institution $institution
+     * If the institution does not yet exist, it will be created automatically.
+     *
+     * @param null|string $institutionName
      */
-    public function setInstitution(?Institution $institution): void
+    public function setInstitution(?string $institutionName): void
     {
-        $this->institution = $institution;
+        $this->institution = _em()->getRepository(Institution::class)->getOrCreateByName($institutionName);
     }
 }

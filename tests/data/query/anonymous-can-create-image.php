@@ -13,6 +13,9 @@ return [
                 fileSize
                 width
                 height
+                artists {
+                    name
+                }
             }
         }',
         'variables' => [
@@ -39,6 +42,10 @@ return [
                 'muserisUrl' => 'test muserisUrl',
                 'muserisCote' => 'test muserisCote',
                 'name' => 'test name',
+                'artists' => [
+                    'Test artist 3000',
+                    'New artist',
+                ],
             ],
         ],
     ],
@@ -49,6 +56,14 @@ return [
                 'fileSize' => 90188,
                 'width' => 960,
                 'height' => 425,
+                'artists' => [
+                    [
+                        'name' => 'Test artist 3000',
+                    ],
+                    [
+                        'name' => 'New artist',
+                    ],
+                ],
             ],
         ],
     ],

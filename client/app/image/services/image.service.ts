@@ -71,6 +71,7 @@ export class ImageService extends AbstractModelService<ImageQuery['image'],
             muserisCote: '',
             name: '',
             isPublic: false,
+            artists: [],
         };
     }
 

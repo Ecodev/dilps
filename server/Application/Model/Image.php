@@ -297,25 +297,20 @@ class Image extends AbstractModel
     }
 
     /**
-     * Add artist
+     * Set all artists at once by their names.
      *
-     * @param Artist $artist
+     * Non-existing artists will be created automatically.
+     *
+     * @param string[] $artistNames
      */
-    public function addArtist(Artist $artist): void
+    public function setArtists(array $artistNames): void
     {
-        if (!$this->artists->contains($artist)) {
-            $this->artists[] = $artist;
-        }
-    }
+        $this->artists->clear();
 
-    /**
-     * Remove artist
-     *
-     * @param Artist $artist
-     */
-    public function removeArtist(Artist $artist): void
-    {
-        $this->artists->removeElement($artist);
+        $artistNames = _em()->getRepository(Artist::class)->getOrCreateByNames($artistNames);
+        foreach ($artistNames as $a) {
+            $this->artists->add($a);
+        }
     }
 
     /**
