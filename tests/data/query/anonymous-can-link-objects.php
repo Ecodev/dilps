@@ -3,29 +3,30 @@
 declare(strict_types=1);
 
 return [
-    'mutation {
-        linkCollectionImage(collection: 2000, image: 6001) {
-            id
-            images {
+    [
+        'query' => 'mutation {
+            linkCollectionImage(collection: 2000, image: 6001) {
                 id
+                images {
+                    id
+                }
             }
-        }
-
-        linkImageArtist(image: 6001, artist: "Brand new artist name") {
-            id
-            artists {
-                name
+    
+            linkImageArtist(image: 6001, artist: "Brand new artist name") {
+                id
+                artists {
+                    name
+                }
             }
-        }
-
-        linkImageTag(image: 6001, tag: "Brand new tag name") {
-            id
-            tags {
-                name
+    
+            linkImageTag(image: 6001, tag: "Brand new tag name") {
+                id
+                tags {
+                    name
+                }
             }
-        }
-    }',
-    [],
+        }',
+    ],
     [
         'data' => [
             'linkCollectionImage' => [

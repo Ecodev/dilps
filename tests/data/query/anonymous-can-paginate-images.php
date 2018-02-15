@@ -3,16 +3,17 @@
 declare(strict_types=1);
 
 return [
-    '{
-        images(pagination: {pageIndex:1, pageSize: 2}) {
-            length
-            pageIndex
-            items {
-                id
+    [
+        'query' => '{
+            images(pagination: {pageIndex:1, pageSize: 2}) {
+                length
+                pageIndex
+                items {
+                    id
+                }
             }
-        }
-    }',
-    [],
+        }',
+    ],
     [
         'data' => [
             'images' => [
