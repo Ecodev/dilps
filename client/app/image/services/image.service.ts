@@ -13,13 +13,9 @@ import {
     UpdateImageMutation,
 } from '../../shared/generated-types';
 import { AbstractModelService } from '../../shared/services/abstract-model.service';
-import {
-    createImageMutation,
-    deleteImagesMutation,
-    imageQuery,
-    imagesQuery,
-    updateImageMutation,
-} from './imageQueries';
+import { createImageMutation, deleteImagesMutation, imageQuery, imagesQuery, updateImageMutation, } from './imageQueries';
+import { UtilityService } from '../../shared/services/utility.service';
+import { Literal } from '../../shared/types';
 
 @Injectable()
 export class ImageService extends AbstractModelService<ImageQuery['image'],
@@ -73,6 +69,18 @@ export class ImageService extends AbstractModelService<ImageQuery['image'],
             isPublic: false,
             artists: [],
         };
+    }
+
+    protected getInput(object: Literal): Literal {
+
+        const input = super.getInput(object);
+
+        // If file is undefined or null, prevent to send attribute to server
+        if (!object.file) {
+            delete input.file;
+        }
+
+        return input;
     }
 
 }
