@@ -1,14 +1,27 @@
 <mat-form-field class="innerSpacing">
     <mat-chip-list #chipList aria-orientation="vertical" class="mat-chip-list-stacked">
-        <mat-chip *ngFor="let item of model" [selectable]="true" [removable]="true" (remove)="remove(item)" fxLayoutRow="row">
+        <mat-chip *ngFor="let item of model" [selectable]="true" [removable]="true" (remove)="removeChip(item)" fxLayoutRow="row">
             <span fxFlex>{{ item }}</span>
             <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>
-        <input [placeholder]="placeholder"
+        <input #input
+               [formControl]="formCtrl"
+               [placeholder]="placeholder"
                [matChipInputFor]="chipList"
                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-               [matChipInputAddOnBlur]="true"
-               (matChipInputTokenEnd)="add($event)"
+               [matChipInputAddOnBlur]="addOnBlur"
+               (matChipInputTokenEnd)="addChip($event)"
+               [matAutocomplete]="autocomplete"
+               (ngModelChange)="search($event)"
+               (focus)="onFocus()"
+               (click)="open()"
         />
     </mat-chip-list>
+
+    <!-- Autocomplete menu -->
+    <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="selectSuggestion($event)">
+        <mat-option *ngFor="let item of suggestionsObs | async" [value]="item">{{ item.name }}</mat-option>
+        <div style="padding:5px 10px" class="mat-caption" *ngIf="moreNbItems > 0" i18n>{{ moreNbItems }} élément(s) supplémentaire(s)</div>
+    </mat-autocomplete>
+
 </mat-form-field>
