@@ -1,6 +1,5 @@
 import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
-import { MatAutocompleteTrigger, MatChipInputEvent } from '@angular/material';
-import { ENTER } from '@angular/cdk/keycodes';
+import { MatAutocompleteTrigger } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { IncrementSubject } from '../../services/increment-subject';
 import { QueryRef } from 'apollo-angular';
@@ -27,7 +26,6 @@ export class ThesaurusComponent implements OnInit, OnChanges {
 
     public formCtrl: FormControl = new FormControl();
     private queryRef: QueryRef<any>;
-    public loading = false;
 
     /**
      * Default page size
@@ -53,17 +51,10 @@ export class ThesaurusComponent implements OnInit, OnChanges {
      */
     private optionsFiltered: BehaviorSubject<Literal>;
 
-    public suggestions: Literal[] = [];
     public suggestionsObs: Observable<any>;
 
     constructor() {
     }
-
-    public separatorKeysCodes = [
-        ENTER,
-    ];
-
-    public addOnBlur = true;
 
     ngOnInit() {
         this.convertModel();
@@ -98,20 +89,13 @@ export class ThesaurusComponent implements OnInit, OnChanges {
         }
     }
 
-    private convertModel() {
-        for (let i = 0; i < this.model.length; i++) {
-            this.model[i] = this.model[i].name ? this.model[i].name : this.model[i];
-        }
-    }
-
-    public onFocus() {
-        this.startSearch();
-    }
-
-    public open() {
+    public onClick() {
         this.autocomplete.openPanel();
     }
 
+    /**
+     * Start search only when focusing on the input
+     */
     public startSearch() {
 
         /**
@@ -121,36 +105,27 @@ export class ThesaurusComponent implements OnInit, OnChanges {
             return;
         }
 
-        this.loading = true;
-
-        this.optionsFiltered.subscribe((data) => {
-            this.addOnBlur = false;
-            if (data.filters.search) {
-                this.loading = true;
-            }
-        });
-
         // Init query
         this.queryRef = this.service.watchAll(this.optionsFiltered);
 
         // When query results arrive, start loading, and count items
         this.queryRef.valueChanges.subscribe((data: any) => {
-            this.loading = false;
-
             const nbTotal = data.length;
             const nbListed = Math.min(data.length, this.pageSize);
             this.moreNbItems = nbTotal - nbListed;
         });
 
         this.suggestionsObs = this.queryRef.valueChanges.pipe(map((data: any) => {
-            this.suggestions = data.items.filter(item => this.model.findIndex(term => term === item.name));
-            if (this.suggestions.length === 0) {
-                this.addOnBlur = true;
-            }
-            return this.suggestions;
+            return data.items.filter(item => this.model.findIndex(term => term === item.name));
         }));
     }
 
+    /**
+     * Add term to list
+     * Grants unicity of elements.
+     * Always close the panel (without resetting results)
+     * @param {string} term
+     */
     private addTerm(term: string) {
         this.autocomplete.closePanel();
         const indexOf = this.model.findIndex(item => item === term);
@@ -159,29 +134,47 @@ export class ThesaurusComponent implements OnInit, OnChanges {
         }
     }
 
-    public addChip(event: MatChipInputEvent): void {
-        const term = event.value.trim();
-        this.addTerm(term);
-        const input = event.input;
-        if (input) {
-            input.value = '';
+    public onSearch(ev) {
+        this.options.patch({filters: {search: ev}});
+    }
+
+    /**
+     * Add a term
+     * On enter key, find if there is an active (focused) option in the mat-select).
+     * If not add the term as is. If it does, add the selected option.
+     * @param event
+     */
+    public onEnter(event) {
+        if (!this.autocomplete.activeOption) {
+            this.addTerm(event.target.value);
+            event.target.value = '';
+        } else {
+            this.addTerm(this.autocomplete.activeOption.value.name);
         }
     }
 
+    /**
+     * When click on a suggestion
+     * @param event
+     */
     public selectSuggestion(event) {
         this.addTerm(event.option.value.name);
     }
 
-    public removeChip(term: any): void {
+    public removeTerm(term: string): void {
         const index = this.model.indexOf(term);
-
         if (index >= 0) {
             this.model.splice(index, 1);
         }
     }
 
-    public search(ev) {
-        const options = {filters: {search: ev}};
-        this.options.patch(options);
+    /**
+     * Convert [{name: 'Yippi Kay yay'}] to ['Yippi Kay yay'].
+     * Affects the original object
+     */
+    private convertModel() {
+        for (let i = 0; i < this.model.length; i++) {
+            this.model[i] = this.model[i].name ? this.model[i].name : this.model[i];
+        }
     }
 }
