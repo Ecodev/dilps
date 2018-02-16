@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Model;
 
+use Application\Traits\HasAddress;
 use Application\Traits\HasInstitution;
 use Application\Traits\HasName;
 use Application\Traits\ImageSimpleProperties;
@@ -25,6 +26,7 @@ class Image extends AbstractModel
 {
     use HasName;
     use HasInstitution;
+    use HasAddress;
     use ImageSimpleProperties;
 
     private const IMAGE_PATH = 'data/images/';

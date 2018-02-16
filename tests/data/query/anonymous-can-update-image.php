@@ -45,6 +45,10 @@ return [
                 'muserisUrl' => 'test muserisUrl',
                 'muserisCote' => 'test muserisCote',
                 'name' => 'test name',
+                'street' => 'test street',
+                'postcode' => 'test postcode',
+                'locality' => 'test locality',
+                'area' => 'test street',
                 'institution' => 'test institution',
                 'artists' => [
                     'New artist 1',

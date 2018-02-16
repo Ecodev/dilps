@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Model;
 
+use Application\Traits\HasAddress;
 use Application\Traits\HasName;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -16,4 +17,5 @@ use Doctrine\ORM\Mapping as ORM;
 class Institution extends AbstractModel
 {
     use HasName;
+    use HasAddress;
 }

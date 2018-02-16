@@ -68,6 +68,10 @@ export class ImageService extends AbstractModelService<ImageQuery['image'],
             name: '',
             isPublic: false,
             artists: [],
+            street: '',
+            postcode: '',
+            locality: '',
+            area: '',
         };
     }
 

@@ -11,8 +11,8 @@ INSERT INTO `artist` (`id`, `name`) VALUES
 INSERT INTO `tag` (`id`, `name`) VALUES
   (4000, 'Test tag 4000');
 
-INSERT INTO `institution` (`id`, `name`) VALUES
-  (5000, 'Test institution 5000');
+INSERT INTO `institution` (`id`, `country_id`, `name`) VALUES
+  (5000, 1, 'Test institution 5000');
 
 INSERT INTO `image` (`id`, `original_id`, `name`, `filename`, `width`, `height`, file_size) VALUES
   (6000, NULL, 'Test image 6000', 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg', 960, 425, 90188),

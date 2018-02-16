@@ -39,6 +39,10 @@ export class InstitutionService
     public getEmptyObject(): InstitutionInput {
         return {
             name: '',
+            street: '',
+            postcode: '',
+            locality: '',
+            area: '',
         };
     }
 

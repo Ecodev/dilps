@@ -8,6 +8,7 @@ use Application\Api\Field\Standard;
 use Application\Model\Artist;
 use Application\Model\Change;
 use Application\Model\Collection;
+use Application\Model\Country;
 use Application\Model\Image;
 use Application\Model\Institution;
 use Application\Model\User;
@@ -27,6 +28,7 @@ class QueryType extends ObjectType
         $config['fields'] += Standard::buildQuery(Image::class);
         $config['fields'] += Standard::buildQuery(Institution::class);
         $config['fields'] += Standard::buildQuery(User::class);
+        $config['fields'] += Standard::buildQuery(Country::class);
 
         parent::__construct($config);
     }
