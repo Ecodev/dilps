@@ -20,14 +20,13 @@ export class ThesaurusComponent implements OnInit, OnChanges {
     @ViewChild(MatAutocompleteTrigger) public autocomplete: MatAutocompleteTrigger;
     @ViewChild('input') input;
 
+    @Input() readonly: boolean;
     @Input() service;
     @Input() placeholder;
     @Input() model: any[] = [];
 
     public formCtrl: FormControl = new FormControl();
-
     private queryRef: QueryRef<any>;
-
     public loading = false;
 
     /**
@@ -67,7 +66,7 @@ export class ThesaurusComponent implements OnInit, OnChanges {
     public addOnBlur = true;
 
     ngOnInit() {
-
+        this.convertModel();
         const options = {
             filters: {
                 search: null,
@@ -91,8 +90,17 @@ export class ThesaurusComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges() {
+        this.convertModel();
+        if (this.readonly) {
+            this.formCtrl.disable();
+        } else {
+            this.formCtrl.enable();
+        }
+    }
+
+    private convertModel() {
         for (let i = 0; i < this.model.length; i++) {
-            this.model[i] = this.model[i].name;
+            this.model[i] = this.model[i].name ? this.model[i].name : this.model[i];
         }
     }
 
@@ -100,7 +108,7 @@ export class ThesaurusComponent implements OnInit, OnChanges {
         this.startSearch();
     }
 
-    open() {
+    public open() {
         this.autocomplete.openPanel();
     }
 
