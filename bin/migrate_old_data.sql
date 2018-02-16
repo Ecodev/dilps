@@ -6,7 +6,7 @@
 --
 --     ./vendor/bin/doctrine orm:schema-tool:drop --full-database --force
 --     ./vendor/bin/doctrine-migrations migrations:migrate --ansi --no-interaction
---     more data/old.sql | mysql -u dilps -p dilps
+--     more data/cache/old.sql | mysql -u dilps -p dilps
 --     more bin/migrate_old_data.sql | mysql -u dilps -p dilps
 
 ALTER TABLE `ng_meta`
@@ -26,6 +26,8 @@ ALTER TABLE ng_licence
   ADD INDEX (utilisateur);
 ALTER TABLE ng_img_tag
   ADD INDEX (tag);
+ALTER TABLE `ng_geocodes` ADD INDEX(`address`);
+ALTER TABLE `ng_location` ADD INDEX(`id`);
 
 -- Procedure to try as best as we can to explode concatenated ID and migrate them into proper FK
 -- However some of those IDs don't exist anymore and will thus be ignored
@@ -216,6 +218,7 @@ INSERT INTO image_tag (image_id, tag_id)
 
 UPDATE image
   JOIN ng_meta ON CONCAT(ng_meta.collectionid, ng_meta.imageid) = image.id
+  LEFT JOIN ng_location ON ng_meta.locationid = ng_location.id
 SET
   image.type             = ng_meta.type,
   image.status           = ng_meta.status,
@@ -237,7 +240,9 @@ SET
   image.rights           = ng_meta.imagerights,
   image.museris_url      = ng_meta.museris_link,
   image.museris_cote     = ng_meta.museris_cote,
-  image.technique_author = ng_meta.auteur_technique;
+  image.technique_author = ng_meta.auteur_technique,
+  image.locality         = IFNULL(ng_location.location, ''),
+  image.area             = IFNULL(ng_location.hierarchy, '');
 
 UPDATE image
   JOIN ng_meta ON image.id = CONCAT(ng_meta.collectionid, ng_meta.imageid)
@@ -313,7 +318,9 @@ INSERT INTO image (
   rights,
   museris_url,
   museris_cote,
-  technique_author
+  technique_author,
+  locality,
+  area
 )
   SELECT
     CONCAT(ng_meta.collectionid, ng_meta.imageid),
@@ -337,10 +344,13 @@ INSERT INTO image (
     ng_meta.imagerights,
     ng_meta.museris_link,
     ng_meta.museris_cote,
-    ng_meta.auteur_technique
+    ng_meta.auteur_technique,
+    IFNULL(ng_location.location, ''),
+    IFNULL(ng_location.hierarchy, '')
 
   FROM ng_meta_additional
-    JOIN ng_meta ON ng_meta.imageid = ng_meta_additional.parentid;
+    JOIN ng_meta ON ng_meta.imageid = ng_meta_additional.parentid
+    LEFT JOIN ng_location ON ng_meta_additional.locationid = ng_location.id;
 
 UPDATE image
   JOIN ng_meta ON image.original_id = CONCAT(ng_meta.collectionid, ng_meta.imageid)
@@ -370,6 +380,114 @@ REPLACE INTO image_artist (image_id, artist_id)
 
 -- Ensure that we don't leave invalid empty values
 UPDATE image SET type = 'default' WHERE type = '';
+
+-- Delete a few invalid locality
+UPDATE image SET locality = '' WHERE locality IN('-', '?', '.');
+
+-- Remove would-be duplicate, then fix encoding
+DELETE FROM ng_geocodes WHERE address != CONVERT(CAST(address AS BINARY) USING utf8mb4) AND CONVERT(CAST(address AS BINARY) USING utf8mb4) IN (SELECT * FROM (SELECT address FROM ng_geocodes) AS tmp);
+UPDATE ng_geocodes SET address = CONVERT(CAST(address AS BINARY) USING utf8mb4);
+
+-- First, attempt to match coordinates with institution, which should be the most precise
+UPDATE image
+  JOIN institution ON image.institution_id = institution.id
+  JOIN ng_geocodes ON CONCAT(image.locality, ', ', institution.name) = ng_geocodes.address
+SET image.latitude = ng_geocodes.lat,
+  image.longitude  = ng_geocodes.lon
+WHERE image.locality != '' AND image.longitude IS NULL AND image.latitude IS NULL;
+
+-- Then, attempt to match coordinates with only the locality
+UPDATE image
+  JOIN ng_geocodes ON CONCAT(image.locality, ', ') = ng_geocodes.address
+SET image.latitude = ng_geocodes.lat,
+  image.longitude  = ng_geocodes.lon
+WHERE image.locality != '' AND image.longitude IS NULL AND image.latitude IS NULL;
+
+-- Attempt to extract country from old hierarchy if no known country yet
+UPDATE image
+SET country_id =
+IF(INSTR(area, '| France |'), 2,
+   IF(INSTR(area, '| Italia |'), 15,
+      IF(INSTR(area, 'Bolivia |'), 54,
+         IF(INSTR(area, '| United States |'), 30,
+            IF(INSTR(area, '| Congo |'), 84,
+               IF(INSTR(area, '| Australia |'), 3,
+                  IF(INSTR(area, '| Sryah |'), 223,
+                     IF(INSTR(area, '| Nihon |'), 16,
+                        IF(INSTR(area, '| eská Republika |'), 7,
+                           IF(INSTR(area, '| Polska |'), 22,
+                              IF(INSTR(area, '| España |'), 26,
+                                 IF(INSTR(area, '| Deutschland |'), 10,
+                                    IF(INSTR(area, '| Nederland |'), 19,
+                                       IF(INSTR(area, '| Norge |'), 21,
+                                          IF(INSTR(area, '| België |'), 5,
+                                             IF(INSTR(area, '| Österreich |'), 4,
+                                                IF(INSTR(area, '| Suomi |'), 9,
+                                                   IF(INSTR(area, 'Danmark |'), 8,
+                                                      IF(INSTR(area, '| United Kingdom |'), 29,
+                                                         IF(INSTR(area, '| Ellás |'), 11,
+                                                            IF(INSTR(area, '| Schweiz |'), 1,
+                                                               country_id)
+                                                         )
+                                                      )
+                                                   )
+                                                )
+                                             )
+                                          )
+                                       )
+                                    )
+                                 )
+                              )
+                           )
+                        )
+                     )
+                  )
+               )
+            )
+         )
+      )
+   )
+) WHERE image.country_id IS NULL;
+
+-- Normalize a few things to have a better chance to match
+UPDATE image
+SET locality =
+REPLACE(
+    REPLACE(
+        REPLACE(
+            REPLACE(
+                REPLACE(
+                    REPLACE(
+                        REPLACE(
+                            REPLACE(
+                                REPLACE(
+                                    REPLACE(
+                                        REPLACE(locality, ' (Florida)', ' (Florida - États-Unis)'),
+                                        ' (Syrie) (?)', ' (Syrie)'),
+                                    ', USA)', ', États-Unis)'),
+                                ' (India)', ' (Inde)'),
+                            ', D)', ', Allemagne)'),
+                        ' (New Zealand)', ' (Nouvelle-Zélande)'),
+                    ' (Corée)', ' (Corée du Sud)'),
+                ' (Lybie)', ' (Libye)'),
+            ' (Allmagne)', ' (Allemagne)'),
+        ' Rébublique Tchèque)', ' République tchèque)'),
+    ' République Tchèque', ' République tchèque')
+WHERE locality != '';
+
+-- Attempt to extract country from old location if no known country yet
+-- In this case we assume that the country is the last word at the end of the string enclosed by parenthesis
+UPDATE image
+  JOIN country ON INSTR(image.locality, CONCAT(country.name, ')'))
+SET image.country_id = country.id
+WHERE locality != '' AND image.country_id IS NULL;
+
+-- Attempt to extract country from old location if no known country yet
+-- In this case we assume that the country is the first word at the end of the string enclosed by parenthesis
+UPDATE image
+  JOIN country ON INSTR(image.locality, CONCAT('(', country.name))
+SET image.country_id = country.id
+WHERE locality != '' AND image.country_id IS NULL;
 
 COMMIT;
 

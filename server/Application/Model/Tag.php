@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * A tag
  *
  * @ORM\Entity(repositoryClass="Application\Repository\TagRepository")
- * @ORM\Table(indexes={@ORM\Index(name="name", columns={"name"})})
+ * @ORM\Table(indexes={@ORM\Index(columns={"name"})})
  */
 class Tag extends AbstractModel
 {

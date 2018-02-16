@@ -162,7 +162,7 @@ trait HasAddress
     /**
      * @return Country
      */
-    public function getCountry(): string
+    public function getCountry(): Country
     {
         return $this->country;
     }

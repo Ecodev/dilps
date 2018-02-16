@@ -20,7 +20,13 @@ use Psr\Http\Message\UploadedFileInterface;
  *
  * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="Application\Repository\ImageRepository")
- * @ORM\Table(indexes={@ORM\Index(name="name", columns={"name"})})
+ * @ORM\Table(indexes={
+ *     @ORM\Index(columns={"name"}),
+ *     @ORM\Index(columns={"locality"}),
+ *     @ORM\Index(columns={"area"}),
+ *     @ORM\Index(columns={"latitude"}),
+ *     @ORM\Index(columns={"longitude"}),
+ * })
  */
 class Image extends AbstractModel
 {

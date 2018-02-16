@@ -16,7 +16,7 @@ use InvalidArgumentException;
  * A collection of images
  *
  * @ORM\Entity(repositoryClass="Application\Repository\CollectionRepository")
- * @ORM\Table(indexes={@ORM\Index(name="name", columns={"name"})})
+ * @ORM\Table(indexes={@ORM\Index(columns={"name"})})
  */
 class Collection extends AbstractModel
 {

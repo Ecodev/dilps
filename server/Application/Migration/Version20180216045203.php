@@ -23,6 +23,25 @@ class Version20180216045203 extends AbstractMigration
         $this->addSql('ALTER TABLE image ADD CONSTRAINT FK_C53D045FF92F3E70 FOREIGN KEY (country_id) REFERENCES country (id) ON DELETE SET NULL');
         $this->addSql('CREATE INDEX IDX_C53D045FF92F3E70 ON image (country_id)');
 
+        $this->addSql('CREATE INDEX IDX_3A9F98E5E1D6B8E6 ON institution (locality)');
+        $this->addSql('CREATE INDEX IDX_3A9F98E5D7943D68 ON institution (area)');
+        $this->addSql('CREATE INDEX IDX_3A9F98E54118D123 ON institution (latitude)');
+        $this->addSql('CREATE INDEX IDX_3A9F98E585E16F6B ON institution (longitude)');
+        $this->addSql('DROP INDEX name ON institution');
+        $this->addSql('CREATE INDEX IDX_3A9F98E55E237E06 ON institution (name)');
+        $this->addSql('DROP INDEX name ON collection');
+        $this->addSql('CREATE INDEX IDX_FC4D65325E237E06 ON collection (name)');
+        $this->addSql('CREATE INDEX IDX_C53D045FE1D6B8E6 ON image (locality)');
+        $this->addSql('CREATE INDEX IDX_C53D045FD7943D68 ON image (area)');
+        $this->addSql('CREATE INDEX IDX_C53D045F4118D123 ON image (latitude)');
+        $this->addSql('CREATE INDEX IDX_C53D045F85E16F6B ON image (longitude)');
+        $this->addSql('DROP INDEX name ON image');
+        $this->addSql('CREATE INDEX IDX_C53D045F5E237E06 ON image (name)');
+        $this->addSql('DROP INDEX name ON artist');
+        $this->addSql('CREATE INDEX IDX_15996875E237E06 ON artist (name)');
+        $this->addSql('DROP INDEX name ON tag');
+        $this->addSql('CREATE INDEX IDX_389B7835E237E06 ON tag (name)');
+
         $this->addSql('INSERT INTO country (id, code, name) VALUES
 (1, "CH", "Suisse"),
 (2, "FR", "France"),
@@ -52,7 +71,7 @@ class Version20180216045203 extends AbstractMigration
 (26, "ES", "Espagne"),
 (27, "SE", "Suède"),
 (28, "TR", "Turquie"),
-(29, "GB", "Royaume-Uni"),
+(29, "GB", "Angleterre"),
 (30, "US", "États-Unis"),
 (31, "AX", "Îles Åland"),
 (32, "AF", "Afghanistan"),
@@ -107,7 +126,7 @@ class Version20180216045203 extends AbstractMigration
 (81, "CU", "Cuba"),
 (82, "CW", "Curaçao"),
 (83, "CY", "Chypre"),
-(84, "CD", "RDC"),
+(84, "CD", "République démocratique du Congo"),
 (85, "DJ", "Djibouti"),
 (86, "DM", "Dominique"),
 (87, "DO", "République Dominicaine"),
