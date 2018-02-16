@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { findKey, merge } from 'lodash';
 import { InstitutionService } from '../institutions/services/institution.service';
 import { AlertService } from '../shared/components/alert/alert.service';
+import { ArtistService } from '../artists/services/artist.service';
 
 @Component({
     selector: 'app-image',
@@ -39,11 +40,12 @@ export class ImageComponent implements OnInit {
     };
 
     constructor(private route: ActivatedRoute,
-        private router: Router,
-        public themeSvc: ThemeService,
-        private imageSvc: ImageService,
-        private alertSvc: AlertService,
-        public institutionSvc: InstitutionService) {
+                private router: Router,
+                public themeSvc: ThemeService,
+                private imageSvc: ImageService,
+                private alertSvc: AlertService,
+                public artistService: ArtistService,
+                public institutionSvc: InstitutionService) {
     }
 
     ngOnInit() {

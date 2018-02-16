@@ -60,7 +60,7 @@
                     >
                 </mat-form-field>
 
-                <app-thesaurus placeholder="Artiste" [(model)]="data.artists"></app-thesaurus>
+                <app-thesaurus [service]="artistService" placeholder="Artiste" [(model)]="data.artists"></app-thesaurus>
 
                 <mat-form-field class="innerSpacing">
                     <input [readonly]="!edit"
