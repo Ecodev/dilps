@@ -10,6 +10,11 @@ describe('InstitutionService', () => {
     const expectedOne = {
         id: '456',
         name: 'test string',
+        locality: 'test string',
+        street: 'test string',
+        postcode: 'test string',
+        latitude: 0.5,
+        longitude: 0.5,
         __typename: 'Institution',
         creationDate: '2018-01-18T11:43:31',
         creator: userMetaTesting,

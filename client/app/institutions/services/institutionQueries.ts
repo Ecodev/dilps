@@ -19,6 +19,11 @@ query Institution($id: InstitutionID!) {
     institution(id: $id) {
         id
         name
+        locality
+        street,
+        postcode,
+        latitude
+        longitude
         creationDate
         creator {
             ...userMeta

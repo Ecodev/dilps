@@ -43,6 +43,8 @@ export class InstitutionService
             postcode: '',
             locality: '',
             area: '',
+            latitude: null,
+            longitude: null,
         };
     }
 
