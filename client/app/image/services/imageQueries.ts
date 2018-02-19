@@ -33,6 +33,11 @@ query Image($id: ImageID!) {
         institution {
             id
             name
+            locality
+            street
+            postcode
+            latitude
+            longitude
         }
         type
         status
@@ -54,6 +59,11 @@ query Image($id: ImageID!) {
         rights
         muserisUrl
         muserisCote
+        locality
+        street
+        postcode
+        latitude
+        longitude
         creationDate
         creator {
             ...userMeta

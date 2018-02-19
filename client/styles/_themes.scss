@@ -9,7 +9,6 @@
 @import '../app/app.theme';
 @import '../app/shared/components/boot-loader/boot-loader.theme';
 @import '../app/home/home.theme';
-@import '../app/image/image.theme';
 @import 'scroll';
 @import 'toolbar';
 @import 'table';
@@ -28,7 +27,6 @@
     @include scroll($theme);
     @include home($theme);
     @include toolbar($theme);
-    @include app-image($theme);
     @include natural-gallery-theme($theme);
     @include table($theme);
     @include table-button($theme);

@@ -100,9 +100,6 @@
                     >
                 </mat-form-field>
 
-                <app-select [readonly]="!edit" [service]="institutionSvc" [(model)]="data.institution" placeholder="Institution"
-                ></app-select>
-
                 <mat-form-field class="innerSpacing">
                     <input [readonly]="!edit"
                            matInput
@@ -135,6 +132,15 @@
                     >
                 </mat-form-field>
 
+                <div class="mat-title innerSpacing">Lieu</div>
+
+                <app-thesaurus [readonly]="!edit"
+                               [service]="institutionSvc"
+                               placeholder="Institution"
+                               [model]="[data.institution]"
+                ></app-thesaurus>
+
+                <app-address [(model)]="data" [vertical]="true" [readonly]="!edit"></app-address>
             </div>
         </div>
     </div>

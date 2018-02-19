@@ -20,8 +20,8 @@ query Institution($id: InstitutionID!) {
         id
         name
         locality
-        street,
-        postcode,
+        street
+        postcode
         latitude
         longitude
         creationDate

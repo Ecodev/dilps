@@ -21,7 +21,7 @@
 
         <!-- Meta data -->
         <mat-icon matPrefix *ngIf="!loading && showIcon">search</mat-icon>
-        <mat-progress-spinner matPrefix *ngIf="loading" [diameter]="21" [strokeWidth]="5" mode="indeterminate"></mat-progress-spinner>
+        <mat-progress-spinner matPrefix *ngIf="showIcon && loading" [diameter]="21" [strokeWidth]="5" mode="indeterminate"></mat-progress-spinner>
 
         <!-- Clear button -->
         <button *ngIf="selected && formCtrl.enabled"

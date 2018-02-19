@@ -14,7 +14,6 @@ import {
 } from '../../shared/generated-types';
 import { AbstractModelService } from '../../shared/services/abstract-model.service';
 import { createImageMutation, deleteImagesMutation, imageQuery, imagesQuery, updateImageMutation, } from './imageQueries';
-import { UtilityService } from '../../shared/services/utility.service';
 import { Literal } from '../../shared/types';
 
 @Injectable()
@@ -68,10 +67,13 @@ export class ImageService extends AbstractModelService<ImageQuery['image'],
             name: '',
             isPublic: false,
             artists: [],
+            institution: null,
             street: '',
             postcode: '',
             locality: '',
             area: '',
+            latitude: null,
+            longitude: null,
         };
     }
 
