@@ -71,6 +71,8 @@ import { ArtistsComponent } from './artists/artists/artist.component';
 import { ArtistService } from './artists/services/artist.service';
 import { NotificationsComponent } from './notifications/notifications/notifications.component';
 import { ThesaurusComponent } from './shared/components/thesaurus/thesaurus.component';
+import { AgmCoreModule } from '@agm/core';
+import { AddressComponent } from './shared/components/address/address.component';
 
 @NgModule({
     declarations: [
@@ -94,7 +96,8 @@ import { ThesaurusComponent } from './shared/components/thesaurus/thesaurus.comp
         ArtistComponent,
         ArtistsComponent,
         NotificationsComponent,
-        ThesaurusComponent
+        ThesaurusComponent,
+        AddressComponent
     ],
     entryComponents: [
         ConfirmComponent,
@@ -135,7 +138,11 @@ import { ThesaurusComponent } from './shared/components/thesaurus/thesaurus.comp
         MatAutocompleteModule,
         MatDatepickerModule,
         MatNativeDateModule,
-        MatChipsModule
+        MatChipsModule,
+        AgmCoreModule.forRoot({
+            apiKey: 'AIzaSyBIBMlG6xXDmpPERQgKdo_Dwhtz5SX5dto',
+            libraries: ['places']
+        })
     ],
     providers: [
         AuthGuard,

@@ -1,0 +1,22 @@
+:host {
+
+    agm-map {
+        height: 600px;
+    }
+
+    #mapZone {
+
+        position: relative;
+
+        #search {
+            position: absolute;
+            z-index:5;
+            top:5px;
+            left:5px;
+            padding-bottom:-1.25em;
+            width:400px;
+            border-top-left-radius:3px;
+            border-top-right-radius:3px;
+        }
+    }
+}

@@ -16,6 +16,7 @@
 @import '../app/shared/components/table-button/table-button.theme';
 @import '../app/collections/collections/collections.theme';
 @import '../app/shared/components/alert/alert.theme';
+@import '../app/shared/components/address/address.theme';
 
 // Include material core (only once !)
 @include mat-core($custom-typography-gt-sm);
@@ -33,6 +34,7 @@
     @include table-button($theme);
     @include collections($theme);
     @include alert($theme);
+    @include address($theme);
 }
 
 $mat-dilps: (

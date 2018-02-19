@@ -14,6 +14,11 @@ html, body {
     height: 100%;
 }
 
+.pac-container {
+    margin-top: 15px;
+    margin-left:-10px;
+}
+
 /**
  * Debug
  */
@@ -63,7 +68,6 @@ perfect-scrollbar {
     width: auto !important;
 }
 
-
 .mat-icon[matSuffix],
 .mat-icon[matPrefix] {
     position: relative;
@@ -76,5 +80,5 @@ perfect-scrollbar {
 }
 
 .searchField {
-    font-size:16px;
+    font-size: 16px;
 }
