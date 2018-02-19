@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, NgZone, OnInit, ViewChild } from '@angula
 import { MapsAPILoader, MapTypeStyle } from '@agm/core';
 import { FormControl } from '@angular/forms';
 import { Address, AddressService } from './address.service';
-import { assign } from 'lodash';
+import {merge} from 'lodash';
 // Format can remove following line, that is required to prevent warnings in console
 // import { } from 'googlemaps';
 import { } from 'googlemaps';
@@ -17,6 +17,8 @@ export class AddressComponent implements OnInit {
 
     @ViewChild('input') public inputRef: ElementRef;
 
+    @Input() vertical = false;
+    @Input() readonly = false;
     @Input() model: Address;
 
     public formCtrl = new FormControl();
@@ -188,6 +190,8 @@ export class AddressComponent implements OnInit {
         },
     ];
 
+    private autocomplete;
+
     constructor(private mapsAPILoader: MapsAPILoader,
                 private ngZone: NgZone,
                 private addressService: AddressService) {
@@ -203,30 +207,15 @@ export class AddressComponent implements OnInit {
 
         // load Places Autocomplete
         this.mapsAPILoader.load().then(() => {
-
             this.icon = this.getIcon();
-
-            const autocomplete = new google.maps.places.Autocomplete(this.inputRef.nativeElement);
-            autocomplete.addListener('place_changed', () => {
+            this.autocomplete = new google.maps.places.Autocomplete(this.inputRef.nativeElement);
+            this.autocomplete.addListener('place_changed', () => {
                 this.ngZone.run(() => {
-                    const place: google.maps.places.PlaceResult = autocomplete.getPlace();
-
-                    // verify result
-                    if (place.geometry === undefined || place.geometry === null) {
-                        return;
-                    }
-
-                    // set latitude, longitude and zoom
-                    this.latitude = place.geometry.location.lat();
-                    this.longitude = place.geometry.location.lng();
-                    this.zoom = 15;
-
-                    assign(this.model, this.addressService.buildAddress(place));
+                    this.onPlaceChange();
                 });
             });
         });
 
-        this.updateSearch();
     }
 
     public updateSearch() {
@@ -249,6 +238,23 @@ export class AddressComponent implements OnInit {
         return address.filter(v => !!v).join(', ');
     }
 
+    public onPlaceChange() {
+
+        const place: google.maps.places.PlaceResult = this.autocomplete.getPlace();
+
+        // verify result
+        if (place.geometry === undefined || place.geometry === null) {
+            return;
+        }
+
+        // set latitude, longitude and zoom
+        this.latitude = place.geometry.location.lat();
+        this.longitude = place.geometry.location.lng();
+        this.zoom = 15;
+
+        merge(this.model, this.addressService.buildAddress(place));
+    }
+
     public dragged(ev) {
         this.latitude = ev.coords.lat;
         this.longitude = ev.coords.lng;
@@ -260,7 +266,7 @@ export class AddressComponent implements OnInit {
                 lng: ev.coords.lng,
             },
         }, (places) => {
-            assign(this.model, this.addressService.buildAddress(places[0]));
+            merge(this.model, this.addressService.buildAddress(places[0]));
             this.updateSearch();
         });
 
