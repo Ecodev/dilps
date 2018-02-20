@@ -6,7 +6,7 @@
             <mat-icon matChipRemove *ngIf="!readonly">cancel</mat-icon>
         </mat-chip>
         <input #input
-               [fxShow]="!readonly"
+               [fxShow]="!readonly || items.length === 0"
                [readonly]="readonly"
                [formControl]="formCtrl"
                [placeholder]="placeholder"
