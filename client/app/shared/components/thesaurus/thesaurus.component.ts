@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatAutocompleteTrigger } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { IncrementSubject } from '../../services/increment-subject';
@@ -137,8 +137,8 @@ export class ThesaurusComponent implements OnInit {
         }
     }
 
-    public removeTerm(term: string): void {
-        const index = this.items.findIndex(item => item.name === term);
+    public removeTerm(term: Literal): void {
+        const index = this.items.findIndex(item => item.name === term.name);
         if (index >= 0) {
             this.items.splice(index, 1);
             this.notifyModel();
