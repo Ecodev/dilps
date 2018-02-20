@@ -38,6 +38,11 @@ query Image($id: ImageID!) {
             postcode
             latitude
             longitude
+            country {
+                id
+                code
+                name
+            }
         }
         type
         status
@@ -64,6 +69,11 @@ query Image($id: ImageID!) {
         postcode
         latitude
         longitude
+        country {
+            id
+            code
+            name
+        }
         creationDate
         creator {
             ...userMeta

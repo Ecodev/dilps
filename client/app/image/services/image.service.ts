@@ -74,6 +74,7 @@ export class ImageService extends AbstractModelService<ImageQuery['image'],
             area: '',
             latitude: null,
             longitude: null,
+            country: null
         };
     }
 

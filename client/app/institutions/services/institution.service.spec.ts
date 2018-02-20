@@ -15,6 +15,12 @@ describe('InstitutionService', () => {
         postcode: 'test string',
         latitude: 0.5,
         longitude: 0.5,
+        country : {
+            id: '456',
+            code: 'test string',
+            name: 'test string',
+            __typename: 'Country',
+        },
         __typename: 'Institution',
         creationDate: '2018-01-18T11:43:31',
         creator: userMetaTesting,

@@ -28,7 +28,7 @@ export class AddressService {
     constructor() {
     }
 
-    public buildAddress(place: any): Address {
+    public buildAddress(place: any) {
 
         const tmpGAddress = mapValues(this.config, function() {
             return '';
@@ -41,11 +41,11 @@ export class AddressService {
             }
         });
 
-        const address: Address = {
+        const address = {
             street: trim(tmpGAddress.route + ' ' + tmpGAddress.street_number),
             postcode: tmpGAddress.postal_code,
             locality: tmpGAddress.locality,
-            country: tmpGAddress.country,
+            countryIso2: tmpGAddress.country,
             latitude: place.geometry.location.lat(),
             longitude: place.geometry.location.lng(),
         };

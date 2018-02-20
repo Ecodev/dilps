@@ -160,17 +160,17 @@ trait HasAddress
     }
 
     /**
-     * @return Country
+     * @return null|Country
      */
-    public function getCountry(): Country
+    public function getCountry(): ?Country
     {
         return $this->country;
     }
 
     /**
-     * @param Country $country
+     * @param null|Country $country
      */
-    public function setCountry(Country $country = null): void
+    public function setCountry(?Country $country = null): void
     {
         $this->country = $country;
     }

@@ -1,8 +1,10 @@
 import { Component, ElementRef, Input, NgZone, OnInit, ViewChild } from '@angular/core';
 import { MapsAPILoader, MapTypeStyle } from '@agm/core';
 import { FormControl } from '@angular/forms';
-import { Address, AddressService } from './address.service';
-import {merge} from 'lodash';
+import { AddressService } from './address.service';
+import { merge } from 'lodash';
+import { CountryService } from '../../../countries/services/country.service';
+import { CountriesQuery } from '../../generated-types';
 // Format can remove following line, that is required to prevent warnings in console
 // import { } from 'googlemaps';
 import { } from 'googlemaps';
@@ -11,7 +13,10 @@ import { } from 'googlemaps';
     selector: 'app-address',
     templateUrl: './address.component.html',
     styleUrls: ['./address.component.scss'],
-    providers: [AddressService],
+    providers: [
+        AddressService,
+        CountryService,
+    ],
 })
 export class AddressComponent implements OnInit {
 
@@ -19,7 +24,7 @@ export class AddressComponent implements OnInit {
 
     @Input() vertical = false;
     @Input() readonly = false;
-    @Input() model: Address;
+    @Input() model;
 
     public formCtrl = new FormControl();
 
@@ -191,13 +196,17 @@ export class AddressComponent implements OnInit {
     ];
 
     private autocomplete;
+    public countries: CountriesQuery['countries']['items'];
 
     constructor(private mapsAPILoader: MapsAPILoader,
                 private ngZone: NgZone,
-                private addressService: AddressService) {
+                private addressService: AddressService,
+                private countryService: CountryService) {
     }
 
     ngOnInit() {
+
+        this.countryService.getAll({pagination: {pageSize: 9999}}).subscribe(countries => this.countries = countries.items);
 
         if (this.model.latitude && this.model.longitude) {
             this.latitude = this.model.latitude;
@@ -225,7 +234,7 @@ export class AddressComponent implements OnInit {
 
     public search() {
         this.updateSearch();
-        this.inputRef.nativeElement.focus();
+        this.inputRef.nativeElement.focus(); // focus in input to open google suggestions
     }
 
     private getAddressAsString() {
@@ -233,7 +242,7 @@ export class AddressComponent implements OnInit {
             this.model.street,
             this.model.postcode,
             this.model.locality,
-            this.model.country,
+            this.model.country ? this.model.country.name : this.model.country,
         ];
         return address.filter(v => !!v).join(', ');
     }
@@ -255,7 +264,7 @@ export class AddressComponent implements OnInit {
         merge(this.model, this.addressService.buildAddress(place));
     }
 
-    public dragged(ev) {
+    public onMarkerDrag(ev) {
         this.latitude = ev.coords.lat;
         this.longitude = ev.coords.lng;
 
@@ -266,7 +275,9 @@ export class AddressComponent implements OnInit {
                 lng: ev.coords.lng,
             },
         }, (places) => {
-            merge(this.model, this.addressService.buildAddress(places[0]));
+            const address = this.addressService.buildAddress(places[0]) as any;
+            merge(this.model, address);
+            this.model.country = this.countries.find(c => c.code === address.countryIso2); // change reference
             this.updateSearch();
         });
 

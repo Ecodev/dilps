@@ -25,6 +25,11 @@ query Institution($id: InstitutionID!) {
         latitude
         longitude
         creationDate
+        country {
+            id
+            code
+            name
+        }
         creator {
             ...userMeta
         }

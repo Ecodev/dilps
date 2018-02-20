@@ -45,6 +45,7 @@ export class InstitutionService
             area: '',
             latitude: null,
             longitude: null,
+            country: null,
         };
     }
 

@@ -1,18 +1,23 @@
-<form fxLayout="column" [fxLayoutGap]="vertical ? '0px' : '10px'" (change)="updateSearch()">
+<div fxLayout="column" [fxLayoutGap]="vertical ? '0px' : '10px'">
     <mat-form-field>
         <input matInput
                [readonly]="readonly"
                name="street"
                placeholder="Rue"
                [(ngModel)]="model.street"
-               (keyup)="updateSearch()"
                (keyup.enter)="search()"
         >
     </mat-form-field>
 
     <div [fxLayout]="vertical ? 'column': 'row'" [fxLayoutGap]="vertical ? '0px' : '10px'">
         <mat-form-field>
-            <input matInput [readonly]="readonly" name="postcode" placeholder="NPA" [(ngModel)]="model.postcode" (keyup.enter)="search()" >
+            <input matInput
+                   [readonly]="readonly"
+                   name="postcode"
+                   placeholder="NPA"
+                   [(ngModel)]="model.postcode"
+                   (keyup.enter)="search()"
+            >
         </mat-form-field>
         <mat-form-field [fxFlex]="!vertical">
             <input matInput
@@ -23,12 +28,18 @@
                    (keyup.enter)="search()"
             >
         </mat-form-field>
-        <mat-form-field>
-            <input matInput [readonly]="readonly" name="country" placeholder="Pays" [(ngModel)]="model.country" (keyup.enter)="search()" >
-        </mat-form-field>
-    </div>
 
-</form>
+        <app-select *ngIf="countries"
+                    [items]="countries"
+                    [(model)]="model.country"
+                    [showIcon]="false"
+                    [disabled]="readonly"
+                    (keyup.enter)="search()"
+                    placeholder="Pays"
+                    [autoActiveFirstOption]="true"
+        ></app-select>
+    </div>
+</div>
 
 <div id="mapZone">
     <mat-form-field id="search" class="mat-elevation-z4" floatPlaceholder="never" [fxShow]="!readonly">
@@ -49,7 +60,7 @@
         <agm-marker [latitude]="model.latitude"
                     [longitude]="model.longitude"
                     [markerDraggable]="!readonly"
-                    (dragEnd)="dragged($event)"
+                    (dragEnd)="onMarkerDrag($event)"
                     [iconUrl]="icon"
         ></agm-marker>
     </agm-map>
