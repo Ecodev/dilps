@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace Application\Model;
 
 use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
 use GraphQL\Doctrine\Annotation as API;
 
 /**
  * An exact dating period expressed in Julian Days and automatically computed
  * from an approximate, lose string value.
+ *
+ * Julian days are used instead of standard date format because MariaDB does not
+ * support older year than 1000 and we often much older than that (before Christ)
  *
  * @ORM\Entity(repositoryClass="Application\Repository\DatingRepository")
  */
@@ -19,14 +23,14 @@ class Dating extends AbstractModel
     /**
      * @var int
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="`from`", type="integer")
      */
     private $from;
 
     /**
      * @var int
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="`to`", type="integer")
      */
     private $to;
 
@@ -47,9 +51,7 @@ class Dating extends AbstractModel
      */
     public function getFrom(): DateTimeImmutable
     {
-        $date = new DateTimeImmutable();
-
-        return $date->setTimestamp(jdtounix($this->from));
+        return $this->julianToDate($this->from);
     }
 
     /**
@@ -59,7 +61,7 @@ class Dating extends AbstractModel
      */
     public function setFrom(DateTimeImmutable $from): void
     {
-        $this->from = unixtojd($from->getTimestamp());
+        $this->from = $this->dateToJulian($from);
     }
 
     /**
@@ -69,9 +71,7 @@ class Dating extends AbstractModel
      */
     public function getTo(): DateTimeImmutable
     {
-        $date = new DateTimeImmutable();
-
-        return $date->setTimestamp(jdtounix($this->to));
+        return $this->julianToDate($this->to);
     }
 
     /**
@@ -81,7 +81,7 @@ class Dating extends AbstractModel
      */
     public function setTo(DateTimeImmutable $to): void
     {
-        $this->to = unixtojd($to->getTimestamp());
+        $this->to = $this->dateToJulian($to);
     }
 
     /**
@@ -103,5 +103,19 @@ class Dating extends AbstractModel
 
         $this->image = $image;
         $this->image->datingAdded($this);
+    }
+
+    private function dateToJulian(DateTimeImmutable $date): int
+    {
+        return gregoriantojd((int) $date->format('m'), (int) $date->format('d'), (int) $date->format('Y'));
+    }
+
+    private function julianToDate(int $date): DateTimeImmutable
+    {
+        $parts = explode('/', jdtogregorian($date));
+
+        $result = new DateTimeImmutable('now', new DateTimeZone('UTC'));
+
+        return $result->setDate((int) $parts[2], (int) $parts[0], (int) $parts[1])->setTime(0, 0, 0, 0);
     }
 }

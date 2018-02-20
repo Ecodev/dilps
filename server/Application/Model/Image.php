@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Model;
 
+use Application\Service\DatingRule;
 use Application\Traits\HasAddress;
 use Application\Traits\HasInstitution;
 use Application\Traits\HasName;
@@ -289,7 +290,25 @@ class Image extends AbstractModel
      */
     public function setDating(string $dating): void
     {
+        if ($dating === $this->dating) {
+            return;
+        }
         $this->dating = $dating;
+
+        $rule = new DatingRule();
+
+        // Delete all existing
+        foreach ($this->datings as $d) {
+            _em()->remove($d);
+        }
+        $this->datings->clear();
+
+        // Add new one
+        $datings = $rule->compute($dating);
+        foreach ($datings as $d) {
+            _em()->persist($d);
+            $d->setImage($this);
+        }
     }
 
     /**

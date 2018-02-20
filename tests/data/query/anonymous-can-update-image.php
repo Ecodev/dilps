@@ -19,6 +19,10 @@ return [
                 artists {
                     name
                 }
+                datings {
+                    from
+                    to
+                }
             }
         }',
         'variables' => [
@@ -28,7 +32,7 @@ return [
                 'isPublic' => true,
                 'type' => Image::TYPE_DEFAULT,
                 'status' => Image::STATUS_NEW,
-                'dating' => 'test dating',
+                'dating' => '1980 - 1990',
                 'addition' => 'test addition',
                 'expandedName' => 'test expandedName',
                 'material' => 'test material',
@@ -73,6 +77,12 @@ return [
                     ],
                     [
                         'name' => 'New artist 2',
+                    ],
+                ],
+                'datings' => [
+                    [
+                        'from' => '1980-01-01T00:00:00+00:00',
+                        'to' => '1990-12-31T00:00:00+00:00',
                     ],
                 ],
             ],

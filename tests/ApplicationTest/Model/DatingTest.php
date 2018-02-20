@@ -18,7 +18,8 @@ class DatingTest extends TestCase
     public function testFrom(): void
     {
         $dating = new Dating();
-        $d1 = new DateTimeImmutable('2010-02-03', new DateTimeZone('UTC'));
+        $d1 = new DateTimeImmutable('now', new DateTimeZone('UTC'));
+        $d1 = $d1->setDate(-1200, 2, 3)->setTime(0, 0, 0, 0);
         $dating->setFrom($d1);
         $d2 = $dating->getFrom();
 
