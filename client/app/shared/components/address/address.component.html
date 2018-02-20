@@ -33,10 +33,10 @@
                     [items]="countries"
                     [(model)]="model.country"
                     [showIcon]="false"
-                    [disabled]="readonly"
                     (keyup.enter)="search()"
                     placeholder="Pays"
                     [autoActiveFirstOption]="true"
+                    [readonly]="readonly"
         ></app-select>
     </div>
 </div>

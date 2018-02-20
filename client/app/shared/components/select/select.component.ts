@@ -71,13 +71,6 @@ export class SelectComponent implements OnInit {
     @Input() displayWith: (any) => string;
 
     /**
-     * Whether the disabled can be changed
-     */
-    @Input() set disabled(disabled: boolean) {
-        disabled ? this.formCtrl.disable() : this.formCtrl.enable();
-    }
-
-    /**
      * Model output
      * Usage : (modelChange)
      * @type {EventEmitter<any>}
@@ -160,7 +153,6 @@ export class SelectComponent implements OnInit {
         }
 
         this.input.nativeElement.addEventListener('blur', () => this.blur.emit());
-        this.input.nativeElement.addEventListener('click', () => this.autoTrigger.openPanel());
     }
 
     private useService() {

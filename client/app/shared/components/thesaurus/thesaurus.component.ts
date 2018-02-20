@@ -15,12 +15,12 @@ import { Observable } from 'rxjs/Observable';
     styleUrls: ['./thesaurus.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ThesaurusComponent implements OnInit, OnChanges {
+export class ThesaurusComponent implements OnInit {
 
     @ViewChild(MatAutocompleteTrigger) public autocomplete: MatAutocompleteTrigger;
     @ViewChild('input') input;
 
-    @Input() readonly: boolean;
+    @Input() readonly = false;
     @Input() service;
     @Input() placeholder;
     @Input() multiple = true;
@@ -90,18 +90,6 @@ export class ThesaurusComponent implements OnInit, OnChanges {
         })).subscribe(data => {
             this.optionsFiltered.next(data);
         });
-    }
-
-    ngOnChanges() {
-        if (this.readonly) {
-            this.formCtrl.disable();
-        } else {
-            this.formCtrl.enable();
-        }
-    }
-
-    public onClick() {
-        this.autocomplete.openPanel();
     }
 
     /**

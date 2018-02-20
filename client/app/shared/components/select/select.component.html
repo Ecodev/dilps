@@ -20,7 +20,7 @@
         ></mat-progress-spinner>
 
         <!-- Clear button -->
-        <button *ngIf="selected && formCtrl.enabled"
+        <button *ngIf="!readonly && selected"
                 (click)="unselect($event)"
                 mat-icon-button
                 matSuffix

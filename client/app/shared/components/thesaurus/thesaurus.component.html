@@ -1,19 +1,19 @@
 <mat-form-field class="innerSpacing">
 
-    <mat-chip-list #chipList aria-orientation="vertical" class="mat-chip-list-stacked" [disabled]="readonly">
-        <mat-chip *ngFor="let item of items" [selectable]="true" [removable]="true" (remove)="removeTerm(item)" fxLayoutRow="row">
+    <mat-chip-list #chipList aria-orientation="vertical" class="mat-chip-list-stacked">
+        <mat-chip *ngFor="let item of items" [selectable]="true" [removable]="!readonly" (remove)="removeTerm(item)" fxLayoutRow="row">
             <span fxFlex>{{ item.name }}</span>
             <mat-icon matChipRemove *ngIf="!readonly">cancel</mat-icon>
         </mat-chip>
         <input #input
-               [disabled]="readonly"
+               [fxShow]="!readonly"
+               [readonly]="readonly"
                [formControl]="formCtrl"
                [placeholder]="placeholder"
                [matChipInputFor]="chipList"
                [matAutocomplete]="autocomplete"
                (ngModelChange)="onSearch($event)"
                (focus)="startSearch()"
-               (click)="onClick()"
                (keydown.enter)="onEnter($event)"
         />
     </mat-chip-list>
