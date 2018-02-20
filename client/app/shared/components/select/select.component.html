@@ -10,29 +10,25 @@
                aria-label="recherche et sélection"
                i18n-aria-label
                [ngModel]="selected"
-               (ngModelChange)="search($event)"
-               (keydown.esc)="clear()"
                [formControl]="formCtrl"
                [matAutocomplete]="ac"
-               (click)="this.open()"
-               (blur)="blur.emit()"
-               (focus)="onFocus()"
         >
 
         <!-- Meta data -->
         <mat-icon matPrefix *ngIf="!loading && showIcon">search</mat-icon>
-        <mat-progress-spinner matPrefix *ngIf="showIcon && loading" [diameter]="21" [strokeWidth]="5" mode="indeterminate"></mat-progress-spinner>
+        <mat-progress-spinner matPrefix *ngIf="showIcon && loading" [diameter]="21" [strokeWidth]="5" mode="indeterminate"
+        ></mat-progress-spinner>
 
         <!-- Clear button -->
         <button *ngIf="selected && formCtrl.enabled"
-                (click)="clear()"
+                (click)="unselect($event)"
                 mat-icon-button
                 matSuffix
                 i18n-matTooltip
                 matTooltip="Désélectionner"
                 matTooltipPosition="above"
         >
-            <mat-icon name="close"></mat-icon>
+            <mat-icon>close</mat-icon>
         </button>
 
         <ng-template #defaultACItem let-item="item">
@@ -40,8 +36,12 @@
         </ng-template>
 
         <!-- Autocomplete menu -->
-        <mat-autocomplete #ac="matAutocomplete" [displayWith]="getDisplayFn()" (optionSelected)="notify($event)">
-            <mat-option *ngFor="let item of items | async" [value]="item">
+        <mat-autocomplete #ac="matAutocomplete"
+                          [displayWith]="getDisplayFn()"
+                          (optionSelected)="notify($event)"
+                          [autoActiveFirstOption]="autoActiveFirstOption"
+        >
+            <mat-option *ngFor="let item of filteredItems | async" [value]="item">
                 <ng-template [ngTemplateOutlet]="itemTemplate ? itemTemplate : defaultACItem" [ngTemplateOutletContext]="{ item: item }"
                 ></ng-template>
             </mat-option>

@@ -1,13 +1,14 @@
 import { Component, ContentChild, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild, } from '@angular/core';
 import { IncrementSubject } from '../../services/increment-subject';
-import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms';
 import { isObject, merge } from 'lodash';
-import { filter, map, sampleTime } from 'rxjs/operators';
+import { filter, map, sampleTime, startWith } from 'rxjs/operators';
 import { QueryRef } from 'apollo-angular';
 import { MatAutocompleteTrigger } from '@angular/material';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Literal } from '../../types';
+import { AbstractModelService } from '../../services/abstract-model.service';
+import { Observable } from 'rxjs/Observable';
 
 /**
  * Default usage:
@@ -42,8 +43,10 @@ export class SelectComponent implements OnInit {
      * Service with watchAll function that accepts queryVariables.
      */
     @Input() service;
+    @Input() items: Literal[];
     @Input() placeholder: string;
     @Input() floatPlaceholder: string = null;
+    @Input() autoActiveFirstOption = false;
     @Input() readonly = false;
 
     /**
@@ -107,7 +110,7 @@ export class SelectComponent implements OnInit {
     /**
      * Items returned by server to show in listing
      */
-    public items: Observable<any[]>;
+    public filteredItems: Observable<any[]>;
 
     public formCtrl: FormControl = new FormControl();
     public loading = false;
@@ -141,22 +144,41 @@ export class SelectComponent implements OnInit {
     constructor() {
     }
 
-    public onFocus() {
-        this.startSearch();
-    }
-
-    open() {
-        this.autoTrigger.openPanel();
-    }
-
     ngOnInit() {
 
-        // Grants given service has a watchAll function/
-        // Todo : Could perform better tests to grant the service accepts observable queryVariables as first paremeter
-        if (typeof this.service.watchAll !== 'function') {
-            throw new TypeError('Provided service does not contain watchAll function');
+        const useService = this.useService();
+        const useList = this.useList();
+
+        if (!useService && !useList) {
+            throw new TypeError('No source data provided');
         }
 
+        if (useService) {
+            this.initFromService();
+        } else if (useList) {
+            this.initFromList();
+        }
+
+        this.input.nativeElement.addEventListener('blur', () => this.blur.emit());
+        this.input.nativeElement.addEventListener('click', () => this.autoTrigger.openPanel());
+    }
+
+    private useService() {
+
+        if (!this.service) {
+            return false;
+        } else if (this.service && this.service instanceof AbstractModelService) {
+            return true;
+        }
+
+        throw new TypeError('Service does not inherit AbstractModelService');
+    }
+
+    private useList() {
+        return !!this.items;
+    }
+
+    private initFromService() {
         const options = {
             filters: {},
             pagination: {
@@ -177,6 +199,46 @@ export class SelectComponent implements OnInit {
             this.optionsFiltered.next(merge({}, {filters: this.filters}, data));
         });
 
+        // Bind events on search field
+        this.formCtrl.valueChanges.subscribe(val => this.searchInService(val));
+        this.input.nativeElement.addEventListener('focus', () => this.startSearch());
+        this.input.nativeElement.addEventListener('keyup', (e: KeyboardEvent) => {
+            if (e.keyCode === 27) {
+                this.clearServiceSearch();
+            }
+        });
+    }
+
+    private initFromList() {
+
+        if (this.searchField === 'search') {
+            this.searchField = 'name';
+        }
+
+        this.input.nativeElement.addEventListener('keyup', (e: KeyboardEvent) => {
+            if (e.keyCode === 27) {
+                this.clearListSearch();
+            }
+        });
+
+        this.filteredItems = this.formCtrl.valueChanges
+                                 .pipe(
+                                     startWith(''),
+                                     map((searchedTerm: any) => {
+                                         return searchedTerm ? this.filterList(searchedTerm) : this.items.slice();
+                                     }),
+                                 );
+    }
+
+    private filterList(searchedTerm) {
+
+        if (searchedTerm.name) {
+            return [searchedTerm];
+        }
+
+        return this.items.filter(i => {
+            return i[this.searchField].toLowerCase().indexOf(searchedTerm.toLowerCase()) > -1;
+        });
     }
 
     public startSearch() {
@@ -213,7 +275,7 @@ export class SelectComponent implements OnInit {
             }
         });
 
-        this.items = this.queryRef.valueChanges.pipe(map((data: any) => data.items));
+        this.filteredItems = this.queryRef.valueChanges.pipe(map((data: any) => data.items));
     }
 
     public notify(ev) {
@@ -229,27 +291,32 @@ export class SelectComponent implements OnInit {
         return (item) => item ? item.name : '';
     }
 
-    public clear(preventNotify = false) {
+    public clearListSearch() {
+        this.formCtrl.setValue(null);
+        this.selected = null;
+        this.notify(null);
+    }
 
+    public clearServiceSearch() {
         const options = {filters: {}};
         options.filters[this.searchField] = null;
         this.options.patch(options);
-
-        // Empty input
         this.formCtrl.setValue(null);
-
-        // Notify change
-        if (!preventNotify) {
-            this.notify(null);
-        }
     }
 
-    public search(ev) {
+    public searchInService(ev) {
         this.selected = ev;
-
         const options = {filters: {}};
         options.filters[this.searchField] = ev;
         this.options.patch(options);
+    }
+
+    public unselect() {
+        if (this.useService()) {
+            this.clearServiceSearch();
+        } else if (this.useList()) {
+            this.clearListSearch();
+        }
     }
 
 }
