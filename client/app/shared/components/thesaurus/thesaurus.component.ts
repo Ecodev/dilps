@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { MatAutocompleteTrigger } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { IncrementSubject } from '../../services/increment-subject';
@@ -6,13 +6,14 @@ import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Literal } from '../../types';
 import { filter, map, sampleTime } from 'rxjs/operators';
-import { isObject } from 'lodash';
+import { isArray, isObject } from 'lodash';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'app-thesaurus',
     templateUrl: './thesaurus.component.html',
     styleUrls: ['./thesaurus.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ThesaurusComponent implements OnInit, OnChanges {
 
@@ -22,7 +23,14 @@ export class ThesaurusComponent implements OnInit, OnChanges {
     @Input() readonly: boolean;
     @Input() service;
     @Input() placeholder;
-    @Input() model: any[] = [];
+    @Input() multiple = true;
+
+    private _model;
+    @Input() set model(val) {
+        this._model = val;
+    }
+
+    @Output() modelChange = new EventEmitter();
 
     public formCtrl: FormControl = new FormControl();
     private queryRef: QueryRef<any>;
@@ -53,11 +61,15 @@ export class ThesaurusComponent implements OnInit, OnChanges {
 
     public suggestionsObs: Observable<any>;
 
+    public items: { name }[] = [];
+
     constructor() {
     }
 
     ngOnInit() {
-        this.convertModel();
+
+        setTimeout(() => this.convertModel());
+
         const options = {
             filters: {
                 search: null,
@@ -81,7 +93,6 @@ export class ThesaurusComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges() {
-        this.convertModel();
         if (this.readonly) {
             this.formCtrl.disable();
         } else {
@@ -116,7 +127,7 @@ export class ThesaurusComponent implements OnInit, OnChanges {
         });
 
         this.suggestionsObs = this.queryRef.valueChanges.pipe(map((data: any) => {
-            return data.items.filter(item => this.model.findIndex(term => term === item.name));
+            return data.items.filter(item => this.items.findIndex(term => term.name === item.name));
         }));
     }
 
@@ -126,11 +137,23 @@ export class ThesaurusComponent implements OnInit, OnChanges {
      * Always close the panel (without resetting results)
      * @param {string} term
      */
-    private addTerm(term: string) {
+    private addTerm(term: { name }) {
         this.autocomplete.closePanel();
-        const indexOf = this.model.findIndex(item => item === term);
+        const indexOf = this.items.findIndex(item => item.name === term.name);
         if (term && indexOf === -1) {
-            this.model.push(term.trim());
+            if (!this.multiple) {
+                this.items.length = 0;
+            }
+            this.items.push(term);
+            this.notifyModel();
+        }
+    }
+
+    public removeTerm(term: string): void {
+        const index = this.items.findIndex(item => item.name === term);
+        if (index >= 0) {
+            this.items.splice(index, 1);
+            this.notifyModel();
         }
     }
 
@@ -146,10 +169,10 @@ export class ThesaurusComponent implements OnInit, OnChanges {
      */
     public onEnter(event) {
         if (!this.autocomplete.activeOption) {
-            this.addTerm(event.target.value);
+            this.addTerm({name: event.target.value});
             event.target.value = '';
         } else {
-            this.addTerm(this.autocomplete.activeOption.value.name);
+            this.addTerm(this.autocomplete.activeOption.value);
         }
     }
 
@@ -158,13 +181,14 @@ export class ThesaurusComponent implements OnInit, OnChanges {
      * @param event
      */
     public selectSuggestion(event) {
-        this.addTerm(event.option.value.name);
+        this.addTerm(event.option.value);
     }
 
-    public removeTerm(term: string): void {
-        const index = this.model.indexOf(term);
-        if (index >= 0) {
-            this.model.splice(index, 1);
+    private notifyModel() {
+        if (!this.multiple) {
+            this.modelChange.emit(this.items[0].name);
+        } else {
+            this.modelChange.emit(this.items.map(v => v.name));
         }
     }
 
@@ -173,8 +197,13 @@ export class ThesaurusComponent implements OnInit, OnChanges {
      * Affects the original object
      */
     private convertModel() {
-        for (let i = 0; i < this.model.length; i++) {
-            this.model[i] = this.model[i].name ? this.model[i].name : this.model[i];
+        if (!this.multiple && isObject(this._model)) {
+            this.items = [this._model];
+            this.notifyModel();
+        } else if (this.multiple && isArray(this._model)) {
+            this.items = this._model;
+            this.notifyModel();
         }
+
     }
 }
