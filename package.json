@@ -6,7 +6,7 @@
     "ng": "ng",
     "dev": "yarn codegen && ng serve",
     "prod": "yarn codegen && ng build --aot -prod --build-optimizer false",
-    "test": "ng test",
+    "test": "yarn codegen && ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "codegen": "./bin/dump-schema && apollo-codegen generate 'client/**/*.ts' --schema data/tmp/schema/schema.json --target typescript --output client/app/shared/generated-types.ts"
