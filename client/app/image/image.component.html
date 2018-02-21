@@ -64,6 +64,7 @@
                                placeholder="Artistes"
                                [model]="data.artists"
                                (modelChange)="data.artists = $event"
+                               (preview)="showArtist($event)"
                 ></app-thesaurus>
 
                 <mat-form-field class="innerSpacing">
@@ -144,6 +145,7 @@
                                [model]="data.institution"
                                (modelChange)="data.institution = $event"
                                [multiple]="false"
+                               (preview)="showInstitution($event)"
                 ></app-thesaurus>
 
                 <app-address [(model)]="data" [vertical]="true" [readonly]="!edit"></app-address>
@@ -153,8 +155,7 @@
 
     <div fxFlex class="containerWithToolbar" fxLayout="column">
         <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center"></mat-toolbar>
-        <div class="image" fxFlex [ngStyle]="{'background-image': 'url(' + imageSrc + ')'}"
-        ></div>
+        <div class="image" fxFlex [ngStyle]="{'background-image': 'url(' + imageSrc + ')'}"></div>
     </div>
 
 </div>

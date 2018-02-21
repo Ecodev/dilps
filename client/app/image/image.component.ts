@@ -6,6 +6,9 @@ import { findKey, merge } from 'lodash';
 import { InstitutionService } from '../institutions/services/institution.service';
 import { AlertService } from '../shared/components/alert/alert.service';
 import { ArtistService } from '../artists/services/artist.service';
+import { InstitutionComponent } from '../institutions/institution/institution.component';
+import { MatDialog } from '@angular/material';
+import { ArtistComponent } from '../artists/artist/artist.component';
 
 @Component({
     selector: 'app-image',
@@ -45,7 +48,8 @@ export class ImageComponent implements OnInit {
                 private imageSvc: ImageService,
                 private alertSvc: AlertService,
                 public artistService: ArtistService,
-                public institutionSvc: InstitutionService) {
+                public institutionSvc: InstitutionService,
+                private dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -60,6 +64,24 @@ export class ImageComponent implements OnInit {
 
             this.imageSrc = ImageService.formatImage(image, 2000).src;
         }
+    }
+
+    public showInstitution(item) {
+        this.dialog.open(InstitutionComponent, {
+            width: '800px',
+            data: {institution: item},
+        }).afterClosed().subscribe(res => {
+            merge(item, res);
+        });
+    }
+
+    public showArtist(item) {
+        this.dialog.open(ArtistComponent, {
+            width: '800px',
+            data: {artist: item},
+        }).afterClosed().subscribe(res => {
+            merge(item, res);
+        });
     }
 
     public updateStatus(ev) {
