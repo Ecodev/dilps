@@ -482,12 +482,42 @@ UPDATE image
 SET image.country_id = country.id
 WHERE locality != '' AND image.country_id IS NULL;
 
--- Attempt to extract country from old location if no known country yet
--- In this case we assume that the country is the first word at the end of the string enclosed by parenthesis
+-- Copy address from image to institution if all images of that institution have exactly the same address
+UPDATE institution
+  JOIN image ON institution.id = image.institution_id
+SET
+  institution.locality   = image.locality,
+  institution.area       = image.area,
+  institution.latitude   = image.latitude,
+  institution.longitude  = image.longitude,
+  institution.country_id = image.country_id
+WHERE image.institution_id IN (
+  SELECT tmp.institution_id FROM (
+     SELECT
+       institution_id,
+       COUNT(institution_id) AS institutionCount,
+       COUNT(DISTINCT CONCAT_WS(';', locality, area, IFNULL(latitude, 'NULL'), IFNULL(longitude, 'NULL'), IFNULL(country_id, 'NULL'))) AS localityCount
+     FROM image
+     WHERE institution_id IS NOT NULL
+     GROUP BY institution_id
+   ) AS tmp
+  WHERE tmp.localityCount = 1
+);
+
+-- Remove address from image if it is exactly the same as its institution
 UPDATE image
-  JOIN country ON INSTR(image.locality, CONCAT('(', country.name))
-SET image.country_id = country.id
-WHERE locality != '' AND image.country_id IS NULL;
+  JOIN institution ON institution.id = image.institution_id
+    AND institution.locality = image.locality
+    AND institution.area = image.area
+    AND (institution.latitude = image.latitude OR (institution.latitude IS NULL AND image.latitude IS NULL))
+    AND (institution.longitude = image.longitude OR (institution.longitude IS NULL AND image.longitude IS NULL))
+    AND (institution.country_id = image.country_id OR (institution.country_id IS NULL AND image.country_id IS NULL))
+    SET
+      image.locality   = '',
+      image.area       = '',
+      image.latitude   = NULL,
+      image.longitude  = NULL,
+      image.country_id = NULL;
 
 COMMIT;
 
