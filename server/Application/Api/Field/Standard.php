@@ -34,7 +34,8 @@ abstract class Standard
         $singleArgs = self::getSingleArguments($class);
 
         return [
-            $plural => [
+            [
+                'name' => $plural,
                 'type' => PaginationType::build($class),
                 'args' => $listArgs,
                 'resolve' => function ($root, array $args) use ($class): array {
@@ -44,7 +45,8 @@ abstract class Standard
                     return $result;
                 },
             ],
-            $name => [
+            [
+                'name' => $name,
                 'type' => _types()->get($class),
                 'args' => $singleArgs,
                 'resolve' => function ($root, array $args): ?AbstractModel {
@@ -71,7 +73,8 @@ abstract class Standard
         $lowerName = lcfirst($name);
 
         return [
-            'create' . $name => [
+            [
+                'name' => 'create' . $name,
                 'type' => Type::nonNull(_types()->get($class)),
                 'description' => 'Create a new ' . $name,
                 'args' => [
@@ -92,7 +95,8 @@ abstract class Standard
                     return $object;
                 },
             ],
-            'update' . $name => [
+            [
+                'name' => 'update' . $name,
                 'type' => Type::nonNull(_types()->get($class)),
                 'description' => 'Update an existing ' . $name,
                 'args' => [
@@ -115,7 +119,8 @@ abstract class Standard
                     return $object;
                 },
             ],
-            'delete' . $plural => [
+            [
+                'name' => 'delete' . $plural,
                 'type' => Type::nonNull(Type::boolean()),
                 'description' => 'Delete one or several existing ' . $name,
                 'args' => [
@@ -166,7 +171,8 @@ abstract class Standard
         ];
 
         return [
-            'link' . $ownerName . $otherName => [
+            [
+                'name' => 'link' . $ownerName . $otherName,
                 'type' => Type::nonNull(_types()->get($ownerClass)),
                 'description' => 'Create a relation between ' . $ownerName . ' and ' . $otherName . '.' . PHP_EOL . PHP_EOL .
                     'If the relation already exists, it will have no effect.',
@@ -191,7 +197,8 @@ abstract class Standard
                     return $owner;
                 },
             ],
-            'unlink' . $ownerName . $otherName => [
+            [
+                'name' => 'unlink' . $ownerName . $otherName,
                 'type' => Type::nonNull(_types()->get($ownerClass)),
                 'description' => 'Delete a relation between ' . $ownerName . ' and ' . $otherName . '.' . PHP_EOL . PHP_EOL .
                     'If the relation does not exist, it will have no effect.',

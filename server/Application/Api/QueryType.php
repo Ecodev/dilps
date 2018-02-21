@@ -18,17 +18,24 @@ class QueryType extends ObjectType
 {
     public function __construct()
     {
-        $config = [
-            'fields' => [],
+        $specializedFields = [
         ];
 
-        $config['fields'] += Standard::buildQuery(Artist::class);
-        $config['fields'] += Standard::buildQuery(Change::class);
-        $config['fields'] += Standard::buildQuery(Collection::class);
-        $config['fields'] += Standard::buildQuery(Image::class);
-        $config['fields'] += Standard::buildQuery(Institution::class);
-        $config['fields'] += Standard::buildQuery(User::class);
-        $config['fields'] += Standard::buildQuery(Country::class);
+        $fields = array_merge(
+            $specializedFields,
+
+            Standard::buildQuery(Artist::class),
+            Standard::buildQuery(Change::class),
+            Standard::buildQuery(Collection::class),
+            Standard::buildQuery(Image::class),
+            Standard::buildQuery(Institution::class),
+            Standard::buildQuery(User::class),
+            Standard::buildQuery(Country::class)
+        );
+
+        $config = [
+            'fields' => $fields,
+        ];
 
         parent::__construct($config);
     }

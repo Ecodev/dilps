@@ -16,17 +16,23 @@ class MutationType extends ObjectType
 {
     public function __construct()
     {
-        $config = [
-            'fields' => [
-            ],
+        $specializedFields = [
         ];
 
-        $config['fields'] += Standard::buildMutation(Artist::class);
-        $config['fields'] += Standard::buildMutation(Collection::class);
-        $config['fields'] += Standard::buildMutation(Institution::class);
-        $config['fields'] += Standard::buildMutation(Image::class);
-        $config['fields'] += Standard::buildMutation(User::class);
-        $config['fields'] += Standard::buildRelationMutation(Collection::class, Image::class);
+        $fields = array_merge(
+            $specializedFields,
+
+            Standard::buildMutation(Artist::class),
+            Standard::buildMutation(Collection::class),
+            Standard::buildMutation(Institution::class),
+            Standard::buildMutation(Image::class),
+            Standard::buildMutation(User::class),
+            Standard::buildRelationMutation(Collection::class, Image::class)
+        );
+
+        $config = [
+            'fields' => $fields,
+        ];
 
         parent::__construct($config);
     }
