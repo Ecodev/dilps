@@ -1,7 +1,13 @@
 <mat-form-field class="innerSpacing">
 
     <mat-chip-list #chipList aria-orientation="vertical" class="mat-chip-list-stacked">
-        <mat-chip *ngFor="let item of items" [selectable]="true" [removable]="!readonly" (remove)="removeTerm(item)" fxLayoutRow="row">
+        <mat-chip *ngFor="let item of items"
+                  [removable]="!readonly"
+                  (remove)="removeTerm(item)"
+                  fxLayoutRow="row"
+                  fxLayoutGap="10px"
+        >
+            <mat-icon class="mat-chip-remove" (click)="this.preview.emit(item);">remove_red_eye</mat-icon>
             <span fxFlex>{{ item.name }}</span>
             <mat-icon matChipRemove *ngIf="!readonly">cancel</mat-icon>
         </mat-chip>

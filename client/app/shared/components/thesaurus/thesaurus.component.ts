@@ -31,6 +31,7 @@ export class ThesaurusComponent implements OnInit {
     }
 
     @Output() modelChange = new EventEmitter();
+    @Output() preview = new EventEmitter();
 
     public formCtrl: FormControl = new FormControl();
     private queryRef: QueryRef<any>;
