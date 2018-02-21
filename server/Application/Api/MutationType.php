@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Application\Api;
 
+use Application\Api\Field\Mutation\SuggestCreation;
+use Application\Api\Field\Mutation\SuggestDeletion;
+use Application\Api\Field\Mutation\SuggestUpdate;
 use Application\Api\Field\Standard;
 use Application\Model\Artist;
 use Application\Model\Collection;
@@ -17,6 +20,9 @@ class MutationType extends ObjectType
     public function __construct()
     {
         $specializedFields = [
+            SuggestCreation::build(),
+            SuggestUpdate::build(),
+            SuggestDeletion::build(),
         ];
 
         $fields = array_merge(

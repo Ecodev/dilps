@@ -17,11 +17,14 @@ return [
     [
         'data' => [
             'images' => [
-                'length' => 3,
+                'length' => 5,
                 'pageIndex' => 1,
                 'items' => [
                     [
                         'id' => 6002,
+                    ],
+                    [
+                        'id' => 6003,
                     ],
                 ],
             ],

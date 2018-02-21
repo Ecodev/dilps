@@ -17,7 +17,9 @@ INSERT INTO `institution` (`id`, `country_id`, `name`) VALUES
 INSERT INTO `image` (`id`, `original_id`, `name`, `filename`, `width`, `height`, file_size, dating) VALUES
   (6000, NULL, 'Test image 6000', 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg', 960, 425, 90188, '2000'),
   (6001, NULL, 'Test suggestion image 6001', 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg', 960, 425, 90188, ''),
-  (6002, 6000, 'Test suggestion image 6002', 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg', 960, 425, 90188, '');
+  (6002, 6000, 'Test suggestion image 6002', 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg', 960, 425, 90188, ''),
+  (6003, NULL, 'Test image 6003', 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg', 960, 425, 90188, ''),
+  (6004, 6000, 'Test image 6004', 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg', 960, 425, 90188, '');
 
 INSERT INTO `image_artist` (`image_id`, `artist_id`) VALUES
   (6000, 3000);

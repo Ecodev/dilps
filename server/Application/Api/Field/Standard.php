@@ -84,7 +84,7 @@ abstract class Standard
                     // Check ACL
                     $object = new $class();
 //                    Helper::loadContextFromArgs($args, $object);
-//                    Helper::throwIfDenied($lowerName, 'add');
+//                    Helper::throwIfDenied($lowerName, 'create');
 
                     // Do it
                     $input = $args['input'];

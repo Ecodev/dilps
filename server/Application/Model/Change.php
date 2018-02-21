@@ -12,6 +12,7 @@ use GraphQL\Doctrine\Annotation as API;
  * A change suggested by a user to be accepted or rejected by administrators.
  *
  * @ORM\Entity(repositoryClass="Application\Repository\ChangeRepository")
+ * @ORM\Table(name="`change`")
  */
 class Change extends AbstractModel
 {
