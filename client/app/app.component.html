@@ -1,4 +1,4 @@
-<div fxFlexFill>
+<div fxFlexFill fxLayout="column">
     <ng-progress [trickleSpeed]="100" [showSpinner]="false"></ng-progress>
     <router-outlet (activate)="initialized = true"></router-outlet>
     <app-boot-loader *ngIf="!initialized"></app-boot-loader>

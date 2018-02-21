@@ -1,9 +1,9 @@
-<div fxFlexFill>
+<div fxFlex fxLayout="column">
 
     <mat-sidenav-container #navContainer fxFlex fxLayout="column">
         <mat-sidenav *ngIf="initialized" id="menu" align="start" mode="side" opened="true" class="menuMinimized">
             <div fxFlex fxLayout="row" fxFlexAlign="start center">
-                <div fxLayout="column">
+                <perfect-scrollbar fxLayout="column">
                     <mat-nav-list>
                         <!-- Dashboard -->
                         <a mat-list-item routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
@@ -103,7 +103,7 @@
                             <span matLine>Changer couleurs</span>
                         </a>
                     </mat-nav-list>
-                </div>
+                </perfect-scrollbar>
             </div>
         </mat-sidenav>
 

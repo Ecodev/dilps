@@ -15,8 +15,8 @@
             </button>
         </mat-toolbar>
 
-        <div class="scrollable" fxFlex>
-            <div fxLayout="column" class="padding-top" fxLayoutAlign="start stretch">
+        <perfect-scrollbar fxFlex>
+            <div fxLayout="column" class="padding-top scrolled" fxLayoutAlign="start stretch">
 
                 <div class="innerSpacing" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
                     <mat-slide-toggle [disabled]="!edit"
@@ -148,7 +148,7 @@
 
                 <app-address [(model)]="data" [vertical]="true" [readonly]="!edit"></app-address>
             </div>
-        </div>
+        </perfect-scrollbar>
     </div>
 
     <div fxFlex class="containerWithToolbar" fxLayout="column">

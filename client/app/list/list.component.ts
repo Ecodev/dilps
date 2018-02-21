@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ImageService } from '../image/services/image.service';
 import { merge } from 'lodash';
 import { IncrementSubject } from '../shared/services/increment-subject';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 
 @Component({
     selector: 'app-list',
@@ -12,6 +13,7 @@ import { IncrementSubject } from '../shared/services/increment-subject';
 export class ListComponent implements OnInit {
 
     @ViewChild('gallery') gallery;
+    @ViewChild('scrollable') private scrollable: PerfectScrollbarComponent;
 
     public galleryCollection = null;
     public options = null;

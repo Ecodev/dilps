@@ -13,8 +13,8 @@
             </button>
         </mat-toolbar>
 
-        <div class="scrollable">
-            <div fxLayout="column">
+        <perfect-scrollbar>
+            <div fxLayout="column" class="scrolled">
 
                 <mat-nav-list fxFlex *ngIf="collections?.items">
                     <a *ngFor="let item of collections.items"
@@ -33,7 +33,7 @@
                 </mat-nav-list>
 
             </div>
-        </div>
+        </perfect-scrollbar>
     </div>
 
     <router-outlet></router-outlet>

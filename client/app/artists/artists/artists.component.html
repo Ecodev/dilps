@@ -1,6 +1,6 @@
 <div fxFlex fxLayout="column">
 
-    <div class="containerWithToolbar" fxLayout="column">
+    <div fxFlex class="containerWithToolbar" fxLayout="column">
         <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
             <img src="assets/images/logo-blanc.svg" style="max-width:100%;height:30px;" />
 
@@ -27,9 +27,8 @@
             </div>
         </mat-toolbar>
 
-        <div class="scrollable">
-
-            <div class="padding">
+        <perfect-scrollbar>
+            <div class="padding scrolled">
 
                 <div class="mat-headline">Artistes</div>
 
@@ -70,5 +69,5 @@
                                (page)="dataSource.paging($event)"
                 ></mat-paginator>
         </div>
-    </div>
+    </perfect-scrollbar>
 </div>

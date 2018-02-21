@@ -32,9 +32,13 @@
     .containerWithToolbar {
         position: relative;
 
-        .scrollable {
+        .scrollable:not(perfect-scrollbar) {
             overflow-y: auto;
             padding-top: 64px;
+        }
+
+        .scrolled {
+            margin-top: 64px;
         }
 
         mat-toolbar {

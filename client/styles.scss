@@ -45,11 +45,20 @@ pre.debug {
     border: 2px solid green;
 }
 
-#appContent {
-    overflow-y: auto;
-    & > *:not(router-outlet) {
-        flex: 1 0 auto;
-    }
+//#appBody {
+//    overflow-y: hidden;
+//    & > *:not(router-outlet) {
+//        display: flex;
+//        flex: 1;
+//        flex-direction:column;
+//        border: 1px solid green;
+//    }
+//}
+
+router-outlet + * {
+    flex:1;
+    display:flex;
+    flex-direction:column;
 }
 
 perfect-scrollbar {
