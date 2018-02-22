@@ -156,7 +156,7 @@ class Image extends AbstractModel
      */
     public function setFile(UploadedFileInterface $file): void
     {
-        $this->generateUniqueFilename($file);
+        $this->generateUniqueFilename($file->getClientFilename());
 
         $path = $this->getPath();
         if (file_exists($path)) {
@@ -226,7 +226,7 @@ class Image extends AbstractModel
     public function deleteFile(): void
     {
         $path = $this->getPath();
-        if (file_exists($path)) {
+        if (file_exists($path) && $this->getFilename() !== 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg') {
             unlink($path);
         }
     }
@@ -295,20 +295,7 @@ class Image extends AbstractModel
         }
         $this->dating = $dating;
 
-        $rule = new DatingRule();
-
-        // Delete all existing
-        foreach ($this->datings as $d) {
-            _em()->remove($d);
-        }
-        $this->datings->clear();
-
-        // Add new one
-        $datings = $rule->compute($dating);
-        foreach ($datings as $d) {
-            _em()->persist($d);
-            $d->setImage($this);
-        }
+        $this->computeDatings($dating);
     }
 
     /**
@@ -565,13 +552,13 @@ class Image extends AbstractModel
     }
 
     /**
-     * Generate unique filename based while trying to preserver original extension
+     * Generate unique filename while trying to preserver original extension
      *
-     * @param UploadedFileInterface $file
+     * @param string $originalFilename
      */
-    private function generateUniqueFilename(UploadedFileInterface $file): void
+    private function generateUniqueFilename(string $originalFilename): void
     {
-        $extension = pathinfo($file->getClientFilename(), PATHINFO_EXTENSION);
+        $extension = pathinfo($originalFilename, PATHINFO_EXTENSION);
         $filename = uniqid() . ($extension ? '.' . $extension : '');
         $this->setFilename($filename);
     }
@@ -621,5 +608,59 @@ class Image extends AbstractModel
         $this->setWidth($size->getWidth());
         $this->setHeight($size->getHeight());
         $this->setFileSize(filesize($path));
+    }
+
+    private function computeDatings(): void
+    {
+        $rule = new DatingRule();
+
+        // Delete all existing
+        foreach ($this->datings as $d) {
+            _em()->remove($d);
+        }
+        $this->datings->clear();
+
+        // Add new one
+        $datings = $rule->compute($this->dating);
+        foreach ($datings as $d) {
+            _em()->persist($d);
+            $d->setImage($this);
+        }
+    }
+
+    /**
+     * Copy most of this image data into the given image
+     *
+     * @param Image $image
+     */
+    public function copyInto(self $image): void
+    {
+        // Trigger loading of proxy
+        $image->getName();
+
+        // Copy scalars
+        $blacklist = ['id', 'filename', '__initializer__', '__cloner__', '__isInitialized__'];
+        foreach ($this as $property => $value) {
+            if (in_array($property, $blacklist, true)) {
+                continue;
+            }
+
+            if (is_scalar($value) || $value === null) {
+                $image->$property = $value;
+            }
+        }
+
+        // Copy a few collection and entities
+        $image->artists = clone $this->artists;
+        $image->tags = clone $this->tags;
+        $image->computeDatings();
+        $image->institution = $this->institution;
+        $image->country = $this->country;
+
+        // Copy file on disk
+        if ($this->filename) {
+            $image->generateUniqueFilename($this->filename);
+            copy($this->getPath(), $image->getPath());
+        }
     }
 }
