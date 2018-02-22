@@ -150,7 +150,13 @@
 
                 <app-address [(model)]="data" [vertical]="true" [readonly]="!edit"></app-address>
             </div>
+
         </perfect-scrollbar>
+
+        <div class="padding mat-elevation-z4">
+            <app-stamp [item]="data"></app-stamp>
+        </div>
+
     </div>
 
     <div fxFlex class="containerWithToolbar" fxLayout="column">

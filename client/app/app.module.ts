@@ -75,6 +75,7 @@ import { ThesaurusComponent } from './shared/components/thesaurus/thesaurus.comp
 import { AgmCoreModule } from '@agm/core';
 import { AddressComponent } from './shared/components/address/address.component';
 import { DialogFooterComponent } from './shared/components/dialog-footer/dialog-footer.component';
+import { StampComponent } from './shared/components/stamp/stamp.component';
 
 @NgModule({
     declarations: [
@@ -101,6 +102,7 @@ import { DialogFooterComponent } from './shared/components/dialog-footer/dialog-
         ThesaurusComponent,
         AddressComponent,
         DialogFooterComponent,
+        StampComponent,
     ],
     entryComponents: [
         ConfirmComponent,

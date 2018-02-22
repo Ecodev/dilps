@@ -1,0 +1,25 @@
+<div fxLayout="row" fxLayoutAlign="stretch stretch" fxLayoutGap="20px" *ngIf="item" class="mat-caption">
+
+    <div fxLayout="column" *ngIf="item.creationDate || item.creator">
+        <div>
+            Créé
+            <span *ngIf="item.creator"> par {{ item.creator.login }}</span>
+        </div>
+
+        <div *ngIf="item.creationDate">
+            le {{ item.creationDate | date: 'yyyy.MM.dd' }} à {{ item.creationDate | date: 'HH:mm' }}
+        </div>
+    </div>
+
+    <div fxLayout="column" *ngIf="item.updateDate || item.updater">
+        <div>
+            Edité
+            <span *ngIf="item.updater">par {{ item.updater.login }}</span>
+        </div>
+
+        <div *ngIf="item.updateDate">
+            le {{ item.updateDate | date: 'yyyy.MM.dd' }} à {{ item.updateDate | date: 'HH:mm' }}
+        </div>
+    </div>
+
+</div>
