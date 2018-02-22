@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Application;
 
 use DateTimeImmutable;
-use DateTimeZone;
 
 abstract class Utility
 {
@@ -22,7 +21,7 @@ abstract class Utility
     public static function getNow(): DateTimeImmutable
     {
         if (!self::$now) {
-            self::$now = new DateTimeImmutable('now', new DateTimeZone('UTC'));
+            self::$now = new DateTimeImmutable();
         }
 
         return self::$now;
