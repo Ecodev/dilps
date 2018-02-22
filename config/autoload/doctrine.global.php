@@ -42,7 +42,6 @@ return [
             'ImageType' => Application\DBAL\Types\ImageTypeType::class,
             'ImageStatus' => Application\DBAL\Types\ImageStatusType::class,
             'ChangeType' => Application\DBAL\Types\ChangeTypeType::class,
-            'ChangeStatus' => Application\DBAL\Types\ChangeStatusType::class,
         ],
         // migrations configuration
         'migrations_configuration' => [

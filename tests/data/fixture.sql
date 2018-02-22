@@ -32,10 +32,10 @@ INSERT INTO `collection_image` (`collection_id`, `image_id`) VALUES
   (2001, 6001),
   (2001, 6002);
 
-INSERT INTO `change` (`id`, `original_id`, `suggestion_id`, `type`, `status`, `request`) VALUES
-  (7000, NULL, 6001, 'create', 'new', 'I want to add new image to collection'),
-  (7001, 6000, 6002, 'update', 'new', 'I want to edit existing image'),
-  (7002, 6000, NULL, 'delete', 'new', 'I want to delete existing image');
+INSERT INTO `change` (`id`, `original_id`, `suggestion_id`, `type`, `request`) VALUES
+  (7000, NULL, 6001, 'create', 'I want to add new image to collection'),
+  (7001, 6000, 6002, 'update', 'I want to edit existing image'),
+  (7002, 6000, NULL, 'delete', 'I want to delete existing image');
 
 INSERT INTO `dating` (`id`, `image_id`, `from`, `to`) VALUES
   (8000, 6000, '2451545', '2451545');

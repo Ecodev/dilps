@@ -5,7 +5,7 @@ declare(strict_types=1);
 return [
     [
         'query' => 'mutation {
-            acceptChange(id: 7001, response: "test response") {
+            acceptChange(id: 7001) {
                 id
                 name
             }

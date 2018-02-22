@@ -9,7 +9,6 @@ return [
         'query' => 'mutation {
             suggestCreation(id: 6003, request: "test request") {
                 type
-                status
                 request
                 original {
                     id
@@ -21,7 +20,6 @@ return [
 
             suggestUpdate(id: 6004, request: "test request") {
                 type
-                status
                 request
                 original {
                     id
@@ -33,7 +31,6 @@ return [
 
             suggestDeletion(id: 6004, request: "test request") {
                 type
-                status
                 request
                 original {
                     id
@@ -48,7 +45,6 @@ return [
         'data' => [
             'suggestCreation' => [
                 'type' => Change::TYPE_CREATE,
-                'status' => Change::STATUS_NEW,
                 'request' => 'test request',
                 'original' => null,
                 'suggestion' => [
@@ -57,7 +53,6 @@ return [
             ],
             'suggestUpdate' => [
                 'type' => Change::TYPE_UPDATE,
-                'status' => Change::STATUS_NEW,
                 'request' => 'test request',
                 'original' => [
                     'id' => '6000',
@@ -68,7 +63,6 @@ return [
             ],
             'suggestDeletion' => [
                 'type' => Change::TYPE_DELETE,
-                'status' => Change::STATUS_NEW,
                 'request' => 'test request',
                 'original' => [
                     'id' => '6004',

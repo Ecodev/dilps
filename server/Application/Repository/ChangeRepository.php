@@ -22,7 +22,6 @@ class ChangeRepository extends AbstractRepository
     {
         $criteria = [
             'type' => $type,
-            'status' => Change::STATUS_NEW,
         ];
 
         if ($type === Change::TYPE_DELETE) {
