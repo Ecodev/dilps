@@ -220,7 +220,6 @@ UPDATE image
   JOIN ng_meta ON CONCAT(ng_meta.collectionid, ng_meta.imageid) = image.id
   LEFT JOIN ng_location ON ng_meta.locationid = ng_location.id
 SET
-  image.type             = ng_meta.type,
   image.status           = ng_meta.status,
   image.addition         = ng_meta.addition,
   image.name             = ng_meta.title,

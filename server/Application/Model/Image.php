@@ -37,9 +37,6 @@ class Image extends AbstractModel
     use ImageSimpleProperties;
 
     private const IMAGE_PATH = 'data/images/';
-    const TYPE_DEFAULT = 'default';
-    const TYPE_IMAGE = 'image';
-    const TYPE_ARCHITECTURE = 'architecture';
     const STATUS_NEW = 'new';
     const STATUS_EDITED = 'edited';
     const STATUS_REVIEWED = 'reviewed';
@@ -124,12 +121,6 @@ class Image extends AbstractModel
      * @ORM\ManyToMany(targetEntity="Image")
      */
     private $images;
-
-    /**
-     * @var string
-     * @ORM\Column(type="ImageType", options={"default" = Image::TYPE_DEFAULT})
-     */
-    private $type = self::TYPE_DEFAULT;
 
     /**
      * @var string
@@ -379,30 +370,6 @@ class Image extends AbstractModel
     public function getTags(): DoctrineCollection
     {
         return $this->tags;
-    }
-
-    /**
-     * Set image type
-     *
-     * @API\Input(type="Application\Api\Enum\ImageTypeType")
-     *
-     * @param string $type
-     */
-    public function setType(string $type): void
-    {
-        $this->type = $type;
-    }
-
-    /**
-     * Get image type
-     *
-     * @API\Field(type="Application\Api\Enum\ImageTypeType")
-     *
-     * @return string
-     */
-    public function getType(): string
-    {
-        return $this->type;
     }
 
     /**

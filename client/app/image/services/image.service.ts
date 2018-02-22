@@ -9,7 +9,6 @@ import {
     ImageQuery,
     ImagesQuery,
     ImageStatus,
-    ImageType,
     UpdateImageMutation,
 } from '../../shared/generated-types';
 import { AbstractModelService } from '../../shared/services/abstract-model.service';
@@ -47,7 +46,6 @@ export class ImageService extends AbstractModelService<ImageQuery['image'],
         return {
             file: null,
             dating: '',
-            type: ImageType.default,
             status: ImageStatus.new,
             addition: '',
             expandedName: '',

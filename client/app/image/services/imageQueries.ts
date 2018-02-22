@@ -44,7 +44,6 @@ query Image($id: ImageID!) {
                 name
             }
         }
-        type
         status
         original {
             width

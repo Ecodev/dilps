@@ -30,7 +30,6 @@ return [
                 // Fake a a file uploaded with incorrect data, to check if we trust them (we should not)
                 'file' => new UploadedFile('data/images/dw4jV3zYSPsqE2CB8BcP8ABD0.jpg', 999, UPLOAD_ERR_OK, 'image.jpg', 'text/plain'),
                 'isPublic' => true,
-                'type' => Image::TYPE_DEFAULT,
                 'status' => Image::STATUS_NEW,
                 'dating' => '1980 - 1990',
                 'addition' => 'test addition',
