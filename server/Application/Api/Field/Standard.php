@@ -165,6 +165,11 @@ abstract class Standard
         $otherName = $otherReflect->getShortName();
         $lowerOtherName = lcfirst($otherName);
 
+        if ($lowerOwnerName === $lowerOtherName) {
+            $lowerOwnerName .= 1;
+            $lowerOtherName .= 2;
+        }
+
         $args = [
             $lowerOwnerName => Type::nonNull(_types()->getId($ownerClass)),
             $lowerOtherName => Type::nonNull($byName ? Type::string() : _types()->getId($otherClass)),

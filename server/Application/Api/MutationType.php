@@ -37,7 +37,8 @@ class MutationType extends ObjectType
             Standard::buildMutation(Institution::class),
             Standard::buildMutation(Image::class),
             Standard::buildMutation(User::class),
-            Standard::buildRelationMutation(Collection::class, Image::class)
+            Standard::buildRelationMutation(Collection::class, Image::class),
+            Standard::buildRelationMutation(Image::class, Image::class)
         );
 
         $config = [

@@ -119,6 +119,13 @@ class Image extends AbstractModel
     private $original;
 
     /**
+     * @var DoctrineCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Image")
+     */
+    private $images;
+
+    /**
      * @var string
      * @ORM\Column(type="ImageType", options={"default" = Image::TYPE_DEFAULT})
      */
@@ -143,6 +150,7 @@ class Image extends AbstractModel
         $this->artists = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->datings = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     /**
@@ -662,5 +670,44 @@ class Image extends AbstractModel
             $image->generateUniqueFilename($this->filename);
             copy($this->getPath(), $image->getPath());
         }
+    }
+
+    /**
+     * Get related images
+     *
+     * @API\Field(type="Image[]")
+     *
+     * @return DoctrineCollection
+     */
+    public function getImages(): DoctrineCollection
+    {
+        return $this->images;
+    }
+
+    /**
+     * Add related image
+     *
+     * @param Image $image
+     */
+    public function addImage(self $image): void
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+        }
+
+        if (!$image->images->contains($this)) {
+            $image->images[] = $this;
+        }
+    }
+
+    /**
+     * Remove related image
+     *
+     * @param Image $image
+     */
+    public function removeImage(self $image): void
+    {
+        $this->images->removeElement($image);
+        $image->images->removeElement($this);
     }
 }

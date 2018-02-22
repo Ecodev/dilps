@@ -87,4 +87,26 @@ class ImageTest extends TestCase
         self::assertNotEquals($image1->getFilename(), $image2->getFilename(), 'should not share the same file on disk');
         self::assertFileExists($image2->getPath(), 'file on disk should have been copied');
     }
+
+    public function testRelatedImages(): void
+    {
+        $image1 = new Image();
+        $image2 = new Image();
+
+        self::assertCount(0, $image1->getImages());
+        self::assertCount(0, $image2->getImages());
+
+        $image1->addImage($image2);
+
+        self::assertCount(1, $image1->getImages());
+        self::assertCount(1, $image2->getImages());
+
+        self::assertSame($image2, $image1->getImages()->first());
+        self::assertSame($image1, $image2->getImages()->first());
+
+        $image2->removeImage($image1);
+
+        self::assertCount(0, $image1->getImages());
+        self::assertCount(0, $image2->getImages());
+    }
 }

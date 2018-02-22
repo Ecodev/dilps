@@ -11,6 +11,16 @@ return [
                     id
                 }
             }
+
+            linkImageImage(image1: 6000, image2: 6001) {
+                id
+                images {
+                    id
+                    images {
+                        id
+                    }
+                }
+            }
         }',
     ],
     [
@@ -23,6 +33,19 @@ return [
                     ],
                     [
                         'id' => '6001',
+                    ],
+                ],
+            ],
+            'linkImageImage' => [
+                'id' => '6000',
+                'images' => [
+                    [
+                        'id' => '6001',
+                        'images' => [
+                            [
+                                'id' => '6000',
+                            ],
+                        ],
                     ],
                 ],
             ],
