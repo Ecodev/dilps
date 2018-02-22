@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Application\Api;
 
 use Application\Api\Field\Mutation\AcceptChange;
+use Application\Api\Field\Mutation\RejectChange;
 use Application\Api\Field\Mutation\SuggestCreation;
 use Application\Api\Field\Mutation\SuggestDeletion;
 use Application\Api\Field\Mutation\SuggestUpdate;
@@ -25,6 +26,7 @@ class MutationType extends ObjectType
             SuggestUpdate::build(),
             SuggestDeletion::build(),
             AcceptChange::build(),
+            RejectChange::build(),
         ];
 
         $fields = array_merge(
