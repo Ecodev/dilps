@@ -43,7 +43,6 @@ describe('ImageService', () => {
             },
             __typename: 'Institution',
         },
-        type: 'image',
         status: 'new',
         original: {
             width: 1,

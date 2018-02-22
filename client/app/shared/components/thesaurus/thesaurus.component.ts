@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MatAutocompleteTrigger } from '@angular/material';
+import { MatAutocompleteTrigger, MatDialog } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { IncrementSubject } from '../../services/increment-subject';
 import { QueryRef } from 'apollo-angular';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Literal } from '../../types';
 import { filter, map, sampleTime } from 'rxjs/operators';
-import { isArray, isObject } from 'lodash';
+import { clone, isArray, isObject, merge } from 'lodash';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -24,6 +24,7 @@ export class ThesaurusComponent implements OnInit {
     @Input() service;
     @Input() placeholder;
     @Input() multiple = true;
+    @Input() previewComponent;
 
     private _model;
     @Input() set model(val) {
@@ -31,7 +32,6 @@ export class ThesaurusComponent implements OnInit {
     }
 
     @Output() modelChange = new EventEmitter();
-    @Output() preview = new EventEmitter();
 
     public formCtrl: FormControl = new FormControl();
     private queryRef: QueryRef<any>;
@@ -64,7 +64,7 @@ export class ThesaurusComponent implements OnInit {
 
     public items: { name }[] = [];
 
-    constructor() {
+    constructor(private dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -90,6 +90,15 @@ export class ThesaurusComponent implements OnInit {
             return !isObject(val.filters.search); // prevent to emit when value is an object
         })).subscribe(data => {
             this.optionsFiltered.next(data);
+        });
+    }
+
+    public openItem(item) {
+        this.dialog.open(this.previewComponent, {
+            width: '800px',
+            data: {item: item},
+        }).afterClosed().subscribe(res => {
+            merge(item, res);
         });
     }
 
@@ -133,7 +142,7 @@ export class ThesaurusComponent implements OnInit {
             if (!this.multiple) {
                 this.items.length = 0;
             }
-            this.items.push(term);
+            this.items.push(clone(term)); // clone to get rid of readonly
             this.notifyModel();
         }
     }

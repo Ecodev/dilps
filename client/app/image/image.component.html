@@ -64,7 +64,7 @@
                                placeholder="Artistes"
                                [model]="data.artists"
                                (modelChange)="data.artists = $event"
-                               (preview)="showArtist($event)"
+                               [previewComponent]="artistComponent"
                 ></app-thesaurus>
 
                 <mat-form-field class="innerSpacing">
@@ -145,7 +145,7 @@
                                [model]="data.institution"
                                (modelChange)="data.institution = $event"
                                [multiple]="false"
-                               (preview)="showInstitution($event)"
+                               [previewComponent]="institutionComponent"
                 ></app-thesaurus>
 
                 <app-address [(model)]="data" [vertical]="true" [readonly]="!edit"></app-address>

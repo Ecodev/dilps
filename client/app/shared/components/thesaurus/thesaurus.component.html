@@ -7,7 +7,7 @@
                   fxLayoutRow="row"
                   fxLayoutGap="10px"
         >
-            <mat-icon class="mat-chip-remove" (click)="this.preview.emit(item);">remove_red_eye</mat-icon>
+            <mat-icon *ngIf="previewComponent" class="mat-chip-remove" (click)="openItem(item)">remove_red_eye</mat-icon>
             <span fxFlex>{{ item.name }}</span>
             <mat-icon matChipRemove *ngIf="!readonly">cancel</mat-icon>
         </mat-chip>
