@@ -1,64 +1,22 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { CollectionService } from '../services/collection.service';
-import { merge } from 'lodash';
-import { InstitutionService } from '../../institutions/services/institution.service';
 import { AlertService } from '../../shared/components/alert/alert.service';
+import { InstitutionService } from '../../institutions/services/institution.service';
+import { AbstractDetail } from '../../shared/components/AbstractDetail';
 
 @Component({
     selector: 'app-collection',
     templateUrl: './collection.component.html',
-    styleUrls: ['./collection.component.scss'],
 })
-export class CollectionComponent implements OnInit {
+export class CollectionComponent extends AbstractDetail {
 
-    public collection: any = {
-        description: '',
-        isSource: false,
-        sorting: 0,
-    };
+    constructor(public institutionSvc: InstitutionService,
+                service: CollectionService,
+                alertSvc: AlertService,
+                dialogRef: MatDialogRef<CollectionComponent>,
+                @Inject(MAT_DIALOG_DATA) data: any) {
 
-    constructor(@Inject(MAT_DIALOG_DATA) public data: any,
-        public dialogRef: MatDialogRef<CollectionComponent>,
-        private collectionSvc: CollectionService,
-        private alertSvc: AlertService,
-        public institutionSvc: InstitutionService) {
+        super(service, alertSvc, dialogRef, data);
     }
-
-    ngOnInit() {
-        if (this.data && this.data.collection) {
-            merge(this.collection, this.data.collection);
-            this.collectionSvc.getOne(this.data.collection.id).subscribe(collection => {
-                merge(this.collection, collection);
-            });
-        }
-    }
-
-    public update() {
-        this.collectionSvc.update(this.collection).subscribe(() => {
-            this.alertSvc.info('Mis à jour');
-            this.dialogRef.close(this.collection);
-        });
-    }
-
-    public create() {
-        this.collectionSvc.create(this.collection).subscribe(collection => {
-            this.collection.id = collection.id;
-            this.alertSvc.info('Créé');
-            this.dialogRef.close(this.collection);
-        });
-    }
-
-    public delete() {
-        this.alertSvc.confirm('Suppression', 'Voulez-vous supprimer définitivement cet élément ?', 'Supprimer définitivement')
-            .subscribe(confirmed => {
-                if (confirmed) {
-                    this.collectionSvc.delete(this.collection).subscribe(() => {
-                        this.alertSvc.info('Supprimé');
-                        this.dialogRef.close(null);
-                    });
-                }
-            });
-    }
-
 }

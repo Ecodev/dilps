@@ -1,14 +1,11 @@
 <mat-dialog-content>
     <mat-tab-group>
         <mat-tab label="Institution">
-
             <div fxLayout="column" fxLayoutGap="10px" class="padding-v">
-
                 <mat-form-field>
-                    <input matInput type="text" name="name" placeholder="Nom" [(ngModel)]="institution.name" >
+                    <input matInput type="text" name="name" placeholder="Nom" [(ngModel)]="data.item.name" >
                 </mat-form-field>
-
-                <app-address *ngIf="institution.street !== undefined" [(model)]="institution"></app-address>
+                <app-address *ngIf="data.item.street !== undefined" [(model)]="data.item"></app-address>
             </div>
         </mat-tab>
 
@@ -16,19 +13,10 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-    <div fxFlex></div>
-    <button mat-button mat-dialog-close>Annuler</button>
-
-    <button *ngIf="institution.id" mat-raised-button (click)="delete()" color="warn">
-        <mat-icon>delete_forever</mat-icon>
-    </button>
-    <button *ngIf="institution.id" mat-raised-button (click)="update()" color="primary">
-        <mat-icon>save</mat-icon>
-        Enregistrer
-    </button>
-
-    <button *ngIf="!institution.id" mat-raised-button (click)="create()" color="primary">
-        <mat-icon>add</mat-icon>
-        Ajouter
-    </button>
+    <app-dialog-footer fxFlex
+                       [item]="data.item"
+                       (create)="create(data.item)"
+                       (update)="update(data.item)"
+                       (delete)="delete(data.item)"
+    ></app-dialog-footer>
 </mat-dialog-actions>

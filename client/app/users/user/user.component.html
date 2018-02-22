@@ -4,37 +4,47 @@
 
             <div fxLayout="column" fxLayoutGap="10px" class="padding-v">
 
-                <mat-form-field class="width-auto" matTooltip="L'identifiant de connexion ne peut pas être modifié">
-                    <input matInput [disabled]="!!user.id" name="login" placeholder="Login" [(ngModel)]="user.login" >
+                <mat-form-field class="width-auto" >
+                    <input matInput [disabled]="!!data.item.id" name="login" placeholder="Login" [(ngModel)]="data.item.login" >
                 </mat-form-field>
 
                 <mat-form-field>
-                    <input matInput type="email" name="email" placeholder="Email" [(ngModel)]="user.email" >
+                    <input matInput type="email" name="email" placeholder="Email" [(ngModel)]="data.item.email" >
                 </mat-form-field>
 
-                <app-select [service]="institutionSvc" [(model)]="user.institution" placeholder="Institution"></app-select>
+                <app-thesaurus [readonly]="true"
+                               [service]="institutionService"
+                               placeholder="Institution"
+                               [model]="data.item.institution"
+                               (modelChange)="data.item.institution = $event"
+                               [multiple]="false"
+                ></app-thesaurus>
 
                 <mat-form-field>
-                    <input matInput name="activeUntil" placeholder="Active jusqu'au" [(ngModel)]="user.activeUntil" [matDatepicker]="picker"
+                    <input matInput
+                           name="activeUntil"
+                           placeholder="Active jusqu'au"
+                           [(ngModel)]="data.item.activeUntil"
+                           [matDatepicker]="picker"
                     >
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
 
-                <mat-form-field *ngIf="user.id">
+                <mat-form-field *ngIf="data.item.id">
                     <input matInput
                            disabled
                            name="termsAgreement"
                            placeholder="Licence"
-                           [(ngModel)]="user.termsAgreement"
+                           [(ngModel)]="data.item.termsAgreement"
                            [matDatepicker]="picker2"
                     >
                     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                     <mat-datepicker #picker2></mat-datepicker>
                 </mat-form-field>
 
-                <mat-form-field *ngIf="user.id">
-                    <input matInput disabled name="type" placeholder="Type d'utilisateur" [(ngModel)]="user.type" >
+                <mat-form-field *ngIf="data.item.id">
+                    <input matInput disabled name="type" placeholder="Type d'utilisateur" [(ngModel)]="data.item.type" >
                 </mat-form-field>
             </div>
         </mat-tab>
@@ -43,19 +53,10 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-    <div fxFlex></div>
-    <button mat-button mat-dialog-close>Annuler</button>
-
-    <button *ngIf="user.id" mat-raised-button (click)="delete()" color="warn">
-        <mat-icon>delete_forever</mat-icon>
-    </button>
-    <button *ngIf="user.id" mat-raised-button (click)="update()" color="primary">
-        <mat-icon>save</mat-icon>
-        Enregistrer
-    </button>
-
-    <button *ngIf="!user.id" mat-raised-button (click)="create()" color="primary">
-        <mat-icon>add</mat-icon>
-        Ajouter
-    </button>
+    <app-dialog-footer fxFlex
+                       [item]="data.item"
+                       (create)="create(data.item)"
+                       (update)="update(data.item)"
+                       (delete)="delete(data.item)"
+    ></app-dialog-footer>
 </mat-dialog-actions>

@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
         this.userSvc.getCurrentUser().subscribe(user => {
             this.dialog.open(UserComponent, {
                 width: '800px',
-                data: {user: user},
+                data: {item: user},
             });
         });
     }

@@ -42,7 +42,7 @@ export class CollectionsComponent implements OnInit {
 
         const dialogRef = this.dialog.open(CollectionComponent, {
             width: '800px',
-            data: {collection: collection},
+            data: {item: collection},
         });
 
         dialogRef.afterClosed().subscribe(data => {

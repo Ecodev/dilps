@@ -15,7 +15,7 @@ describe('InstitutionService', () => {
         postcode: 'test string',
         latitude: 0.5,
         longitude: 0.5,
-        country : {
+        country: {
             id: '456',
             code: 'test string',
             name: 'test string',
@@ -53,6 +53,7 @@ describe('InstitutionService', () => {
     };
 
     const expectedUpdate = {
+        id: 123,
         updateDate: '2018-01-18T11:43:31',
         updater: userMetaTesting,
         __typename: 'Institution',

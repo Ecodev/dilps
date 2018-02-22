@@ -130,7 +130,7 @@ export abstract class AbstractModelService<Tone, Tall, Tcreate, Tupdate, Tdelete
                 input: this.getInput(object),
             },
             refetchQueries: this.getRefetchQueries(),
-        }).pipe(this.mapUpdate());
+        }).pipe(this.mapUpdate(), map(result => merge(object, result)));
     }
 
     /**

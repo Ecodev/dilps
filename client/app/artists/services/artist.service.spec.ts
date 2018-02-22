@@ -42,6 +42,7 @@ describe('ArtistService', () => {
     };
 
     const expectedUpdate = {
+        id: 123,
         updateDate: '2018-01-18T11:43:31',
         updater: userMetaTesting,
         __typename: 'Artist',

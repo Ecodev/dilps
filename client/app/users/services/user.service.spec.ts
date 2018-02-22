@@ -19,7 +19,7 @@ describe('UserService', () => {
         institution: {
             id: '456',
             name: 'test string',
-            __typename: 'Institution'
+            __typename: 'Institution',
         },
         __typename: 'User',
         creationDate: '2018-01-18T11:43:31',
@@ -55,6 +55,7 @@ describe('UserService', () => {
     };
 
     const expectedUpdate = {
+        id: 123,
         updateDate: '2018-01-18T11:43:31',
         updater: userMetaTesting,
         __typename: 'User',

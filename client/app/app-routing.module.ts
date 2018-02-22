@@ -11,7 +11,7 @@ import { CollectionsComponent } from './collections/collections/collections.comp
 import { ImageResolver } from './image/services/image.resolver';
 import { CollectionComponent } from './collections/collection/collection.component';
 import { InstitutionsComponent } from './institutions/institutions/institutions.component';
-import { ArtistsComponent } from './artists/artists/artist.component';
+import { ArtistsComponent } from './artists/artists/artists.component';
 import { NotificationsComponent } from './notifications/notifications/notifications.component';
 
 export const routes: Routes = [

@@ -4,16 +4,22 @@
 
             <div fxLayout="column" class="padding" fxLayoutGap="10px" class="padding-v">
                 <mat-form-field>
-                    <input matInput [(ngModel)]="collection.name" placeholder="Nom" >
+                    <input matInput [(ngModel)]="data.item.name" placeholder="Nom" >
                 </mat-form-field>
 
                 <mat-form-field>
-                    <input matInput [(ngModel)]="collection.description" placeholder="Description" >
+                    <input matInput [(ngModel)]="data.item.description" placeholder="Description" >
                 </mat-form-field>
 
-                <app-select [service]="institutionSvc" [(model)]="collection.institution" placeholder="Institution"></app-select>
+                <app-thesaurus [readonly]="true"
+                               [service]="institutionSvc"
+                               placeholder="Institution"
+                               [model]="data.item.institution"
+                               (modelChange)="data.item.institution = $event"
+                               [multiple]="false"
+                ></app-thesaurus>
 
-                <mat-slide-toggle [(ngModel)]="collection.isSource">Source</mat-slide-toggle>
+                <mat-slide-toggle [(ngModel)]="data.item.isSource">Source</mat-slide-toggle>
             </div>
 
         </mat-tab>
@@ -22,19 +28,10 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-    <div fxFlex></div>
-    <button mat-button mat-dialog-close>Annuler</button>
-
-    <button *ngIf="collection.id" mat-raised-button (click)="delete()" color="warn">
-        <mat-icon>delete_forever</mat-icon>
-    </button>
-    <button *ngIf="collection.id" mat-raised-button (click)="update()" color="primary">
-        <mat-icon>save</mat-icon>
-        Enregistrer
-    </button>
-
-    <button *ngIf="!collection.id" mat-raised-button (click)="create()" color="primary">
-        <mat-icon>add</mat-icon>
-        Ajouter
-    </button>
+    <app-dialog-footer fxFlex
+                       [item]="data.item"
+                       (create)="create(data.item)"
+                       (update)="update(data.item)"
+                       (delete)="delete(data.item)"
+    ></app-dialog-footer>
 </mat-dialog-actions>

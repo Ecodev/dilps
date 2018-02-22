@@ -9,7 +9,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
     MatAutocompleteModule,
     MatButtonModule,
-    MatCheckboxModule, MatChipsModule,
+    MatCheckboxModule,
+    MatChipsModule,
     MatDatepickerModule,
     MatDialogModule,
     MatIconModule,
@@ -67,12 +68,13 @@ import { TermsAgreementComponent } from './login/terms-agreement.component';
 import { InstitutionsComponent } from './institutions/institutions/institutions.component';
 import { InstitutionComponent } from './institutions/institution/institution.component';
 import { ArtistComponent } from './artists/artist/artist.component';
-import { ArtistsComponent } from './artists/artists/artist.component';
+import { ArtistsComponent } from './artists/artists/artists.component';
 import { ArtistService } from './artists/services/artist.service';
 import { NotificationsComponent } from './notifications/notifications/notifications.component';
 import { ThesaurusComponent } from './shared/components/thesaurus/thesaurus.component';
 import { AgmCoreModule } from '@agm/core';
 import { AddressComponent } from './shared/components/address/address.component';
+import { DialogFooterComponent } from './shared/components/dialog-footer/dialog-footer.component';
 
 @NgModule({
     declarations: [
@@ -97,14 +99,15 @@ import { AddressComponent } from './shared/components/address/address.component'
         ArtistsComponent,
         NotificationsComponent,
         ThesaurusComponent,
-        AddressComponent
+        AddressComponent,
+        DialogFooterComponent,
     ],
     entryComponents: [
         ConfirmComponent,
         UserComponent,
         TermsAgreementComponent,
         InstitutionComponent,
-        ArtistComponent
+        ArtistComponent,
     ],
     imports: [
         BrowserModule,
@@ -141,8 +144,8 @@ import { AddressComponent } from './shared/components/address/address.component'
         MatChipsModule,
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyBIBMlG6xXDmpPERQgKdo_Dwhtz5SX5dto',
-            libraries: ['places']
-        })
+            libraries: ['places'],
+        }),
     ],
     providers: [
         AuthGuard,
@@ -155,7 +158,7 @@ import { AddressComponent } from './shared/components/address/address.component'
         ImageService,
         AlertService,
         InstitutionService,
-        ArtistService
+        ArtistService,
     ],
     bootstrap: [AppComponent],
 })
