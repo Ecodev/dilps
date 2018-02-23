@@ -18,25 +18,15 @@
         <perfect-scrollbar fxFlex>
             <div fxLayout="column" class="padding-top scrolled" fxLayoutAlign="start stretch">
 
-                <div class="innerSpacing" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
-                    <mat-slide-toggle [disabled]="!edit"
-                                      matTooltipPosition="after"
-                                      matTooltip="Afficher pour les utilisateurs déconnectés"
-                                      [(ngModel)]="data.isPublic"
-                    >Public
-                    </mat-slide-toggle>
-
-                    <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-                        <mat-slider fxFlex
-                                    [disabled]="!edit"
-                                    [min]="1"
-                                    [max]="3"
-                                    [ngModel]="status"
-                                    (input)="updateStatus($event);status = $event.value"
-                                    [color]="statuses[status].color"
-                        ></mat-slider>
-                        <span>{{ statuses[status].text }}</span>
-                    </div>
+                <div class="innerSpacing" fxLayout="column">
+                    <div fxLayout="row">Visible {{ statuses[status].text }}</div>
+                    <mat-slider [disabled]="!edit"
+                                [min]="1"
+                                [max]="3"
+                                [ngModel]="status"
+                                (input)="updateStatus($event);status = $event.value"
+                                [color]="statuses[status].color"
+                    ></mat-slider>
                 </div>
 
                 <mat-form-field class="innerSpacing">

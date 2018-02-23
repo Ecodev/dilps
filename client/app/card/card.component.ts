@@ -27,16 +27,16 @@ export class CardComponent implements OnInit {
     public statuses = {
         1: {
             value: 'new',
-            text: 'Nouveau',
+            text: 'par moi',
         },
         2: {
             value: 'edited',
-            text: 'Restreint',
-            color: 'warn',
+            text: 'par les membres',
+            color: 'accent',
         },
         3: {
             value: 'reviewed',
-            text: 'Libre',
+            text: 'par tout le monde',
             color: 'primary',
         },
     };
