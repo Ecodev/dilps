@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace ApplicationTest\Model;
 
+use Application\Model\Card;
 use Application\Model\Dating;
-use Application\Model\Image;
 use DateTimeImmutable;
 use DateTimeZone;
 use PHPUnit\Framework\TestCase;
@@ -40,26 +40,26 @@ class DatingTest extends TestCase
 
     public function testDatingRelation(): void
     {
-        $image = new Image();
-        self::assertCount(0, $image->getDatings(), 'should have no datings');
+        $card = new Card();
+        self::assertCount(0, $card->getDatings(), 'should have no datings');
 
         $dating = new Dating();
-        $dating->setImage($image);
+        $dating->setCard($card);
 
-        self::assertSame($image, $dating->getImage(), 'should belong to the image');
-        self::assertCount(1, $image->getDatings(), 'should have the added dating');
-        self::assertSame($dating, $image->getDatings()->first(), 'should be able to retrieve added dating');
+        self::assertSame($card, $dating->getCard(), 'should belong to the card');
+        self::assertCount(1, $card->getDatings(), 'should have the added dating');
+        self::assertSame($dating, $card->getDatings()->first(), 'should be able to retrieve added dating');
 
-        $dating->setImage($image);
-        self::assertSame($image, $dating->getImage(), 'should still belong to exactly 1 image');
-        self::assertCount(1, $image->getDatings(), 'should still have the same unique dating');
+        $dating->setCard($card);
+        self::assertSame($card, $dating->getCard(), 'should still belong to exactly 1 card');
+        self::assertCount(1, $card->getDatings(), 'should still have the same unique dating');
 
         $dating2 = new Dating();
-        $dating2->setImage($image);
-        self::assertCount(2, $image->getDatings(), 'should be able to add second dating');
+        $dating2->setCard($card);
+        self::assertCount(2, $card->getDatings(), 'should be able to add second dating');
 
-        $dating->setImage(new Image());
-        self::assertCount(1, $image->getDatings(), 'should be able to remove first dating');
-        self::assertSame($dating2, $image->getDatings()->first(), 'should be have only second dating left');
+        $dating->setCard(new Card());
+        self::assertCount(1, $card->getDatings(), 'should be able to remove first dating');
+        self::assertSame($dating2, $card->getDatings()->first(), 'should be have only second dating left');
     }
 }

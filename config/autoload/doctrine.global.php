@@ -39,7 +39,7 @@ return [
         ],
         'types' => [
             'UserType' => Application\DBAL\Types\UserTypeType::class,
-            'ImageStatus' => Application\DBAL\Types\ImageStatusType::class,
+            'CardStatus' => Application\DBAL\Types\CardStatusType::class,
             'ChangeType' => Application\DBAL\Types\ChangeTypeType::class,
         ],
         // migrations configuration

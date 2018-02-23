@@ -6,7 +6,7 @@ namespace Application\Api\Input\Filter;
 
 use GraphQL\Type\Definition\InputObjectType;
 
-class ImageFilterType extends InputObjectType
+class CardFilterType extends InputObjectType
 {
     public function __construct()
     {

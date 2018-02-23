@@ -1,9 +1,9 @@
 import gql from 'graphql-tag';
 import { userMetaFragment } from '../../shared/queries/fragments';
 
-export const imagesQuery = gql`
-query Images($filters: ImageFilter, $pagination: PaginationInput) {
-    images(filters: $filters, pagination: $pagination) {
+export const cardsQuery = gql`
+query Cards($filters: CardFilter, $pagination: PaginationInput) {
+    cards(filters: $filters, pagination: $pagination) {
         items {
             id
             name
@@ -16,9 +16,9 @@ query Images($filters: ImageFilter, $pagination: PaginationInput) {
     }
 }`;
 
-export const imageQuery = gql`
-query Image($id: ImageID!) {
-    image(id: $id) {
+export const cardQuery = gql`
+query Card($id: CardID!) {
+    card(id: $id) {
         id
         name
         expandedName
@@ -84,9 +84,9 @@ query Image($id: ImageID!) {
     }
 }${userMetaFragment}`;
 
-export const createImageMutation = gql`
-mutation CreateImage ($input: ImageInput!) {
-    createImage (input: $input) {
+export const createCardMutation = gql`
+mutation CreateCard ($input: CardInput!) {
+    createCard (input: $input) {
         id
         creationDate
         creator {
@@ -95,9 +95,9 @@ mutation CreateImage ($input: ImageInput!) {
     }
 }${userMetaFragment}`;
 
-export const updateImageMutation = gql`
-mutation UpdateImage($id: ImageID!, $input: ImageInput!) {
-    updateImage(id: $id, input: $input) {
+export const updateCardMutation = gql`
+mutation UpdateCard($id: CardID!, $input: CardInput!) {
+    updateCard(id: $id, input: $input) {
         updateDate
         updater {
             ...userMeta
@@ -105,7 +105,7 @@ mutation UpdateImage($id: ImageID!, $input: ImageInput!) {
     }
 }${userMetaFragment}`;
 
-export const deleteImagesMutation = gql`
-mutation DeleteImages ($ids: [ImageID!]!){
-    deleteImages(ids: $ids)
+export const deleteCardsMutation = gql`
+mutation DeleteCards ($ids: [CardID!]!){
+    deleteCards(ids: $ids)
 }`;

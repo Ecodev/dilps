@@ -13,7 +13,7 @@ return [
     [
         'data' => [
             'acceptChange' => [
-                'name' => 'Test suggestion image 6001',
+                'name' => 'Test suggestion card 6001',
             ],
         ],
     ],

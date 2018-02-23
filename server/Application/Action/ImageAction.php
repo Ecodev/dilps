@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Application\Action;
 
-use Application\Model\Image;
-use Application\Repository\ImageRepository;
+use Application\Model\Card;
+use Application\Repository\CardRepository;
 use Imagine\Image\Box;
 use Imagine\Image\ImagineInterface;
 use Interop\Http\Server\MiddlewareInterface;
@@ -20,18 +20,18 @@ class ImageAction implements MiddlewareInterface
     private const CACHE_IMAGE_PATH = 'data/cache/images/';
 
     /**
-     * @var ImageRepository
+     * @var CardRepository
      */
-    private $imageRepository;
+    private $cardRepository;
 
     /**
      * @var ImagineInterface
      */
     private $imagine;
 
-    public function __construct(ImageRepository $imageRepository, ImagineInterface $imagine)
+    public function __construct(CardRepository $cardRepository, ImagineInterface $imagine)
     {
-        $this->imageRepository = $imageRepository;
+        $this->cardRepository = $cardRepository;
         $this->imagine = $imagine;
     }
 
@@ -47,20 +47,20 @@ class ImageAction implements MiddlewareInterface
     {
         $id = $request->getAttribute('id');
 
-        /** @var Image $image */
-        $image = $this->imageRepository->findOneById($id);
-        if (!$image) {
-            return $this->getError("Image $id not found in database");
+        /** @var Card $card */
+        $card = $this->cardRepository->findOneById($id);
+        if (!$card) {
+            return $this->getError("Card $id not found in database");
         }
 
-        $path = $image->getPath();
+        $path = $card->getPath();
         if (!is_readable($path)) {
-            return $this->getError("Image $id not found on disk, or not readable");
+            return $this->getError("Image for card $id not found on disk, or not readable");
         }
 
         $maxHeight = (int) $request->getAttribute('maxHeight');
         if ($maxHeight) {
-            $path = $this->resize($image, $maxHeight);
+            $path = $this->resize($card, $maxHeight);
         }
 
         $resource = fopen($path, 'r');
@@ -85,26 +85,26 @@ class ImageAction implements MiddlewareInterface
     /**
      * Resize image as JPG and return the path to the resized version
      *
-     * @param Image $image
+     * @param Card $card
      * @param int $maxHeight
      *
      * @return string
      */
-    private function resize(Image $image, int $maxHeight): string
+    private function resize(Card $card, int $maxHeight): string
     {
-        if ($image->getHeight() <= $maxHeight) {
-            return $image->getPath();
+        if ($card->getHeight() <= $maxHeight) {
+            return $card->getPath();
         }
 
-        $basename = pathinfo($image->getFilename(), PATHINFO_FILENAME);
+        $basename = pathinfo($card->getFilename(), PATHINFO_FILENAME);
         $path = realpath('.') . '/' . self::CACHE_IMAGE_PATH . $basename . '-' . $maxHeight . '.jpg';
 
         if (file_exists($path)) {
             return $path;
         }
 
-        $image = $this->imagine->open($image->getPath());
-        $image->thumbnail(new Box(1000000, $maxHeight))->save($path);
+        $card = $this->imagine->open($card->getPath());
+        $card->thumbnail(new Box(1000000, $maxHeight))->save($path);
 
         return $path;
     }

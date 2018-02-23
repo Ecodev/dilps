@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace ApplicationTest\Repository;
 
+use Application\Model\Card;
 use Application\Model\Change;
-use Application\Model\Image;
 use ApplicationTest\Traits\TestWithTransaction;
 use PHPUnit\Framework\TestCase;
 
@@ -19,9 +19,9 @@ class ChangeRepositoryTest extends TestCase
     public function testGetOpenChange(): void
     {
         $request = '';
-        $creationSuggestion = _em()->getReference(Image::class, 6001);
-        $updateSuggestion = _em()->getReference(Image::class, 6002);
-        $deletionSuggestion = _em()->getReference(Image::class, 6000);
+        $creationSuggestion = _em()->getReference(Card::class, 6001);
+        $updateSuggestion = _em()->getReference(Card::class, 6002);
+        $deletionSuggestion = _em()->getReference(Card::class, 6000);
         $repository = $this->getEntityManager()->getRepository(Change::class);
 
         // Can retrieve existing one

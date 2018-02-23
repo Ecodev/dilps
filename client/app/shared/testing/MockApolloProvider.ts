@@ -41,7 +41,7 @@ class MockApollo extends Apollo {
             Date: () => '2018-02-27',
             DateTime: () => '2018-01-18T11:43:31',
             Login: () => 'test string',
-            ImageStatus: () => 'new',
+            CardStatus: () => 'new',
             UserType: () => 'default'
         };
 

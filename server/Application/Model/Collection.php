@@ -13,7 +13,7 @@ use GraphQL\Doctrine\Annotation as API;
 use InvalidArgumentException;
 
 /**
- * A collection of images
+ * A collection of cards
  *
  * @ORM\Entity(repositoryClass="Application\Repository\CollectionRepository")
  * @ORM\Table(indexes={@ORM\Index(columns={"name"})})
@@ -63,9 +63,9 @@ class Collection extends AbstractModel
     /**
      * @var DoctrineCollection
      *
-     * @ORM\ManyToMany(targetEntity="Image", inversedBy="collections")
+     * @ORM\ManyToMany(targetEntity="Card", inversedBy="collections")
      */
-    private $images;
+    private $cards;
 
     /**
      * Constructor
@@ -73,7 +73,7 @@ class Collection extends AbstractModel
     public function __construct()
     {
         $this->children = new ArrayCollection();
-        $this->images = new ArrayCollection();
+        $this->cards = new ArrayCollection();
     }
 
     /**
@@ -187,39 +187,39 @@ class Collection extends AbstractModel
     }
 
     /**
-     * Add image
+     * Add card
      *
-     * @param Image $image
+     * @param Card $card
      */
-    public function addImage(Image $image): void
+    public function addCard(Card $card): void
     {
-        if (!$this->images->contains($image)) {
-            $this->images[] = $image;
-            $image->collectionAdded($this);
+        if (!$this->cards->contains($card)) {
+            $this->cards[] = $card;
+            $card->collectionAdded($this);
         }
     }
 
     /**
-     * Remove image
+     * Remove card
      *
-     * @param Image $image
+     * @param Card $card
      */
-    public function removeImage(Image $image): void
+    public function removeCard(Card $card): void
     {
-        $this->images->removeElement($image);
-        $image->collectionRemoved($this);
+        $this->cards->removeElement($card);
+        $card->collectionRemoved($this);
     }
 
     /**
-     * Get images
+     * Get cards
      *
-     * @API\Field(type="Image[]")
+     * @API\Field(type="Card[]")
      *
      * @return DoctrineCollection
      */
-    public function getImages(): DoctrineCollection
+    public function getCards(): DoctrineCollection
     {
-        return $this->images;
+        return $this->cards;
     }
 
     /**

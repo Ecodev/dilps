@@ -5,10 +5,10 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { UserComponent } from './users/user/user.component';
 import { ListComponent } from './list/list.component';
-import { ImageComponent } from './image/image.component';
+import { CardComponent } from './card/card.component';
 import { UsersComponent } from './users/users/users.component';
 import { CollectionsComponent } from './collections/collections/collections.component';
-import { ImageResolver } from './image/services/image.resolver';
+import { CardResolver } from './card/services/card.resolver';
 import { CollectionComponent } from './collections/collection/collection.component';
 import { InstitutionsComponent } from './institutions/institutions/institutions.component';
 import { ArtistsComponent } from './artists/artists/artists.component';
@@ -33,9 +33,9 @@ export const routes: Routes = [
                 data: {showLogo: true},
             },
             {
-                path: 'image/:imageId',
-                component: ImageComponent,
-                resolve: {image: ImageResolver},
+                path: 'card/:cardId',
+                component: CardComponent,
+                resolve: {card: CardResolver},
 
             },
             {

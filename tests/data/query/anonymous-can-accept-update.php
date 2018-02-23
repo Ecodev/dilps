@@ -15,7 +15,7 @@ return [
         'data' => [
             'acceptChange' => [
                 'id' => '6000',
-                'name' => 'Test suggestion image 6002',
+                'name' => 'Test suggestion card 6002',
             ],
         ],
     ],

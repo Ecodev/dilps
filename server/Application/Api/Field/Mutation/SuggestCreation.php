@@ -6,8 +6,8 @@ namespace Application\Api\Field\Mutation;
 
 use Application\Api\Field\FieldInterface;
 use Application\Api\Helper;
+use Application\Model\Card;
 use Application\Model\Change;
-use Application\Model\Image;
 use GraphQL\Type\Definition\Type;
 
 class SuggestCreation implements FieldInterface
@@ -19,7 +19,7 @@ class SuggestCreation implements FieldInterface
             'type' => Type::nonNull(_types()->get(Change::class)),
             'description' => 'Suggest the creation of a new image',
             'args' => [
-                'id' => Type::nonNull(_types()->getId(Image::class)),
+                'id' => Type::nonNull(_types()->getId(Card::class)),
                 'request' => Type::nonNull(Type::string()),
             ],
             'resolve' => function ($root, array $args): Change {

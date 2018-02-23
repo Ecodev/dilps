@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ImageService } from '../image/services/image.service';
+import { CardService } from '../card/services/card.service';
 import { merge } from 'lodash';
 import { IncrementSubject } from '../shared/services/increment-subject';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
@@ -27,7 +27,7 @@ export class ListComponent implements OnInit {
 
     private queryVariables = new IncrementSubject({});
 
-    constructor(private router: Router, private route: ActivatedRoute, private imageSvc: ImageService) {
+    constructor(private router: Router, private route: ActivatedRoute, private cardSvc: CardService) {
     }
 
     ngOnInit() {
@@ -49,11 +49,11 @@ export class ListComponent implements OnInit {
 
     }
 
-    private formatImages(images) {
+    private formatImages(cards) {
 
-        images = images.map(image => {
-            let thumb = ImageService.formatImage(image, this.thumbnailHeight);
-            let big = ImageService.formatImage(image, this.enlargedHeight);
+        cards = cards.map(card => {
+            let thumb = CardService.formatImage(card, this.thumbnailHeight);
+            let big = CardService.formatImage(card, this.enlargedHeight);
 
             thumb = {
                 thumbnail: thumb.src,
@@ -69,18 +69,18 @@ export class ListComponent implements OnInit {
 
             const fields = {
                 link: 'true',
-                title: image.name,
+                title: card.name,
             };
 
-            return merge({}, image, thumb, big, fields);
+            return merge({}, card, thumb, big, fields);
         });
 
-        return images;
+        return cards;
     }
 
     public activate(item) {
         this.router.navigate([
-            'image',
+            'card',
             item.id,
         ]);
     }
@@ -100,7 +100,7 @@ export class ListComponent implements OnInit {
         });
 
         if (!this.sub) {
-            this.sub = this.imageSvc.watchAll(this.queryVariables);
+            this.sub = this.cardSvc.watchAll(this.queryVariables);
             this.sub.valueChanges.subscribe(data => {
                 this.gallery.addItems(this.formatImages(data.items));
             });

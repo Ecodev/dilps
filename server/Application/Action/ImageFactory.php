@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Action;
 
-use Application\Model\Image;
+use Application\Model\Card;
 use Doctrine\ORM\EntityManager;
 use Imagine\Image\ImagineInterface;
 use Interop\Container\ContainerInterface;
@@ -16,6 +16,6 @@ class ImageFactory
         $entityManager = $container->get(EntityManager::class);
         $imagine = $container->get(ImagineInterface::class);
 
-        return new ImageAction($entityManager->getRepository(Image::class), $imagine);
+        return new ImageAction($entityManager->getRepository(Card::class), $imagine);
     }
 }

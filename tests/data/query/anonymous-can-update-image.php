@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-use Application\Model\Image;
+use Application\Model\Card;
 use Zend\Diactoros\UploadedFile;
 
 return [
     [
-        'query' => 'mutation ($inputImage: ImageInput!) {
-            updateImage(id: 6000 input: $inputImage) {
+        'query' => 'mutation ($inputCard: CardInput!) {
+            updateCard(id: 6000 input: $inputCard) {
                 name
                 fileSize
                 width
@@ -26,11 +26,11 @@ return [
             }
         }',
         'variables' => [
-            'inputImage' => [
+            'inputCard' => [
                 // Fake a a file uploaded with incorrect data, to check if we trust them (we should not)
                 'file' => new UploadedFile('data/images/dw4jV3zYSPsqE2CB8BcP8ABD0.jpg', 999, UPLOAD_ERR_OK, 'image.jpg', 'text/plain'),
                 'isPublic' => true,
-                'status' => Image::STATUS_NEW,
+                'status' => Card::STATUS_NEW,
                 'dating' => '1980 - 1990',
                 'addition' => 'test addition',
                 'expandedName' => 'test expandedName',
@@ -62,7 +62,7 @@ return [
     ],
     [
         'data' => [
-            'updateImage' => [
+            'updateCard' => [
                 'name' => 'test name',
                 'fileSize' => 90188,
                 'width' => 960,

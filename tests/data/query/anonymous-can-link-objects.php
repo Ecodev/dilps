@@ -5,18 +5,18 @@ declare(strict_types=1);
 return [
     [
         'query' => 'mutation {
-            linkCollectionImage(collection: 2000, image: 6001) {
+            linkCollectionCard(collection: 2000, card: 6001) {
                 id
-                images {
+                cards {
                     id
                 }
             }
 
-            linkImageImage(image1: 6000, image2: 6001) {
+            linkCardCard(card1: 6000, card2: 6001) {
                 id
-                images {
+                cards {
                     id
-                    images {
+                    cards {
                         id
                     }
                 }
@@ -25,9 +25,9 @@ return [
     ],
     [
         'data' => [
-            'linkCollectionImage' => [
+            'linkCollectionCard' => [
                 'id' => '2000',
-                'images' => [
+                'cards' => [
                     [
                         'id' => '6000',
                     ],
@@ -36,12 +36,20 @@ return [
                     ],
                 ],
             ],
-            'linkImageImage' => [
+            'linkCardCard' => [
                 'id' => '6000',
-                'images' => [
+                'cards' => [
+                    [
+                        'id' => '6005',
+                        'cards' => [
+                            [
+                                'id' => '6000',
+                            ],
+                        ],
+                    ],
                     [
                         'id' => '6001',
-                        'images' => [
+                        'cards' => [
                             [
                                 'id' => '6000',
                             ],

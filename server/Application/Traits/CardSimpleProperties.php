@@ -7,12 +7,12 @@ namespace Application\Traits;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Trait for "simple" properties of an image.
+ * Trait for "simple" properties of an card.
  *
  * They are mostly what was called "meta" in the old DILPS. And we split
- * them only to reduce the Image class size to focus on most important code.
+ * them only to reduce the Card class size to focus on most important code.
  */
-trait ImageSimpleProperties
+trait CardSimpleProperties
 {
     /**
      * @var string

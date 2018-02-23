@@ -26,9 +26,9 @@ class Change extends AbstractModel
     private $type = self::TYPE_UPDATE;
 
     /**
-     * @var Image
+     * @var Card
      *
-     * @ORM\ManyToOne(targetEntity="Image")
+     * @ORM\ManyToOne(targetEntity="Card")
      * @ORM\JoinColumns({
      *     @ORM\JoinColumn(onDelete="CASCADE")
      * })
@@ -36,9 +36,9 @@ class Change extends AbstractModel
     private $original;
 
     /**
-     * @var null|Image
+     * @var null|Card
      *
-     * @ORM\ManyToOne(targetEntity="Image")
+     * @ORM\ManyToOne(targetEntity="Card")
      * @ORM\JoinColumns({
      *     @ORM\JoinColumn(onDelete="SET NULL")
      * })
@@ -77,45 +77,45 @@ class Change extends AbstractModel
     }
 
     /**
-     * Get the original image on which to apply change
+     * Get the original card on which to apply change
      *
      * It will be `null` if the change type is `create`, otherwise
      * it mus be set.
      *
-     * @return null|Image
+     * @return null|Card
      */
-    public function getOriginal(): ?Image
+    public function getOriginal(): ?Card
     {
         return $this->original;
     }
 
     /**
-     * Set the original image on which to apply change
+     * Set the original card on which to apply change
      *
-     * @param null|Image $original
+     * @param null|Card $original
      */
-    public function setOriginal(?Image $original): void
+    public function setOriginal(?Card $original): void
     {
         $this->original = $original;
     }
 
     /**
-     * Get the image containing the suggested changes.
+     * Get the card containing the suggested changes.
      *
      * It will be `null` if the change type is `delete`, otherwise
      * it mus be set.
      *
-     * @return null|Image
+     * @return null|Card
      */
-    public function getSuggestion(): ?Image
+    public function getSuggestion(): ?Card
     {
         return $this->suggestion;
     }
 
     /**
-     * @param null|Image $suggestion
+     * @param null|Card $suggestion
      */
-    public function setSuggestion(?Image $suggestion): void
+    public function setSuggestion(?Card $suggestion): void
     {
         $this->suggestion = $suggestion;
     }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemeService } from '../shared/services/theme.service';
-import { ImageService } from './services/image.service';
+import { CardService } from './services/card.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { findKey, merge } from 'lodash';
 import { InstitutionService } from '../institutions/services/institution.service';
@@ -10,11 +10,11 @@ import { ArtistComponent } from '../artists/artist/artist.component';
 import { InstitutionComponent } from '../institutions/institution/institution.component';
 
 @Component({
-    selector: 'app-image',
-    templateUrl: './image.component.html',
-    styleUrls: ['./image.component.scss'],
+    selector: 'app-card',
+    templateUrl: './card.component.html',
+    styleUrls: ['./card.component.scss'],
 })
-export class ImageComponent implements OnInit {
+export class CardComponent implements OnInit {
 
     public data: any = {
         name: '',
@@ -47,23 +47,23 @@ export class ImageComponent implements OnInit {
     constructor(private route: ActivatedRoute,
                 private router: Router,
                 public themeSvc: ThemeService,
-                private imageSvc: ImageService,
+                private cardSvc: CardService,
                 private alertSvc: AlertService,
                 public artistService: ArtistService,
                 public institutionSvc: InstitutionService) {
     }
 
     ngOnInit() {
-        const image = this.route.snapshot.data['image'];
-        if (image) {
-            merge(this.data, image);
+        const card = this.route.snapshot.data['card'];
+        if (card) {
+            merge(this.data, card);
 
             // Init status
             this.status = +findKey(this.statuses, (s) => {
                 return s.value === this.data.status;
             });
 
-            this.imageSrc = ImageService.formatImage(image, 2000).src;
+            this.imageSrc = CardService.formatImage(card, 2000).src;
         }
     }
 
@@ -80,17 +80,17 @@ export class ImageComponent implements OnInit {
     }
 
     public update() {
-        this.imageSvc.update(this.data).subscribe(() => {
+        this.cardSvc.update(this.data).subscribe(() => {
             this.alertSvc.info('Mis à jour');
         });
     }
 
     public create() {
-        this.imageSvc.create(this.data).subscribe(image => {
+        this.cardSvc.create(this.data).subscribe(card => {
             this.alertSvc.info('Créé');
             this.router.navigate([
                 '..',
-                image.id,
+                card.id,
             ], {relativeTo: this.route});
         });
     }
@@ -99,7 +99,7 @@ export class ImageComponent implements OnInit {
         this.alertSvc.confirm('Suppression', 'Voulez-vous supprimer définitivement cet élément ?', 'Supprimer définitivement')
             .subscribe(confirmed => {
                 if (confirmed) {
-                    this.imageSvc.delete(this.data).subscribe(() => {
+                    this.cardSvc.delete(this.data).subscribe(() => {
                         this.alertSvc.info('Supprimé');
                         this.router.navigateByUrl('/');
                     });

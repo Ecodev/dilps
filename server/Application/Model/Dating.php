@@ -35,14 +35,14 @@ class Dating extends AbstractModel
     private $to;
 
     /**
-     * @var Image
+     * @var Card
      *
-     * @ORM\ManyToOne(targetEntity="Image", inversedBy="datings")
+     * @ORM\ManyToOne(targetEntity="Card", inversedBy="datings")
      * @ORM\JoinColumns({
      *     @ORM\JoinColumn(onDelete="CASCADE")
      * })
      */
-    private $image;
+    private $card;
 
     /**
      * Return the automatically computed beginning of dating period
@@ -85,24 +85,24 @@ class Dating extends AbstractModel
     }
 
     /**
-     * @return Image
+     * @return Card
      */
-    public function getImage(): Image
+    public function getCard(): Card
     {
-        return $this->image;
+        return $this->card;
     }
 
     /**
-     * @param Image $image
+     * @param Card $card
      */
-    public function setImage(Image $image): void
+    public function setCard(Card $card): void
     {
-        if ($this->image) {
-            $this->image->datingRemoved($this);
+        if ($this->card) {
+            $this->card->datingRemoved($this);
         }
 
-        $this->image = $image;
-        $this->image->datingAdded($this);
+        $this->card = $card;
+        $this->card->datingAdded($this);
     }
 
     private function dateToJulian(DateTimeImmutable $date): int

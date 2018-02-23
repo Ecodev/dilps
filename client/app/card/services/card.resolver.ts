@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { ImageService } from './image.service';
+import { CardService } from './card.service';
 
 @Injectable()
-export class ImageResolver implements Resolve<any> {
+export class CardResolver implements Resolve<any> {
 
-    constructor(private imageSvc: ImageService) {
+    constructor(private cardSvc: CardService) {
     }
 
     /**
@@ -16,8 +16,8 @@ export class ImageResolver implements Resolve<any> {
      */
     public resolve(route: ActivatedRouteSnapshot): Observable<any> {
 
-        if (route.params['imageId']) {
-            return this.imageSvc.getOne(route.params['imageId']);
+        if (route.params['cardId']) {
+            return this.cardSvc.getOne(route.params['cardId']);
         }
 
     }

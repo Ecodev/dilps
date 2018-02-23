@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Application\Model;
 
 use Application\Service\DatingRule;
+use Application\Traits\CardSimpleProperties;
 use Application\Traits\HasAddress;
 use Application\Traits\HasInstitution;
 use Application\Traits\HasName;
-use Application\Traits\ImageSimpleProperties;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection as DoctrineCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,10 +17,10 @@ use Imagine\Image\ImagineInterface;
 use Psr\Http\Message\UploadedFileInterface;
 
 /**
- * An image
+ * A card containing an image and some information about it
  *
  * @ORM\HasLifecycleCallbacks
- * @ORM\Entity(repositoryClass="Application\Repository\ImageRepository")
+ * @ORM\Entity(repositoryClass="Application\Repository\CardRepository")
  * @ORM\Table(indexes={
  *     @ORM\Index(columns={"name"}),
  *     @ORM\Index(columns={"locality"}),
@@ -29,12 +29,12 @@ use Psr\Http\Message\UploadedFileInterface;
  *     @ORM\Index(columns={"longitude"}),
  * })
  */
-class Image extends AbstractModel
+class Card extends AbstractModel
 {
     use HasName;
     use HasInstitution;
     use HasAddress;
-    use ImageSimpleProperties;
+    use CardSimpleProperties;
 
     private const IMAGE_PATH = 'data/images/';
     const STATUS_NEW = 'new';
@@ -81,7 +81,7 @@ class Image extends AbstractModel
     /**
      * @var DoctrineCollection
      *
-     * @ORM\ManyToMany(targetEntity="Collection", mappedBy="images")
+     * @ORM\ManyToMany(targetEntity="Collection", mappedBy="cards")
      */
     private $collections;
 
@@ -102,13 +102,13 @@ class Image extends AbstractModel
     /**
      * @var DoctrineCollection
      *
-     * @ORM\OneToMany(targetEntity="Dating", mappedBy="image")
+     * @ORM\OneToMany(targetEntity="Dating", mappedBy="card")
      */
     private $datings;
 
     /**
-     * @var null|Image
-     * @ORM\ManyToOne(targetEntity="Image")
+     * @var null|Card
+     * @ORM\ManyToOne(targetEntity="Card")
      * @ORM\JoinColumns({
      *     @ORM\JoinColumn(onDelete="SET NULL")
      * })
@@ -118,13 +118,13 @@ class Image extends AbstractModel
     /**
      * @var DoctrineCollection
      *
-     * @ORM\ManyToMany(targetEntity="Image")
+     * @ORM\ManyToMany(targetEntity="Card")
      */
-    private $images;
+    private $cards;
 
     /**
      * @var string
-     * @ORM\Column(type="ImageStatus", options={"default" = Image::STATUS_NEW})
+     * @ORM\Column(type="CardStatus", options={"default" = Card::STATUS_NEW})
      */
     private $status = self::STATUS_NEW;
 
@@ -141,7 +141,7 @@ class Image extends AbstractModel
         $this->artists = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->datings = new ArrayCollection();
-        $this->images = new ArrayCollection();
+        $this->cards = new ArrayCollection();
     }
 
     /**
@@ -204,7 +204,7 @@ class Image extends AbstractModel
     }
 
     /**
-     * Get collections this image belongs to
+     * Get collections this card belongs to
      *
      * @API\Field(type="Collection[]")
      *
@@ -231,7 +231,7 @@ class Image extends AbstractModel
     }
 
     /**
-     * Return whether this image is publicly available to everybody
+     * Return whether this card is publicly available to everybody
      *
      * @return bool
      */
@@ -241,7 +241,7 @@ class Image extends AbstractModel
     }
 
     /**
-     * Set whether this image is publicly available to everybody
+     * Set whether this card is publicly available to everybody
      *
      * @param bool $isPublic
      */
@@ -251,7 +251,7 @@ class Image extends AbstractModel
     }
 
     /**
-     * Get the image dating.
+     * Get the card dating.
      *
      * This is a free form string that will be parsed to **try** and extract
      * some actual date range of dates. Any string is valid, but some parseable
@@ -272,7 +272,7 @@ class Image extends AbstractModel
     }
 
     /**
-     * Set the image dating.
+     * Set the card dating.
      *
      * This is a free form string that will be parsed to **try** and extract
      * some actual date range of dates. Any string is valid, but some parseable
@@ -373,9 +373,9 @@ class Image extends AbstractModel
     }
 
     /**
-     * Set image status
+     * Set card status
      *
-     * @API\Input(type="Application\Api\Enum\ImageStatusType")
+     * @API\Input(type="Application\Api\Enum\CardStatusType")
      *
      * @param string $status
      */
@@ -385,9 +385,9 @@ class Image extends AbstractModel
     }
 
     /**
-     * Get image status
+     * Get card status
      *
-     * @API\Field(type="Application\Api\Enum\ImageStatusType")
+     * @API\Field(type="Application\Api\Enum\CardStatusType")
      *
      * @return string
      */
@@ -397,9 +397,9 @@ class Image extends AbstractModel
     }
 
     /**
-     * The original image if this is a suggestion
+     * The original card if this is a suggestion
      *
-     * @return null|Image
+     * @return null|Card
      */
     public function getOriginal(): ?self
     {
@@ -407,9 +407,9 @@ class Image extends AbstractModel
     }
 
     /**
-     * Defines this image as suggestion for the $original
+     * Defines this card as suggestion for the $original
      *
-     * @param null|Image $original
+     * @param null|Card $original
      */
     public function setOriginal(?self $original): void
     {
@@ -417,8 +417,8 @@ class Image extends AbstractModel
     }
 
     /**
-     * Notify the Image that it was added to a Collection.
-     * This should only be called by Collection::addImage()
+     * Notify the Card that it was added to a Collection.
+     * This should only be called by Collection::addCard()
      *
      * @param Collection $collection
      */
@@ -428,8 +428,8 @@ class Image extends AbstractModel
     }
 
     /**
-     * Notify the Image that it was removed from a Collection.
-     * This should only be called by Collection::removeImage()
+     * Notify the Card that it was removed from a Collection.
+     * This should only be called by Collection::removeCard()
      *
      * @param Collection $collection
      */
@@ -439,8 +439,8 @@ class Image extends AbstractModel
     }
 
     /**
-     * Notify the Image that a Dating was added.
-     * This should only be called by Dating::setImage()
+     * Notify the Card that a Dating was added.
+     * This should only be called by Dating::setCard()
      *
      * @param Dating $dating
      */
@@ -450,8 +450,8 @@ class Image extends AbstractModel
     }
 
     /**
-     * Notify the Image that a Dating was removed.
-     * This should only be called by Dating::setImage()
+     * Notify the Card that a Dating was removed.
+     * This should only be called by Dating::setCard()
      *
      * @param Dating $dating
      */
@@ -599,19 +599,19 @@ class Image extends AbstractModel
         $datings = $rule->compute($this->dating);
         foreach ($datings as $d) {
             _em()->persist($d);
-            $d->setImage($this);
+            $d->setCard($this);
         }
     }
 
     /**
-     * Copy most of this image data into the given image
+     * Copy most of this card data into the given card
      *
-     * @param Image $image
+     * @param Card $card
      */
-    public function copyInto(self $image): void
+    public function copyInto(self $card): void
     {
         // Trigger loading of proxy
-        $image->getName();
+        $card->getName();
 
         // Copy scalars
         $blacklist = ['id', 'filename', '__initializer__', '__cloner__', '__isInitialized__'];
@@ -621,60 +621,60 @@ class Image extends AbstractModel
             }
 
             if (is_scalar($value) || $value === null) {
-                $image->$property = $value;
+                $card->$property = $value;
             }
         }
 
         // Copy a few collection and entities
-        $image->artists = clone $this->artists;
-        $image->tags = clone $this->tags;
-        $image->computeDatings();
-        $image->institution = $this->institution;
-        $image->country = $this->country;
+        $card->artists = clone $this->artists;
+        $card->tags = clone $this->tags;
+        $card->computeDatings();
+        $card->institution = $this->institution;
+        $card->country = $this->country;
 
         // Copy file on disk
         if ($this->filename) {
-            $image->generateUniqueFilename($this->filename);
-            copy($this->getPath(), $image->getPath());
+            $card->generateUniqueFilename($this->filename);
+            copy($this->getPath(), $card->getPath());
         }
     }
 
     /**
-     * Get related images
+     * Get related cards
      *
-     * @API\Field(type="Image[]")
+     * @API\Field(type="Card[]")
      *
      * @return DoctrineCollection
      */
-    public function getImages(): DoctrineCollection
+    public function getCards(): DoctrineCollection
     {
-        return $this->images;
+        return $this->cards;
     }
 
     /**
-     * Add related image
+     * Add related card
      *
-     * @param Image $image
+     * @param Card $card
      */
-    public function addImage(self $image): void
+    public function addCard(self $card): void
     {
-        if (!$this->images->contains($image)) {
-            $this->images[] = $image;
+        if (!$this->cards->contains($card)) {
+            $this->cards[] = $card;
         }
 
-        if (!$image->images->contains($this)) {
-            $image->images[] = $this;
+        if (!$card->cards->contains($this)) {
+            $card->cards[] = $this;
         }
     }
 
     /**
-     * Remove related image
+     * Remove related card
      *
-     * @param Image $image
+     * @param Card $card
      */
-    public function removeImage(self $image): void
+    public function removeCard(self $card): void
     {
-        $this->images->removeElement($image);
-        $image->images->removeElement($this);
+        $this->cards->removeElement($card);
+        $card->cards->removeElement($this);
     }
 }

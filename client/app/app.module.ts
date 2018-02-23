@@ -47,15 +47,15 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { BootLoaderComponent } from './shared/components/boot-loader/boot-loader.component';
 import { ListComponent } from './list/list.component';
-import { ImageComponent } from './image/image.component';
+import { CardComponent } from './card/card.component';
 import { NaturalGalleryModule } from 'angular-natural-gallery';
 import { UsersComponent } from './users/users/users.component';
 import { TableButtonComponent } from './shared/components/table-button/table-button.component';
 import { CollectionsComponent } from './collections/collections/collections.component';
 import { UserResolver } from './users/services/user.resolver';
 import { FocusDirective } from './shared/directives/focus';
-import { ImageResolver } from './image/services/image.resolver';
-import { ImageService } from './image/services/image.service';
+import { CardResolver } from './card/services/card.resolver';
+import { CardService } from './card/services/card.service';
 import { CollectionComponent } from './collections/collection/collection.component';
 import { CollectionService } from './collections/services/collection.service';
 import { SelectComponent } from './shared/components/select/select.component';
@@ -85,7 +85,7 @@ import { StampComponent } from './shared/components/stamp/stamp.component';
         HomeComponent,
         BootLoaderComponent,
         ListComponent,
-        ImageComponent,
+        CardComponent,
         UsersComponent,
         TableButtonComponent,
         CollectionsComponent,
@@ -156,8 +156,8 @@ import { StampComponent } from './shared/components/stamp/stamp.component';
         CollectionService,
         UserService,
         UserResolver,
-        ImageResolver,
-        ImageService,
+        CardResolver,
+        CardService,
         AlertService,
         InstitutionService,
         ArtistService,

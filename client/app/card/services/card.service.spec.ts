@@ -3,9 +3,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MockApolloProvider } from '../../shared/testing/MockApolloProvider';
 import { AbstractModelServiceSpec } from '../../shared/testing/AbstractModelServiceSpec';
 import { userMetaTesting } from '../../shared/testing/userMetaTesting';
-import { ImageService } from './image.service';
+import { CardService } from './card.service';
 
-describe('ImageService', () => {
+describe('CardService', () => {
 
     const expectedOne = {
         id: '456',
@@ -47,7 +47,7 @@ describe('ImageService', () => {
         original: {
             width: 1,
             height: 1,
-            __typename: 'Image',
+            __typename: 'Card',
         },
         addition: 'test string',
         material: 'test string',
@@ -74,7 +74,7 @@ describe('ImageService', () => {
             name: 'test string',
             __typename: 'Country',
         },
-        __typename: 'Image',
+        __typename: 'Card',
         creationDate: '2018-01-18T11:43:31',
         creator: userMetaTesting,
         updateDate: '2018-01-18T11:43:31',
@@ -86,7 +86,7 @@ describe('ImageService', () => {
         name: 'test string',
         width: 1,
         height: 1,
-        __typename: 'Image',
+        __typename: 'Card',
     };
 
     const expectedAll = {
@@ -97,21 +97,21 @@ describe('ImageService', () => {
         pageSize: 1,
         pageIndex: 1,
         length: 1,
-        __typename: 'ImagePagination',
+        __typename: 'CardPagination',
     };
 
     const expectedCreate = {
         id: '456',
         creationDate: '2018-01-18T11:43:31',
         creator: userMetaTesting,
-        __typename: 'Image',
+        __typename: 'Card',
     };
 
     const expectedUpdate = {
         id: 123,
         updateDate: '2018-01-18T11:43:31',
         updater: userMetaTesting,
-        __typename: 'Image',
+        __typename: 'Card',
     };
 
     beforeEach(() => {
@@ -120,12 +120,12 @@ describe('ImageService', () => {
                 RouterTestingModule,
             ],
             providers: [
-                ImageService,
+                CardService,
                 MockApolloProvider,
             ],
         });
     });
 
-    AbstractModelServiceSpec.test(ImageService, expectedOne, expectedAll, expectedCreate, expectedUpdate);
+    AbstractModelServiceSpec.test(CardService, expectedOne, expectedAll, expectedCreate, expectedUpdate);
 
 });

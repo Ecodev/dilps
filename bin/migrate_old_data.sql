@@ -5,7 +5,7 @@
 -- A quick way to ensure all those assumptions and do the migration are the following commands:
 --
 --     ./vendor/bin/doctrine orm:schema-tool:drop --full-database --force
---     ./vendor/bin/doctrine-migrations migrations:migrate --ansi --no-interaction
+--     ./vendor/bin/doctrine-migrations migrations:migrate --no-interaction
 --     more data/cache/old.sql | mysql -u dilps -p dilps
 --     more bin/migrate_old_data.sql | mysql -u dilps -p dilps
 
@@ -31,10 +31,10 @@ ALTER TABLE `ng_location` ADD INDEX(`id`);
 
 -- Procedure to try as best as we can to explode concatenated ID and migrate them into proper FK
 -- However some of those IDs don't exist anymore and will thus be ignored
-DROP PROCEDURE IF EXISTS createRelationBetweenCollectionAndImage;
+DROP PROCEDURE IF EXISTS createRelationBetweenCollectionAndCard;
 DELIMITER //
 
-CREATE PROCEDURE createRelationBetweenCollectionAndImage()
+CREATE PROCEDURE createRelationBetweenCollectionAndCard()
   BEGIN
     DECLARE done INT DEFAULT FALSE;
     DECLARE collectionId INT;
@@ -64,7 +64,7 @@ CREATE PROCEDURE createRelationBetweenCollectionAndImage()
       SELECT @values;
 
       -- Build INSERT statement
-      SET @insert = CONCAT('INSERT IGNORE INTO collection_image (image_id, collection_id) VALUES ', @values);
+      SET @insert = CONCAT('INSERT IGNORE INTO collection_card (card_id, collection_id) VALUES ', @values);
 
       -- Execute INSERT statement
       PREPARE stmt FROM @insert;
@@ -128,7 +128,7 @@ UPDATE collection
 SET collection.institution_id = institution.id;
 
 
-INSERT INTO image (id, filename, creation_date, update_date, width, height, file_size)
+INSERT INTO card (id, filename, creation_date, update_date, width, height, file_size)
   SELECT
     CONCAT(collectionid, imageid),
     CONCAT(collectionid, imageid, filename),
@@ -139,14 +139,14 @@ INSERT INTO image (id, filename, creation_date, update_date, width, height, file
     size
   FROM ng_img;
 
-INSERT INTO dating (image_id, `from`, `to`)
+INSERT INTO dating (card_id, `from`, `to`)
   SELECT
     CONCAT(collectionid, imageid),
     `from`,
     `to`
   FROM ng_dating
   WHERE
-    CONCAT(collectionid, imageid) IN (SELECT id FROM image);
+    CONCAT(collectionid, imageid) IN (SELECT id FROM card);
 
 
 INSERT INTO collection (id, name)
@@ -172,7 +172,7 @@ INSERT INTO user (id, creation_date, login, password, email, is_administrator, a
     IF(type = 'externe', 'default', 'unil')
   FROM ng_users;
 
--- Update image with their institution
+-- Update card with their institution
 UPDATE user
   JOIN ng_users ON user.id = ng_users.id
   JOIN institution
@@ -200,7 +200,7 @@ UPDATE collection
 SET collection.creator_id = user.id;
 
 
-INSERT INTO collection_image (collection_id, image_id)
+INSERT INTO collection_card (collection_id, card_id)
   SELECT
     1000 + groupid,
     CONCAT(collectionid, imageid)
@@ -208,7 +208,7 @@ INSERT INTO collection_image (collection_id, image_id)
 
 INSERT INTO tag (name) SELECT DISTINCT tag FROM ng_img_tag;
 
-INSERT INTO image_tag (image_id, tag_id)
+INSERT INTO card_tag (card_id, tag_id)
   SELECT
     CONCAT(ng_img.collectionid, ng_img.imageid),
     tag.id
@@ -216,67 +216,67 @@ INSERT INTO image_tag (image_id, tag_id)
     JOIN ng_img ON ng_img.imageid = ng_img_tag.imageid
     JOIN tag ON tag.name = ng_img_tag.tag;
 
-UPDATE image
-  JOIN ng_meta ON CONCAT(ng_meta.collectionid, ng_meta.imageid) = image.id
+UPDATE card
+  JOIN ng_meta ON CONCAT(ng_meta.collectionid, ng_meta.imageid) = card.id
   LEFT JOIN ng_location ON ng_meta.locationid = ng_location.id
 SET
-  image.status           = ng_meta.status,
-  image.addition         = ng_meta.addition,
-  image.name             = ng_meta.title,
-  image.expanded_name    = ng_meta.title_expanded,
-  image.dating           = ng_meta.dating,
-  image.material         = ng_meta.material,
-  image.technique        = ng_meta.technique,
-  image.format           = ng_meta.format,
-  image.literature       = ng_meta.literature,
-  image.page             = ng_meta.page,
-  image.figure           = ng_meta.figure,
-  image.table            = ng_meta.table,
-  image.isbn             = ng_meta.isbn,
-  image.creation_date    = ng_meta.insert_date,
-  image.update_date      = ng_meta.modify_date,
-  image.comment          = ng_meta.commentary,
-  image.rights           = ng_meta.imagerights,
-  image.museris_url      = ng_meta.museris_link,
-  image.museris_cote     = ng_meta.museris_cote,
-  image.technique_author = ng_meta.auteur_technique,
-  image.locality         = IFNULL(ng_location.location, ''),
-  image.area             = IFNULL(ng_location.hierarchy, '');
+  card.status           = ng_meta.status,
+  card.addition         = ng_meta.addition,
+  card.name             = ng_meta.title,
+  card.expanded_name    = ng_meta.title_expanded,
+  card.dating           = ng_meta.dating,
+  card.material         = ng_meta.material,
+  card.technique        = ng_meta.technique,
+  card.format           = ng_meta.format,
+  card.literature       = ng_meta.literature,
+  card.page             = ng_meta.page,
+  card.figure           = ng_meta.figure,
+  card.table            = ng_meta.table,
+  card.isbn             = ng_meta.isbn,
+  card.creation_date    = ng_meta.insert_date,
+  card.update_date      = ng_meta.modify_date,
+  card.comment          = ng_meta.commentary,
+  card.rights           = ng_meta.imagerights,
+  card.museris_url      = ng_meta.museris_link,
+  card.museris_cote     = ng_meta.museris_cote,
+  card.technique_author = ng_meta.auteur_technique,
+  card.locality         = IFNULL(ng_location.location, ''),
+  card.area             = IFNULL(ng_location.hierarchy, '');
 
-UPDATE image
-  JOIN ng_meta ON image.id = CONCAT(ng_meta.collectionid, ng_meta.imageid)
+UPDATE card
+  JOIN ng_meta ON card.id = CONCAT(ng_meta.collectionid, ng_meta.imageid)
   JOIN institution ON institution.name = ng_meta.institution
-SET image.institution_id = institution.id;
+SET card.institution_id = institution.id;
 
--- Link image to artist 1
-REPLACE INTO image_artist (image_id, artist_id)
+-- Link card to artist 1
+REPLACE INTO card_artist (card_id, artist_id)
   SELECT
     CONCAT(ng_meta.collectionid, ng_meta.imageid),
     artist.id
   FROM ng_meta
     JOIN artist ON artist.name = ng_meta.name1;
 
--- Link image to artist 2
-REPLACE INTO image_artist (image_id, artist_id)
+-- Link card to artist 2
+REPLACE INTO card_artist (card_id, artist_id)
   SELECT
     CONCAT(ng_meta.collectionid, ng_meta.imageid),
     artist.id
   FROM ng_meta
     JOIN artist ON artist.name = ng_meta.name2;
 
--- Link image to creator
-UPDATE image
-  JOIN ng_meta ON CONCAT(ng_meta.collectionid, ng_meta.imageid) = image.id
+-- Link card to creator
+UPDATE card
+  JOIN ng_meta ON CONCAT(ng_meta.collectionid, ng_meta.imageid) = card.id
   JOIN user ON user.login = ng_meta.metacreator
 SET
-  image.creator_id = user.id;
+  card.creator_id = user.id;
 
--- Link image to updater
-UPDATE image
-  JOIN ng_meta ON CONCAT(ng_meta.collectionid, ng_meta.imageid) = image.id
+-- Link card to updater
+UPDATE card
+  JOIN ng_meta ON CONCAT(ng_meta.collectionid, ng_meta.imageid) = card.id
   JOIN user ON user.login = ng_meta.metaeditor
 SET
-  image.updater_id = user.id;
+  card.updater_id = user.id;
 
 
 INSERT INTO collection (id, creation_date, name)
@@ -293,11 +293,10 @@ UPDATE collection
 SET
   collection.creator_id = user.id;
 
-CALL createRelationBetweenCollectionAndImage;
+CALL createRelationBetweenCollectionAndCard;
 
-INSERT INTO image (
+INSERT INTO card (
   original_id,
-  type,
   status,
   addition,
   name,
@@ -323,7 +322,6 @@ INSERT INTO image (
 )
   SELECT
     CONCAT(ng_meta.collectionid, ng_meta.imageid),
-    ng_meta.type,
     ng_meta.status,
     ng_meta_additional.addition,
     ng_meta_additional.title,
@@ -351,59 +349,56 @@ INSERT INTO image (
     JOIN ng_meta ON ng_meta.imageid = ng_meta_additional.parentid
     LEFT JOIN ng_location ON ng_meta_additional.locationid = ng_location.id;
 
-UPDATE image
-  JOIN ng_meta ON image.original_id = CONCAT(ng_meta.collectionid, ng_meta.imageid)
+UPDATE card
+  JOIN ng_meta ON card.original_id = CONCAT(ng_meta.collectionid, ng_meta.imageid)
   JOIN ng_meta_additional ON ng_meta.imageid = ng_meta_additional.parentid
   JOIN institution ON institution.name = ng_meta_additional.institution
-SET image.institution_id = institution.id;
+SET card.institution_id = institution.id;
 
--- Link image to artist 1
-REPLACE INTO image_artist (image_id, artist_id)
+-- Link card to artist 1
+REPLACE INTO card_artist (card_id, artist_id)
   SELECT
-    image.id,
+    card.id,
     artist.id
   FROM ng_meta_additional
     JOIN artist ON artist.name = ng_meta_additional.name1
     JOIN ng_meta ON ng_meta.imageid = ng_meta_additional.parentid
-    JOIN image ON image.original_id = CONCAT(ng_meta.collectionid, ng_meta.imageid);
+    JOIN card ON card.original_id = CONCAT(ng_meta.collectionid, ng_meta.imageid);
 
--- Link image to artist 2
-REPLACE INTO image_artist (image_id, artist_id)
+-- Link card to artist 2
+REPLACE INTO card_artist (card_id, artist_id)
   SELECT
-    image.id,
+    card.id,
     artist.id
   FROM ng_meta_additional
     JOIN artist ON artist.name = ng_meta_additional.name2
     JOIN ng_meta ON ng_meta.imageid = ng_meta_additional.parentid
-    JOIN image ON image.original_id = CONCAT(ng_meta.collectionid, ng_meta.imageid);
-
--- Ensure that we don't leave invalid empty values
-UPDATE image SET type = 'default' WHERE type = '';
+    JOIN card ON card.original_id = CONCAT(ng_meta.collectionid, ng_meta.imageid);
 
 -- Delete a few invalid locality
-UPDATE image SET locality = '' WHERE locality IN('-', '?', '.');
+UPDATE card SET locality = '' WHERE locality IN('-', '?', '.');
 
 -- Remove would-be duplicate, then fix encoding
 DELETE FROM ng_geocodes WHERE address != CONVERT(CAST(address AS BINARY) USING utf8mb4) AND CONVERT(CAST(address AS BINARY) USING utf8mb4) IN (SELECT * FROM (SELECT address FROM ng_geocodes) AS tmp);
 UPDATE ng_geocodes SET address = CONVERT(CAST(address AS BINARY) USING utf8mb4);
 
 -- First, attempt to match coordinates with institution, which should be the most precise
-UPDATE image
-  JOIN institution ON image.institution_id = institution.id
-  JOIN ng_geocodes ON CONCAT(image.locality, ', ', institution.name) = ng_geocodes.address
-SET image.latitude = ng_geocodes.lat,
-  image.longitude  = ng_geocodes.lon
-WHERE image.locality != '' AND image.longitude IS NULL AND image.latitude IS NULL;
+UPDATE card
+  JOIN institution ON card.institution_id = institution.id
+  JOIN ng_geocodes ON CONCAT(card.locality, ', ', institution.name) = ng_geocodes.address
+SET card.latitude = ng_geocodes.lat,
+  card.longitude  = ng_geocodes.lon
+WHERE card.locality != '' AND card.longitude IS NULL AND card.latitude IS NULL;
 
 -- Then, attempt to match coordinates with only the locality
-UPDATE image
-  JOIN ng_geocodes ON CONCAT(image.locality, ', ') = ng_geocodes.address
-SET image.latitude = ng_geocodes.lat,
-  image.longitude  = ng_geocodes.lon
-WHERE image.locality != '' AND image.longitude IS NULL AND image.latitude IS NULL;
+UPDATE card
+  JOIN ng_geocodes ON CONCAT(card.locality, ', ') = ng_geocodes.address
+SET card.latitude = ng_geocodes.lat,
+  card.longitude  = ng_geocodes.lon
+WHERE card.locality != '' AND card.longitude IS NULL AND card.latitude IS NULL;
 
 -- Attempt to extract country from old hierarchy if no known country yet
-UPDATE image
+UPDATE card
 SET country_id =
 IF(INSTR(area, '| France |'), 2,
    IF(INSTR(area, '| Italia |'), 15,
@@ -446,10 +441,10 @@ IF(INSTR(area, '| France |'), 2,
          )
       )
    )
-) WHERE image.country_id IS NULL;
+) WHERE card.country_id IS NULL;
 
 -- Normalize a few things to have a better chance to match
-UPDATE image
+UPDATE card
 SET locality =
 REPLACE(
     REPLACE(
@@ -476,48 +471,48 @@ WHERE locality != '';
 
 -- Attempt to extract country from old location if no known country yet
 -- In this case we assume that the country is the last word at the end of the string enclosed by parenthesis
-UPDATE image
-  JOIN country ON INSTR(image.locality, CONCAT(country.name, ')'))
-SET image.country_id = country.id
-WHERE locality != '' AND image.country_id IS NULL;
+UPDATE card
+  JOIN country ON INSTR(card.locality, CONCAT(country.name, ')'))
+SET card.country_id = country.id
+WHERE locality != '' AND card.country_id IS NULL;
 
--- Copy address from image to institution if all images of that institution have exactly the same address
+-- Copy address from card to institution if all cards of that institution have exactly the same address
 UPDATE institution
-  JOIN image ON institution.id = image.institution_id
+  JOIN card ON institution.id = card.institution_id
 SET
-  institution.locality   = image.locality,
-  institution.area       = image.area,
-  institution.latitude   = image.latitude,
-  institution.longitude  = image.longitude,
-  institution.country_id = image.country_id
-WHERE image.institution_id IN (
+  institution.locality   = card.locality,
+  institution.area       = card.area,
+  institution.latitude   = card.latitude,
+  institution.longitude  = card.longitude,
+  institution.country_id = card.country_id
+WHERE card.institution_id IN (
   SELECT tmp.institution_id FROM (
      SELECT
        institution_id,
        COUNT(institution_id) AS institutionCount,
        COUNT(DISTINCT CONCAT_WS(';', locality, area, IFNULL(latitude, 'NULL'), IFNULL(longitude, 'NULL'), IFNULL(country_id, 'NULL'))) AS localityCount
-     FROM image
+     FROM card
      WHERE institution_id IS NOT NULL
      GROUP BY institution_id
    ) AS tmp
   WHERE tmp.localityCount = 1
 );
 
--- Remove address from image if it is exactly the same as its institution
-UPDATE image
-  JOIN institution ON institution.id = image.institution_id
-    AND institution.locality = image.locality
-    AND institution.area = image.area
-    AND (institution.latitude = image.latitude OR (institution.latitude IS NULL AND image.latitude IS NULL))
-    AND (institution.longitude = image.longitude OR (institution.longitude IS NULL AND image.longitude IS NULL))
-    AND (institution.country_id = image.country_id OR (institution.country_id IS NULL AND image.country_id IS NULL))
+-- Remove address from card if it is exactly the same as its institution
+UPDATE card
+  JOIN institution ON institution.id = card.institution_id
+    AND institution.locality = card.locality
+    AND institution.area = card.area
+    AND (institution.latitude = card.latitude OR (institution.latitude IS NULL AND card.latitude IS NULL))
+    AND (institution.longitude = card.longitude OR (institution.longitude IS NULL AND card.longitude IS NULL))
+    AND (institution.country_id = card.country_id OR (institution.country_id IS NULL AND card.country_id IS NULL))
     SET
-      image.locality   = '',
-      image.area       = '',
-      image.latitude   = NULL,
-      image.longitude  = NULL,
-      image.country_id = NULL;
+      card.locality   = '',
+      card.area       = '',
+      card.latitude   = NULL,
+      card.longitude  = NULL,
+      card.country_id = NULL;
 
 COMMIT;
 
-DROP PROCEDURE createRelationBetweenCollectionAndImage;
+DROP PROCEDURE createRelationBetweenCollectionAndCard;

@@ -6,20 +6,20 @@ namespace Application\Repository;
 
 use Doctrine\ORM\QueryBuilder;
 
-class ImageRepository extends AbstractRepository
+class CardRepository extends AbstractRepository
 {
     public function getFindAllQuery(array $filters = []): QueryBuilder
     {
-        $qb = $this->createQueryBuilder('image');
+        $qb = $this->createQueryBuilder('card');
 
         if ($filters['collections'] ?? null) {
-            $qb->join('image.collections', 'collection');
+            $qb->join('card.collections', 'collection');
             $qb->andWhere('collection.id IN (:collections)');
             $qb->setParameter('collections', $filters['collections']);
         }
 
         if (@$filters['search']) {
-            $qb->andWhere('image.name LIKE :search');
+            $qb->andWhere('card.name LIKE :search');
             $qb->setParameter('search', '%' . $filters['search'] . '%');
         }
 

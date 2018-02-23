@@ -3,50 +3,50 @@ import { Apollo } from 'apollo-angular';
 import 'rxjs/add/observable/of';
 import { merge } from 'lodash';
 import {
-    CreateImageMutation,
-    DeleteImagesMutation,
-    ImageInput,
-    ImageQuery,
-    ImagesQuery,
-    ImageStatus,
-    UpdateImageMutation,
+    CreateCardMutation,
+    DeleteCardsMutation,
+    CardInput,
+    CardQuery,
+    CardsQuery,
+    CardStatus,
+    UpdateCardMutation,
 } from '../../shared/generated-types';
 import { AbstractModelService } from '../../shared/services/abstract-model.service';
-import { createImageMutation, deleteImagesMutation, imageQuery, imagesQuery, updateImageMutation, } from './imageQueries';
+import { createCardMutation, deleteCardsMutation, cardQuery, cardsQuery, updateCardMutation, } from './cardQueries';
 import { Literal } from '../../shared/types';
 
 @Injectable()
-export class ImageService extends AbstractModelService<ImageQuery['image'],
-    ImagesQuery['images'],
-    CreateImageMutation['createImage'],
-    UpdateImageMutation['updateImage'],
-    DeleteImagesMutation['deleteImages']> {
+export class CardService extends AbstractModelService<CardQuery['card'],
+    CardsQuery['cards'],
+    CreateCardMutation['createCard'],
+    UpdateCardMutation['updateCard'],
+    DeleteCardsMutation['deleteCards']> {
 
-    public static getImageFormat(image, height): any {
-        height = Math.min(image.height, height);
-        const ratio = image.width / image.height;
+    public static getImageFormat(card, height): any {
+        height = Math.min(card.height, height);
+        const ratio = card.width / card.height;
         return {
             height: height,
             width: height * ratio,
         };
     }
 
-    public static formatImage(image, height) {
-        const sizes = this.getImageFormat(image, height);
-        const imageLink = '/image-src/' + image.id + '/';
+    public static formatImage(card, height) {
+        const sizes = this.getImageFormat(card, height);
+        const imageLink = '/image/' + card.id + '/';
         const fields = {src: imageLink + sizes.height};
-        return merge({}, image, fields);
+        return merge({}, card, fields);
     }
 
     constructor(apollo: Apollo) {
-        super(apollo, 'image', imageQuery, imagesQuery, createImageMutation, updateImageMutation, deleteImagesMutation);
+        super(apollo, 'card', cardQuery, cardsQuery, createCardMutation, updateCardMutation, deleteCardsMutation);
     }
 
-    public getEmptyObject(): ImageInput {
+    public getEmptyObject(): CardInput {
         return {
             file: null,
             dating: '',
-            status: ImageStatus.new,
+            status: CardStatus.new,
             addition: '',
             expandedName: '',
             material: '',
