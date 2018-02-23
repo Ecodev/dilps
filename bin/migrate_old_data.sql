@@ -295,9 +295,9 @@ SET
 
 CALL createRelationBetweenCollectionAndCard;
 
+-- Insert related cards
 INSERT INTO card (
   original_id,
-  status,
   addition,
   name,
   expanded_name,
@@ -310,19 +310,11 @@ INSERT INTO card (
   figure,
   `table`,
   isbn,
-  creation_date,
-  update_date,
-  comment,
-  rights,
-  museris_url,
-  museris_cote,
-  technique_author,
   locality,
   area
 )
   SELECT
     CONCAT(ng_meta.collectionid, ng_meta.imageid),
-    ng_meta.status,
     ng_meta_additional.addition,
     ng_meta_additional.title,
     ng_meta_additional.title_expanded,
@@ -335,13 +327,6 @@ INSERT INTO card (
     ng_meta_additional.figure,
     ng_meta_additional.table,
     ng_meta_additional.isbn,
-    ng_meta.insert_date,
-    ng_meta.modify_date,
-    ng_meta.commentary,
-    ng_meta.imagerights,
-    ng_meta.museris_link,
-    ng_meta.museris_cote,
-    ng_meta.auteur_technique,
     IFNULL(ng_location.location, ''),
     IFNULL(ng_location.hierarchy, '')
 
@@ -349,13 +334,14 @@ INSERT INTO card (
     JOIN ng_meta ON ng_meta.imageid = ng_meta_additional.parentid
     LEFT JOIN ng_location ON ng_meta_additional.locationid = ng_location.id;
 
+-- Link related card to institution
 UPDATE card
   JOIN ng_meta ON card.original_id = CONCAT(ng_meta.collectionid, ng_meta.imageid)
   JOIN ng_meta_additional ON ng_meta.imageid = ng_meta_additional.parentid
   JOIN institution ON institution.name = ng_meta_additional.institution
 SET card.institution_id = institution.id;
 
--- Link card to artist 1
+-- Link related card to artist 1
 REPLACE INTO card_artist (card_id, artist_id)
   SELECT
     card.id,
@@ -365,7 +351,7 @@ REPLACE INTO card_artist (card_id, artist_id)
     JOIN ng_meta ON ng_meta.imageid = ng_meta_additional.parentid
     JOIN card ON card.original_id = CONCAT(ng_meta.collectionid, ng_meta.imageid);
 
--- Link card to artist 2
+-- Link related card to artist 2
 REPLACE INTO card_artist (card_id, artist_id)
   SELECT
     card.id,
@@ -374,6 +360,25 @@ REPLACE INTO card_artist (card_id, artist_id)
     JOIN artist ON artist.name = ng_meta_additional.name2
     JOIN ng_meta ON ng_meta.imageid = ng_meta_additional.parentid
     JOIN card ON card.original_id = CONCAT(ng_meta.collectionid, ng_meta.imageid);
+
+-- Link related card as proper related cards...
+INSERT INTO card_card (card_source, card_target)
+  SELECT
+    card.id,
+    card.original_id
+  FROM card
+  WHERE original_id IS NOT NULL;
+
+-- ... both way
+INSERT INTO card_card (card_source, card_target)
+  SELECT
+    card.original_id,
+    card.id
+  FROM card
+  WHERE original_id IS NOT NULL;
+
+-- Remove the temporary fake relation
+UPDATE card SET original_id = NULL;
 
 -- Delete a few invalid locality
 UPDATE card SET locality = '' WHERE locality IN('-', '?', '.');
