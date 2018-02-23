@@ -109,4 +109,11 @@ class CardTest extends TestCase
         self::assertCount(0, $card1->getCards());
         self::assertCount(0, $card2->getCards());
     }
+
+    public function testRelatedCardWithSelf(): void
+    {
+        $this->expectExceptionMessage('A card cannot be related to itself');
+        $card = new Card();
+        $card->addCard($card);
+    }
 }

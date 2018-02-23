@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\Collection as DoctrineCollection;
 use Doctrine\ORM\Mapping as ORM;
 use GraphQL\Doctrine\Annotation as API;
 use Imagine\Image\ImagineInterface;
+use InvalidArgumentException;
 use Psr\Http\Message\UploadedFileInterface;
 
 /**
@@ -658,6 +659,10 @@ class Card extends AbstractModel
      */
     public function addCard(self $card): void
     {
+        if ($card === $this) {
+            throw new InvalidArgumentException('A card cannot be related to itself');
+        }
+
         if (!$this->cards->contains($card)) {
             $this->cards[] = $card;
         }
