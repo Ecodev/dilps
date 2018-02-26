@@ -12,7 +12,8 @@ import { CardResolver } from './card/services/card.resolver';
 import { CollectionComponent } from './collections/collection/collection.component';
 import { InstitutionsComponent } from './institutions/institutions/institutions.component';
 import { ArtistsComponent } from './artists/artists/artists.component';
-import { NotificationsComponent } from './notifications/notifications/notifications.component';
+import { ChangesComponent } from './changes/changes/changes.component';
+import { ChangeComponent } from './changes/change/change.component';
 
 export const routes: Routes = [
 
@@ -36,6 +37,7 @@ export const routes: Routes = [
                 path: 'card/:cardId',
                 component: CardComponent,
                 resolve: {card: CardResolver},
+                data: {showLogo: true},
 
             },
             {
@@ -56,7 +58,11 @@ export const routes: Routes = [
             },
             {
                 path: 'notification',
-                component: NotificationsComponent,
+                component: ChangesComponent,
+            },
+            {
+                path: 'notification/:changeId',
+                component: ChangeComponent,
             },
             {
                 path: 'collection',

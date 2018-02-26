@@ -67,7 +67,11 @@ perfect-scrollbar {
     .ps-content {
         flex: auto;
     }
+    .ps {
+        display:inherit !important;
+    }
 }
+
 
 .mat-drawer-content {
     display: flex !important;

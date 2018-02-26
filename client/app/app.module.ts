@@ -70,12 +70,14 @@ import { InstitutionComponent } from './institutions/institution/institution.com
 import { ArtistComponent } from './artists/artist/artist.component';
 import { ArtistsComponent } from './artists/artists/artists.component';
 import { ArtistService } from './artists/services/artist.service';
-import { NotificationsComponent } from './notifications/notifications/notifications.component';
 import { ThesaurusComponent } from './shared/components/thesaurus/thesaurus.component';
 import { AgmCoreModule } from '@agm/core';
 import { AddressComponent } from './shared/components/address/address.component';
 import { DialogFooterComponent } from './shared/components/dialog-footer/dialog-footer.component';
 import { StampComponent } from './shared/components/stamp/stamp.component';
+import { ChangesComponent } from './changes/changes/changes.component';
+import { ChangeService } from './changes/services/change.service';
+import { ChangeComponent } from './changes/change/change.component';
 
 @NgModule({
     declarations: [
@@ -98,11 +100,12 @@ import { StampComponent } from './shared/components/stamp/stamp.component';
         InstitutionComponent,
         ArtistComponent,
         ArtistsComponent,
-        NotificationsComponent,
         ThesaurusComponent,
         AddressComponent,
         DialogFooterComponent,
         StampComponent,
+        ChangesComponent,
+        ChangeComponent
     ],
     entryComponents: [
         ConfirmComponent,
@@ -161,6 +164,7 @@ import { StampComponent } from './shared/components/stamp/stamp.component';
         AlertService,
         InstitutionService,
         ArtistService,
+        ChangeService,
     ],
     bootstrap: [AppComponent],
 })

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ThemeService } from '../shared/services/theme.service';
 import { CardService } from './services/card.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,6 +16,8 @@ import { InstitutionComponent } from '../institutions/institution/institution.co
 })
 export class CardComponent implements OnInit {
 
+    @Input() id;
+
     public data: any = {
         name: '',
     };
@@ -23,6 +25,7 @@ export class CardComponent implements OnInit {
     public edit = false;
     public status = 1;
     public imageSrc;
+    public showLogo = false;
 
     public statuses = {
         1: {
@@ -54,17 +57,28 @@ export class CardComponent implements OnInit {
     }
 
     ngOnInit() {
+
+        this.route.data.subscribe(data => this.showLogo = data.showLogo);
+
         const card = this.route.snapshot.data['card'];
         if (card) {
-            merge(this.data, card);
-
-            // Init status
-            this.status = +findKey(this.statuses, (s) => {
-                return s.value === this.data.status;
+            this.initCard(card);
+        } else if (this.id) {
+            this.cardSvc.getOne(this.id).subscribe(c => {
+                this.initCard(c);
             });
-
-            this.imageSrc = CardService.formatImage(card, 2000).src;
         }
+    }
+
+    public initCard(card) {
+        merge(this.data, card);
+
+        // Init status
+        this.status = +findKey(this.statuses, (s) => {
+            return s.value === this.data.status;
+        });
+
+        this.imageSrc = CardService.formatImage(card, 2000).src;
     }
 
     public updateStatus(ev) {

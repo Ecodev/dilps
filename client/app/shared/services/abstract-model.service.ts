@@ -47,7 +47,6 @@ export abstract class AbstractModelService<Tone, Tall, Tcreate, Tupdate, Tdelete
     public getOne(id: string): Observable<Tone> {
         this.throwIfObservable(id);
         this.throwIfNotQuery(this.oneQuery);
-
         return this.apollo.query({
             query: this.oneQuery,
             variables: this.getVariablesForOne(id),
