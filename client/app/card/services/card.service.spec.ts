@@ -13,6 +13,7 @@ describe('CardService', () => {
         expandedName: 'test string',
         height: 1,
         width: 1,
+        hasImage: true,
         isPublic: true,
         dating: 'test string',
         artists: [
@@ -86,6 +87,7 @@ describe('CardService', () => {
         name: 'test string',
         width: 1,
         height: 1,
+        hasImage: true,
         __typename: 'Card',
     };
 

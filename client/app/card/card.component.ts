@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ThemeService } from '../shared/services/theme.service';
 import { CardService } from './services/card.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,24 +8,22 @@ import { AlertService } from '../shared/components/alert/alert.service';
 import { ArtistService } from '../artists/services/artist.service';
 import { ArtistComponent } from '../artists/artist/artist.component';
 import { InstitutionComponent } from '../institutions/institution/institution.component';
+import { ChangeService } from '../changes/services/change.service';
 
 @Component({
     selector: 'app-card',
     templateUrl: './card.component.html',
     styleUrls: ['./card.component.scss'],
 })
-export class CardComponent implements OnInit {
+export class CardComponent implements OnInit, OnChanges {
 
-    @Input() id;
-
-    public data: any = {
-        name: '',
-    };
+    @Input() public model;
+    @Input() public title: string;
+    @Input() public imageSrc;
+    @Input() public showLogo = false;
 
     public edit = false;
     public status = 1;
-    public imageSrc;
-    public showLogo = false;
 
     public statuses = {
         1: {
@@ -49,6 +47,7 @@ export class CardComponent implements OnInit {
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
+                private changeSvc: ChangeService,
                 public themeSvc: ThemeService,
                 private cardSvc: CardService,
                 private alertSvc: AlertService,
@@ -57,36 +56,42 @@ export class CardComponent implements OnInit {
     }
 
     ngOnInit() {
-
         this.route.data.subscribe(data => this.showLogo = data.showLogo);
+        if (this.route.snapshot.data['card']) {
+            this.model = merge({}, this.route.snapshot.data['card']); // merge to have editable object instead of apollo readonly object
 
-        const card = this.route.snapshot.data['card'];
-        if (card) {
-            this.initCard(card);
-        } else if (this.id) {
-            this.cardSvc.getOne(this.id).subscribe(c => {
-                this.initCard(c);
-            });
+            this.initCard();
+        } else if (!this.model) {
+            this.model = this.cardSvc.getEmptyObject();
+            this.initCard();
         }
     }
 
-    public initCard(card) {
-        merge(this.data, card);
+    ngOnChanges(changes: SimpleChanges) {
+        this.initCard();
+    }
 
-        // Init status
-        this.status = +findKey(this.statuses, (s) => {
-            return s.value === this.data.status;
-        });
+    public initCard() {
+        if (this.model) {
 
-        this.imageSrc = CardService.formatImage(card, 2000).src;
+            // Init status
+            this.status = +findKey(this.statuses, (s) => {
+                return s.value === this.model.status;
+            });
+
+            const src = CardService.getImageLink(this.model, 2000);
+            if (src) {
+                this.imageSrc = src;
+            }
+        }
     }
 
     public updateStatus(ev) {
-        this.data.status = this.statuses[ev.value].value;
+        this.model.status = this.statuses[ev.value].value;
     }
 
     public onSubmit() {
-        if (this.data.id) {
+        if (this.model.id) {
             this.update();
         } else {
             this.create();
@@ -94,13 +99,13 @@ export class CardComponent implements OnInit {
     }
 
     public update() {
-        this.cardSvc.update(this.data).subscribe(() => {
+        this.cardSvc.update(this.model).subscribe(() => {
             this.alertSvc.info('Mis à jour');
         });
     }
 
     public create() {
-        this.cardSvc.create(this.data).subscribe(card => {
+        this.cardSvc.create(this.model).subscribe(card => {
             this.alertSvc.info('Créé');
             this.router.navigate([
                 '..',
@@ -113,12 +118,22 @@ export class CardComponent implements OnInit {
         this.alertSvc.confirm('Suppression', 'Voulez-vous supprimer définitivement cet élément ?', 'Supprimer définitivement')
             .subscribe(confirmed => {
                 if (confirmed) {
-                    this.cardSvc.delete(this.data).subscribe(() => {
+                    this.cardSvc.delete(this.model).subscribe(() => {
                         this.alertSvc.info('Supprimé');
                         this.router.navigateByUrl('/');
                     });
                 }
             });
+    }
+
+    public suggestUpdate() {
+        this.router.navigateByUrl('notification/new/' + this.model.id);
+    }
+
+    public suggestDeletion() {
+        this.changeSvc.suggestDeletion(this.model).subscribe(() => {
+            this.router.navigateByUrl('notification');
+        });
     }
 
 }

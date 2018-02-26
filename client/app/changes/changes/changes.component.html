@@ -28,13 +28,13 @@
                     <!-- Name Column -->
                     <ng-container matColumnDef="original">
                         <mat-header-cell *matHeaderCellDef>Originale</mat-header-cell>
-                        <mat-cell *matCellDef="let element">{{ element.original.name }}</mat-cell>
+                        <mat-cell *matCellDef="let element">{{ element.original?.name }}</mat-cell>
                     </ng-container>
 
                     <!-- Suggestion -->
                     <ng-container matColumnDef="suggestion">
                         <mat-header-cell *matHeaderCellDef>Suggestion</mat-header-cell>
-                        <mat-cell *matCellDef="let element">{{ element.suggestion.name }}</mat-cell>
+                        <mat-cell *matCellDef="let element">{{ element.suggestion?.name }}</mat-cell>
                     </ng-container>
 
                     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

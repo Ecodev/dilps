@@ -1,9 +1,22 @@
-<div fxFlex fxLayout="row">
+<div fxFlex fxLayout="row" *ngIf="model">
 
     <div fxFlex="400px" class="containerWithToolbar" fxLayout="column">
         <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center">
             <img *ngIf="showLogo" src="assets/images/logo-blanc.svg" style="max-width:100%;height:30px;" />
+
+            <div *ngIf="title" class="mat-diplay-1">{{ title }}</div>
+
             <div fxFlex></div>
+
+            <mat-menu #changeMenu="matMenu" [overlapTrigger]="false">
+                <button mat-menu-item (click)="suggestUpdate()">Suggérer une modification</button>
+                <button mat-menu-item (click)="suggestDeletion()">Suggérer la suppression</button>
+            </mat-menu>
+
+            <button mat-icon-button [matMenuTriggerFor]="changeMenu" matTooltip="Signaler un changement">
+                <mat-icon>add_alert</mat-icon>
+            </button>
+
             <button mat-icon-button color="primary" (click)="update()" *ngIf="edit" matTooltip="Enregistrer">
                 <mat-icon>save</mat-icon>
             </button>
@@ -32,7 +45,7 @@
                 <mat-form-field class="innerSpacing">
                     <input [readonly]="!edit"
                            matInput
-                           [(ngModel)]="data.name"
+                           [(ngModel)]="model.name"
                            placeholder="Titre"
                            matTooltipPosition="after"
                            [matTooltip]="!edit ? '' : 'Maecenas sed diam eget risus varius blandit sit amet non magna. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla.'"
@@ -42,7 +55,7 @@
                 <mat-form-field class="innerSpacing">
                     <input [readonly]="!edit"
                            matInput
-                           [(ngModel)]="data.expandedName"
+                           [(ngModel)]="model.expandedName"
                            placeholder="Titre étendu"
                            matTooltipPosition="after"
                            [matTooltip]="!edit ? '' : 'Maecenas sed diam eget risus varius blandit sit amet non magna. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla.'"
@@ -52,15 +65,15 @@
                 <app-thesaurus [readonly]="!edit"
                                [service]="artistService"
                                placeholder="Artistes"
-                               [model]="data.artists"
-                               (modelChange)="data.artists = $event"
+                               [model]="model.artists"
+                               (modelChange)="model.artists = $event"
                                [previewComponent]="artistComponent"
                 ></app-thesaurus>
 
                 <mat-form-field class="innerSpacing">
                     <input [readonly]="!edit"
                            matInput
-                           [(ngModel)]="data.addition"
+                           [(ngModel)]="model.addition"
                            placeholder="Supplément"
                            matTooltipPosition="after"
                            [matTooltip]="!edit ? '' : 'Maecenas sed diam eget risus varius blandit sit amet non magna. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla.'"
@@ -68,17 +81,17 @@
                 </mat-form-field>
 
                 <mat-form-field class="innerSpacing">
-                    <input [readonly]="!edit" matInput [(ngModel)]="data.technique" placeholder="Technique" >
+                    <input [readonly]="!edit" matInput [(ngModel)]="model.technique" placeholder="Technique" >
                 </mat-form-field>
 
                 <mat-form-field class="innerSpacing">
-                    <input [readonly]="!edit" matInput [(ngModel)]="data.techniqueAuthor" placeholder="Auteur technique" >
+                    <input [readonly]="!edit" matInput [(ngModel)]="model.techniqueAuthor" placeholder="Auteur technique" >
                 </mat-form-field>
 
                 <mat-form-field class="innerSpacing">
                     <input [readonly]="!edit"
                            matInput
-                           [(ngModel)]="data.dating"
+                           [(ngModel)]="model.dating"
                            placeholder="Datation"
                            matTooltipPosition="after"
                            [matTooltip]="!edit ? '' : 'Maecenas sed diam eget risus varius blandit sit amet non magna. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla.'"
@@ -88,7 +101,7 @@
                 <mat-form-field class="innerSpacing">
                     <input [readonly]="!edit"
                            matInput
-                           [(ngModel)]="data.material"
+                           [(ngModel)]="model.material"
                            placeholder="Matériel"
                            matTooltipPosition="after"
                            [matTooltip]="!edit ? '' : 'Maecenas sed diam eget risus varius blandit sit amet non magna. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla.'"
@@ -98,7 +111,7 @@
                 <mat-form-field class="innerSpacing">
                     <input [readonly]="!edit"
                            matInput
-                           [(ngModel)]="data.literature"
+                           [(ngModel)]="model.literature"
                            placeholder="Source"
                            matTooltipPosition="after"
                            [matTooltip]="!edit ? '' : 'Maecenas sed diam eget risus varius blandit sit amet non magna. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla.'"
@@ -106,21 +119,21 @@
                 </mat-form-field>
 
                 <mat-form-field class="innerSpacing">
-                    <input [readonly]="!edit" matInput [(ngModel)]="data.page" placeholder="Page" >
+                    <input [readonly]="!edit" matInput [(ngModel)]="model.page" placeholder="Page" >
                 </mat-form-field>
 
                 <mat-form-field class="innerSpacing">
-                    <input [readonly]="!edit" matInput [(ngModel)]="data.figure" placeholder="Figure" >
+                    <input [readonly]="!edit" matInput [(ngModel)]="model.figure" placeholder="Figure" >
                 </mat-form-field>
 
                 <mat-form-field class="innerSpacing">
-                    <input [readonly]="!edit" matInput [(ngModel)]="data.table" placeholder="Planche" >
+                    <input [readonly]="!edit" matInput [(ngModel)]="model.table" placeholder="Planche" >
                 </mat-form-field>
 
                 <mat-form-field class="innerSpacing">
                     <input [readonly]="!edit"
                            matInput
-                           [(ngModel)]="data.isbn"
+                           [(ngModel)]="model.isbn"
                            placeholder="ISBN"
                            matTooltipPosition="after"
                            [matTooltip]="!edit ? '' : 'Maecenas sed diam eget risus varius blandit sit amet non magna. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla.'"
@@ -132,19 +145,19 @@
                 <app-thesaurus [readonly]="!edit"
                                [service]="institutionSvc"
                                placeholder="Institution"
-                               [model]="data.institution"
-                               (modelChange)="data.institution = $event"
+                               [model]="model.institution"
+                               (modelChange)="model.institution = $event"
                                [multiple]="false"
                                [previewComponent]="institutionComponent"
                 ></app-thesaurus>
 
-                <app-address [(model)]="data" [vertical]="true" [readonly]="!edit"></app-address>
+                <app-address [(model)]="model" [vertical]="true" [readonly]="!edit"></app-address>
             </div>
 
         </perfect-scrollbar>
 
         <div class="padding mat-elevation-z4">
-            <app-stamp [item]="data"></app-stamp>
+            <app-stamp [item]="model"></app-stamp>
         </div>
 
     </div>

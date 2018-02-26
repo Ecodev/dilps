@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 import { userMetaFragment } from '../../shared/queries/fragments';
+import { cardDetailsFragment } from '../../card/services/cardQueries';
 
 export const changesQuery = gql`
 query Changes($pagination: PaginationInput) {
@@ -28,10 +29,10 @@ query Change($id: ChangeID!) {
         id
         type
         original {
-            id
+            ...cardDetails
         }
         suggestion {
-            id
+            ...cardDetails
         }
         creationDate
         creator {
@@ -42,7 +43,10 @@ query Change($id: ChangeID!) {
             ...userMeta
         }
     }
-}${userMetaFragment}`;
+}
+${userMetaFragment}
+${cardDetailsFragment}
+`;
 
 export const acceptChange = gql`
 mutation AcceptChange($id: ChangeID!) {
@@ -50,7 +54,29 @@ mutation AcceptChange($id: ChangeID!) {
         id
     }
 }`;
+
 export const rejectChange = gql`
 mutation RejectChange($id: ChangeID!) {
     rejectChange(id: $id)
+}`;
+
+export const suggestDeletion = gql`
+mutation SuggestDeletion($id: CardID!) {
+    suggestDeletion(id: $id, request : "") {
+        id
+    }
+}`;
+
+export const suggestCreation = gql`
+mutation SuggestCreation($id: CardID!) {
+    suggestCreation(id: $id, request : "") {
+        id
+    }
+}`;
+
+export const suggestUpdate = gql`
+mutation SuggestUpdate($id: CardID!) {
+    suggestUpdate(id: $id, request : "") {
+        id
+    }
 }`;

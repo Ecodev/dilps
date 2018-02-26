@@ -1,68 +1,23 @@
 import gql from 'graphql-tag';
 import { userMetaFragment } from '../../shared/queries/fragments';
 
-export const cardsQuery = gql`
-query Cards($filters: CardFilter, $pagination: PaginationInput) {
-    cards(filters: $filters, pagination: $pagination) {
-        items {
-            id
-            name
-            width
-            height
-        }
-        pageSize
-        pageIndex
-        length
-    }
-}`;
-
-export const cardQuery = gql`
-query Card($id: CardID!) {
-    card(id: $id) {
+export const cardDetailsFragment = gql`
+fragment cardDetails on Card {
+    id
+    name
+    expandedName
+    hasImage
+    height
+    width
+    isPublic
+    dating
+    artists {
         id
         name
-        expandedName
-        height
-        width
-        isPublic
-        dating
-        artists {
-            id
-            name
-        }
-        institution {
-            id
-            name
-            locality
-            street
-            postcode
-            latitude
-            longitude
-            country {
-                id
-                code
-                name
-            }
-        }
-        status
-        original {
-            width
-            height
-        }
-        addition
-        material
-        technique
-        techniqueAuthor
-        format
-        literature
-        page
-        figure
-        table
-        isbn
-        comment
-        rights
-        muserisUrl
-        muserisCote
+    }
+    institution {
+        id
+        name
         locality
         street
         postcode
@@ -73,16 +28,69 @@ query Card($id: CardID!) {
             code
             name
         }
-        creationDate
-        creator {
-            ...userMeta
-        }
-        updateDate
-        updater {
-            ...userMeta
-        }
+    }
+    status
+    original {
+        width
+        height
+    }
+    addition
+    material
+    technique
+    techniqueAuthor
+    format
+    literature
+    page
+    figure
+    table
+    isbn
+    comment
+    rights
+    muserisUrl
+    muserisCote
+    locality
+    street
+    postcode
+    latitude
+    longitude
+    country {
+        id
+        code
+        name
+    }
+    creationDate
+    creator {
+        ...userMeta
+    }
+    updateDate
+    updater {
+        ...userMeta
     }
 }${userMetaFragment}`;
+
+
+export const cardsQuery = gql`
+query Cards($filters: CardFilter, $pagination: PaginationInput) {
+    cards(filters: $filters, pagination: $pagination) {
+        items {
+            id
+            name
+            width
+            height
+            hasImage
+        }
+        pageSize
+        pageIndex
+        length
+    }
+}`;
+
+export const cardQuery = gql`
+query Card($id: CardID!) {
+    card(id: $id) {
+        ...cardDetails
+    }
+}${cardDetailsFragment}`;
 
 export const createCardMutation = gql`
 mutation CreateCard ($input: CardInput!) {

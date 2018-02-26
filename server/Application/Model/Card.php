@@ -193,6 +193,14 @@ class Card extends AbstractModel
     }
 
     /**
+     * @return bool
+     */
+    public function hasImage(): bool
+    {
+        return !empty($this->filename);
+    }
+
+    /**
      * Get absolute path to image on disk
      *
      * @API\Exclude
@@ -615,7 +623,7 @@ class Card extends AbstractModel
         $original->getName();
 
         // Copy scalars
-        $blacklist = ['id', 'filename', '__initializer__', '__cloner__', '__isInitialized__'];
+        $blacklist = ['id', 'filename', 'file_size', 'height', 'width', '__initializer__', '__cloner__', '__isInitialized__'];
         foreach ($this as $property => $value) {
             if (in_array($property, $blacklist, true)) {
                 continue;

@@ -61,6 +61,10 @@ export const routes: Routes = [
                 component: ChangesComponent,
             },
             {
+                path: 'notification/new/:cardId',
+                component: ChangeComponent,
+            },
+            {
                 path: 'notification/:changeId',
                 component: ChangeComponent,
             },

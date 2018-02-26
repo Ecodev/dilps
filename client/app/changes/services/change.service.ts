@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { AbstractModelService } from '../../shared/services/abstract-model.service';
-import { acceptChange, changeQuery, changesQuery, rejectChange } from './changeQueries';
+import { acceptChange, changeQuery, changesQuery, rejectChange, suggestCreation, suggestDeletion, suggestUpdate } from './changeQueries';
 import { ChangesQuery } from '../../shared/generated-types';
 import { map } from 'rxjs/operators';
 
@@ -38,6 +38,36 @@ export class ChangeService
             },
             refetchQueries: this.getRefetchQueries(),
         }).pipe(map(data => data.data.rejectChange));
+    }
+
+    public suggestDeletion(card: { id }) {
+        return this.apollo.mutate({
+            mutation: suggestDeletion,
+            variables: {
+                id: card.id,
+            },
+            refetchQueries: this.getRefetchQueries(),
+        }).pipe(map(data => data.data.suggestDeletion));
+    }
+
+    public suggestCreation(card: { id }) {
+        return this.apollo.mutate({
+            mutation: suggestCreation,
+            variables: {
+                id: card.id,
+            },
+            refetchQueries: this.getRefetchQueries(),
+        }).pipe(map(data => data.data.suggestCreation));
+    }
+
+    public suggestUpdate(card: { id }) {
+        return this.apollo.mutate({
+            mutation: suggestUpdate,
+            variables: {
+                id: card.id,
+            },
+            refetchQueries: this.getRefetchQueries(),
+        }).pipe(map(data => data.data.suggestUpdate));
     }
 
 }

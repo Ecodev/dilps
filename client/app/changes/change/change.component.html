@@ -1,24 +1,46 @@
 <div class="containerWithToolbar" fxFlex fxLayout="column">
 
     <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
-        <img src="assets/images/logo-blanc.svg" style="max-width:100%;height:30px;"/>
+        <img src="assets/images/logo-blanc.svg" style="max-width:100%;height:30px;" />
         <div fxFlex></div>
-        <button mat-icon-button mat-raised-button color="primary" matTooltip="Accepter suggestion" (click)="accept()">
+
+        <button *ngIf="change" mat-icon-button mat-raised-button color="primary" matTooltip="Accepter suggestion" (click)="accept()">
             <mat-icon>check</mat-icon>
         </button>
-        <button mat-icon-button mat-raised-button color="warn" matTooltip="Refuser la suggestion" (click)="reject()">
+        <button *ngIf="change" mat-icon-button mat-raised-button color="warn" matTooltip="Refuser la suggestion" (click)="reject()">
             <mat-icon>close</mat-icon>
+        </button>
+
+        <button *ngIf="original"
+                mat-icon-button
+                mat-raised-button
+                color="primary"
+                matTooltip="Sousmettre la suggestion à validation"
+                (click)="update()"
+        >
+            <mat-icon>save</mat-icon>
+        </button>
+        <button *ngIf="!original && suggestion"
+                mat-icon-button
+                mat-raised-button
+                color="primary"
+                matTooltip="Sousmettre l'ajout de cette fiche à validation"
+                (click)="create()"
+        >
+            <mat-icon>add</mat-icon>
         </button>
     </mat-toolbar>
 
     <perfect-scrollbar fxFlex>
         <div class="scrolled" fxFlex fxLayout="row">
-            <div *ngIf="change" fxFlex fxLayout="row" fxLayoutAlign="center stretch">
-                <div fxFlex fxLayout="column">
-                    <app-card fxFlex [id]="change.original.id"></app-card>
+            <div fxFlex fxLayout="row" fxLayoutAlign="center stretch">
+                <div fxFlex fxLayout="column" *ngIf="change || original">
+                    <app-card fxFlex *ngIf="change" [(model)]="change.original" title="Original"></app-card>
+                    <app-card fxFlex *ngIf="original" [(model)]="original" title="Original"></app-card>
                 </div>
-                <div fxFlex fxLayout="column">
-                    <app-card fxFlex [id]="change.suggestion.id"></app-card>
+                <div fxFlex fxLayout="column" *ngIf="change || suggestion">
+                    <app-card fxFlex *ngIf="change" [(model)]="change.suggestion" title="Suggestion" [imageSrc]="suggestionImageSrc"></app-card>
+                    <app-card fxFlex *ngIf="suggestion" [(model)]="suggestion" title="Suggestion" [imageSrc]="suggestionImageSrc"></app-card>
                 </div>
             </div>
         </div>

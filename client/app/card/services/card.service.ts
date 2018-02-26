@@ -3,16 +3,16 @@ import { Apollo } from 'apollo-angular';
 import 'rxjs/add/observable/of';
 import { merge } from 'lodash';
 import {
-    CreateCardMutation,
-    DeleteCardsMutation,
     CardInput,
     CardQuery,
     CardsQuery,
     CardStatus,
+    CreateCardMutation,
+    DeleteCardsMutation,
     UpdateCardMutation,
 } from '../../shared/generated-types';
 import { AbstractModelService } from '../../shared/services/abstract-model.service';
-import { createCardMutation, deleteCardsMutation, cardQuery, cardsQuery, updateCardMutation, } from './cardQueries';
+import { cardQuery, cardsQuery, createCardMutation, deleteCardsMutation, updateCardMutation, } from './cardQueries';
 import { Literal } from '../../shared/types';
 
 @Injectable()
@@ -23,7 +23,7 @@ export class CardService extends AbstractModelService<CardQuery['card'],
     DeleteCardsMutation['deleteCards']> {
 
     public static getImageFormat(card, height): any {
-        height = Math.min(card.height, height);
+        height = card.height ? Math.min(card.height, height) : height;
         const ratio = card.width / card.height;
         return {
             height: height,
@@ -31,10 +31,28 @@ export class CardService extends AbstractModelService<CardQuery['card'],
         };
     }
 
-    public static formatImage(card, height) {
-        const sizes = this.getImageFormat(card, height);
+    public static getImageLink(card, height) {
+        if (!card.id || !card.hasImage || !height) {
+            return null;
+        }
+
+        const size = this.getImageFormat(card, height);
         const imageLink = '/image/' + card.id + '/';
-        const fields = {src: imageLink + sizes.height};
+        return imageLink + size.height;
+    }
+
+    /**
+     * Merge image src on src attribute of given gard
+     * @param card
+     * @param height
+     * @returns {{} & any & {src: *}}
+     */
+    public static formatImage(card, height) {
+        if (!card) {
+            return null;
+        }
+
+        const fields = {src: this.getImageLink(card, height)};
         return merge({}, card, fields);
     }
 
@@ -72,7 +90,8 @@ export class CardService extends AbstractModelService<CardQuery['card'],
             area: '',
             latitude: null,
             longitude: null,
-            country: null
+            country: null,
+            original: null,
         };
     }
 
