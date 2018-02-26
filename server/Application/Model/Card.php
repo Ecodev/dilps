@@ -226,7 +226,7 @@ class Card extends AbstractModel
     public function deleteFile(): void
     {
         $path = $this->getPath();
-        if (file_exists($path) && $this->getFilename() !== 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg') {
+        if (file_exists($path) && is_file($path) && $this->getFilename() !== 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg') {
             unlink($path);
         }
     }
@@ -607,12 +607,12 @@ class Card extends AbstractModel
     /**
      * Copy most of this card data into the given card
      *
-     * @param Card $card
+     * @param Card $original
      */
-    public function copyInto(self $card): void
+    public function copyInto(self $original): void
     {
         // Trigger loading of proxy
-        $card->getName();
+        $original->getName();
 
         // Copy scalars
         $blacklist = ['id', 'filename', '__initializer__', '__cloner__', '__isInitialized__'];
@@ -622,21 +622,21 @@ class Card extends AbstractModel
             }
 
             if (is_scalar($value) || $value === null) {
-                $card->$property = $value;
+                $original->$property = $value;
             }
         }
 
         // Copy a few collection and entities
-        $card->artists = clone $this->artists;
-        $card->tags = clone $this->tags;
-        $card->computeDatings();
-        $card->institution = $this->institution;
-        $card->country = $this->country;
+        $original->artists = clone $this->artists;
+        $original->tags = clone $this->tags;
+        $original->computeDatings();
+        $original->institution = $this->institution;
+        $original->country = $this->country;
 
         // Copy file on disk
         if ($this->filename) {
-            $card->generateUniqueFilename($this->filename);
-            copy($this->getPath(), $card->getPath());
+            $original->generateUniqueFilename($this->filename);
+            copy($this->getPath(), $original->getPath());
         }
     }
 
