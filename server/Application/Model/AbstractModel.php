@@ -153,7 +153,7 @@ abstract class AbstractModel
     public function timestampCreation(): void
     {
         $this->setCreationDate(Utility::getNow());
-        $this->setCreator(User::getCurrentUser());
+        $this->setCreator(User::getCurrent());
     }
 
     /**
@@ -164,6 +164,6 @@ abstract class AbstractModel
     public function timestampUpdate(): void
     {
         $this->setUpdateDate(Utility::getNow());
-        $this->setUpdater(User::getCurrentUser());
+        $this->setUpdater(User::getCurrent());
     }
 }

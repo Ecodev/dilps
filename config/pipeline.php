@@ -1,11 +1,16 @@
 <?php
 
 declare(strict_types=1);
+
+use Application\Middleware\AuthenticationMiddleware;
+use Zend\Expressive\Handler\NotFoundHandler;
 use Zend\Expressive\Helper\ServerUrlMiddleware;
 use Zend\Expressive\Helper\UrlHelperMiddleware;
-use Zend\Expressive\Middleware\ImplicitHeadMiddleware;
-use Zend\Expressive\Middleware\ImplicitOptionsMiddleware;
-use Zend\Expressive\Middleware\NotFoundHandler;
+use Zend\Expressive\Router\Middleware\DispatchMiddleware;
+use Zend\Expressive\Router\Middleware\ImplicitHeadMiddleware;
+use Zend\Expressive\Router\Middleware\ImplicitOptionsMiddleware;
+use Zend\Expressive\Router\Middleware\PathBasedRoutingMiddleware;
+use Zend\Expressive\Session\SessionMiddleware;
 use Zend\Stratigility\Middleware\ErrorHandler;
 
 // Setup middleware pipeline:
@@ -33,10 +38,12 @@ $app->pipe(ServerUrlMiddleware::class);
 // - $app->pipe('/files', $filesMiddleware);
 
 // Register the routing middleware in the middleware pipeline
-$app->pipeRoutingMiddleware();
+$app->pipe(PathBasedRoutingMiddleware::class);
 $app->pipe(ImplicitHeadMiddleware::class);
 $app->pipe(ImplicitOptionsMiddleware::class);
 $app->pipe(UrlHelperMiddleware::class);
+$app->pipe(SessionMiddleware::class);
+$app->pipe(AuthenticationMiddleware::class);
 
 // Add more middleware here that needs to introspect the routing results; this
 // might include:
@@ -46,7 +53,7 @@ $app->pipe(UrlHelperMiddleware::class);
 // - etc.
 
 // Register the dispatch middleware in the middleware pipeline
-$app->pipeDispatchMiddleware();
+$app->pipe(DispatchMiddleware::class);
 
 // At this point, if no Response is return by any middleware, the
 // NotFoundHandler kicks in; alternately, you can provide other fallback

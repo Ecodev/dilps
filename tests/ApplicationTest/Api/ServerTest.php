@@ -8,6 +8,8 @@ use Application\Api\Server;
 use ApplicationTest\Traits\TestWithTransaction;
 use PHPUnit\Framework\TestCase;
 use Zend\Diactoros\ServerRequest;
+use Zend\Expressive\Session\Session;
+use Zend\Expressive\Session\SessionMiddleware;
 
 class ServerTest extends TestCase
 {
@@ -56,7 +58,8 @@ class ServerTest extends TestCase
             $args[0] = $request
                 ->withMethod('POST')
                 ->withHeader('content-type', ['application/json'])
-                ->withParsedBody($args[0]);
+                ->withParsedBody($args[0])
+                ->withAttribute(SessionMiddleware::SESSION_ATTRIBUTE, new Session([]));
 
             array_unshift($args, $user);
             $data[$name] = $args;

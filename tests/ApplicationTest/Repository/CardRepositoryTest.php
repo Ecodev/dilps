@@ -5,15 +5,23 @@ declare(strict_types=1);
 namespace ApplicationTest\Repository;
 
 use Application\Model\Card;
-use ApplicationTest\Traits\TestWithTransaction;
-use PHPUnit\Framework\TestCase;
+use Application\Repository\CardRepository;
 
 /**
  * @group Repository
  */
-class CardRepositoryTest extends TestCase
+class CardRepositoryTest extends AbstractRepositoryTest
 {
-    use TestWithTransaction;
+    /**
+     * @var CardRepository
+     */
+    private $repository;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->repository = _em()->getRepository(Card::class);
+    }
 
     public function testCardOnDiskIsDeletedWhenRecordInDbIsDeleted(): void
     {

@@ -39,7 +39,7 @@ class User extends AbstractModel
      *
      * @param \Application\Model\User $user
      */
-    public static function setCurrentUser(self $user = null): void
+    public static function setCurrent(?self $user): void
     {
         self::$currentUser = $user;
     }
@@ -49,7 +49,7 @@ class User extends AbstractModel
      *
      * @return null|self
      */
-    public static function getCurrentUser()
+    public static function getCurrent(): ?self
     {
         return self::$currentUser;
     }

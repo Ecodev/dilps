@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ApplicationTest\Traits;
 
+use Application\Model\User;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -27,6 +28,7 @@ trait TestWithTransaction
     public function setUp(): void
     {
         $this->getEntityManager()->beginTransaction();
+        User::setCurrent(null);
     }
 
     /**

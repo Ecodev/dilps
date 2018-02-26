@@ -39,4 +39,7 @@ $app->post('/graphql', [
     UploadMiddleware::class,
     GraphQLAction::class,
 ], 'graphql');
-$app->get('/image/{id:\d+}[/{maxHeight:\d+}]', Application\Action\ImageAction::class, 'image');
+
+$app->get('/image/{id:\d+}[/{maxHeight:\d+}]', [
+    Application\Action\ImageAction::class,
+], 'image');

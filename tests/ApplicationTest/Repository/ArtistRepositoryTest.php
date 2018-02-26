@@ -5,15 +5,23 @@ declare(strict_types=1);
 namespace ApplicationTest\Repository;
 
 use Application\Model\Artist;
-use ApplicationTest\Traits\TestWithTransaction;
-use PHPUnit\Framework\TestCase;
+use Application\Repository\ArtistRepository;
 
 /**
  * @group Repository
  */
-class ArtistRepositoryTest extends TestCase
+class ArtistRepositoryTest extends AbstractRepositoryTest
 {
-    use TestWithTransaction;
+    /**
+     * @var ArtistRepository
+     */
+    private $repository;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->repository = _em()->getRepository(Artist::class);
+    }
 
     public function testGetOrCreateByNames(): void
     {
@@ -23,7 +31,7 @@ class ArtistRepositoryTest extends TestCase
             'Test foo', // duplicate
             'Test foo ', // duplicate with whitespace
         ];
-        $artists = $this->getEntityManager()->getRepository(Artist::class)->getOrCreateByNames($names);
+        $artists = $this->repository->getOrCreateByNames($names);
 
         self::assertCount(2, $artists);
         self::assertSame('Test artist 3000', $artists[0]->getName());

@@ -6,10 +6,10 @@ namespace Application\Action;
 
 use Application\Api\Server;
 use Doctrine\ORM\EntityManager;
-use Interop\Http\Server\MiddlewareInterface;
-use Interop\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\JsonResponse;
 
 class GraphQLAction implements MiddlewareInterface

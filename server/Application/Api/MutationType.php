@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Application\Api;
 
 use Application\Api\Field\Mutation\AcceptChange;
+use Application\Api\Field\Mutation\Login;
+use Application\Api\Field\Mutation\Logout;
 use Application\Api\Field\Mutation\RejectChange;
 use Application\Api\Field\Mutation\SuggestCreation;
 use Application\Api\Field\Mutation\SuggestDeletion;
@@ -27,6 +29,8 @@ class MutationType extends ObjectType
             SuggestDeletion::build(),
             AcceptChange::build(),
             RejectChange::build(),
+            Login::build(),
+            Logout::build(),
         ];
 
         $fields = array_merge(

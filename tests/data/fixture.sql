@@ -1,5 +1,5 @@
-INSERT INTO `user` (`id`, `login`, `email`) VALUES
-  (1000, 'Alice', 'alice@example.com');
+INSERT INTO `user` (`id`, `login`, `email`, password) VALUES
+  (1000, 'Alice', 'alice@example.com', MD5('money'));
 
 INSERT INTO `collection` (`id`, `name`, `description`) VALUES
   (2000, 'Test collection 2000', 'Roads? Where we''re going we don''t need roads.'),

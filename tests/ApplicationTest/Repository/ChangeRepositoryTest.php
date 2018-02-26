@@ -6,15 +6,23 @@ namespace ApplicationTest\Repository;
 
 use Application\Model\Card;
 use Application\Model\Change;
-use ApplicationTest\Traits\TestWithTransaction;
-use PHPUnit\Framework\TestCase;
+use Application\Repository\ChangeRepository;
 
 /**
  * @group Repository
  */
-class ChangeRepositoryTest extends TestCase
+class ChangeRepositoryTest extends AbstractRepositoryTest
 {
-    use TestWithTransaction;
+    /**
+     * @var ChangeRepository
+     */
+    private $repository;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->repository = _em()->getRepository(Change::class);
+    }
 
     public function testGetOpenChange(): void
     {
@@ -22,19 +30,18 @@ class ChangeRepositoryTest extends TestCase
         $creationSuggestion = _em()->getReference(Card::class, 6001);
         $updateSuggestion = _em()->getReference(Card::class, 6002);
         $deletionSuggestion = _em()->getReference(Card::class, 6000);
-        $repository = $this->getEntityManager()->getRepository(Change::class);
 
         // Can retrieve existing one
-        self::assertNotNull($repository->getOrCreate(Change::TYPE_CREATE, $creationSuggestion, $request)->getId());
-        self::assertNotNull($repository->getOrCreate(Change::TYPE_UPDATE, $updateSuggestion, $request)->getId());
-        self::assertNotNull($repository->getOrCreate(Change::TYPE_DELETE, $deletionSuggestion, $request)->getId());
+        self::assertNotNull($this->repository->getOrCreate(Change::TYPE_CREATE, $creationSuggestion, $request)->getId());
+        self::assertNotNull($this->repository->getOrCreate(Change::TYPE_UPDATE, $updateSuggestion, $request)->getId());
+        self::assertNotNull($this->repository->getOrCreate(Change::TYPE_DELETE, $deletionSuggestion, $request)->getId());
 
         // Can create new one
-        self::assertNull($repository->getOrCreate(Change::TYPE_UPDATE, $creationSuggestion, $request)->getId());
-        self::assertNull($repository->getOrCreate(Change::TYPE_DELETE, $creationSuggestion, $request)->getId());
-        self::assertNull($repository->getOrCreate(Change::TYPE_CREATE, $updateSuggestion, $request)->getId());
-        self::assertNull($repository->getOrCreate(Change::TYPE_DELETE, $updateSuggestion, $request)->getId());
-        self::assertNull($repository->getOrCreate(Change::TYPE_CREATE, $deletionSuggestion, $request)->getId());
-        self::assertNull($repository->getOrCreate(Change::TYPE_UPDATE, $deletionSuggestion, $request)->getId());
+        self::assertNull($this->repository->getOrCreate(Change::TYPE_UPDATE, $creationSuggestion, $request)->getId());
+        self::assertNull($this->repository->getOrCreate(Change::TYPE_DELETE, $creationSuggestion, $request)->getId());
+        self::assertNull($this->repository->getOrCreate(Change::TYPE_CREATE, $updateSuggestion, $request)->getId());
+        self::assertNull($this->repository->getOrCreate(Change::TYPE_DELETE, $updateSuggestion, $request)->getId());
+        self::assertNull($this->repository->getOrCreate(Change::TYPE_CREATE, $deletionSuggestion, $request)->getId());
+        self::assertNull($this->repository->getOrCreate(Change::TYPE_UPDATE, $deletionSuggestion, $request)->getId());
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Api;
 
+use Application\Api\Field\Query\Viewer;
 use Application\Api\Field\Standard;
 use Application\Model\Artist;
 use Application\Model\Card;
@@ -19,6 +20,7 @@ class QueryType extends ObjectType
     public function __construct()
     {
         $specializedFields = [
+            Viewer::build(),
         ];
 
         $fields = array_merge(
