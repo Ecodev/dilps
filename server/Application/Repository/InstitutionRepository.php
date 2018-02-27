@@ -18,6 +18,8 @@ class InstitutionRepository extends AbstractRepository
             $qb->setParameter('search', '%' . $filters['search'] . '%');
         }
 
+        $qb->addOrderBy('institution.id');
+
         return $qb;
     }
 

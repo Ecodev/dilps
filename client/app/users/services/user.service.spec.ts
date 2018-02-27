@@ -12,7 +12,7 @@ describe('UserService', () => {
         id: '456',
         email: 'test string',
         login: 'test string',
-        isAdministrator: true,
+        role: 'student',
         termsAgreement: '2018-01-18T11:43:31',
         type: UserType.default,
         activeUntil: '2018-01-18T11:43:31',

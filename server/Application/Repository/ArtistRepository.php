@@ -18,6 +18,8 @@ class ArtistRepository extends AbstractRepository
             $qb->setParameter('search', '%' . $filters['search'] . '%');
         }
 
+        $qb->addOrderBy('artist.id');
+
         return $qb;
     }
 

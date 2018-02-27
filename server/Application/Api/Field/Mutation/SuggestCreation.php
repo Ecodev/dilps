@@ -23,11 +23,10 @@ class SuggestCreation implements FieldInterface
                 'request' => Type::nonNull(Type::string()),
             ],
             'resolve' => function ($root, array $args): Change {
-//                Helper::throwIfDenied('change', 'create');
-
                 $suggestion = $args['id']->getEntity();
-
                 $change = _em()->getRepository(Change::class)->getOrCreate(Change::TYPE_CREATE, $suggestion, $args['request']);
+
+                Helper::throwIfDenied($change, 'create');
 
                 if (!$change->getId()) {
                     _em()->flush();

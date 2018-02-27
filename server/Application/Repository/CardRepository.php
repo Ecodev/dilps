@@ -23,6 +23,8 @@ class CardRepository extends AbstractRepository
             $qb->setParameter('search', '%' . $filters['search'] . '%');
         }
 
+        $qb->addOrderBy('card.id');
+
         return $qb;
     }
 }

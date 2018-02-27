@@ -160,14 +160,14 @@ UPDATE collection
 SET parent_id = 1000 + ng_group.id;
 
 
-INSERT INTO user (id, creation_date, login, password, email, is_administrator, active_until, type)
+INSERT INTO user (id, creation_date, login, password, email, role, active_until, type)
   SELECT
     id,
     date_ajout,
     utilisateur,
     motdepasse,
     mail,
-    groupe = 'archivmaster',
+    IF(groupe = 'archivmaster', 'administrator', 'student'),
     IF(validite = '', NULL, STR_TO_DATE(CONCAT('01-', validite), '%d-%m-%Y')),
     IF(type = 'externe', 'default', 'unil')
   FROM ng_users;

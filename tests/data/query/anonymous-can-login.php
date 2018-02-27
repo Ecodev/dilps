@@ -5,7 +5,7 @@ declare(strict_types=1);
 return [
     [
         'query' => 'mutation {
-            login(login: "Alice" password: "money") {
+            login(login: "administrator" password: "administrator") {
                 id
                 login
             }
@@ -15,7 +15,7 @@ return [
         'data' => [
             'login' => [
                 'id' => '1000',
-                'login' => 'Alice',
+                'login' => 'administrator',
             ],
         ],
     ],

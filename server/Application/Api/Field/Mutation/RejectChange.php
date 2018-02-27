@@ -21,10 +21,10 @@ class RejectChange implements FieldInterface
                 'id' => Type::nonNull(_types()->getId(Change::class)),
             ],
             'resolve' => function ($root, array $args): bool {
-//                Helper::throwIfDenied('change', 'update');
-
                 /** @var Change $change */
                 $change = $args['id']->getEntity();
+
+                Helper::throwIfDenied($change, 'update');
 
                 _em()->remove($change);
                 _em()->flush();

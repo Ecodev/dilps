@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AppTest\Api;
 
 use Application\Api\Server;
+use Application\Model\User;
 use ApplicationTest\Traits\TestWithTransaction;
 use PHPUnit\Framework\TestCase;
 use Zend\Diactoros\ServerRequest;
@@ -24,6 +25,8 @@ class ServerTest extends TestCase
      */
     public function testQuery(?string $user, ServerRequest $request, array $expected): void
     {
+        User::setCurrent(_em()->getRepository(User::class)->findOneByLogin($user));
+
         // Use this flag to easily debug API test issues
         $debug = false;
 

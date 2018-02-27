@@ -28,6 +28,12 @@ class User extends AbstractModel
      */
     const TYPE_UNIL = 'unil';
 
+    const ROLE_ANONYMOUS = 'anonymous';
+    const ROLE_STUDENT = 'student';
+    const ROLE_JUNIOR = 'junior';
+    const ROLE_SENIOR = 'senior';
+    const ROLE_ADMINISTRATOR = 'administrator';
+
     /**
      * @var User
      */
@@ -75,10 +81,10 @@ class User extends AbstractModel
     private $email;
 
     /**
-     * @var bool
-     * @ORM\Column(type="boolean")
+     * @var string
+     * @ORM\Column(type="UserRole", options={"default" = User::ROLE_STUDENT})
      */
-    private $isAdministrator = false;
+    private $role = self::ROLE_STUDENT;
 
     /**
      * @var DateTimeImmutable
@@ -175,24 +181,26 @@ class User extends AbstractModel
 
     /**
      * Returns whether the user is administrator and thus have can do anything.
+     *
+     * @API\Field(type="Application\Api\Enum\UserRoleType")
      */
-    public function isAdministrator(): bool
+    public function getRole(): string
     {
-        return $this->isAdministrator;
+        return $this->role;
     }
 
     /**
-     * Sets whether the user is administrator
+     * Sets the user role
      *
-     * This property should only be set manually in DB by a developer.
+     * This property should only be set via dedicated mutations
      *
      * @API\Exclude
      *
-     * @param bool $isAdministrator
+     * @param string $role
      */
-    public function setIsAdministrator(bool $isAdministrator): void
+    public function setRole(string $role): void
     {
-        $this->isAdministrator = $isAdministrator;
+        $this->role = $role;
     }
 
     /**

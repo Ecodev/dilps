@@ -22,10 +22,9 @@ class AcceptChange implements FieldInterface
                 'id' => Type::nonNull(_types()->getId(Change::class)),
             ],
             'resolve' => function ($root, array $args): ?Card {
-//                Helper::throwIfDenied('change', 'update');
-
                 /** @var Change $change */
                 $change = $args['id']->getEntity();
+                Helper::throwIfDenied($change, 'update');
 
                 $image = null;
                 switch ($change->getType()) {

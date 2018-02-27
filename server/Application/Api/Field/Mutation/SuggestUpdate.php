@@ -24,8 +24,6 @@ class SuggestUpdate implements FieldInterface
                 'request' => Type::nonNull(Type::string()),
             ],
             'resolve' => function ($root, array $args): Change {
-//                Helper::throwIfDenied('change', 'create');
-
                 $suggestion = $args['id']->getEntity();
                 $original = $suggestion->getOriginal();
 
@@ -34,6 +32,7 @@ class SuggestUpdate implements FieldInterface
                 }
 
                 $change = _em()->getRepository(Change::class)->getOrCreate(Change::TYPE_UPDATE, $suggestion, $args['request']);
+                Helper::throwIfDenied($change, 'create');
 
                 if (!$change->getId()) {
                     _em()->flush();

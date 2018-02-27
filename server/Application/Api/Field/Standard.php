@@ -52,6 +52,8 @@ abstract class Standard
                 'resolve' => function ($root, array $args): ?AbstractModel {
                     $object = $args['id']->getEntity();
 
+                    Helper::throwIfDenied($object, 'read');
+
                     return $object;
                 },
             ],
@@ -83,8 +85,7 @@ abstract class Standard
                 'resolve' => function ($root, array $args) use ($class, $lowerName): AbstractModel {
                     // Check ACL
                     $object = new $class();
-//                    Helper::loadContextFromArgs($args, $object);
-//                    Helper::throwIfDenied($lowerName, 'create');
+                    Helper::throwIfDenied($object, 'create');
 
                     // Do it
                     $input = $args['input'];
@@ -107,8 +108,7 @@ abstract class Standard
                     $object = $args['id']->getEntity();
 
                     // Check ACL
-//                    Helper::loadContextFromObject($object);
-//                    Helper::throwIfDenied($object, 'edit');
+                    Helper::throwIfDenied($object, 'update');
 
                     // Do it
                     $input = $args['input'];
@@ -131,8 +131,7 @@ abstract class Standard
                         $object = $id->getEntity();
 
                         // Check ACL
-//                    Helper::loadContextFromObject($object);
-//                    Helper::throwIfDenied($object, 'edit');
+                        Helper::throwIfDenied($object, 'update');
 
                         // Do it
                         _em()->remove($object);
@@ -191,8 +190,7 @@ abstract class Standard
                     }
 
                     // Check ACL
-//                    Helper::loadContextFromObject($owner);
-//                    Helper::throwIfDenied($owner, 'edit');
+                    Helper::throwIfDenied($owner, 'update');
 
                     // Do it
                     $method = 'add' . $otherName;
@@ -217,8 +215,7 @@ abstract class Standard
                     }
 
                     // Check ACL
-//                    Helper::loadContextFromObject($owner);
-//                    Helper::throwIfDenied($owner, 'edit');
+                    Helper::throwIfDenied($owner, 'update');
 
                     // Do it
                     if ($other) {

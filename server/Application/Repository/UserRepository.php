@@ -29,6 +29,8 @@ class UserRepository extends AbstractRepository
             $qb->setParameter('search', '%' . $filters['search'] . '%');
         }
 
+        $qb->addOrderBy('user.id');
+
         return $qb;
     }
 

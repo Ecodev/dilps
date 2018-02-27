@@ -16,6 +16,8 @@ abstract class AbstractRepository extends EntityRepository
             $qb->andWhere('o.' . $key . '=' . $this->getEntityManager()->getConnection()->quote($value));
         }
 
+        $qb->addOrderBy('o.id');
+
         return $qb;
     }
 }

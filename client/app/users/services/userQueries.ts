@@ -23,7 +23,7 @@ query User($id: UserID!) {
         email
         login
         activeUntil
-        isAdministrator
+        role
         termsAgreement
         type
         institution {
@@ -76,7 +76,7 @@ mutation Login ($login: Login! $password: String!){
         email
         login
         activeUntil
-        isAdministrator
+        role
         termsAgreement
         type
         institution {
@@ -107,7 +107,7 @@ query Viewer {
         email
         login
         activeUntil
-        isAdministrator
+        role
         termsAgreement
         type
         institution {

@@ -23,11 +23,10 @@ class SuggestDeletion implements FieldInterface
                 'request' => Type::nonNull(Type::string()),
             ],
             'resolve' => function ($root, array $args): Change {
-//                Helper::throwIfDenied('change', 'create');
-
                 $original = $args['id']->getEntity();
-
                 $change = _em()->getRepository(Change::class)->getOrCreate(Change::TYPE_DELETE, $original, $args['request']);
+
+                Helper::throwIfDenied($change, 'create');
 
                 if (!$change->getId()) {
                     _em()->flush();
