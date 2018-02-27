@@ -15,6 +15,7 @@ import { UploadService } from '../shared/services/upload.service';
     selector: 'app-card',
     templateUrl: './card.component.html',
     styleUrls: ['./card.component.scss'],
+    providers: [UploadService],
 })
 export class CardComponent implements OnInit, OnChanges, OnDestroy {
 
@@ -22,12 +23,12 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
     @Input() public title: string;
     @Input() public showLogo = false;
 
-    @Input() public imageSrc;
     @Input() public imageData;
+    @Input() public imageSrc;
+    @Input() public imageSrcFull;
 
-    public edit = false;
+    private edit = false;
     public status = 1;
-
     public statuses = {
         1: {
             value: 'new',
@@ -49,6 +50,12 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
     public artistComponent = ArtistComponent;
     private uploadSub;
 
+    @Input()
+    set editable(val: boolean) {
+        this.edit = val;
+        this.updateUploadWatching();
+    }
+
     constructor(private route: ActivatedRoute,
                 private router: Router,
                 private changeSvc: ChangeService,
@@ -63,22 +70,21 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
     ngOnInit() {
 
         this.route.data.subscribe(data => this.showLogo = data.showLogo);
-        if (this.route.snapshot.data['card']) {
-            this.model = merge({}, this.route.snapshot.data['card']); // merge to have editable object instead of apollo readonly object
+        if (this.route.snapshot.data['card']) { // edition
+            // merge to have editable object instead of apollo readonly object
+            this.model = merge({}, this.route.snapshot.data['card']);
             this.initCard();
-        } else if (!this.model) {
+
+        } else if (!this.model) { // creation
             this.model = this.cardSvc.getEmptyObject();
             this.initCard();
-            this.model.file = this.uploadSvc.pending;
-            this.getBase64(this.uploadSvc.pending);
+            this.model.file = UploadService.pending;
+            this.getBase64(this.model.file);
             this.edit = true;
+            UploadService.pending = null;
         }
 
-        this.uploadSub = this.uploadSvc.filesChanged.subscribe(files => {
-            const file = files[files.length - 1];
-            this.model.file = file;
-            this.getBase64(file);
-        });
+        this.updateUploadWatching();
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -86,8 +92,38 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     ngOnDestroy() {
+        this.unwatchUpload();
+    }
+
+    public isEdit() {
+        return this.edit;
+    }
+
+    public toggleEdit() {
+        this.edit = !this.edit;
+        this.updateUploadWatching();
+    }
+
+    public updateUploadWatching() {
+        if (this.edit) {
+            this.watchUpload();
+        } else {
+            this.unwatchUpload();
+        }
+    }
+
+    public watchUpload() {
+        this.uploadSub = this.uploadSvc.filesChanged.subscribe(files => {
+            const file = files[files.length - 1];
+            this.model.file = file;
+            this.getBase64(file);
+        });
+    }
+
+    public unwatchUpload() {
         if (this.uploadSub) {
             this.uploadSub.unsubscribe();
+            this.uploadSub = null;
         }
     }
 
@@ -115,6 +151,11 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
             const src = CardService.getImageLink(this.model, 2000);
             if (src) {
                 this.imageSrc = src;
+            }
+
+            const srcFull = CardService.getImageLink(this.model, null);
+            if (srcFull) {
+                this.imageSrcFull = srcFull;
             }
         }
     }
@@ -171,9 +212,7 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
 
     public suggestCreation() {
         this.cardSvc.create(this.model).subscribe(card => {
-            console.log('card', card);
             this.changeSvc.suggestCreation(card).subscribe((c) => {
-                console.log('c', c);
                 this.router.navigateByUrl('notification');
             });
         });

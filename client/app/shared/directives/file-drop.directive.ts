@@ -19,7 +19,7 @@ export class FileDropDirective extends ngfDrop {
         // Automatically change the class, but not too often to avoid visual flickering
         const fileOverClass = 'app-file-drag-n-drop-file-over';
         this.fileOver
-            .pipe((sampleTime(200)))
+            .pipe((sampleTime(100)))
             .subscribe(fileOver => {
                 if (fileOver) {
                     element.nativeElement.classList.add(fileOverClass);

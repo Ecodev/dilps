@@ -15,6 +15,7 @@ export class ChangeComponent implements OnInit {
     public original;
     public suggestion;
     public suggestionImageSrc;
+    public suggestionImageSrcFull;
     public loaded = false;
 
     constructor(private route: ActivatedRoute,
@@ -27,8 +28,8 @@ export class ChangeComponent implements OnInit {
 
         if (this.route.snapshot.params['changeId']) {
             this.changeService.getOne(this.route.snapshot.params['changeId']).subscribe(change => {
-                console.log('change', change);
                 this.change = merge({}, change);
+                this.suggestionImageSrcFull = CardService.getImageLink(this.change.original, null);
                 this.suggestionImageSrc = CardService.getImageLink(this.change.original, 2000);
                 this.loaded = true;
             });
@@ -36,6 +37,7 @@ export class ChangeComponent implements OnInit {
             this.cardService.getOne(this.route.snapshot.params['cardId']).subscribe(card => {
                 this.original = merge({}, card);
                 this.suggestion = omit(merge({}, card, {original: card}), 'id');
+                this.suggestionImageSrcFull = CardService.getImageLink(card, null);
                 this.suggestionImageSrc = CardService.getImageLink(card, 2000);
                 this.loaded = true;
             });
@@ -47,7 +49,11 @@ export class ChangeComponent implements OnInit {
 
     public accept() {
         this.changeService.acceptChange(this.change).subscribe(card => {
-            this.router.navigateByUrl('card/' + card.id);
+            if (card) {
+                this.router.navigateByUrl('card/' + card.id);
+            } else {
+                this.router.navigateByUrl('notification');
+            }
         });
     }
 

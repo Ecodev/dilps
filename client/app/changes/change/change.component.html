@@ -51,10 +51,15 @@
                     <div class="mat-display-1">Suppression de la fiche</div>
                 </div>
                 <div fxFlex fxLayout="column" *ngIf="change && change.suggestion">
-                    <app-card fxFlex [(model)]="change.suggestion" title="Suggestion" [imageSrc]="suggestionImageSrc"></app-card>
+                    <app-card fxFlex
+                              title="Suggestion"
+                              [(model)]="change.suggestion"
+                              [imageSrc]="suggestionImageSrc"
+                              [editable]="true"
+                    ></app-card>
                 </div>
                 <div fxFlex fxLayout="column" *ngIf="suggestion">
-                    <app-card fxFlex [(model)]="suggestion" title="Suggestion" [imageSrc]="suggestionImageSrc"></app-card>
+                    <app-card fxFlex [(model)]="suggestion" title="Suggestion" [imageSrc]="suggestionImageSrc" [editable]="true"></app-card>
                 </div>
             </div>
         </div>

@@ -623,7 +623,7 @@ class Card extends AbstractModel
         $original->getName();
 
         // Copy scalars
-        $blacklist = ['id', 'filename', 'file_size', 'height', 'width', '__initializer__', '__cloner__', '__isInitialized__'];
+        $blacklist = ['id', 'filename', '__initializer__', '__cloner__', '__isInitialized__'];
         foreach ($this as $property => $value) {
             if (in_array($property, $blacklist, true)) {
                 continue;

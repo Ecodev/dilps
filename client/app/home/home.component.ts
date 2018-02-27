@@ -32,7 +32,6 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
-
         // Watch errors
         this.network.errors.subscribe(errors => {
             this.errors = this.errors.concat(errors);
@@ -40,29 +39,10 @@ export class HomeComponent implements OnInit {
                 this.alertSvc.error('Quelque chose s\'est mal passé !');
             }
         });
-
-        this.uploadSvc.filesChanged.subscribe(files => {
-            this.addPhotos(files);
-        });
-    }
-
-    public addPhotos(files) {
-
-        try {
-            const routeUrlTree = this.router.createUrlTree([this.route]);
-            const routeIsActive = this.router.isActive(routeUrlTree, true);
-
-            if (!routeIsActive) {
-                this.uploadPhoto(files);
-            }
-
-        } catch (e) {
-            this.uploadPhoto(files);
-        }
     }
 
     public uploadPhoto(files) {
-        this.uploadSvc.pending = isArray(files) ? files[files.length - 1] : files;
+        UploadService.pending = isArray(files) ? files[files.length - 1] : files;
         this.router.navigateByUrl('/card/new');
     }
 
