@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 import { UserService } from '../users/services/user.service';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { NetworkActivityService } from '../shared/services/network-activity.service';
@@ -30,7 +31,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     /**
      * Subscription to the logged in user observable
      */
-    private currentUser: any;
+    private currentUser: Subscription;
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
@@ -42,13 +43,16 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+        const logout = this.route.snapshot.queryParams['logout'] || false;
 
         // Attempt to skip login if user is already logged in
-        this.currentUser = this.userService.getCurrentUser().subscribe(user => {
-            if (user) {
-                this.redirect();
-            }
-        });
+        if (!logout) {
+            this.currentUser = this.userService.getCurrentUser().subscribe(user => {
+                if (user) {
+                    this.redirect();
+                }
+            });
+        }
 
         // Watch errors
         this.network.errors.subscribe(errors => {
@@ -64,7 +68,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.currentUser.unsubscribe();
+        if (this.currentUser) {
+            this.currentUser.unsubscribe();
+        }
     }
 
     /**

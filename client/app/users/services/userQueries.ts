@@ -68,3 +68,59 @@ export const deleteUsersMutation = gql`
 mutation DeleteUsers ($ids: [UserID!]!){
     deleteUsers(ids: $ids)
 }`;
+
+export const loginMutation = gql`
+mutation Login ($login: Login! $password: String!){
+    login(login: $login password: $password) {
+        id
+        email
+        login
+        activeUntil
+        isAdministrator
+        termsAgreement
+        type
+        institution {
+            id
+            name
+        }
+        creationDate
+        creator {
+            ...userMeta
+        }
+        updateDate
+        updater {
+            ...userMeta
+        }
+    }
+}${userMetaFragment}`;
+
+export const logoutMutation = gql`
+mutation Logout {
+    logout
+}`;
+
+
+export const viewerQuery = gql`
+query Viewer {
+    viewer {
+        id
+        email
+        login
+        activeUntil
+        isAdministrator
+        termsAgreement
+        type
+        institution {
+            id
+            name
+        }
+        creationDate
+        creator {
+            ...userMeta
+        }
+        updateDate
+        updater {
+            ...userMeta
+        }
+    }
+}${userMetaFragment}`;
