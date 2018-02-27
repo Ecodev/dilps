@@ -1,0 +1,24 @@
+@mixin upload($theme) {
+    $primary: map-get($theme, primary);
+    .app-file-drag-n-drop-overlay {
+        display: none;
+    }
+
+    .app-file-drag-n-drop-file-over > .app-file-drag-n-drop-overlay {
+        position: fixed;
+        z-index: 99999;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: mat-color($primary, 0.9);
+        color: mat-color($primary, default-contrast);
+        font-size: 5vw;
+        line-height: 1.3em;
+        text-align: center
+    }
+
+}

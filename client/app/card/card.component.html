@@ -1,4 +1,4 @@
-<div fxFlex fxLayout="row" *ngIf="model">
+<div fxFlex fxLayout="row" *ngIf="model" appFileDrop>
 
     <div fxFlex="400px" class="containerWithToolbar" fxLayout="column">
         <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center">
@@ -9,18 +9,22 @@
             <div fxFlex></div>
 
             <mat-menu #changeMenu="matMenu" [overlapTrigger]="false">
-                <button mat-menu-item (click)="suggestUpdate()">Suggérer une modification</button>
-                <button mat-menu-item (click)="suggestDeletion()">Suggérer la suppression</button>
+                <button mat-menu-item (click)="suggestUpdate()" *ngIf="model.id">Suggérer une modification</button>
+                <button mat-menu-item (click)="suggestDeletion()" *ngIf="model.id">Suggérer la suppression</button>
+                <button mat-menu-item (click)="suggestCreation()" *ngIf="!model.id">Suggérer l'ajout</button>
             </mat-menu>
 
             <button mat-icon-button [matMenuTriggerFor]="changeMenu" matTooltip="Signaler un changement">
                 <mat-icon>add_alert</mat-icon>
             </button>
 
-            <button mat-icon-button color="primary" (click)="update()" *ngIf="edit" matTooltip="Enregistrer">
+            <button mat-icon-button (click)="create()" *ngIf="!model.id" matTooltip="Créer">
+                <mat-icon>add</mat-icon>
+            </button>
+            <button mat-icon-button (click)="update()" *ngIf="edit && model.id" matTooltip="Enregistrer">
                 <mat-icon>save</mat-icon>
             </button>
-            <button mat-icon-button (click)="edit = !edit" [matTooltip]="'Passer en mode édition'">
+            <button mat-icon-button (click)="edit = !edit" *ngIf="model.id" [matTooltip]="'Passer en mode édition'">
                 <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button color="warn" (click)="confirmDelete()" matTooltip="Supprimer">
@@ -164,7 +168,8 @@
 
     <div fxFlex class="containerWithToolbar" fxLayout="column">
         <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center"></mat-toolbar>
-        <div class="image" fxFlex [ngStyle]="{'background-image': 'url(' + imageSrc + ')'}"></div>
+        <div *ngIf=imageSrc class="image" fxFlex [ngStyle]="{'background-image': 'url(' + imageSrc + ')'}"></div>
+        <div *ngIf="imageData" class="image" fxFlex [ngStyle]="{'background-image': 'url(data:image;base64,' + imageData + ')'}"></div>
     </div>
 
 </div>

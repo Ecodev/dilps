@@ -78,6 +78,10 @@ import { StampComponent } from './shared/components/stamp/stamp.component';
 import { ChangesComponent } from './changes/changes/changes.component';
 import { ChangeService } from './changes/services/change.service';
 import { ChangeComponent } from './changes/change/change.component';
+import { ngfModule } from 'angular-file';
+import { UploadService } from './shared/services/upload.service';
+import { FileDropDirective } from './shared/directives/file-drop.directive';
+
 
 @NgModule({
     declarations: [
@@ -105,7 +109,8 @@ import { ChangeComponent } from './changes/change/change.component';
         DialogFooterComponent,
         StampComponent,
         ChangesComponent,
-        ChangeComponent
+        ChangeComponent,
+        FileDropDirective
     ],
     entryComponents: [
         ConfirmComponent,
@@ -147,6 +152,7 @@ import { ChangeComponent } from './changes/change/change.component';
         MatDatepickerModule,
         MatNativeDateModule,
         MatChipsModule,
+        ngfModule,
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyBIBMlG6xXDmpPERQgKdo_Dwhtz5SX5dto',
             libraries: ['places'],
@@ -165,6 +171,7 @@ import { ChangeComponent } from './changes/change/change.component';
         InstitutionService,
         ArtistService,
         ChangeService,
+        UploadService
     ],
     bootstrap: [AppComponent],
 })

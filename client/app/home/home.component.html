@@ -1,4 +1,4 @@
-<div fxFlex fxLayout="column">
+<div fxFlex fxLayout="column" appFileDrop>
 
     <mat-sidenav-container #navContainer fxFlex fxLayout="column">
         <mat-sidenav *ngIf="initialized" id="menu" align="start" mode="side" opened="true" class="menuMinimized">
@@ -21,7 +21,7 @@
                             <mat-icon mat-list-icon>collections</mat-icon>
                         </a>
 
-                        <!-- Mes collections -->
+                        <!-- Mes collections privées -->
                         <a mat-list-item
                            routerLink="/my-collection"
                            routerLinkActive="active"
@@ -49,6 +49,16 @@
                            matTooltip="Notifications"
                         >
                             <mat-icon mat-list-icon>notifications</mat-icon>
+                        </a>
+
+                        <!-- Add photos -->
+                        <a mat-list-item
+                           matTooltipPosition="after"
+                           matTooltip="Ajouter une image"
+                           ngfSelect
+                           (fileChange)="addPhotos($event)"
+                        >
+                            <mat-icon mat-list-icon>file_upload</mat-icon>
                         </a>
 
                     </mat-nav-list>

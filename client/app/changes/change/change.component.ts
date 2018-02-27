@@ -15,6 +15,7 @@ export class ChangeComponent implements OnInit {
     public original;
     public suggestion;
     public suggestionImageSrc;
+    public loaded = false;
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
@@ -23,19 +24,24 @@ export class ChangeComponent implements OnInit {
     }
 
     ngOnInit() {
+
         if (this.route.snapshot.params['changeId']) {
             this.changeService.getOne(this.route.snapshot.params['changeId']).subscribe(change => {
+                console.log('change', change);
                 this.change = merge({}, change);
                 this.suggestionImageSrc = CardService.getImageLink(this.change.original, 2000);
+                this.loaded = true;
             });
         } else if (this.route.snapshot.params['cardId']) {
             this.cardService.getOne(this.route.snapshot.params['cardId']).subscribe(card => {
                 this.original = merge({}, card);
                 this.suggestion = omit(merge({}, card, {original: card}), 'id');
                 this.suggestionImageSrc = CardService.getImageLink(card, 2000);
+                this.loaded = true;
             });
         } else {
             this.suggestion = {};
+            this.loaded = true;
         }
     }
 

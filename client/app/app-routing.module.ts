@@ -34,11 +34,16 @@ export const routes: Routes = [
                 data: {showLogo: true},
             },
             {
+                path: 'card/new',
+                component: CardComponent,
+                data: {showLogo: true},
+                runGuardsAndResolvers: 'always',
+            },
+            {
                 path: 'card/:cardId',
                 component: CardComponent,
                 resolve: {card: CardResolver},
                 data: {showLogo: true},
-
             },
             {
                 path: 'profile',
@@ -102,7 +107,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
+    imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
     exports: [RouterModule],
 })
 export class AppRoutingModule {

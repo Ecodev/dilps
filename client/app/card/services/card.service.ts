@@ -32,7 +32,7 @@ export class CardService extends AbstractModelService<CardQuery['card'],
     }
 
     public static getImageLink(card, height) {
-        if (!card.id || !card.hasImage || !height) {
+        if (!card || !card.id || !card.hasImage || !height) {
             return null;
         }
 

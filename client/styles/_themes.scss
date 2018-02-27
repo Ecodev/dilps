@@ -12,6 +12,7 @@
 @import 'scroll';
 @import 'toolbar';
 @import 'table';
+@import 'upload';
 @import '../app/shared/components/table-button/table-button.theme';
 @import '../app/collections/collections/collections.theme';
 @import '../app/shared/components/alert/alert.theme';
@@ -33,6 +34,7 @@
     @include collections($theme);
     @include alert($theme);
     @include address($theme);
+    @include upload($theme);
 }
 
 $mat-dilps: (

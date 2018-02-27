@@ -415,6 +415,10 @@ amqplib@^0.5.2:
     readable-stream "1.x >=1.1.9"
     safe-buffer "^5.0.1"
 
+angular-file@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/angular-file/-/angular-file-0.5.1.tgz#553ed4863306d0dbfcb9c185252e4275df80f602"
+
 angular-natural-gallery@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/angular-natural-gallery/-/angular-natural-gallery-0.3.0.tgz#46ef6f2cdb702aea20897e8a68824e72ea59aafa"

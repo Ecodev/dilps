@@ -69,7 +69,7 @@ export class ListComponent implements OnInit {
 
             const fields = {
                 link: 'true',
-                title: card.name,
+                title: card.name ? card.name : 'Voir le détail',
             };
 
             return merge({}, card, thumb, big, fields);
