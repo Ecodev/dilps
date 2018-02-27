@@ -44,7 +44,8 @@ class UserRepository extends AbstractRepository
     {
         /** @var User $user */
         $user = $this->findOneByLogin($login);
-        if (!$user || ($user->getActiveUntil() && $user->getActiveUntil() > new DateTimeImmutable())) {
+
+        if (!$user || ($user->getActiveUntil() && $user->getActiveUntil() < new DateTimeImmutable())) {
             return null;
         }
 
