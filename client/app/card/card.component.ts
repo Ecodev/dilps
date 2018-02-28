@@ -10,6 +10,7 @@ import { ArtistComponent } from '../artists/artist/artist.component';
 import { InstitutionComponent } from '../institutions/institution/institution.component';
 import { ChangeService } from '../changes/services/change.service';
 import { UploadService } from '../shared/services/upload.service';
+import { Visibility } from '../shared/generated-types';
 
 @Component({
     selector: 'app-card',
@@ -41,6 +42,25 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
         },
         3: {
             value: 'reviewed',
+            text: 'par tout le monde',
+            color: 'primary',
+        },
+    };
+
+    public visibility = 1;
+    public visibilities = {
+        1: {
+            value: Visibility.private,
+            text: 'par moi',
+            color: null,
+        },
+        2: {
+            value: Visibility.member,
+            text: 'par les membres',
+            color: 'accent',
+        },
+        3: {
+            value: Visibility.public,
             text: 'par tout le monde',
             color: 'primary',
         },
@@ -148,6 +168,14 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
                 return s.value === this.model.status;
             });
 
+            // Init visibility
+            this.visibility = +findKey(this.visibilities, (s) => {
+                console.log(s.value, this.model.visibility);
+                return s.value === this.model.visibility;
+            });
+
+            console.log(this.visibility);
+
             const src = CardService.getImageLink(this.model, 2000);
             if (src) {
                 this.imageSrc = src;
@@ -162,6 +190,10 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
 
     public updateStatus(ev) {
         this.model.status = this.statuses[ev.value].value;
+    }
+
+    public updateVisibility(ev) {
+        this.model.visibility = this.visibilities[ev.value].value;
     }
 
     public onSubmit() {
