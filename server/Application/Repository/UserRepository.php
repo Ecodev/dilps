@@ -6,7 +6,6 @@ namespace Application\Repository;
 
 use Application\Model\User;
 use DateTimeImmutable;
-use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\ORM\QueryBuilder;
 
 class UserRepository extends AbstractRepository implements LimitedAccessSubQueryInterface
@@ -81,18 +80,29 @@ class UserRepository extends AbstractRepository implements LimitedAccessSubQuery
      */
     public function getOneByLogin(?string $login): ?User
     {
-        $rsm = new ResultSetMappingBuilder($this->getEntityManager());
-        $rsm->addRootEntityFromClassMetadata(User::class, 'user');
+        $this->getAclFilter()->setEnabled(false);
+        $user = $this->findOneByLogin($login);
+        $this->getAclFilter()->setEnabled(true);
 
-        $qb = $this->getEntityManager()->getConnection()->createQueryBuilder()
-            ->select($rsm->generateSelectClause())
-            ->from('user')
-            ->andWhere('user.login = :login');
+        return $user;
+    }
 
-        $query = $this->getEntityManager()->createNativeQuery($qb, $rsm)
-            ->setParameter('login', $login);
+    /**
+     * Unsecured way to get a user from its ID.
+     *
+     * This should only be used in tests or controlled environment.
+     *
+     * @param int $id
+     *
+     * @return null|User
+     */
+    public function getOneById(int $id): ?User
+    {
+        $this->getAclFilter()->setEnabled(false);
+        $user = $this->findOneById($id);
+        $this->getAclFilter()->setEnabled(true);
 
-        return $query->getOneOrNullResult();
+        return $user;
     }
 
     /**

@@ -40,7 +40,7 @@ class AuthenticationMiddleware implements MiddlewareInterface
         $session = $request->getAttribute(SessionMiddleware::SESSION_ATTRIBUTE);
 
         if ($session->has('user')) {
-            $user = $this->userRepository->findOneById($session->get('user'));
+            $user = $this->userRepository->getOneById($session->get('user'));
 
             if ($user && (!$user->getActiveUntil() || $user->getActiveUntil() > new DateTimeImmutable())) {
                 User::setCurrent($user);

@@ -78,7 +78,7 @@ class AuthenticationMiddlewareTest extends TestCase
                 $this->user = $user;
             }
 
-            public function findOneById($id): ?User
+            public function getOneById(int $id): ?User
             {
                 return $this->user;
             }
@@ -86,7 +86,7 @@ class AuthenticationMiddlewareTest extends TestCase
 
         $session = new Session([]);
         if ($userInSession) {
-            $session->set('user', 'foo');
+            $session->set('user', 123);
         }
         $request = new ServerRequest();
         $request = $request->withAttribute(SessionMiddleware::SESSION_ATTRIBUTE, $session);
