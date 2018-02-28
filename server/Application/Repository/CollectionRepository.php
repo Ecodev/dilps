@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Application\Repository;
 
-use Doctrine\ORM\QueryBuilder;
 use Application\Model\Card;
 use Application\Model\User;
+use Doctrine\ORM\QueryBuilder;
 
 class CollectionRepository extends AbstractRepository implements LimitedAccessSubQueryInterface
 {
