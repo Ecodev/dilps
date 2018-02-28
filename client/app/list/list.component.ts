@@ -158,6 +158,10 @@ export class ListComponent implements OnInit {
 
         this.dialog.open(CollectionSelectorComponent, {
             width: '400px',
+            position: {
+                top: '74px',
+                right: '10px',
+            },
             data: {
                 images: selection,
             },

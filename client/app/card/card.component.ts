@@ -11,6 +11,8 @@ import { InstitutionComponent } from '../institutions/institution/institution.co
 import { ChangeService } from '../changes/services/change.service';
 import { UploadService } from '../shared/services/upload.service';
 import { Visibility } from '../shared/generated-types';
+import { CollectionSelectorComponent } from '../shared/components/collection-selector/collection-selector.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
     selector: 'app-card',
@@ -84,7 +86,8 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
                 private alertSvc: AlertService,
                 public artistService: ArtistService,
                 public institutionSvc: InstitutionService,
-                private uploadSvc: UploadService) {
+                private uploadSvc: UploadService,
+                private dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -247,4 +250,17 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
         });
     }
 
+    public linkToCollection() {
+
+        this.dialog.open(CollectionSelectorComponent, {
+            width: '400px',
+            position: {
+                top: '74px',
+                left: '74px',
+            },
+            data: {
+                images: [this.model],
+            },
+        });
+    }
 }
