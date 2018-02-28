@@ -1,7 +1,6 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { ThemeService } from './shared/services/theme.service';
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { NetworkActivityService } from './shared/services/network-activity.service';
 
 @Component({
     selector: 'app-root',
@@ -21,7 +20,7 @@ export class AppComponent implements OnInit {
      */
     public initialized: boolean;
 
-    constructor(private themeSvc: ThemeService, private overlayContainer: OverlayContainer, private network: NetworkActivityService) {
+    constructor(private themeSvc: ThemeService, private overlayContainer: OverlayContainer) {
     }
 
     public ngOnInit() {
