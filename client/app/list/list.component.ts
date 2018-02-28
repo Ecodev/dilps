@@ -46,6 +46,16 @@ export class ListComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.route.params.subscribe(params => {
+            if (params.collectionId) {
+                this.collection = {
+                    id: params.collectionId,
+                    __typename: 'Collection',
+                };
+                this.galleryCollection = [];
+                this.queryVariables.patch({filters: {collections: [params.collectionId]}});
+            }
+        });
 
         this.route.data.subscribe(data => {
 
@@ -57,23 +67,12 @@ export class ListComponent implements OnInit {
                 filters = this.route.snapshot.data.filters;
             }
 
-            if (data.creator) {
+            if (data.creator && !this.collection) {
                 filters.creators = [data.creator.id];
             }
 
             this.galleryCollection = [];
             this.queryVariables.patch({filters: filters});
-        });
-
-        this.route.params.subscribe(params => {
-            if (params.collectionId) {
-                this.collection = {
-                    id: params.collectionId,
-                    __typename: 'Collection',
-                };
-                this.galleryCollection = [];
-                this.queryVariables.patch({filters: {collections: [params.collectionId]}});
-            }
         });
 
         this.options = {
