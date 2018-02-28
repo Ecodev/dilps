@@ -60,8 +60,6 @@ class Acl extends \Zend\Permissions\Acl\Acl
         $this->allow(User::ROLE_STUDENT, new ModelResource(Tag::class), 'create');
         $this->allow(User::ROLE_STUDENT, new ModelResource(User::class), 'read');
 
-        $this->allow(User::ROLE_SENIOR, new ModelResource(Change::class), ['update', 'delete']);
-
         // Administrator inherits nothing, but is allowed all privileges
         $this->allow(User::ROLE_ADMINISTRATOR);
     }

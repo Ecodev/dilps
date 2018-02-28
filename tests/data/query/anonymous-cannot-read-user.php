@@ -16,8 +16,8 @@ return [
         ],
         'errors' => [
             [
-                'message' => 'Non-logged user with role anonymous is not allowed on resource "User#1000" with privilege "read"',
-                'category' => 'Permissions',
+                'message' => 'Entity not found for class `Application\Model\User` and ID `1000`',
+                'category' => 'graphql',
                 'locations' => [
                     [
                         'line' => 2,

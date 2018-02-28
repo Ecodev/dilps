@@ -9,7 +9,7 @@ fragment cardDetails on Card {
     hasImage
     height
     width
-    isPublic
+    visibility
     dating
     artists {
         id

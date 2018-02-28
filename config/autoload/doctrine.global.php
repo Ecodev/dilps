@@ -35,6 +35,9 @@ return [
                 'naming_strategy' => \Doctrine\ORM\Mapping\UnderscoreNamingStrategy::class,
                 'proxy_dir' => 'data/cache/DoctrineORMModule/Proxy',
                 'generate_proxies' => false,
+                'filters' => [
+                    \Application\ORM\Query\Filter\AclFilter::class => \Application\ORM\Query\Filter\AclFilter::class,
+                ],
             ],
         ],
         'types' => [
@@ -42,6 +45,7 @@ return [
             'UserRole' => Application\DBAL\Types\UserRoleType::class,
             'CardStatus' => Application\DBAL\Types\CardStatusType::class,
             'ChangeType' => Application\DBAL\Types\ChangeTypeType::class,
+            'Visibility' => Application\DBAL\Types\VisibilityType::class,
         ],
         // migrations configuration
         'migrations_configuration' => [

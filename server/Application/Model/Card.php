@@ -9,6 +9,7 @@ use Application\Traits\CardSimpleProperties;
 use Application\Traits\HasAddress;
 use Application\Traits\HasInstitution;
 use Application\Traits\HasName;
+use Application\Traits\HasVisibility;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection as DoctrineCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -36,11 +37,16 @@ class Card extends AbstractModel
     use HasInstitution;
     use HasAddress;
     use CardSimpleProperties;
+    use HasVisibility;
 
     private const IMAGE_PATH = 'data/images/';
     const STATUS_NEW = 'new';
     const STATUS_EDITED = 'edited';
     const STATUS_REVIEWED = 'reviewed';
+
+    const VISIBILITY_PRIVATE = 'private';
+    const VISIBILITY_MEMBER = 'member';
+    const VISIBILITY_PUBLIC = 'public';
 
     /**
      * @var string
@@ -65,12 +71,6 @@ class Card extends AbstractModel
      * @ORM\Column(type="integer")
      */
     private $height = 0;
-
-    /**
-     * @var bool
-     * @ORM\Column(type="boolean", options={"default" = false}))
-     */
-    private $isPublic = false;
 
     /**
      * @var string
@@ -237,26 +237,6 @@ class Card extends AbstractModel
         if (file_exists($path) && is_file($path) && $this->getFilename() !== 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg') {
             unlink($path);
         }
-    }
-
-    /**
-     * Return whether this card is publicly available to everybody
-     *
-     * @return bool
-     */
-    public function isPublic(): bool
-    {
-        return $this->isPublic;
-    }
-
-    /**
-     * Set whether this card is publicly available to everybody
-     *
-     * @param bool $isPublic
-     */
-    public function setIsPublic(bool $isPublic): void
-    {
-        $this->isPublic = $isPublic;
     }
 
     /**

@@ -6,6 +6,7 @@ namespace ApplicationTest\Repository;
 
 use Application\Model\Card;
 use Application\Model\Change;
+use Application\Model\User;
 use Application\Repository\ChangeRepository;
 
 /**
@@ -26,6 +27,7 @@ class ChangeRepositoryTest extends AbstractRepositoryTest
 
     public function testGetOpenChange(): void
     {
+        User::setCurrent(_em()->getRepository(User::class)->getOneByLogin('administrator'));
         $request = '';
         $creationSuggestion = _em()->getReference(Card::class, 6001);
         $updateSuggestion = _em()->getReference(Card::class, 6002);

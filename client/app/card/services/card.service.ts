@@ -10,6 +10,7 @@ import {
     CreateCardMutation,
     DeleteCardsMutation,
     UpdateCardMutation,
+    Visibility,
 } from '../../shared/generated-types';
 import { AbstractModelService } from '../../shared/services/abstract-model.service';
 import { cardQuery, cardsQuery, createCardMutation, deleteCardsMutation, updateCardMutation, } from './cardQueries';
@@ -85,7 +86,7 @@ export class CardService extends AbstractModelService<CardQuery['card'],
             muserisUrl: '',
             muserisCote: '',
             name: '',
-            isPublic: false,
+            visibility: Visibility.private,
             artists: [],
             institution: null,
             street: '',

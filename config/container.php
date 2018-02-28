@@ -6,6 +6,8 @@ use GraphQL\Doctrine\Types;
 use Zend\ServiceManager\Config;
 use Zend\ServiceManager\ServiceManager;
 
+require_once 'server/Debug.php';
+
 // Load configuration
 $config = require __DIR__ . '/config.php';
 

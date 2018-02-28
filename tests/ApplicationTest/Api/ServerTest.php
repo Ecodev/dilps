@@ -25,7 +25,7 @@ class ServerTest extends TestCase
      */
     public function testQuery(?string $user, ServerRequest $request, array $expected): void
     {
-        User::setCurrent(_em()->getRepository(User::class)->findOneByLogin($user));
+        User::setCurrent(_em()->getRepository(User::class)->getOneByLogin($user));
 
         // Use this flag to easily debug API test issues
         $debug = false;

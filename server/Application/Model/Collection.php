@@ -6,6 +6,7 @@ namespace Application\Model;
 
 use Application\Traits\HasInstitution;
 use Application\Traits\HasName;
+use Application\Traits\HasVisibility;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection as DoctrineCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,6 +23,7 @@ class Collection extends AbstractModel
 {
     use HasName;
     use HasInstitution;
+    use HasVisibility;
 
     /**
      * @var string

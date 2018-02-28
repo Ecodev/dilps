@@ -6,9 +6,10 @@ namespace Application\Repository;
 
 use Application\Model\User;
 use DateTimeImmutable;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\ORM\QueryBuilder;
 
-class UserRepository extends AbstractRepository
+class UserRepository extends AbstractRepository implements LimitedAccessSubQueryInterface
 {
     public function getFindAllQuery(array $filters = []): QueryBuilder
     {
@@ -45,7 +46,7 @@ class UserRepository extends AbstractRepository
     public function getLoginPassword(string $login, string $password): ?User
     {
         /** @var User $user */
-        $user = $this->findOneByLogin($login);
+        $user = $this->getOneByLogin($login);
 
         if (!$user || ($user->getActiveUntil() && $user->getActiveUntil() < new DateTimeImmutable())) {
             return null;
@@ -67,5 +68,46 @@ class UserRepository extends AbstractRepository
         }
 
         return null;
+    }
+
+    /**
+     * Unsecured way to get a user from its login.
+     *
+     * This should only be used in tests or controlled environment.
+     *
+     * @param null|string $login
+     *
+     * @return null|User
+     */
+    public function getOneByLogin(?string $login): ?User
+    {
+        $rsm = new ResultSetMappingBuilder($this->getEntityManager());
+        $rsm->addRootEntityFromClassMetadata(User::class, 'user');
+
+        $qb = $this->getEntityManager()->getConnection()->createQueryBuilder()
+            ->select($rsm->generateSelectClause())
+            ->from('user')
+            ->andWhere('user.login = :login');
+
+        $query = $this->getEntityManager()->createNativeQuery($qb, $rsm)
+            ->setParameter('login', $login);
+
+        return $query->getOneOrNullResult();
+    }
+
+    /**
+     * Returns pure SQL to get ID of all objects that are accessible to given user.
+     *
+     * @param null|User $user
+     *
+     * @return string
+     */
+    public function getAccessibleSubQuery(?User $user): string
+    {
+        if ($user) {
+            return $this->getAllIdsQuery();
+        }
+
+        return '-1';
     }
 }

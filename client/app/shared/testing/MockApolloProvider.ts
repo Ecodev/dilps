@@ -44,6 +44,7 @@ class MockApollo extends Apollo {
             CardStatus: () => 'new',
             UserType: () => 'default',
             UserRole: () => 'student',
+            Visibility: () => 'private',
         };
 
         addMockFunctionsToSchema({schema, mocks});

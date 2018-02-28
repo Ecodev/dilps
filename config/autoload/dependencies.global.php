@@ -19,6 +19,7 @@ return [
             // Fully\Qualified\InterfaceName::class => Fully\Qualified\ClassName::class,
             \Zend\Expressive\Helper\ServerUrlHelper::class => \Zend\Expressive\Helper\ServerUrlHelper::class,
             \Doctrine\ORM\Mapping\UnderscoreNamingStrategy::class => \Doctrine\ORM\Mapping\UnderscoreNamingStrategy::class,
+            \Application\DBAL\FileLogger::class => \Application\DBAL\FileLogger::class,
         ],
         // Use 'factories' for services provided by callbacks/factory classes.
         'factories' => [
@@ -30,7 +31,7 @@ return [
             \Zend\Stratigility\Middleware\ErrorHandler::class => \Zend\Expressive\Container\ErrorHandlerFactory::class,
             \Zend\Expressive\Middleware\ErrorResponseGenerator::class => \Zend\Expressive\Container\ErrorResponseGeneratorFactory::class,
             \Zend\Expressive\Handler\NotFoundHandler::class => \Zend\Expressive\Container\NotFoundHandlerFactory::class,
-            'doctrine.entity_manager.orm_default' => \ContainerInteropDoctrine\EntityManagerFactory::class,
+            'doctrine.entity_manager.orm_default' => \Application\ORM\EntityManagerFactory::class,
             \Application\Action\GraphQLAction::class => \Application\Action\GraphQLFactory::class,
             \Application\Action\ImageAction::class => \Application\Action\ImageFactory::class,
             \Application\Middleware\AuthenticationMiddleware::class => \Application\Middleware\AuthenticationFactory::class,

@@ -6,8 +6,9 @@ namespace Application\Repository;
 
 use Application\Model\Card;
 use Application\Model\Change;
+use Application\Model\User;
 
-class ChangeRepository extends AbstractRepository
+class ChangeRepository extends AbstractRepository implements LimitedAccessSubQueryInterface
 {
     /**
      * Get an open change for the given suggestion
@@ -48,5 +49,30 @@ class ChangeRepository extends AbstractRepository
         }
 
         return $change;
+    }
+
+    /**
+     * Returns pure SQL to get ID of all changes that are accessible to given user.
+     *
+     * A change is accessible if:
+     *
+     * - change owner is the user
+     *
+     * @param null|User $user
+     *
+     * @return string
+     */
+    public function getAccessibleSubQuery(?User $user): string
+    {
+        if ($user) {
+            $qb = $this->getEntityManager()->getConnection()->createQueryBuilder()
+                ->select('`change`.id')
+                ->from('`change`')
+                ->where('`change`.creator_id = ' . $this->getEntityManager()->getConnection()->quote($user->getId()));
+        } else {
+            return '-1';
+        }
+
+        return $qb->getSQL();
     }
 }

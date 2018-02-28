@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Application\Repository;
 
 use Doctrine\ORM\QueryBuilder;
+use Application\Model\Card;
+use Application\Model\User;
 
-class CollectionRepository extends AbstractRepository
+class CollectionRepository extends AbstractRepository implements LimitedAccessSubQueryInterface
 {
     public function getFindAllQuery(array $filters = []): QueryBuilder
     {
@@ -29,5 +31,37 @@ class CollectionRepository extends AbstractRepository
         $qb->addOrderBy('collection.id');
 
         return $qb;
+    }
+
+    /**
+     * Returns pure SQL to get ID of all collections that are accessible to given user.
+     *
+     * A collection is accessible if:
+     *
+     * - collection is public
+     * - collection is member and user is logged in
+     * - collection owner is the user
+     *
+     * @param null|User $user
+     *
+     * @return string
+     */
+    public function getAccessibleSubQuery(?User $user): string
+    {
+        $visibility = [Card::VISIBILITY_PUBLIC];
+        if ($user) {
+            $visibility[] = Card::VISIBILITY_MEMBER;
+        }
+
+        $qb = $this->getEntityManager()->getConnection()->createQueryBuilder()
+            ->select('collection.id')
+            ->from('collection')
+            ->where('collection.visibility IN (' . $this->quoteArray($visibility) . ')');
+
+        if ($user) {
+            $qb->orWhere('collection.creator_id = ' . $this->getEntityManager()->getConnection()->quote($user->getId()));
+        }
+
+        return $qb->getSQL();
     }
 }

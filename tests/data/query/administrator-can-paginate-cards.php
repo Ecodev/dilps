@@ -5,7 +5,7 @@ declare(strict_types=1);
 return [
     [
         'query' => '{
-            cards(pagination: {pageIndex:0, pageSize: 2}) {
+            cards(pagination: {pageIndex:1, pageSize: 2}) {
                 length
                 pageIndex
                 items {
@@ -17,11 +17,14 @@ return [
     [
         'data' => [
             'cards' => [
-                'length' => 1,
-                'pageIndex' => 0,
+                'length' => 6,
+                'pageIndex' => 1,
                 'items' => [
                     [
-                        'id' => 6005,
+                        'id' => 6002,
+                    ],
+                    [
+                        'id' => 6003,
                     ],
                 ],
             ],

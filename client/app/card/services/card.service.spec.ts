@@ -14,7 +14,7 @@ describe('CardService', () => {
         height: 1,
         width: 1,
         hasImage: true,
-        isPublic: true,
+        visibility: 'private',
         dating: 'test string',
         artists: [
             {

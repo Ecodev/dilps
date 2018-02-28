@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Model;
 
+use Application\ORM\Query\Filter\AclFilter;
 use Application\Traits\HasInstitution;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -48,6 +49,9 @@ class User extends AbstractModel
     public static function setCurrent(?self $user): void
     {
         self::$currentUser = $user;
+
+        // Initalize ACL filter with current user if a logged in one exists
+        _em()->getFilters()->getFilter(AclFilter::class)->setUser($user);
     }
 
     /**
