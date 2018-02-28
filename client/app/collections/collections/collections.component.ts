@@ -28,7 +28,11 @@ export class CollectionsComponent implements OnInit {
         const queryRef = this.collectionsSvc.watchAll(this.queryVariables);
 
         this.route.data.subscribe(data => {
-            this.queryVariables.patch({filter: data.filter});
+            let filters = {};
+            if (data.creator) {
+                filters = {creators: [data.creator.id]};
+            }
+            this.queryVariables.patch({filters: filters});
         });
 
         queryRef.valueChanges.subscribe(collections => {

@@ -14,6 +14,7 @@ import { InstitutionsComponent } from './institutions/institutions/institutions.
 import { ArtistsComponent } from './artists/artists/artists.component';
 import { ChangesComponent } from './changes/changes/changes.component';
 import { ChangeComponent } from './changes/change/change.component';
+import { UserResolver } from './users/services/user.resolver';
 
 export const routes: Routes = [
 
@@ -27,6 +28,7 @@ export const routes: Routes = [
         path: '',
         component: HomeComponent,
         canActivate: [AuthGuard],
+        resolve: {user: UserResolver},
         children: [
             {
                 path: '',
@@ -87,6 +89,7 @@ export const routes: Routes = [
             {
                 path: 'my-collection',
                 component: CollectionsComponent,
+                resolve: {creator: UserResolver},
                 children: [
                     {
                         path: ':collectionId',
@@ -107,7 +110,11 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
+    imports: [
+        RouterModule.forRoot(routes, {
+            paramsInheritanceStrategy: 'always',
+        }),
+    ],
     exports: [RouterModule],
 })
 export class AppRoutingModule {

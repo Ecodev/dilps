@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { UserService } from './user.service';
+import { ViewerQuery } from '../../shared/generated-types';
 
 @Injectable()
 export class UserResolver implements Resolve<any> {
@@ -14,12 +15,7 @@ export class UserResolver implements Resolve<any> {
      * @param {ActivatedRouteSnapshot} route
      * @returns {any}
      */
-    public resolve(route: ActivatedRouteSnapshot): Observable<any> {
-
-        if (route.params['userId']) {
-            return this.userSvc.getOne(route.params['userId']);
-        }
-
+    public resolve(route: ActivatedRouteSnapshot): Observable<ViewerQuery['viewer']> {
         return this.userSvc.getCurrentUser();
     }
 

@@ -7,22 +7,24 @@ import { Subject } from 'rxjs/Subject';
 import {
     CreateUserMutation,
     DeleteUsersMutation,
+    LoginMutation,
+    LogoutMutation,
     UpdateUserMutation,
     UserInput,
     UserQuery,
     UsersQuery,
     UserType,
-    LoginMutation, ViewerQuery, LogoutMutation,
+    ViewerQuery,
 } from '../../shared/generated-types';
 import { AbstractModelService } from '../../shared/services/abstract-model.service';
 import {
     createUserMutation,
     deleteUsersMutation,
+    loginMutation,
+    logoutMutation,
     updateUserMutation,
     userQuery,
     usersQuery,
-    loginMutation,
-    logoutMutation,
     viewerQuery,
 } from './userQueries';
 import { map } from 'rxjs/operators';
@@ -52,10 +54,10 @@ export class UserService extends AbstractModelService<UserQuery['user'],
     }
 
     public getCurrentUser(): Observable<ViewerQuery['viewer']> {
-        return this.apollo.watchQuery<ViewerQuery>({
+        return this.apollo.query<ViewerQuery>({
             query: viewerQuery,
             fetchPolicy: 'network-only',
-        }).valueChanges.pipe(map(result => result.data ? result.data.viewer : null));
+        }).pipe(map(result => result.data ? result.data.viewer : null));
     }
 
     public login(loginData): Observable<LoginMutation['login']> {
