@@ -17,6 +17,7 @@ import {
     UpdateCollectionMutation,
 } from '../../shared/generated-types';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/forkJoin';
 import { LinkMutationService } from '../../shared/services/link-mutation.service';
 
 @Injectable()
