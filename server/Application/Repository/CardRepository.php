@@ -14,10 +14,23 @@ class CardRepository extends AbstractRepository implements LimitedAccessSubQuery
     {
         $qb = $this->createQueryBuilder('card');
 
-        if ($filters['collections'] ?? null) {
-            $qb->join('card.collections', 'collection');
-            $qb->andWhere('collection.id IN (:collections)');
-            $qb->setParameter('collections', $filters['collections']);
+        if (isset($filters['collections'])) {
+            if (\count($filters['collections']) > 0) {
+                $qb->join('card.collections', 'collection');
+                $qb->andWhere('collection.id IN (:collections)');
+                $qb->setParameter('collections', $filters['collections']);
+            } else {
+                $qb->andWhere('card.collections IS EMPTY');
+            }
+        }
+
+        if (isset($filters['creators'])) {
+            if (\count($filters['creators']) > 0) {
+                $qb->andWhere('card.creator IN (:creators)');
+                $qb->setParameter('creators', $filters['creators']);
+            } else {
+                $qb->andWhere('card.creator IS NULL');
+            }
         }
 
         if (@$filters['search']) {

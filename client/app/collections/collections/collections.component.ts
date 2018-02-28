@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IncrementSubject } from '../../shared/services/increment-subject';
 import { MatDialog } from '@angular/material';
 import { CollectionComponent } from '../collection/collection.component';
+import { Literal } from '../../shared/types';
 
 @Component({
     selector: 'app-collections',
@@ -13,9 +14,18 @@ import { CollectionComponent } from '../collection/collection.component';
 export class CollectionsComponent implements OnInit {
 
     public collections;
-
-    public showDescs;
     private queryVariables = new IncrementSubject({});
+    /**
+     * Show descriptions
+     * @type {boolean}
+     */
+    public showDescs = false;
+
+    /**
+     * Show "unclassified" category on the top of the page
+     * @type {boolean}
+     */
+    public showUnclassified = false;
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
@@ -27,7 +37,10 @@ export class CollectionsComponent implements OnInit {
 
         const queryRef = this.collectionsSvc.watchAll(this.queryVariables);
 
-        this.route.data.subscribe(data => {
+        this.route.data.subscribe((data: Literal) => {
+
+            this.showUnclassified = data.showUnclassified;
+
             let filters = {};
             if (data.creator) {
                 filters = {creators: [data.creator.id]};

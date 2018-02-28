@@ -9,6 +9,7 @@ import { CollectionSelectorComponent } from '../shared/components/collection-sel
 import { CollectionService } from '../collections/services/collection.service';
 import { AlertService } from '../shared/components/alert/alert.service';
 import { NaturalGalleryComponent } from 'angular-natural-gallery';
+import { Literal } from '../shared/types';
 
 @Component({
     selector: 'app-list',
@@ -34,7 +35,6 @@ export class ListComponent implements OnInit {
 
     private firstPagination;
 
-
     public collection;
 
     constructor(private router: Router,
@@ -47,7 +47,23 @@ export class ListComponent implements OnInit {
 
     ngOnInit() {
 
-        this.route.data.subscribe(data => this.showLogo = data.showLogo);
+        this.route.data.subscribe(data => {
+
+            this.showLogo = data.showLogo;
+
+            let filters: Literal = {};
+
+            if (data.filters) {
+                filters = this.route.snapshot.data.filters;
+            }
+
+            if (data.creator) {
+                filters.creators = [data.creator.id];
+            }
+
+            this.galleryCollection = [];
+            this.queryVariables.patch({filters: filters});
+        });
 
         this.route.params.subscribe(params => {
             if (params.collectionId) {

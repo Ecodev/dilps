@@ -9,7 +9,6 @@ import { CardComponent } from './card/card.component';
 import { UsersComponent } from './users/users/users.component';
 import { CollectionsComponent } from './collections/collections/collections.component';
 import { CardResolver } from './card/services/card.resolver';
-import { CollectionComponent } from './collections/collection/collection.component';
 import { InstitutionsComponent } from './institutions/institutions/institutions.component';
 import { ArtistsComponent } from './artists/artists/artists.component';
 import { ChangesComponent } from './changes/changes/changes.component';
@@ -90,17 +89,21 @@ export const routes: Routes = [
                 path: 'my-collection',
                 component: CollectionsComponent,
                 resolve: {creator: UserResolver},
+                data: {
+                    showLogo: false,
+                    showUnclassified: true,
+                },
                 children: [
+                    {
+                        path: '',
+                        component: ListComponent,
+                        data: {
+                            filters: {collections: []},
+                        },
+                    },
                     {
                         path: ':collectionId',
                         component: ListComponent,
-                        data: {showLogo: false},
-                        children: [
-                            {
-                                path: 'edit',
-                                component: CollectionComponent,
-                            },
-                        ],
                     },
                 ],
             },

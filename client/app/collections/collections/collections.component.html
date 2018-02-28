@@ -16,7 +16,16 @@
         <perfect-scrollbar>
             <div fxLayout="column" class="scrolled">
 
-                <mat-nav-list fxFlex *ngIf="collections?.items">
+                <mat-nav-list *ngIf="showUnclassified">
+                    <a mat-list-item [routerLink]="['.']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <mat-icon mat-list-icon>collections</mat-icon>
+                        <span matLine fxLayout="row" fxLayoutAlign="start center">Non classé</span>
+                    </a>
+                </mat-nav-list>
+
+                <mat-divider *ngIf="showUnclassified"></mat-divider>
+
+                <mat-nav-list *ngIf="collections?.items">
                     <a *ngFor="let item of collections.items"
                        mat-list-item
                        [ngClass]="{'withDesc': showDescs && item.description}"
