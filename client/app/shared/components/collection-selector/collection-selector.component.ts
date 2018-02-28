@@ -3,6 +3,8 @@ import { CollectionService } from '../../../collections/services/collection.serv
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ArtistComponent } from '../../../artists/artist/artist.component';
 import 'rxjs/add/observable/forkJoin';
+import { UserService } from '../../../users/services/user.service';
+import { Literal } from '../../types';
 
 @Component({
     selector: 'app-collection-selector',
@@ -11,6 +13,7 @@ import 'rxjs/add/observable/forkJoin';
 })
 export class CollectionSelectorComponent implements OnInit {
 
+    public listFilters: Literal;
     public collection;
     public newCollection: any = {
         name: '',
@@ -20,10 +23,14 @@ export class CollectionSelectorComponent implements OnInit {
 
     constructor(public collectionSvc: CollectionService,
                 private dialogRef: MatDialogRef<ArtistComponent>,
+                private userSvc: UserService,
                 @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 
     ngOnInit() {
+        this.userSvc.getCurrentUser().subscribe(user => {
+            this.listFilters = {creators: [user.id]};
+        });
     }
 
     public link() {

@@ -1,4 +1,7 @@
-import { Component, ContentChild, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild, } from '@angular/core';
+import {
+    Component, ContentChild, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef,
+    ViewChild,
+} from '@angular/core';
 import { IncrementSubject } from '../../services/increment-subject';
 import { FormControl } from '@angular/forms';
 import { isObject, merge } from 'lodash';

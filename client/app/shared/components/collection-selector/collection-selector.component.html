@@ -1,31 +1,42 @@
-<mat-dialog-content>
-    <mat-tab-group>
-        <mat-tab label="Collection existante">
-            <div class="padding" fxLayout="column">
-                <app-select [service]="collectionSvc" [(model)]="collection" placeholder="Sélectionnez la collection"></app-select>
-                <div fxLayout="row" fxFlexAlign="end">
-                    <button mat-button [disabled]="!collection?.id" (click)="link()">Ajouter à la collection</button>
-                </div>
+<mat-tab-group>
+
+    <!-- Collection existante -->
+    <mat-tab label="Collection existante">
+        <div class="padding" fxLayout="column">
+            <app-select [service]="collectionSvc"
+                        [(model)]="collection"
+                        placeholder="Sélectionnez la collection"
+                        [filters]="listFilters"
+            ></app-select>
+            <div fxLayout="row" fxFlexAlign="end">
+                <button mat-button [disabled]="!collection?.id" (click)="link()">Ajouter à la collection</button>
             </div>
-        </mat-tab>
-        <mat-tab label="Nouvelle collection">
-            <div class="padding" fxLayout="column">
-                <mat-form-field>
-                    <input matInput [(ngModel)]="newCollection.name" placeholder="Nom">
-                </mat-form-field>
+        </div>
+    </mat-tab>
 
-                <mat-form-field>
-                    <textarea matInput [(ngModel)]="newCollection.description" placeholder="Description"></textarea>
-                </mat-form-field>
+    <!-- Nouvelle collection -->
+    <mat-tab label="Nouvelle collection">
+        <div class="padding" fxLayout="column">
+            <mat-form-field>
+                <input matInput [(ngModel)]="newCollection.name" placeholder="Nom" >
+            </mat-form-field>
 
-                <app-select [service]="collectionSvc" [(model)]="newCollection.parent" placeholder="Collection parente"></app-select>
+            <mat-form-field>
+                <textarea matInput [(ngModel)]="newCollection.description" placeholder="Description"></textarea>
+            </mat-form-field>
 
-                <div fxLayout="row" fxFlexAlign="end">
-                    <button mat-button [disabled]="!newCollection.name" (click)="createAndLink()">
-                        Créer et ajouter à la collection
-                    </button>
-                </div>
+            <app-select *ngIf="listFilters"
+                        [service]="collectionSvc"
+                        [(model)]="newCollection.parent"
+                        placeholder="Collection parente"
+                        [filters]="listFilters"
+            ></app-select>
+
+            <div fxLayout="row" fxFlexAlign="end">
+                <button mat-button [disabled]="!newCollection.name" (click)="createAndLink()">
+                    Créer et ajouter à la collection
+                </button>
             </div>
-        </mat-tab>
-    </mat-tab-group>
-</mat-dialog-content>
+        </div>
+    </mat-tab>
+</mat-tab-group>
