@@ -39,12 +39,12 @@ yarn install $NO_PROGRESS
 echo "Updating all PHP dependencies via composer..."
 composer install --classmap-authoritative $NO_PROGRESS
 
+echo "Clear cache"
+composer clear-config-cache
+
 echo "Updating database..."
 ./vendor/bin/doctrine-migrations migrations:migrate --no-interaction
 ./vendor/bin/doctrine orm:generate-proxies
-
-echo "Clear cache"
-rm -rf ./data/tmp/cache/*
 
 echo "Building Angular application..."
 yarn run prod
