@@ -81,7 +81,8 @@ import { ChangeComponent } from './changes/change/change.component';
 import { ngfModule } from 'angular-file';
 import { UploadService } from './shared/services/upload.service';
 import { FileDropDirective } from './shared/directives/file-drop.directive';
-
+import { CollectionSelectorComponent } from './shared/components/collection-selector/collection-selector.component';
+import { LinkMutationService } from './shared/services/link-mutation.service';
 
 @NgModule({
     declarations: [
@@ -110,7 +111,8 @@ import { FileDropDirective } from './shared/directives/file-drop.directive';
         StampComponent,
         ChangesComponent,
         ChangeComponent,
-        FileDropDirective
+        FileDropDirective,
+        CollectionSelectorComponent,
     ],
     entryComponents: [
         ConfirmComponent,
@@ -118,6 +120,7 @@ import { FileDropDirective } from './shared/directives/file-drop.directive';
         TermsAgreementComponent,
         InstitutionComponent,
         ArtistComponent,
+        CollectionSelectorComponent,
     ],
     imports: [
         BrowserModule,
@@ -171,7 +174,8 @@ import { FileDropDirective } from './shared/directives/file-drop.directive';
         InstitutionService,
         ArtistService,
         ChangeService,
-        UploadService
+        UploadService,
+        LinkMutationService,
     ],
     bootstrap: [AppComponent],
 })

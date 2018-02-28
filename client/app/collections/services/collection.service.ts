@@ -7,7 +7,6 @@ import {
     deleteCollectionsMutation,
     updateCollectionMutation,
 } from './collectionQueries';
-import 'rxjs/add/observable/of';
 import { AbstractModelService } from '../../shared/services/abstract-model.service';
 import {
     CollectionInput,
@@ -17,6 +16,8 @@ import {
     DeleteCollectionsMutation,
     UpdateCollectionMutation,
 } from '../../shared/generated-types';
+import { Observable } from 'rxjs/Observable';
+import { LinkMutationService } from '../../shared/services/link-mutation.service';
 
 @Injectable()
 export class CollectionService
@@ -26,7 +27,7 @@ export class CollectionService
         UpdateCollectionMutation['updateCollection'],
         DeleteCollectionsMutation['deleteCollections']> {
 
-    constructor(apollo: Apollo) {
+    constructor(apollo: Apollo, private linkSvc: LinkMutationService) {
         super(apollo,
             'collection',
             collectionQuery,
@@ -43,6 +44,25 @@ export class CollectionService
             isSource: false,
             sorting: 0,
         };
+    }
+
+    public link(collection, images) {
+
+        const observables = [];
+        images.forEach(image => {
+            observables.push(this.linkSvc.link(collection, image));
+        });
+
+        return Observable.forkJoin(observables);
+    }
+
+    public unlink(collection, images) {
+        const observables = [];
+        images.forEach(image => {
+            observables.push(this.linkSvc.unlink(collection, image));
+        });
+
+        return Observable.forkJoin(observables);
     }
 
 }

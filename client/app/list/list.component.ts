@@ -4,6 +4,10 @@ import { CardService } from '../card/services/card.service';
 import { merge } from 'lodash';
 import { IncrementSubject } from '../shared/services/increment-subject';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { MatDialog } from '@angular/material';
+import { CollectionSelectorComponent } from '../shared/components/collection-selector/collection-selector.component';
+import { CollectionService } from '../collections/services/collection.service';
+import { AlertService } from '../shared/components/alert/alert.service';
 
 @Component({
     selector: 'app-list',
@@ -27,7 +31,12 @@ export class ListComponent implements OnInit {
 
     private queryVariables = new IncrementSubject({});
 
-    constructor(private router: Router, private route: ActivatedRoute, private cardSvc: CardService) {
+    constructor(private router: Router,
+                private route: ActivatedRoute,
+                private cardSvc: CardService,
+                private dialog: MatDialog,
+                private collectionSvc: CollectionService,
+                private alertSvc: AlertService) {
     }
 
     ngOnInit() {
@@ -107,4 +116,37 @@ export class ListComponent implements OnInit {
         }
     }
 
+    public linkToCollection(selection) {
+
+        this.dialog.open(CollectionSelectorComponent, {
+            width: '400px',
+            data: {
+                images: selection,
+            },
+        });
+    }
+
+    public unlinkFromCollection(selection) {
+        const collection = {
+            id: this.route.snapshot.params.collectionId,
+            __typename: 'Collection',
+        };
+        this.collectionSvc.unlink(collection, selection).subscribe(() => {
+            this.alertSvc.info('Les images ont été retirées');
+            this.sub.refetch();
+        });
+    }
+
+    public delete(selection) {
+        console.log(selection);
+        this.alertSvc.confirm('Suppression', 'Voulez-vous supprimer définitivement cet/ces élément(s) ?', 'Supprimer définitivement')
+            .subscribe(confirmed => {
+                if (confirmed) {
+                    this.cardSvc.delete(selection).subscribe(() => {
+                        this.alertSvc.info('Supprimé');
+                        this.sub.refetch();
+                    });
+                }
+            });
+    }
 }

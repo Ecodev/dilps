@@ -4,9 +4,28 @@
         <img *ngIf="showLogo" src="assets/images/logo-blanc.svg" style="max-width:100%;height:30px;" />
         <div fxFlex></div>
 
-        <button *ngIf="selected?.length" mat-icon-button (click)="gallery.unselectAll()">
-            <mat-icon>select_all</mat-icon>
-        </button>
+        <ng-container *ngIf="selected?.length">
+
+            <div *ngIf="selected.length === 1" class="mat-body-1">{{ selected.length }} élément sélectionné</div>
+            <div *ngIf="selected.length > 1" class="mat-body-1">{{ selected.length }} éléments sélectionnés</div>
+
+            <button mat-icon-button (click)="gallery.unselectAll()" matTooltip="Désélectionner tout">
+                <mat-icon>select_all</mat-icon>
+            </button>
+
+            <button mat-icon-button (click)="linkToCollection(selected)" matTooltip="Ajouter à une collection">
+                <mat-icon>library_add</mat-icon>
+            </button>
+
+            <button mat-icon-button (click)="unlinkFromCollection(selected)" matTooltip="Supprimer de la collection">
+                <mat-icon>delete</mat-icon>
+            </button>
+
+            <button mat-icon-button (click)="delete(selected)" matTooltip="Supprimer la fiche définitivement">
+                <mat-icon>delete_forever</mat-icon>
+            </button>
+
+        </ng-container>
 
     </mat-toolbar>
 
