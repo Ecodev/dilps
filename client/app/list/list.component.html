@@ -17,11 +17,11 @@
                 <mat-icon>library_add</mat-icon>
             </button>
 
-            <button mat-icon-button (click)="unlinkFromCollection(selected)" matTooltip="Supprimer de la collection">
+            <button mat-icon-button *ngIf="collection?.id" (click)="unlinkFromCollection(selected)" matTooltip="Supprimer de la collection">
                 <mat-icon>close</mat-icon>
             </button>
 
-            <button mat-icon-button (click)="delete(selected)" matTooltip="Supprimer la fiche définitivement">
+            <button mat-icon-button (click)="delete(selected)" color="warn" matTooltip="Supprimer la fiche définitivement">
                 <mat-icon>delete_forever</mat-icon>
             </button>
 
