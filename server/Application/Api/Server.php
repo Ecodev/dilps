@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Application\Api;
 
-use GraphQL\Doctrine\DefaultFieldResolver;
 use GraphQL\Error\Debug;
 use GraphQL\Executor\ExecutionResult;
 use GraphQL\GraphQL;

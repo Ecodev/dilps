@@ -6,6 +6,7 @@ namespace Application\Acl;
 
 use Application\Acl\Assertion\IsMyself;
 use Application\Acl\Assertion\IsOwner;
+use Application\Acl\Assertion\Visibility;
 use Application\Model\AbstractModel;
 use Application\Model\Artist;
 use Application\Model\Card;
@@ -46,6 +47,8 @@ class Acl extends \Zend\Permissions\Acl\Acl
         $this->addResource(new ModelResource(User::class));
 
         $this->allow(User::ROLE_ANONYMOUS, new ModelResource(Artist::class), 'read');
+        $this->allow(User::ROLE_ANONYMOUS, new ModelResource(Card::class), 'read', new Visibility(Card::VISIBILITY_PUBLIC));
+        $this->allow(User::ROLE_ANONYMOUS, new ModelResource(Collection::class), 'read', new Visibility(Card::VISIBILITY_PUBLIC));
         $this->allow(User::ROLE_ANONYMOUS, new ModelResource(Country::class), 'read');
         $this->allow(User::ROLE_ANONYMOUS, new ModelResource(Dating::class), 'read');
         $this->allow(User::ROLE_ANONYMOUS, new ModelResource(Institution::class), 'read');
@@ -54,6 +57,8 @@ class Acl extends \Zend\Permissions\Acl\Acl
         $this->allow(User::ROLE_STUDENT, new ModelResource(Artist::class), 'create');
         $this->allow(User::ROLE_STUDENT, new ModelResource(Card::class), 'create');
         $this->allow(User::ROLE_STUDENT, new ModelResource(Card::class), ['update', 'delete'], new IsOwner());
+        $this->allow(User::ROLE_STUDENT, new ModelResource(Card::class), 'read', new Visibility(Card::VISIBILITY_MEMBER));
+        $this->allow(User::ROLE_STUDENT, new ModelResource(Collection::class), 'read', new Visibility(Card::VISIBILITY_MEMBER));
         $this->allow(User::ROLE_STUDENT, new ModelResource(Change::class), 'create');
         $this->allow(User::ROLE_STUDENT, new ModelResource(Collection::class), 'create');
         $this->allow(User::ROLE_STUDENT, new ModelResource(Collection::class), ['update', 'delete'], new IsOwner());
