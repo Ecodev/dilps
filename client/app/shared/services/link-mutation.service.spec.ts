@@ -12,49 +12,47 @@ describe('LinkMutationService', () => {
         });
     });
 
-    const action = {__typename: 'Action'};
-    const document = {__typename: 'Document'};
+    const card = {__typename: 'Card'};
+    const collection = {__typename: 'Collection'};
     const company = {__typename: 'Company'};
 
-    const expectAction = {
+    const expectCollection = {
         id: '456',
-        __typename: 'Action',
+        __typename: 'Collection',
     };
 
     const expectedLink = {
         data: {
-            linkActionDocument: expectAction,
+            linkCollectionCard: expectCollection,
         },
     };
 
     const expectedUnlink = {
         data: {
-            unlinkActionDocument: expectAction,
+            unlinkCollectionCard: expectCollection,
         },
     };
 
     it('should be able to link', fakeAsync(inject([LinkMutationService], (service: LinkMutationService) => {
         let actual = null;
         tick();
-        service.link(action, document).subscribe(v => actual = v);
+        service.link(collection, card).subscribe(v => actual = v);
         tick();
-
         expect(actual).toEqual(expectedLink);
     })));
 
     it('should be able to link in reverse order', fakeAsync(inject([LinkMutationService], (service: LinkMutationService) => {
         let actual = null;
         tick();
-        service.link(document, action).subscribe(v => actual = v);
+        service.link(collection, card).subscribe(v => actual = v);
         tick();
-
         expect(actual).toEqual(expectedLink);
     })));
 
     it('should be able to unlink', fakeAsync(inject([LinkMutationService], (service: LinkMutationService) => {
         let actual = null;
         tick();
-        service.unlink(action, document).subscribe(v => actual = v);
+        service.unlink(card, collection).subscribe(v => actual = v);
         tick();
 
         expect(actual).toEqual(expectedUnlink);
@@ -63,7 +61,7 @@ describe('LinkMutationService', () => {
     it('should be able to unlink in reverse order', fakeAsync(inject([LinkMutationService], (service: LinkMutationService) => {
         let actual = null;
         tick();
-        service.unlink(document, action).subscribe(v => actual = v);
+        service.unlink(collection, card).subscribe(v => actual = v);
         tick();
 
         expect(actual).toEqual(expectedUnlink);
@@ -71,34 +69,14 @@ describe('LinkMutationService', () => {
 
     it('should throw for non-existing link mutation', fakeAsync(inject([LinkMutationService], (service: LinkMutationService) => {
         tick();
-        expect(() => service.link(action, company).subscribe()).toThrowError('API does not allow to link Company and Action');
+        expect(() => service.link(card, company).subscribe()).toThrowError('API does not allow to link Company and Card');
         tick();
     })));
 
     it('should throw for non-existing unlink mutation', fakeAsync(inject([LinkMutationService], (service: LinkMutationService) => {
         tick();
-        expect(() => service.unlink(action, company).subscribe()).toThrowError('API does not allow to unlink Company and Action');
+        expect(() => service.unlink(card, company).subscribe()).toThrowError('API does not allow to unlink Company and Card');
         tick();
     })));
 
-    it('should be able to composed name models', fakeAsync(inject([LinkMutationService], (service: LinkMutationService) => {
-
-        const groupDocument = {__typename: 'GroupDocument'};
-        const taxonomy = {__typename: 'Taxonomy'};
-        const expected = {
-            data: {
-                linkGroupDocumentTaxonomy: {
-                    id: '456',
-                    __typename: 'GroupDocument',
-                },
-            },
-        };
-
-        let actual = null;
-        tick();
-        service.link(groupDocument, taxonomy).subscribe(v => actual = v);
-        tick();
-
-        expect(actual).toEqual(expected);
-    })));
 });

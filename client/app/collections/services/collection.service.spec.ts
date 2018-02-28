@@ -4,6 +4,8 @@ import { MockApolloProvider } from '../../shared/testing/MockApolloProvider';
 import { AbstractModelServiceSpec } from '../../shared/testing/AbstractModelServiceSpec';
 import { userMetaTesting } from '../../shared/testing/userMetaTesting';
 import { CollectionService } from './collection.service';
+import { LinkMutationService } from '../../shared/services/link-mutation.service';
+import { DummyServices } from '../../shared/testing/DummyServices';
 
 describe('CollectionService', () => {
 
@@ -65,6 +67,10 @@ describe('CollectionService', () => {
             providers: [
                 CollectionService,
                 MockApolloProvider,
+                {
+                    provide: LinkMutationService,
+                    class: DummyServices
+                },
             ],
         });
     });
