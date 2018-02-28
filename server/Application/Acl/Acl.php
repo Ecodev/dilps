@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Acl;
 
+use Application\Acl\Assertion\IsMyself;
 use Application\Acl\Assertion\IsOwner;
 use Application\Model\AbstractModel;
 use Application\Model\Artist;
@@ -59,6 +60,7 @@ class Acl extends \Zend\Permissions\Acl\Acl
         $this->allow(User::ROLE_STUDENT, new ModelResource(Institution::class), 'create');
         $this->allow(User::ROLE_STUDENT, new ModelResource(Tag::class), 'create');
         $this->allow(User::ROLE_STUDENT, new ModelResource(User::class), 'read');
+        $this->allow(User::ROLE_STUDENT, new ModelResource(User::class), ['update', 'delete'], new IsMyself());
 
         // Administrator inherits nothing, but is allowed all privileges
         $this->allow(User::ROLE_ADMINISTRATOR);
