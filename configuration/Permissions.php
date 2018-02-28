@@ -42,4 +42,12 @@ return [
         'path' => 'bin/pre-commit.sh',
         'permissions' => '0770',
     ],
+    [
+        'path' => 'link-libraries.sh',
+        'permissions' => '0770',
+    ],
+    [
+        'path' => 'bin/graphql.php',
+        'permissions' => '0770',
+    ],
 ];
