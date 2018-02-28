@@ -14,6 +14,11 @@ return [
         'recursive' => true,
     ],
     [
+        'path' => 'data/images',
+        'permissions' => '0770',
+        'recursive' => false,
+    ],
+    [
         'path' => 'bin/build.sh',
         'permissions' => '0770',
     ],
