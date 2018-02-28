@@ -29,7 +29,7 @@ class MockApollo extends Apollo {
         const schema = buildClientSchema(introspectionResult.data as any);
 
         // Configure hardcoded mocked values on a type basis.
-        // That means all data will look be very similar, but at least
+        // That means all data will look very similar, but at least
         // tests are robust and won't change if/when random generators
         // would be used differently
         const mocks = {
@@ -42,21 +42,19 @@ class MockApollo extends Apollo {
             DateTime: () => '2018-01-18T11:43:31',
             Login: () => 'test string',
             CardStatus: () => 'new',
-            UserType: () => 'default'
-            UserRole: () => 'student'
+            UserType: () => 'default',
+            UserRole: () => 'student',
         };
 
         addMockFunctionsToSchema({schema, mocks});
 
         const apolloCache = new InMemoryCache((window as any).__APOLLO_STATE__);
 
-        const graphqlClient = new ApolloClient({
+        return new ApolloClient({
             cache: apolloCache,
             link: new SchemaLink({schema}),
             defaultOptions: apolloDefaultOptions,
         });
-
-        return graphqlClient;
     }
 }
 
