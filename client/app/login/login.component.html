@@ -41,7 +41,8 @@
                             (click)="login()"
                             [disabled]="loading || !loginForm.login || !loginForm.password"
                     >Se connecter</button>
-                    <a mat-button (click)="login()">Accès direct</a>
+
+                    <a mat-button (click)="userService.startTempAccess()">Accès direct</a>
 
                 </div>
             </div>

@@ -81,4 +81,18 @@ export class UserService extends AbstractModelService<UserQuery['user'],
         return subject;
     }
 
+    public hasTempAccess() {
+        return sessionStorage.getItem('tempAccess') === 'true';
+    }
+
+    public startTempAccess() {
+        sessionStorage.setItem('tempAccess', 'true');
+        this.router.navigateByUrl('/');
+    }
+
+    public revokeTempAccess() {
+        sessionStorage.removeItem('tempAccess');
+        this.router.navigateByUrl('login');
+    }
+
 }

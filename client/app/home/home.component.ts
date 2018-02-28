@@ -17,8 +17,8 @@ import { isArray } from 'lodash';
 export class HomeComponent implements OnInit {
 
     public initialized;
-
     public errors = [];
+    public user;
 
     constructor(public themeSvc: ThemeService,
                 public route: ActivatedRoute,
@@ -38,6 +38,10 @@ export class HomeComponent implements OnInit {
             if (errors.length) {
                 this.alertSvc.error('Quelque chose s\'est mal passé !');
             }
+        });
+
+        this.userSvc.getCurrentUser().subscribe(user => {
+            this.user = user;
         });
     }
 

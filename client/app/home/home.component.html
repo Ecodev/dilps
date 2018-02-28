@@ -4,92 +4,104 @@
         <mat-sidenav *ngIf="initialized" id="menu" align="start" mode="side" opened="true" class="menuMinimized">
             <div fxFlex fxLayout="row" fxFlexAlign="start center">
                 <perfect-scrollbar fxLayout="column">
-                    <mat-nav-list>
-                        <!-- Dashboard -->
-                        <a mat-list-item routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                            <mat-icon mat-list-icon>home</mat-icon>
-                            <span matLine>Accueil</span>
-                        </a>
 
-                        <!-- Mes collections privées -->
-                        <a mat-list-item
-                           routerLink="/my-collection"
-                           routerLinkActive="active"
-                           matTooltipPosition="after"
-                           matTooltip="Mes collections"
-                        >
-                            <mat-icon mat-list-icon>collections_bookmark</mat-icon>
-                        </a>
+                    <ng-container *ngIf="user">
 
-                        <!-- Collections publiques -->
-                        <a mat-list-item
-                           routerLink="/collection"
-                           routerLinkActive="active"
-                           matTooltipPosition="after"
-                           matTooltip="Collections publiques"
-                        >
-                            <mat-icon mat-list-icon>collections</mat-icon>
-                        </a>
+                        <mat-nav-list>
+                            <!-- Dashboard -->
+                            <a mat-list-item routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                <mat-icon mat-list-icon>home</mat-icon>
+                                <span matLine>Accueil</span>
+                            </a>
 
-                        <!-- Users -->
-                        <a mat-list-item
-                           routerLink="/user"
-                           routerLinkActive="active"
-                           matTooltipPosition="after"
-                           matTooltip="Liste des utilisateurs"
-                        >
-                            <mat-icon mat-list-icon>group</mat-icon>
-                        </a>
+                            <!-- Mes collections privées -->
+                            <a mat-list-item
+                               routerLink="/my-collection"
+                               routerLinkActive="active"
+                               matTooltipPosition="after"
+                               matTooltip="Mes collections"
+                            >
+                                <mat-icon mat-list-icon>collections_bookmark</mat-icon>
+                            </a>
 
-                        <!-- Notifications -->
-                        <a mat-list-item
-                           routerLink="/notification"
-                           routerLinkActive="active"
-                           matTooltipPosition="after"
-                           matTooltip="Notifications"
-                        >
-                            <mat-icon mat-list-icon>notifications</mat-icon>
-                        </a>
+                            <!-- Collections publiques -->
+                            <a mat-list-item
+                               routerLink="/collection"
+                               routerLinkActive="active"
+                               matTooltipPosition="after"
+                               matTooltip="Collections publiques"
+                            >
+                                <mat-icon mat-list-icon>collections</mat-icon>
+                            </a>
 
-                        <!-- Add photos -->
-                        <a mat-list-item
-                           matTooltipPosition="after"
-                           matTooltip="Ajouter une image"
-                           ngfSelect
-                           (fileChange)="uploadPhoto($event)"
-                        >
-                            <mat-icon mat-list-icon>file_upload</mat-icon>
-                        </a>
-                    </mat-nav-list>
-                    <mat-divider></mat-divider>
-                    <mat-nav-list>
+                            <!-- Users -->
+                            <a mat-list-item
+                               routerLink="/user"
+                               routerLinkActive="active"
+                               matTooltipPosition="after"
+                               matTooltip="Liste des utilisateurs"
+                            >
+                                <mat-icon mat-list-icon>group</mat-icon>
+                            </a>
 
-                        <!-- Institutions -->
-                        <a mat-list-item
-                           routerLink="/institution"
-                           routerLinkActive="active"
-                           matTooltipPosition="after"
-                           matTooltip="Institutions"
-                        >
-                            <mat-icon mat-list-icon>place</mat-icon>
-                        </a>
+                            <!-- Notifications -->
+                            <a mat-list-item
+                               routerLink="/notification"
+                               routerLinkActive="active"
+                               matTooltipPosition="after"
+                               matTooltip="Notifications"
+                            >
+                                <mat-icon mat-list-icon>notifications</mat-icon>
+                            </a>
 
-                        <!-- Authors -->
-                        <a mat-list-item routerLink="/artist" routerLinkActive="active" matTooltipPosition="after" matTooltip="Artistes"
-                        >
-                            <mat-icon mat-list-icon>copyright</mat-icon>
-                        </a>
+                            <!-- Add photos -->
+                            <a mat-list-item
+                               matTooltipPosition="after"
+                               matTooltip="Ajouter une image"
+                               ngfSelect
+                               (fileChange)="uploadPhoto($event)"
+                            >
+                                <mat-icon mat-list-icon>file_upload</mat-icon>
+                            </a>
+                        </mat-nav-list>
+                        <mat-divider></mat-divider>
+                        <mat-nav-list>
 
-                    </mat-nav-list>
-                    <mat-divider></mat-divider>
-                    <mat-nav-list fxFlex>
-                        <!-- Account -->
-                        <a mat-list-item (click)="editUser()" matTooltipPosition="after" matTooltip="Mon compte">
-                            <mat-icon mat-list-icon>account_circle</mat-icon>
-                        </a>
+                            <!-- Institutions -->
+                            <a mat-list-item
+                               routerLink="/institution"
+                               routerLinkActive="active"
+                               matTooltipPosition="after"
+                               matTooltip="Institutions"
+                            >
+                                <mat-icon mat-list-icon>place</mat-icon>
+                            </a>
 
+                            <!-- Authors -->
+                            <a mat-list-item routerLink="/artist" routerLinkActive="active" matTooltipPosition="after" matTooltip="Artistes"
+                            >
+                                <mat-icon mat-list-icon>copyright</mat-icon>
+                            </a>
+
+                        </mat-nav-list>
+                        <mat-divider></mat-divider>
+                        <mat-nav-list fxFlex>
+                            <!-- Account -->
+                            <a mat-list-item (click)="editUser()" matTooltipPosition="after" matTooltip="Mon compte">
+                                <mat-icon mat-list-icon>account_circle</mat-icon>
+                            </a>
+
+                            <!-- Logout -->
+                            <a mat-list-item (click)="userSvc.logout()" matTooltipPosition="after" matTooltip="Se déconnecter">
+                                <mat-icon mat-list-icon>exit_to_app</mat-icon>
+                            </a>
+                        </mat-nav-list>
+
+                    </ng-container>
+
+                    <mat-nav-list fxFlex *ngIf="!user">
                         <!-- Logout -->
-                        <a mat-list-item (click)="userSvc.logout()" matTooltipPosition="after" matTooltip="Se déconnecter">
+                        <a mat-list-item (click)="userSvc.revokeTempAccess()" matTooltipPosition="after" matTooltip="Se déconnecter">
                             <mat-icon mat-list-icon>exit_to_app</mat-icon>
                         </a>
                     </mat-nav-list>

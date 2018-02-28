@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
-                private userService: UserService,
+                public userService: UserService,
                 private network: NetworkActivityService,
                 public snackBar: MatSnackBar,
                 public dialog: MatDialog) {
