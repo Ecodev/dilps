@@ -47,7 +47,6 @@ export class CollectionService
     }
 
     public link(collection, images) {
-
         const observables = [];
         images.forEach(image => {
             observables.push(this.linkSvc.link(collection, image));

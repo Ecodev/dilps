@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material';
 import { CollectionSelectorComponent } from '../shared/components/collection-selector/collection-selector.component';
 import { CollectionService } from '../collections/services/collection.service';
 import { AlertService } from '../shared/components/alert/alert.service';
+import { NaturalGalleryComponent } from 'angular-natural-gallery';
 
 @Component({
     selector: 'app-list',
@@ -16,7 +17,7 @@ import { AlertService } from '../shared/components/alert/alert.service';
 })
 export class ListComponent implements OnInit {
 
-    @ViewChild('gallery') gallery;
+    @ViewChild('gallery') gallery: NaturalGalleryComponent;
     @ViewChild('scrollable') private scrollable: PerfectScrollbarComponent;
 
     public galleryCollection = null;
@@ -30,6 +31,8 @@ export class ListComponent implements OnInit {
     private sub;
 
     private queryVariables = new IncrementSubject({});
+
+    private firstPagination;
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
@@ -99,14 +102,26 @@ export class ListComponent implements OnInit {
 
     }
 
+    public reload() {
+        this.gallery.collection = [];
+        this.queryVariables.patch(this.firstPagination);
+        this.sub.refetch();
+    }
+
     public loadMore(ev) {
 
-        this.queryVariables.patch({
+        const pagination = {
             pagination: {
                 offset: ev.offset,
                 pageSize: ev.limit,
             },
-        });
+        };
+
+        if (!this.firstPagination) {
+            this.firstPagination = pagination;
+        }
+
+        this.queryVariables.patch(pagination);
 
         if (!this.sub) {
             this.sub = this.cardSvc.watchAll(this.queryVariables);
@@ -133,7 +148,7 @@ export class ListComponent implements OnInit {
         };
         this.collectionSvc.unlink(collection, selection).subscribe(() => {
             this.alertSvc.info('Les images ont été retirées');
-            this.sub.refetch();
+            this.reload();
         });
     }
 
@@ -144,7 +159,7 @@ export class ListComponent implements OnInit {
                 if (confirmed) {
                     this.cardSvc.delete(selection).subscribe(() => {
                         this.alertSvc.info('Supprimé');
-                        this.sub.refetch();
+                        this.reload();
                     });
                 }
             });
