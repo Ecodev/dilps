@@ -170,11 +170,8 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
 
             // Init visibility
             this.visibility = +findKey(this.visibilities, (s) => {
-                console.log(s.value, this.model.visibility);
                 return s.value === this.model.visibility;
             });
-
-            console.log(this.visibility);
 
             const src = CardService.getImageLink(this.model, 2000);
             if (src) {
