@@ -59,33 +59,58 @@ class CardTest extends TestCase
     public function testCopyInto(): void
     {
         $collection = new Collection();
-        $card1 = new Card();
-        $card1->setName('test name');
-        $card1->setDating('2010');
-        $card1->setArtists(['John', 'Sarah']);
-        $card1->setInstitution('Museum');
-        $card1->setCountry(new Country());
-        $card1->timestampCreation();
-        $collection->addCard($card1);
-        $card1->setFilename('foo.png');
-        touch($card1->getPath());
+        $suggestion = new Card();
+        $suggestion->setName('test name');
+        $suggestion->setDating('2010');
+        $suggestion->setArtists(['John', 'Sarah']);
+        $suggestion->setInstitution('Museum');
+        $suggestion->setCountry(new Country());
+        $suggestion->timestampCreation();
+        $suggestion->setWidth(123);
+        $suggestion->setHeight(123);
+        $suggestion->setFileSize(123);
+        $collection->addCard($suggestion);
+        $suggestion->setFilename('foo.png');
+        touch($suggestion->getPath());
 
-        $card2 = new Card();
-        $card1->setOriginal($card2);
-        $card1->copyInto($card2);
+        $original = new Card();
+        $original->setWidth(456);
+        $original->setHeight(456);
+        $original->setFileSize(456);
+        $suggestion->setOriginal($original);
+        $suggestion->copyInto($original);
 
-        self::assertSame('test name', $card2->getName());
-        self::assertSame('2010', $card2->getDating());
-        self::assertSame('2010-01-01T00:00:00+00:00', $card2->getDatings()->first()->getFrom()->format('c'), 'datings should be re-computed');
-        self::assertCount(2, $card2->getArtists(), 'artists should be copied');
-        self::assertSame('Museum', $card2->getInstitution()->getName(), 'institution should be copied');
-        self::assertNotNull($card2->getCountry(), 'country should be copied');
-        self::assertNull($card2->getOriginal(), 'original should not be copied over');
-        self::assertCount(1, $collection->getCards(), 'card2 should not be moved to intro a collection');
+        self::assertSame('test name', $original->getName());
+        self::assertSame('2010', $original->getDating());
+        self::assertSame('2010-01-01T00:00:00+00:00', $original->getDatings()->first()->getFrom()->format('c'), 'datings should be re-computed');
+        self::assertCount(2, $original->getArtists(), 'artists should be copied');
+        self::assertSame('Museum', $original->getInstitution()->getName(), 'institution should be copied');
+        self::assertNotNull($original->getCountry(), 'country should be copied');
+        self::assertNull($original->getOriginal(), 'original should not be copied over');
+        self::assertCount(1, $collection->getCards(), 'original should not be moved to intro a collection');
 
-        self::assertNotEquals('', $card2->getFilename(), 'should have file on disk');
-        self::assertNotEquals($card1->getFilename(), $card2->getFilename(), 'should not share the same file on disk');
-        self::assertFileExists($card2->getPath(), 'file on disk should have been copied');
+        self::assertNotEquals('', $original->getFilename(), 'should have file on disk');
+        self::assertNotEquals($suggestion->getFilename(), $original->getFilename(), 'should not share the same file on disk');
+        self::assertFileExists($original->getPath(), 'file on disk should have been copied');
+
+        self::assertSame(123, $original->getWidth());
+        self::assertSame(123, $original->getHeight());
+        self::assertSame(123, $original->getFileSize());
+    }
+
+    public function testCopyIntoWithoutFile(): void
+    {
+        $original = new Card();
+        $original->setWidth(456);
+        $original->setHeight(456);
+        $original->setFileSize(456);
+
+        $suggestion = new Card();
+        $suggestion->copyInto($original);
+
+        self::assertSame(456, $original->getWidth());
+        self::assertSame(456, $original->getHeight());
+        self::assertSame(456, $original->getFileSize());
     }
 
     public function testRelatedCards(): void

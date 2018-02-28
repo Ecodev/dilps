@@ -74,30 +74,35 @@ class Card extends AbstractModel
 
     /**
      * @var string
+     *
      * @ORM\Column(type="string", options={"default" = ""})
      */
     private $dating = '';
 
     /**
      * @var DoctrineCollection
+     *
      * @ORM\ManyToMany(targetEntity="Collection", mappedBy="cards")
      */
     private $collections;
 
     /**
      * @var DoctrineCollection
+     *
      * @ORM\ManyToMany(targetEntity="Artist")
      */
     private $artists;
 
     /**
      * @var DoctrineCollection
+     *
      * @ORM\ManyToMany(targetEntity="Tag")
      */
     private $tags;
 
     /**
      * @var DoctrineCollection
+     *
      * @ORM\OneToMany(targetEntity="Dating", mappedBy="card")
      */
     private $datings;
@@ -113,6 +118,7 @@ class Card extends AbstractModel
 
     /**
      * @var DoctrineCollection
+     *
      * @ORM\ManyToMany(targetEntity="Card")
      */
     private $cards;
@@ -235,9 +241,11 @@ class Card extends AbstractModel
 
     /**
      * Get the card dating.
+     *
      * This is a free form string that will be parsed to **try** and extract
      * some actual date range of dates. Any string is valid, but some parseable
      * values would typically be:
+     *
      * - (1620-1652)
      * - 01.05.1917
      * - XIIIe siècle
@@ -254,9 +262,11 @@ class Card extends AbstractModel
 
     /**
      * Set the card dating.
+     *
      * This is a free form string that will be parsed to **try** and extract
      * some actual date range of dates. Any string is valid, but some parseable
      * values would typically be:
+     *
      * - (1620-1652)
      * - 01.05.1917
      * - XIIIe siècle
@@ -290,6 +300,7 @@ class Card extends AbstractModel
 
     /**
      * Set all artists at once by their names.
+     *
      * Non-existing artists will be created automatically.
      *
      * @param string[] $artistNames
