@@ -28,7 +28,12 @@ class CollectionRepository extends AbstractRepository implements LimitedAccessSu
             }
         }
 
-        $qb->addOrderBy('collection.id');
+        if (@$filters['search']) {
+            $qb->andWhere('collection.name LIKE :search');
+            $qb->setParameter('search', '%' . $filters['search'] . '%');
+        }
+
+        $qb->addOrderBy('collection.name');
 
         return $qb;
     }

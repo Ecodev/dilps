@@ -19,6 +19,9 @@ class CollectionFilterType extends InputObjectType
                     'isSource' => [
                         'type' => self::boolean(),
                     ],
+                    'search' => [
+                        'type' => self::string(),
+                    ],
                 ];
             },
         ];
