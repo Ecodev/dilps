@@ -24,10 +24,11 @@ import {
     MatSliderModule,
     MatSlideToggleModule,
     MatSnackBarModule,
+    MatSelectModule,
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
-    MatTooltipModule,
+    MatTooltipModule, MatFormFieldModule,
 } from '@angular/material';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
@@ -35,6 +36,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgProgressModule } from 'ngx-progressbar';
 
 import { AppRoutingModule } from './app-routing.module';
+import { DownloadComponent } from './shared/components/download/download.component';
 import { AuthGuard } from './shared/services/auth.guard';
 import { ThemeService } from './shared/services/theme.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -113,6 +115,7 @@ import { LinkMutationService } from './shared/services/link-mutation.service';
         ChangeComponent,
         FileDropDirective,
         CollectionSelectorComponent,
+        DownloadComponent,
     ],
     entryComponents: [
         ConfirmComponent,
@@ -121,7 +124,6 @@ import { LinkMutationService } from './shared/services/link-mutation.service';
         InstitutionComponent,
         ArtistComponent,
         CollectionSelectorComponent,
-        CollectionComponent
     ],
     imports: [
         BrowserModule,
@@ -138,6 +140,8 @@ import { LinkMutationService } from './shared/services/link-mutation.service';
         PerfectScrollbarModule,
         MatInputModule,
         MatSnackBarModule,
+        MatSelectModule,
+        MatFormFieldModule,
         FlexLayoutModule,
         MatSidenavModule,
         MatListModule,

@@ -13,6 +13,11 @@ use Zend\Diactoros\Stream;
  */
 class TemporaryFile extends Stream
 {
+    public function __construct(string $filename)
+    {
+        parent::__construct($filename, 'r');
+    }
+
     public function __destruct()
     {
         $this->close();

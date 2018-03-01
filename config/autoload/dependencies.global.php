@@ -35,6 +35,7 @@ return [
             \Application\Action\GraphQLAction::class => \Application\Action\GraphQLFactory::class,
             \Application\Action\ImageAction::class => \Application\Action\ImageFactory::class,
             \Application\Action\PptxAction::class => \Application\Action\PptxFactory::class,
+            \Application\Action\ZipAction::class => \Application\Action\ZipFactory::class,
             \Application\Service\ImageService::class => \Application\Service\ImageFactory::class,
             \Application\Middleware\AuthenticationMiddleware::class => \Application\Middleware\AuthenticationFactory::class,
             \GraphQL\Doctrine\Types::class => \Application\Api\TypesFactory::class,

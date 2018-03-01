@@ -47,3 +47,7 @@ $app->get('/image/{id:\d+}[/{maxHeight:\d+}]', [
 $app->get('/pptx/{ids:\d+[,\d]*}[/{backgroundColor:[\da-fA-F]{8}}[/{textColor:[\da-fA-F]{8}}]]', [
     Application\Action\PptxAction::class,
 ], 'pptx');
+
+$app->get('/zip/{ids:\d+[,\d]*}[/{includeLegend:0|1}[/{maxHeight:\d+}]]', [
+    Application\Action\ZipAction::class,
+], 'zip');

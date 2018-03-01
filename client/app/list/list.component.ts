@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CardService } from '../card/services/card.service';
 import { merge } from 'lodash';
+import { DownloadComponent } from '../shared/components/download/download.component';
 import { IncrementSubject } from '../shared/services/increment-subject';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { MatDialog } from '@angular/material';
@@ -161,6 +162,15 @@ export class ListComponent implements OnInit {
                 top: '74px',
                 right: '10px',
             },
+            data: {
+                images: selection,
+            },
+        });
+    }
+
+    public download(selection) {
+        this.dialog.open(DownloadComponent, {
+            width: '400px',
             data: {
                 images: selection,
             },

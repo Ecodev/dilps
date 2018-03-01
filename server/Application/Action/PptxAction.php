@@ -97,7 +97,7 @@ class PptxAction extends AbstractAction
             'content-length' => filesize($tempFile),
             'content-disposition' => 'inline; filename="' . $title . '.pptx"',
         ];
-        $stream = new TemporaryFile($tempFile, 'r');
+        $stream = new TemporaryFile($tempFile);
         $response = new Response($stream, 200, $headers);
 
         return $response;

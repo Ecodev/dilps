@@ -3,6 +3,7 @@
 /config/development.config.php
 /data/tmp/*.*
 /data/tmp/pptx*
+/data/tmp/zip*
 /data/tmp/*/*
 /data/cache/*.*
 /data/cache/DoctrineORMModule/*
