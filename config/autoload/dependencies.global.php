@@ -34,6 +34,8 @@ return [
             'doctrine.entity_manager.orm_default' => \Application\ORM\EntityManagerFactory::class,
             \Application\Action\GraphQLAction::class => \Application\Action\GraphQLFactory::class,
             \Application\Action\ImageAction::class => \Application\Action\ImageFactory::class,
+            \Application\Action\PptxAction::class => \Application\Action\PptxFactory::class,
+            \Application\Service\ImageService::class => \Application\Service\ImageFactory::class,
             \Application\Middleware\AuthenticationMiddleware::class => \Application\Middleware\AuthenticationFactory::class,
             \GraphQL\Doctrine\Types::class => \Application\Api\TypesFactory::class,
             \Imagine\Image\ImagineInterface::class => \Application\Service\ImagineFactory::class,

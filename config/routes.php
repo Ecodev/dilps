@@ -43,3 +43,7 @@ $app->post('/graphql', [
 $app->get('/image/{id:\d+}[/{maxHeight:\d+}]', [
     Application\Action\ImageAction::class,
 ], 'image');
+
+$app->get('/pptx/{ids:\d+[,\d]*}[/{backgroundColor:[\da-fA-F]{8}}[/{textColor:[\da-fA-F]{8}}]]', [
+    Application\Action\PptxAction::class,
+], 'pptx');

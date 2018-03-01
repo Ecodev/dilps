@@ -27,11 +27,13 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.1",
+        "ext-gd2": "*",
         "dasprid/container-interop-doctrine": "^1.0",
         "doctrine/migrations": "^1.6",
         "ecodev/graphql-doctrine": "^1.0",
         "ecodev/graphql-upload": "^2.0",
         "imagine/imagine": "^0.7.1",
+        "phpoffice/phppresentation": "^0.9.0",
         "roave/security-advisories": "dev-master",
         "zendframework/zend-component-installer": "^1.0",
         "zendframework/zend-config-aggregator": "^1.0",

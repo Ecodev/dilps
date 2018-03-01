@@ -2,6 +2,7 @@
 /config/autoload/local.php
 /config/development.config.php
 /data/tmp/*.*
+/data/tmp/pptx*
 /data/tmp/*/*
 /data/cache/*.*
 /data/cache/DoctrineORMModule/*
