@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewContainerRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ArtistComponent } from '../../../artists/artist/artist.component';
 import 'rxjs/add/observable/forkJoin';
@@ -27,8 +27,8 @@ export class DownloadComponent implements OnInit {
         },
     ];
 
-    public backgroundColor = '000000';
-    public textColor = 'FFFFFF';
+    public backgroundColor = '#000000';
+    public textColor = '#FFFFFF';
 
     constructor(private dialogRef: MatDialogRef<ArtistComponent>,
                 @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -53,7 +53,18 @@ export class DownloadComponent implements OnInit {
         return this.data.images.map(card => card.id).join(',');
     }
 
+    /**
+     * Convert "#AABBCC" to "FFAABBCC"
+     *
+     * @param {string} rgb
+     * @returns {string}
+     */
     private toRgba(rgb: string): string {
-        return 'FF' + rgb;
+        let result = rgb.replace('#', '');
+        if (result.length === 6) {
+            result = 'FF' + result;
+        }
+
+        return result;
     }
 }

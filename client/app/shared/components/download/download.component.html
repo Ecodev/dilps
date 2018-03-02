@@ -20,10 +20,12 @@
         <mat-tab label="PowerPoint">
             <div class="padding" fxLayout="column">
                 <mat-form-field>
-                    <input matInput maxlength="6" [(ngModel)]="backgroundColor" placeholder="Couleur d'arrière-plan">
+                    <input matInput maxlength="7" [(ngModel)]="backgroundColor" placeholder="Couleur d'arrière-plan">
+                    <span class="color" matSuffix [style.background]="backgroundColor"></span>
                 </mat-form-field>
                 <mat-form-field>
-                    <input matInput maxlength="6" [(ngModel)]="textColor" placeholder="Couleur du texte">
+                    <input matInput maxlength="7" [(ngModel)]="textColor" placeholder="Couleur du texte">
+                    <span class="color" matSuffix [style.background]="textColor"></span>
                 </mat-form-field>
                 <div fxLayout="row" fxFlexAlign="end">
                     <button mat-button (click)="downloadPowerPoint()">Télécharger en PowerPoint</button>

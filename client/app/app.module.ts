@@ -124,6 +124,7 @@ import { LinkMutationService } from './shared/services/link-mutation.service';
         InstitutionComponent,
         ArtistComponent,
         CollectionSelectorComponent,
+        DownloadComponent,
     ],
     imports: [
         BrowserModule,
