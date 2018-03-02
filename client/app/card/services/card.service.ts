@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import 'rxjs/add/observable/of';
 import { merge } from 'lodash';
+import { map } from 'rxjs/operators';
 import {
     CardInput,
     CardQuery,
@@ -13,7 +14,15 @@ import {
     Visibility,
 } from '../../shared/generated-types';
 import { AbstractModelService } from '../../shared/services/abstract-model.service';
-import { cardQuery, cardsQuery, createCardMutation, deleteCardsMutation, updateCardMutation, } from './cardQueries';
+import {
+    cardQuery,
+    cardsQuery,
+    createCardMutation,
+    deleteCardsMutation,
+    updateCardMutation,
+    validateData,
+    validateImage,
+} from './cardQueries';
 import { Literal } from '../../shared/types';
 
 @Injectable()
@@ -110,6 +119,38 @@ export class CardService extends AbstractModelService<CardQuery['card'],
         }
 
         return input;
+    }
+
+    public validateData(card: { id }) {
+        return this.apollo.mutate({
+            mutation: validateData,
+            variables: {
+                id: card.id,
+            },
+            refetchQueries: this.getRefetchQueries(),
+        }).pipe(map(data => {
+                const c = data.data.validateData;
+                merge(card, c);
+
+                return c;
+            },
+        ));
+    }
+
+    public validateImage(card: { id }) {
+        return this.apollo.mutate({
+            mutation: validateImage,
+            variables: {
+                id: card.id,
+            },
+            refetchQueries: this.getRefetchQueries(),
+        }).pipe(map(data => {
+                const c = data.data.validateImage;
+                merge(card, c);
+
+                return c;
+            },
+        ));
     }
 
 }

@@ -263,4 +263,16 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
             },
         });
     }
+
+    public validateData() {
+        this.cardSvc.validateData(this.model).subscribe(() => {
+            this.alertSvc.info('Donnée validée');
+        });
+    }
+
+    public validateImage() {
+        this.cardSvc.validateImage(this.model).subscribe(() => {
+            this.alertSvc.info('Image validée');
+        });
+    }
 }

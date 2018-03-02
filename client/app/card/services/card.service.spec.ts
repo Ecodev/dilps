@@ -80,6 +80,10 @@ describe('CardService', () => {
         creator: userMetaTesting,
         updateDate: '2018-01-18T11:43:31',
         updater: userMetaTesting,
+        dataValidationDate: '2018-01-18T11:43:31',
+        dataValidator: userMetaTesting,
+        imageValidationDate: '2018-01-18T11:43:31',
+        imageValidator: userMetaTesting,
     };
 
     const expectedOneForAll = {

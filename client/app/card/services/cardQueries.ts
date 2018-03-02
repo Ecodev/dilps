@@ -66,6 +66,14 @@ fragment cardDetails on Card {
     updater {
         ...userMeta
     }
+    dataValidationDate
+    dataValidator {
+        ...userMeta
+    }
+    imageValidationDate
+    imageValidator {
+        ...userMeta
+    }
 }${userMetaFragment}`;
 
 
@@ -117,3 +125,17 @@ export const deleteCardsMutation = gql`
 mutation DeleteCards ($ids: [CardID!]!){
     deleteCards(ids: $ids)
 }`;
+
+export const validateData = gql`
+mutation ValidateData($id: CardID!) {
+    validateData(id: $id) {
+        ...cardDetails
+    }
+}${cardDetailsFragment}`;
+
+export const validateImage = gql`
+mutation ValidateImage($id: CardID!) {
+    validateImage(id: $id) {
+        ...cardDetails
+    }
+}${cardDetailsFragment}`;
