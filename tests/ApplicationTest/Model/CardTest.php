@@ -7,6 +7,8 @@ namespace ApplicationTest\Model;
 use Application\Model\Card;
 use Application\Model\Collection;
 use Application\Model\Country;
+use Application\Model\User;
+use Application\Utility;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -140,5 +142,29 @@ class CardTest extends TestCase
         $this->expectExceptionMessage('A card cannot be related to itself');
         $card = new Card();
         $card->addCard($card);
+    }
+
+    public function testValidation(): void
+    {
+        $user = new User();
+        User::setCurrent($user);
+        $card = new Card();
+
+        self::assertNull($card->getDataValidationDate());
+        self::assertNull($card->getDataValidator());
+        self::assertNull($card->getImageValidationDate());
+        self::assertNull($card->getImageValidator());
+
+        $card->validateData();
+        self::assertSame(Utility::getNow(), $card->getDataValidationDate());
+        self::assertSame($user, $card->getDataValidator());
+        self::assertNull($card->getImageValidationDate());
+        self::assertNull($card->getImageValidator());
+
+        $card->validateImage();
+        self::assertSame(Utility::getNow(), $card->getDataValidationDate());
+        self::assertSame($user, $card->getDataValidator());
+        self::assertSame(Utility::getNow(), $card->getImageValidationDate());
+        self::assertSame($user, $card->getImageValidator());
     }
 }

@@ -9,6 +9,7 @@ use Application\Traits\CardSimpleProperties;
 use Application\Traits\HasAddress;
 use Application\Traits\HasInstitution;
 use Application\Traits\HasName;
+use Application\Traits\HasValidation;
 use Application\Traits\HasVisibility;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection as DoctrineCollection;
@@ -38,6 +39,7 @@ class Card extends AbstractModel
     use HasAddress;
     use CardSimpleProperties;
     use HasVisibility;
+    use HasValidation;
 
     private const IMAGE_PATH = 'data/images/';
     const STATUS_NEW = 'new';

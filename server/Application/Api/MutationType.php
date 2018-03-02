@@ -11,6 +11,8 @@ use Application\Api\Field\Mutation\RejectChange;
 use Application\Api\Field\Mutation\SuggestCreation;
 use Application\Api\Field\Mutation\SuggestDeletion;
 use Application\Api\Field\Mutation\SuggestUpdate;
+use Application\Api\Field\Mutation\ValidateData;
+use Application\Api\Field\Mutation\ValidateImage;
 use Application\Api\Field\Standard;
 use Application\Model\Artist;
 use Application\Model\Card;
@@ -31,6 +33,8 @@ class MutationType extends ObjectType
             RejectChange::build(),
             Login::build(),
             Logout::build(),
+            ValidateData::build(),
+            ValidateImage::build(),
         ];
 
         $fields = array_merge(
