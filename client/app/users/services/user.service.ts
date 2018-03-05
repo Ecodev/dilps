@@ -12,6 +12,7 @@ import {
     UpdateUserMutation,
     UserInput,
     UserQuery,
+    UserRole,
     UsersQuery,
     UserType,
     ViewerQuery,
@@ -28,6 +29,7 @@ import {
     viewerQuery,
 } from './userQueries';
 import { map } from 'rxjs/operators';
+import { merge } from 'lodash';
 
 @Injectable()
 export class UserService extends AbstractModelService<UserQuery['user'],
@@ -35,8 +37,6 @@ export class UserService extends AbstractModelService<UserQuery['user'],
     CreateUserMutation['createUser'],
     UpdateUserMutation['updateUser'],
     DeleteUsersMutation['deleteUsers']> {
-
-    private currentUser;
 
     constructor(apollo: Apollo, private router: Router) {
         super(apollo, 'user', userQuery, usersQuery, createUserMutation, updateUserMutation, deleteUsersMutation);
@@ -57,7 +57,40 @@ export class UserService extends AbstractModelService<UserQuery['user'],
         return this.apollo.query<ViewerQuery>({
             query: viewerQuery,
             fetchPolicy: 'network-only',
-        }).pipe(map(result => result.data ? result.data.viewer : null));
+        }).pipe(map(result => {
+            const user: any = result.data ? result.data.viewer : null;
+            return merge({}, user, {roleLevel: this.getRole(user.role).level});
+        }));
+    }
+
+    public getRole(role) {
+        const roles = this.getRoles();
+        return roles.find(r => r.name === role);
+    }
+
+    public getRoles() {
+        return [
+            {
+                name: UserRole.student,
+                text: 'Etudiant',
+                level: 1,
+            },
+            {
+                name: UserRole.junior,
+                text: 'Junior',
+                level: 2,
+            },
+            {
+                name: UserRole.senior,
+                text: 'Senior',
+                level: 3,
+            },
+            {
+                name: UserRole.administrator,
+                text: 'Admin',
+                level: 4,
+            },
+        ];
     }
 
     public login(loginData): Observable<LoginMutation['login']> {

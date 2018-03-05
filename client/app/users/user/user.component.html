@@ -43,6 +43,12 @@
                     <mat-datepicker #picker2></mat-datepicker>
                 </mat-form-field>
 
+                <mat-form-field>
+                    <mat-select placeholder="Rôle" [(value)]="data.item.role">
+                        <mat-option *ngFor="let role of roles" [value]="role.name"> {{ role.text }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
                 <mat-form-field *ngIf="data.item.id">
                     <input matInput disabled name="type" placeholder="Type d'utilisateur" [(ngModel)]="data.item.type" >
                 </mat-form-field>
