@@ -16,6 +16,11 @@ use PHPUnit\Framework\TestCase;
  */
 class CardTest extends TestCase
 {
+    public function tearDown(): void
+    {
+        User::setCurrent(null);
+    }
+
     public function testName(): void
     {
         $withoutName = new Card();
@@ -173,7 +178,7 @@ class CardTest extends TestCase
         $card = new Card();
         $actual = $card->getPermissions();
         $expected = [
-            'create' => true,
+            'create' => false,
             'read' => false,
             'update' => false,
             'delete' => false,

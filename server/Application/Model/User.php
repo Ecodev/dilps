@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Application\Model;
 
+use Application\Acl\Acl;
 use Application\ORM\Query\Filter\AclFilter;
 use Application\Traits\HasInstitution;
+use Application\Utility;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use GraphQL\Doctrine\Annotation as API;
@@ -271,5 +273,46 @@ class User extends AbstractModel
     public function getType(): string
     {
         return $this->type;
+    }
+
+    /**
+     * Get a list of global permissions for this user
+     *
+     * @API\Field(type="GlobalPermissionsList")
+     *
+     * @return array
+     */
+    public function getGlobalPermissions(): array
+    {
+        $acl = new Acl();
+        $type = [
+            Artist::class,
+            Card::class,
+            Change::class,
+            Collection::class,
+            Country::class,
+            Dating::class,
+            Institution::class,
+            Tag::class,
+            self::class,
+        ];
+
+        $permissions = ['create'];
+        $result = [];
+
+        $previousUser = self::getCurrent();
+        foreach ($type as $t) {
+            $instance = new $t();
+            $sh = lcfirst(Utility::getShortClassName($instance));
+            $result[$sh] = [];
+
+            foreach ($permissions as $p) {
+                $result[$sh][$p] = $acl->isCurrentUserAllowed($instance, $p);
+            }
+        }
+
+        self::setCurrent($previousUser);
+
+        return $result;
     }
 }

@@ -170,6 +170,8 @@ abstract class AbstractModel
     }
 
     /**
+     * Get permissions on this object for the current user
+     *
      * @API\Field(type="Permissions")
      *
      * @return array
