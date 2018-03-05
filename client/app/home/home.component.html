@@ -14,6 +14,16 @@
                                 <span matLine>Accueil</span>
                             </a>
 
+                            <!-- Collections publiques -->
+                            <a mat-list-item
+                               routerLink="/collection"
+                               routerLinkActive="active"
+                               matTooltipPosition="after"
+                               matTooltip="Collections publiques"
+                            >
+                                <mat-icon mat-list-icon>collections</mat-icon>
+                            </a>
+
                             <!-- Mes collections privées -->
                             <a mat-list-item
                                routerLink="/my-collection"
@@ -24,15 +34,17 @@
                                 <mat-icon mat-list-icon>collections_bookmark</mat-icon>
                             </a>
 
-                            <!-- Collections publiques -->
+
+                            <!-- Fonds -->
                             <a mat-list-item
-                               routerLink="/collection"
+                               routerLink="/source"
                                routerLinkActive="active"
                                matTooltipPosition="after"
-                               matTooltip="Collections publiques"
+                               matTooltip="Fonds"
                             >
-                                <mat-icon mat-list-icon>collections</mat-icon>
+                                <mat-icon mat-list-icon>folder_special</mat-icon>
                             </a>
+
 
                             <!-- Users -->
                             <a mat-list-item

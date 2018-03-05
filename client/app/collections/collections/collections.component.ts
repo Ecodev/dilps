@@ -41,10 +41,12 @@ export class CollectionsComponent implements OnInit {
 
             this.showUnclassified = data.showUnclassified;
 
-            let filters = {};
+            const filters = data.filters ? data.filters : {};
+
             if (data.creator) {
-                filters = {creators: [data.creator.id]};
+                filters.creators = [data.creator.id];
             }
+
             this.queryVariables.patch({filters: filters});
         });
 

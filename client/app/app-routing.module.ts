@@ -77,6 +77,11 @@ export const routes: Routes = [
             {
                 path: 'collection',
                 component: CollectionsComponent,
+                data: {
+                    filters: {
+                        isSource: false,
+                    },
+                },
                 children: [
                     {
                         path: ':collectionId',
@@ -92,6 +97,9 @@ export const routes: Routes = [
                 data: {
                     showLogo: false,
                     showUnclassified: true,
+                    filters: {
+                        isSource: false,
+                    },
                 },
                 children: [
                     {
@@ -107,6 +115,25 @@ export const routes: Routes = [
                     },
                 ],
             },
+            {
+                path: 'source',
+                component: CollectionsComponent,
+                data: {
+                    filters: {
+                        isSource: true,
+                    },
+                },
+                children: [
+                    {
+                        path: ':collectionId',
+                        component: ListComponent,
+                        data: {
+                            showLogo: false,
+                            filters: {}
+                        },
+                    },
+                ],
+            },
         ],
     },
 
@@ -115,7 +142,7 @@ export const routes: Routes = [
 @NgModule({
     imports: [
         RouterModule.forRoot(routes, {
-            paramsInheritanceStrategy: 'always',
+            paramsInheritanceStrategy: 'emptyOnly',
         }),
     ],
     exports: [RouterModule],

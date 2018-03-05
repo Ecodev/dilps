@@ -13,6 +13,7 @@ import {
     MatChipsModule,
     MatDatepickerModule,
     MatDialogModule,
+    MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatListModule,
@@ -20,15 +21,15 @@ import {
     MatNativeDateModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
+    MatSelectModule,
     MatSidenavModule,
     MatSliderModule,
     MatSlideToggleModule,
     MatSnackBarModule,
-    MatSelectModule,
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
-    MatTooltipModule, MatFormFieldModule,
+    MatTooltipModule,
 } from '@angular/material';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
@@ -127,6 +128,7 @@ import { RolePipe } from './shared/pipes/role.pipe';
         ArtistComponent,
         CollectionSelectorComponent,
         DownloadComponent,
+        CollectionComponent
     ],
     imports: [
         BrowserModule,
