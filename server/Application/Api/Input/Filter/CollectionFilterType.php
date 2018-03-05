@@ -22,6 +22,9 @@ class CollectionFilterType extends InputObjectType
                     'search' => [
                         'type' => self::string(),
                     ],
+                    'visibilities' => [
+                        'type' => self::listOf(self::nonNull(self::string())),
+                    ],
                 ];
             },
         ];

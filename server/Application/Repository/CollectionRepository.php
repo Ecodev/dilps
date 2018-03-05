@@ -28,6 +28,15 @@ class CollectionRepository extends AbstractRepository implements LimitedAccessSu
             }
         }
 
+        if (isset($filters['visibilities'])) {
+            if (\count($filters['visibilities']) > 0) {
+                $qb->andWhere('collection.visibility IN (:visibilities)');
+                $qb->setParameter('visibilities', $filters['visibilities']);
+            } else {
+                $qb->andWhere('collection.visibility IS NULL');
+            }
+        }
+
         if (@$filters['search']) {
             $qb->andWhere('collection.name LIKE :search');
             $qb->setParameter('search', '%' . $filters['search'] . '%');
