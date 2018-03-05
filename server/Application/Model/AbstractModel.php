@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Application\Model;
 
+use Application\Acl\Acl;
 use Application\Utility;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use GraphQL\Doctrine\Annotation as API;
 
 /**
  * Base class for all objects stored in database.
@@ -165,5 +167,22 @@ abstract class AbstractModel
     {
         $this->setUpdateDate(Utility::getNow());
         $this->setUpdater(User::getCurrent());
+    }
+
+    /**
+     * @API\Field(type="Permissions")
+     *
+     * @return array
+     */
+    public function getPermissions(): array
+    {
+        $acl = new Acl();
+
+        return [
+            'create' => $acl->isCurrentUserAllowed($this, 'create'),
+            'read' => $acl->isCurrentUserAllowed($this, 'read'),
+            'update' => $acl->isCurrentUserAllowed($this, 'update'),
+            'delete' => $acl->isCurrentUserAllowed($this, 'delete'),
+        ];
     }
 }

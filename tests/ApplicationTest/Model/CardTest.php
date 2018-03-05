@@ -167,4 +167,31 @@ class CardTest extends TestCase
         self::assertSame(Utility::getNow(), $card->getImageValidationDate());
         self::assertSame($user, $card->getImageValidator());
     }
+
+    public function testGetPermissions(): void
+    {
+        $card = new Card();
+        $actual = $card->getPermissions();
+        $expected = [
+            'create' => true,
+            'read' => false,
+            'update' => false,
+            'delete' => false,
+        ];
+        self::assertEquals($expected, $actual, 'should be able to get permissions as anonymous');
+
+        // Make it the current user as creator
+        $user = new User();
+        User::setCurrent($user);
+        $card->timestampCreation();
+
+        $actual2 = $card->getPermissions();
+        $expected2 = [
+            'create' => true,
+            'read' => true,
+            'update' => true,
+            'delete' => true,
+        ];
+        self::assertEquals($expected2, $actual2, 'should be able to get permissions as creator');
+    }
 }

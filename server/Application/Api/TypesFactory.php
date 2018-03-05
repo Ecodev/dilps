@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Api;
 
+use Application\Api\Output\PermissionsType;
 use Application\Api\Scalar\DateTimeType;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManager;
@@ -18,6 +19,7 @@ class TypesFactory
 
         $mapping = [
             DateTimeImmutable::class => DateTimeType::class,
+            PermissionsType::class => PermissionsType::class,
         ];
 
         $types = new Types($entityManager, $mapping);
