@@ -31,6 +31,7 @@ fragment cardDetails on Card {
     }
     status
     original {
+        id
         width
         height
     }

@@ -46,6 +46,7 @@ describe('CardService', () => {
         },
         status: 'new',
         original: {
+            id: '456',
             width: 1,
             height: 1,
             __typename: 'Card',
