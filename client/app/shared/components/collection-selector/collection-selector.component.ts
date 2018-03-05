@@ -5,6 +5,7 @@ import { ArtistComponent } from '../../../artists/artist/artist.component';
 import 'rxjs/add/observable/forkJoin';
 import { UserService } from '../../../users/services/user.service';
 import { Literal } from '../../types';
+import { UserRole, Visibility } from '../../generated-types';
 
 @Component({
     selector: 'app-collection-selector',
@@ -28,8 +29,18 @@ export class CollectionSelectorComponent implements OnInit {
     }
 
     ngOnInit() {
+
         this.userSvc.getCurrentUser().subscribe(user => {
-            this.listFilters = {creators: [user.id]};
+            if (user.role === UserRole.administrator) {
+                this.listFilters = {
+                    visibilities: [
+                        Visibility.member,
+                        Visibility.public,
+                    ],
+                };
+            } else {
+                this.listFilters = {creators: [user.id]};
+            }
         });
     }
 
