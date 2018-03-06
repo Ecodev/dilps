@@ -9,6 +9,8 @@ export class UtilityService {
             let value = object[key];
             if (isObject(value) && value.id) {
                 value = object[key].id;
+            } else if (isObject(value) && value instanceof Date) {
+                value =  value.toISOString();
             } else if (isObject(value) && !(value instanceof File)) {
                 value = pickBy(value, (v, k) => k !== '__typename');
             }

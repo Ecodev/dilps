@@ -4,6 +4,7 @@ describe('UtilityService', () => {
 
     it('should transform relations to id and remove __typename, but never touch File instances', () => {
         const file = new File(['foo'], 'foo');
+        const date = new Date('2018-07-01');
         const input = {
             prop1: 'val1',
             obj1: {
@@ -17,7 +18,8 @@ describe('UtilityService', () => {
                 prop6: 'val6',
                 __typename: 'some type',
             },
-            file: file,
+            file,
+            date,
         };
 
         const expected = {
@@ -29,7 +31,8 @@ describe('UtilityService', () => {
             prop5: {
                 prop6: 'val6',
             },
-            file: file,
+            file,
+            date: '2018-07-01T00:00:00.000Z',
         };
 
         const result = UtilityService.relationsToIds(input);
