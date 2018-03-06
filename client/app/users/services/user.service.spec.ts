@@ -33,6 +33,8 @@ describe('UserService', () => {
         email: 'test string',
         login: 'test string',
         activeUntil: '2018-01-18T11:43:31',
+        termsAgreement: '2018-01-18T11:43:31',
+        role: 'student',
         __typename: 'User',
     };
 
