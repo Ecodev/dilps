@@ -60,6 +60,10 @@ export class UserService extends AbstractModelService<UserQuery['user'],
         }).pipe(map(result => result.data ? result.data.viewer : null));
     }
 
+    public getRole(role: UserRole) {
+        return this.getRoles().find(r => r.name === role);
+    }
+
     public getRoles() {
         return [
             {
