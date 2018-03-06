@@ -26,6 +26,6 @@ class IsMyself implements AssertionInterface
     {
         $user = $resource->getInstance();
 
-        return $user === User::getCurrent();
+        return User::getCurrent() && User::getCurrent() === $user;
     }
 }
