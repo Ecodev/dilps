@@ -40,7 +40,7 @@ class Change extends AbstractModel
      *
      * @ORM\ManyToOne(targetEntity="Card")
      * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(onDelete="SET NULL")
+     *     @ORM\JoinColumn(onDelete="CASCADE")
      * })
      */
     private $suggestion;
