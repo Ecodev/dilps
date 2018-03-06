@@ -14,6 +14,11 @@ return [
         'recursive' => true,
     ],
     [
+        'path' => 'data/tmp',
+        'permissions' => '0770',
+        'recursive' => true,
+    ],
+    [
         'path' => 'data/images',
         'permissions' => '0770',
         'recursive' => false,
