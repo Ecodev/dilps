@@ -12,6 +12,13 @@ import { UserComponent } from '../user/user.component';
 })
 export class UsersComponent extends AbstractList implements OnInit {
 
+    public displayedColumns = [
+        'name',
+        'email',
+        'role',
+        'activeUntil',
+        'termsAgreement'
+    ];
     constructor(service: UserService,
                 router: Router,
                 route: ActivatedRoute,

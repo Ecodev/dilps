@@ -53,6 +53,12 @@
                     <mat-cell *matCellDef="let element">{{ element.email }}</mat-cell>
                 </ng-container>
 
+                <!-- Role Column -->
+                <ng-container matColumnDef="role">
+                    <mat-header-cell *matHeaderCellDef>Role</mat-header-cell>
+                    <mat-cell *matCellDef="let element">{{ element.role }}</mat-cell>
+                </ng-container>
+
                 <!-- activeUntil Column -->
                 <ng-container matColumnDef="activeUntil">
                     <mat-header-cell *matHeaderCellDef>Validité</mat-header-cell>

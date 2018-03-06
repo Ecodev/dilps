@@ -29,9 +29,11 @@ query Users($filters: UserFilter, $pagination: PaginationInput) {
     users(filters: $filters, pagination: $pagination) {
         items {
             id
-            email
             login
+            email
+            role
             activeUntil
+            termsAgreement
         }
         pageSize
         pageIndex
