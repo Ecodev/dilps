@@ -49,6 +49,7 @@ export class UserService extends AbstractModelService<UserQuery['user'],
             activeUntil: '',
             termsAgreement: null,
             type: UserType.default,
+            role: UserRole.student,
             institution: null,
         };
     }

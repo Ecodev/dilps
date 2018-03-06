@@ -35,8 +35,7 @@ class AclTest extends TestCase
         self::assertFalse($acl->isCurrentUserAllowed($card, 'update'), 'other user cannot update');
         self::assertSame('User "John" with role student is not allowed on resource "Card#" with privilege "update"', $acl->getLastDenialMessage());
 
-        $user3 = new User();
-        $user3->setRole(User::ROLE_ADMINISTRATOR);
+        $user3 = new User(User::ROLE_ADMINISTRATOR);
         User::setCurrent($user3);
         self::assertTrue($acl->isCurrentUserAllowed($card, 'update'), 'admin can do anything');
         self::assertNull($acl->getLastDenialMessage());

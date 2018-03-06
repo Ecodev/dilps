@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Application\Model;
 
 use Application\Acl\Acl;
+use Application\Api\Exception;
 use Application\ORM\Query\Filter\AclFilter;
 use Application\Traits\HasInstitution;
 use Application\Utility;
@@ -112,9 +113,12 @@ class User extends AbstractModel
 
     /**
      * Constructor
+     *
+     * @param string $role role for new user
      */
-    public function __construct()
+    public function __construct(string $role = self::ROLE_STUDENT)
     {
+        $this->role = $role;
     }
 
     /**
@@ -198,14 +202,48 @@ class User extends AbstractModel
     /**
      * Sets the user role
      *
-     * This property should only be set via dedicated mutations
+     * The current user is allowed to promote another user up to the same role as himself. So
+     * a Senior can promote a Student to Senior. Or an Admin can promote a Junior to Admin.
      *
-     * @API\Exclude
+     * But the current user is **not** allowed to demote a user who has a higher role than himself.
+     * That means that a Senior cannot demote an Admin to Student.
      *
      * @param string $role
      */
     public function setRole(string $role): void
     {
+        if ($role === $this->role) {
+            return;
+        }
+
+        $currentRole = self::getCurrent() ? self::getCurrent()->getRole() : self::ROLE_ANONYMOUS;
+        $orderedRoles = [
+            self::ROLE_ANONYMOUS,
+            self::ROLE_STUDENT,
+            self::ROLE_JUNIOR,
+            self::ROLE_SENIOR,
+            self::ROLE_ADMINISTRATOR,
+        ];
+
+        $newFound = false;
+        $oldFound = false;
+        foreach ($orderedRoles as $r) {
+            if ($r === $this->role) {
+                $oldFound = true;
+            }
+            if ($r === $role) {
+                $newFound = true;
+            }
+
+            if ($r === $currentRole) {
+                break;
+            }
+        }
+
+        if (!$newFound || !$oldFound) {
+            throw new Exception($currentRole . ' is not allowed to change role to ' . $role);
+        }
+
         $this->role = $role;
     }
 
