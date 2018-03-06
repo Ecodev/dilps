@@ -75,6 +75,10 @@ fragment cardDetails on Card {
     imageValidator {
         ...userMeta
     }
+    permissions {
+        update
+        delete
+    }
 }${userMetaFragment}`;
 
 

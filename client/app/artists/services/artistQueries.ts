@@ -27,6 +27,10 @@ query Artist($id: ArtistID!) {
         updater {
             ...userMeta
         }
+        permissions {
+            update
+            delete
+        }
     }
 }${userMetaFragment}`;
 

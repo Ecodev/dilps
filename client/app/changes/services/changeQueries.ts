@@ -42,6 +42,10 @@ query Change($id: ChangeID!) {
         updater {
             ...userMeta
         }
+        permissions {
+            update
+            delete
+        }
     }
 }
 ${userMetaFragment}

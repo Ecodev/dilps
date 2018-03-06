@@ -25,7 +25,12 @@
                 <mat-icon>close</mat-icon>
             </button>
 
-            <button mat-icon-button (click)="delete(selected)" color="warn" matTooltip="Supprimer la fiche définitivement">
+            <button mat-icon-button
+                    (click)="delete(selected)"
+                    color="warn"
+                    matTooltip="Supprimer la fiche définitivement"
+                    *ngIf="user.role === 'administrator'"
+            >
                 <mat-icon>delete_forever</mat-icon>
             </button>
 

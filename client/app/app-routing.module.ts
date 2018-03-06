@@ -14,6 +14,7 @@ import { ArtistsComponent } from './artists/artists/artists.component';
 import { ChangesComponent } from './changes/changes/changes.component';
 import { ChangeComponent } from './changes/change/change.component';
 import { UserResolver } from './users/services/user.resolver';
+import { AuthAdminGuard } from './shared/services/auth.admin.guard';
 
 export const routes: Routes = [
 
@@ -53,14 +54,17 @@ export const routes: Routes = [
             {
                 path: 'user',
                 component: UsersComponent,
+                canActivate: [AuthAdminGuard],
             },
             {
                 path: 'institution',
                 component: InstitutionsComponent,
+                canActivate: [AuthAdminGuard],
             },
             {
                 path: 'artist',
                 component: ArtistsComponent,
+                canActivate: [AuthAdminGuard],
             },
             {
                 path: 'notification',
@@ -95,6 +99,7 @@ export const routes: Routes = [
                 component: CollectionsComponent,
                 resolve: {creator: UserResolver},
                 data: {
+                    canCreate: true,
                     showLogo: false,
                     showUnclassified: true,
                     filters: {
@@ -118,7 +123,9 @@ export const routes: Routes = [
             {
                 path: 'source',
                 component: CollectionsComponent,
+                canActivate: [AuthAdminGuard],
                 data: {
+                    canCreate: true,
                     filters: {
                         isSource: true,
                     },

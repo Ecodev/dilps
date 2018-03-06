@@ -8,7 +8,7 @@
             <button mat-icon-button (click)="showDescs = !showDescs" [matTooltip]="'Voir les descriptions'">
                 <mat-icon>short_text</mat-icon>
             </button>
-            <button mat-icon-button (click)="add()" [matTooltip]="'Créer une collection'">
+            <button mat-icon-button (click)="add()" [matTooltip]="'Créer une collection'" *ngIf="canCreate">
                 <mat-icon>add</mat-icon>
             </button>
         </mat-toolbar>

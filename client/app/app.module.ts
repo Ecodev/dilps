@@ -87,6 +87,7 @@ import { FileDropDirective } from './shared/directives/file-drop.directive';
 import { CollectionSelectorComponent } from './shared/components/collection-selector/collection-selector.component';
 import { LinkMutationService } from './shared/services/link-mutation.service';
 import { RolePipe } from './shared/pipes/role.pipe';
+import { AuthAdminGuard } from './shared/services/auth.admin.guard';
 
 @NgModule({
     declarations: [
@@ -173,6 +174,7 @@ import { RolePipe } from './shared/pipes/role.pipe';
     ],
     providers: [
         AuthGuard,
+        AuthAdminGuard,
         ThemeService,
         NetworkActivityService,
         CollectionService,

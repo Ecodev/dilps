@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { AbstractList } from '../../shared/components/AbstractList';
 import { ChangeService } from '../services/change.service';
+import { UserService } from '../../users/services/user.service';
 
 @Component({
     selector: 'app-changes',

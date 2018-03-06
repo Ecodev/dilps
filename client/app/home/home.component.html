@@ -34,17 +34,16 @@
                                 <mat-icon mat-list-icon>collections_bookmark</mat-icon>
                             </a>
 
-
                             <!-- Fonds -->
                             <a mat-list-item
                                routerLink="/source"
                                routerLinkActive="active"
                                matTooltipPosition="after"
                                matTooltip="Fonds"
+                               *ngIf="user.role === 'administrator'"
                             >
                                 <mat-icon mat-list-icon>folder_special</mat-icon>
                             </a>
-
 
                             <!-- Users -->
                             <a mat-list-item
@@ -52,6 +51,7 @@
                                routerLinkActive="active"
                                matTooltipPosition="after"
                                matTooltip="Liste des utilisateurs"
+                               *ngIf="user.role === 'administrator'"
                             >
                                 <mat-icon mat-list-icon>group</mat-icon>
                             </a>
@@ -72,12 +72,13 @@
                                matTooltip="Ajouter une image"
                                ngfSelect
                                (fileChange)="uploadPhoto($event)"
+                               *ngIf="user?.globalPermissions?.card?.create"
                             >
                                 <mat-icon mat-list-icon>file_upload</mat-icon>
                             </a>
                         </mat-nav-list>
-                        <mat-divider></mat-divider>
-                        <mat-nav-list>
+                        <mat-divider *ngIf="user.role === 'administrator'"></mat-divider>
+                        <mat-nav-list *ngIf="user.role === 'administrator'">
 
                             <!-- Institutions -->
                             <a mat-list-item

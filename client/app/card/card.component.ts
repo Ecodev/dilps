@@ -13,6 +13,7 @@ import { UploadService } from '../shared/services/upload.service';
 import { Visibility } from '../shared/generated-types';
 import { CollectionSelectorComponent } from '../shared/components/collection-selector/collection-selector.component';
 import { MatDialog } from '@angular/material';
+import { UserService } from '../users/services/user.service';
 
 @Component({
     selector: 'app-card',
@@ -72,6 +73,8 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
     public artistComponent = ArtistComponent;
     private uploadSub;
 
+    public user;
+
     @Input()
     set editable(val: boolean) {
         this.edit = val;
@@ -87,10 +90,15 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
                 public artistService: ArtistService,
                 public institutionSvc: InstitutionService,
                 private uploadSvc: UploadService,
-                private dialog: MatDialog) {
+                private dialog: MatDialog,
+                private userSvc: UserService) {
     }
 
     ngOnInit() {
+
+        this.userSvc.getCurrentUser().subscribe(user => {
+            this.user = user;
+        });
 
         this.route.data.subscribe(data => this.showLogo = data.showLogo);
         if (this.route.snapshot.data['card']) { // edition

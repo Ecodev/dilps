@@ -29,7 +29,6 @@ import {
     viewerQuery,
 } from './userQueries';
 import { map } from 'rxjs/operators';
-import { merge } from 'lodash';
 
 @Injectable()
 export class UserService extends AbstractModelService<UserQuery['user'],
@@ -58,15 +57,7 @@ export class UserService extends AbstractModelService<UserQuery['user'],
         return this.apollo.query<ViewerQuery>({
             query: viewerQuery,
             fetchPolicy: 'network-only',
-        }).pipe(map(result => {
-            const user: any = result.data ? result.data.viewer : null;
-            return merge({}, user, {roleLevel: this.getRole(user.role).level});
-        }));
-    }
-
-    public getRole(role: UserRole) {
-        const roles = this.getRoles();
-        return roles.find(r => r.name === role);
+        }).pipe(map(result => result.data ? result.data.viewer : null));
     }
 
     public getRoles() {
@@ -74,22 +65,18 @@ export class UserService extends AbstractModelService<UserQuery['user'],
             {
                 name: UserRole.student,
                 text: 'Etudiant',
-                level: 1,
             },
             {
                 name: UserRole.junior,
-                text: 'Junior',
-                level: 2,
+                text: 'Etudiant junior',
             },
             {
                 name: UserRole.senior,
                 text: 'Senior',
-                level: 3,
             },
             {
                 name: UserRole.administrator,
-                text: 'Admin',
-                level: 4,
+                text: 'Administrateur',
             },
         ];
     }

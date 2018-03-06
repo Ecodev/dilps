@@ -27,6 +27,11 @@ export class CollectionsComponent implements OnInit {
      */
     public showUnclassified = false;
 
+    /**
+     * Can create permissions
+     */
+    public canCreate = false;
+
     constructor(private route: ActivatedRoute,
                 private router: Router,
                 private collectionsSvc: CollectionService,
@@ -38,7 +43,7 @@ export class CollectionsComponent implements OnInit {
         const queryRef = this.collectionsSvc.watchAll(this.queryVariables);
 
         this.route.data.subscribe((data: Literal) => {
-
+            this.canCreate = !!data.canCreate;
             this.showUnclassified = data.showUnclassified;
 
             const filters = data.filters ? data.filters : {};

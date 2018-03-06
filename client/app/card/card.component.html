@@ -19,7 +19,32 @@
                 <button mat-menu-item (click)="validateImage()">Valider l'image</button>
             </mat-menu>
 
-            <button mat-icon-button [matMenuTriggerFor]="validationMenu" *ngIf="model.id" matTooltip="Valider">
+            <button mat-icon-button (click)="update()" matTooltip="Enregistrer" *ngIf="isEdit() && model.id && model?.permissions?.update ">
+                <mat-icon>save</mat-icon>
+            </button>
+
+            <button mat-icon-button
+                    (click)="toggleEdit()"
+                    [matTooltip]="'Passer en mode édition'"
+                    *ngIf="model.id && model?.permissions?.update"
+            >
+                <mat-icon>edit</mat-icon>
+            </button>
+
+            <button mat-icon-button (click)="create()" matTooltip="Créer" *ngIf="!model.id && user?.globalPermissions?.card?.create">
+                <mat-icon>add</mat-icon>
+            </button>
+
+            <button mat-icon-button
+                    color="warn"
+                    (click)="confirmDelete()"
+                    matTooltip="Supprimer"
+                    *ngIf="model.id && model?.permissions?.delete"
+            >
+                <mat-icon>delete_forever</mat-icon>
+            </button>
+
+            <button mat-icon-button [matMenuTriggerFor]="validationMenu" matTooltip="Valider" *ngIf="model.id && user?.role === 'administrator'" >
                 <mat-icon>spellcheck</mat-icon>
             </button>
 
@@ -31,35 +56,23 @@
                 <mat-icon>add_alert</mat-icon>
             </button>
 
-            <button mat-icon-button (click)="create()" *ngIf="!model.id" matTooltip="Créer">
-                <mat-icon>add</mat-icon>
-            </button>
-            <button mat-icon-button (click)="update()" *ngIf="isEdit() && model.id" matTooltip="Enregistrer">
-                <mat-icon>save</mat-icon>
-            </button>
-            <button mat-icon-button (click)="toggleEdit()" *ngIf="model.id" [matTooltip]="'Passer en mode édition'">
-                <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button color="warn" (click)="confirmDelete()" matTooltip="Supprimer">
-                <mat-icon>delete_forever</mat-icon>
-            </button>
         </mat-toolbar>
 
         <perfect-scrollbar fxFlex>
             <div fxLayout="column" class="padding-top scrolled" fxLayoutAlign="start stretch">
 
                 <!--<div class="innerSpacing" fxLayout="column">-->
-                    <!--<div fxLayout="row">Visible {{ statuses[status].text }}</div>-->
-                    <!--<mat-slider [disabled]="!isEdit()"-->
-                                <!--[min]="1"-->
-                                <!--[max]="3"-->
-                                <!--[ngModel]="status"-->
-                                <!--(input)="updateStatus($event);status = $event.value"-->
-                                <!--[color]="statuses[status].color"-->
-                    <!--&gt;</mat-slider>-->
+                <!--<div fxLayout="row">Visible {{ statuses[status].text }}</div>-->
+                <!--<mat-slider [disabled]="!isEdit()"-->
+                <!--[min]="1"-->
+                <!--[max]="3"-->
+                <!--[ngModel]="status"-->
+                <!--(input)="updateStatus($event);status = $event.value"-->
+                <!--[color]="statuses[status].color"-->
+                <!--&gt;</mat-slider>-->
                 <!--</div>-->
 
-                <div class="innerSpacing" fxLayout="column">
+                <div class="innerSpacing" fxLayout="column" *ngIf="user?.role === 'administrator'">
                     <div fxLayout="row">Visible {{ visibilities[visibility].text }}</div>
                     <mat-slider [disabled]="!isEdit()"
                                 [min]="1"
@@ -190,7 +203,7 @@
 
     </div>
 
-    <div fxFlex class="containerWithToolbar" fxLayout="column" >
+    <div fxFlex class="containerWithToolbar" fxLayout="column">
         <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center">
             <div fxFlex></div>
             <a *ngIf="imageSrcFull && !imageData" mat-icon-button [attr.href]="imageSrcFull" download matTooltip="Télécharger l'image">

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ChangeService } from '../services/change.service';
 import { CardService } from '../../card/services/card.service';
 import { merge, omit } from 'lodash';
+import { UserService } from '../../users/services/user.service';
 
 @Component({
     selector: 'app-change',
@@ -17,14 +18,18 @@ export class ChangeComponent implements OnInit {
     public suggestionImageSrc;
     public suggestionImageSrcFull;
     public loaded = false;
+    public user;
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
                 private changeService: ChangeService,
-                private cardService: CardService) {
+                private cardService: CardService,
+                private userSvc: UserService) {
     }
 
     ngOnInit() {
+
+        this.userSvc.getCurrentUser().subscribe(user => this.user = user);
 
         if (this.route.snapshot.params['changeId']) {
             this.changeService.getOne(this.route.snapshot.params['changeId']).subscribe(change => {

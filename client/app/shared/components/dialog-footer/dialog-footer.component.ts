@@ -6,6 +6,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
     styleUrls: ['./dialog-footer.component.scss'],
 })
 export class DialogFooterComponent {
+    @Input() canCreate;
     @Input() item;
     @Output() create = new EventEmitter();
     @Output() update = new EventEmitter();

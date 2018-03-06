@@ -59,6 +59,7 @@ class Acl extends \Zend\Permissions\Acl\Acl
         $this->allow(User::ROLE_STUDENT, new ModelResource(Card::class), ['update', 'delete'], new IsOwner());
         $this->allow(User::ROLE_STUDENT, new ModelResource(Card::class), 'read', new Visibility(Card::VISIBILITY_MEMBER));
         $this->allow(User::ROLE_STUDENT, new ModelResource(Collection::class), 'read', new Visibility(Card::VISIBILITY_MEMBER));
+        $this->allow(User::ROLE_STUDENT, new ModelResource(Change::class), 'read', new IsOwner());
         $this->allow(User::ROLE_STUDENT, new ModelResource(Change::class), 'create');
         $this->allow(User::ROLE_STUDENT, new ModelResource(Collection::class), 'create');
         $this->allow(User::ROLE_STUDENT, new ModelResource(Collection::class), ['update', 'delete'], new IsOwner());

@@ -22,6 +22,10 @@ fragment userDetails on User {
     updater {
         ...userMeta
     }
+    permissions {
+        update
+        delete
+    }
 }${userMetaFragment}`;
 
 export const usersQuery = gql`

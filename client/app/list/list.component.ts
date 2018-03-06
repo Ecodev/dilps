@@ -11,6 +11,7 @@ import { CollectionService } from '../collections/services/collection.service';
 import { AlertService } from '../shared/components/alert/alert.service';
 import { NaturalGalleryComponent } from 'angular-natural-gallery';
 import { Literal } from '../shared/types';
+import { UserService } from '../users/services/user.service';
 
 @Component({
     selector: 'app-list',
@@ -38,15 +39,21 @@ export class ListComponent implements OnInit {
 
     public collection;
 
+    public user;
+
     constructor(private router: Router,
                 private route: ActivatedRoute,
                 private cardSvc: CardService,
                 private dialog: MatDialog,
                 private collectionSvc: CollectionService,
-                private alertSvc: AlertService) {
+                private alertSvc: AlertService,
+                private userSvc: UserService) {
     }
 
     ngOnInit() {
+
+        this.userSvc.getCurrentUser().subscribe(user => this.user = user);
+
         this.route.params.subscribe(params => {
             if (params.collectionId) {
                 this.collection = {

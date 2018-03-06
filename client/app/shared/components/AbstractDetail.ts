@@ -3,8 +3,11 @@ import { AlertService } from './alert/alert.service';
 import { MatDialogRef } from '@angular/material';
 import { OnInit } from '@angular/core';
 import { merge } from 'lodash';
+import { UserService } from '../../users/services/user.service';
 
 export class AbstractDetail implements OnInit {
+
+    public user;
 
     public data: any = {
         item: {},
@@ -13,6 +16,7 @@ export class AbstractDetail implements OnInit {
     constructor(public service,
                 private alertSvc: AlertService,
                 public dialogRef: MatDialogRef<ArtistComponent>,
+                public userSvc: UserService,
                 data: any) {
 
         this.data = merge({item: this.service.getEmptyObject()}, data);
@@ -24,6 +28,8 @@ export class AbstractDetail implements OnInit {
                 merge(this.data.item, res); // init all fields considering getOne query
             });
         }
+
+        this.userSvc.getCurrentUser().subscribe(user => this.user = user);
     }
 
     public update() {

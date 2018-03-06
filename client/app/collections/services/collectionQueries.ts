@@ -35,6 +35,10 @@ query Collection($id: CollectionID!) {
         updater {
             ...userMeta
         }
+        permissions {
+            update
+            delete
+        }
     }
 }${userMetaFragment}`;
 

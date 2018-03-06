@@ -37,6 +37,10 @@ query Institution($id: InstitutionID!) {
         updater {
             ...userMeta
         }
+        permissions {
+            update
+            delete
+        }
     }
 }${userMetaFragment}`;
 
