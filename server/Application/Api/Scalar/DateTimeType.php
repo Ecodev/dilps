@@ -48,7 +48,10 @@ class DateTimeType extends ScalarType
             throw new \UnexpectedValueException('Cannot represent value as date: ' . Utils::printSafe($value));
         }
 
-        return new DateTimeImmutable($value);
+        $date = new DateTimeImmutable($value);
+        $date = $date->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+
+        return $date;
     }
 
     /**
