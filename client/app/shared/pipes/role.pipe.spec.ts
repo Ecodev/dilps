@@ -30,5 +30,5 @@ describe('RolePipe', () => {
         expect(pipe).toBeTruthy();
         expect(pipe.transform(UserRole.student)).toBe('Etudiant');
         expect(pipe.transform('non-existing-role')).toBe('');
-    });
+    }));
 });
