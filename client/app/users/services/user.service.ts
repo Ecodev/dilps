@@ -64,7 +64,7 @@ export class UserService extends AbstractModelService<UserQuery['user'],
         }));
     }
 
-    public getRole(role) {
+    public getRole(role: UserRole) {
         const roles = this.getRoles();
         return roles.find(r => r.name === role);
     }

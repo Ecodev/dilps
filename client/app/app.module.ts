@@ -85,6 +85,7 @@ import { UploadService } from './shared/services/upload.service';
 import { FileDropDirective } from './shared/directives/file-drop.directive';
 import { CollectionSelectorComponent } from './shared/components/collection-selector/collection-selector.component';
 import { LinkMutationService } from './shared/services/link-mutation.service';
+import { RolePipe } from './shared/pipes/role.pipe';
 
 @NgModule({
     declarations: [
@@ -116,6 +117,7 @@ import { LinkMutationService } from './shared/services/link-mutation.service';
         FileDropDirective,
         CollectionSelectorComponent,
         DownloadComponent,
+        RolePipe,
     ],
     entryComponents: [
         ConfirmComponent,
