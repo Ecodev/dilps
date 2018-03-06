@@ -19,7 +19,7 @@
                                [multiple]="false"
                 ></app-thesaurus>
 
-                <mat-slide-toggle [(ngModel)]="data.item.isSource">Source</mat-slide-toggle>
+                <mat-slide-toggle [(ngModel)]="data.item.isSource" [disabled]="user?.role !== 'administrator'">Est un fond</mat-slide-toggle>
             </div>
 
         </mat-tab>

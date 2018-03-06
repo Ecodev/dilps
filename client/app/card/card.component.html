@@ -19,7 +19,11 @@
                 <button mat-menu-item (click)="validateImage()">Valider l'image</button>
             </mat-menu>
 
-            <button mat-icon-button (click)="update()" matTooltip="Enregistrer" *ngIf="isEdit() && model.id && model?.permissions?.update ">
+            <button mat-icon-button
+                    (click)="update()"
+                    matTooltip="Enregistrer"
+                    *ngIf="isEdit() && model.id && model?.permissions?.update"
+            >
                 <mat-icon>save</mat-icon>
             </button>
 
@@ -44,11 +48,15 @@
                 <mat-icon>delete_forever</mat-icon>
             </button>
 
-            <button mat-icon-button [matMenuTriggerFor]="validationMenu" matTooltip="Valider" *ngIf="model.id && user?.role === 'administrator'" >
+            <button mat-icon-button
+                    [matMenuTriggerFor]="validationMenu"
+                    matTooltip="Valider"
+                    *ngIf="model.id && user?.role === 'administrator'"
+            >
                 <mat-icon>spellcheck</mat-icon>
             </button>
 
-            <button mat-icon-button (click)="linkToCollection()" matTooltip="Ajouter à une collection">
+            <button mat-icon-button (click)="linkToCollection()" matTooltip="Ajouter à une collection" *ngIf="model.id">
                 <mat-icon>library_add</mat-icon>
             </button>
 

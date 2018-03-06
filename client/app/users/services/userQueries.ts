@@ -94,5 +94,28 @@ export const viewerQuery = gql`
 query Viewer {
     viewer {
         ...userDetails
+        globalPermissions {
+            artist {
+                create
+            }
+            card {
+                create
+            }
+            change {
+                create
+            }
+            collection {
+                create
+            }
+            dating {
+                create
+            }
+            institution {
+                create
+            }
+            user {
+                create
+            }
+        }
     }
 }${userDetailsFragment}`;

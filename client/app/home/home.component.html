@@ -72,7 +72,7 @@
                                matTooltip="Ajouter une image"
                                ngfSelect
                                (fileChange)="uploadPhoto($event)"
-                               *ngIf="user?.globalPermissions?.card?.create"
+                               *ngIf="user.role === 'administrator' || user.role === 'senior' || user.role === 'junior'"
                             >
                                 <mat-icon mat-list-icon>file_upload</mat-icon>
                             </a>
