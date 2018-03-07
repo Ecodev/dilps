@@ -78,6 +78,7 @@ export class CollectionsComponent implements OnInit {
     }
 
     public search(term) {
+        this.collections = [];
         this.queryVariables.patch({filters: {search: term}});
     }
 
