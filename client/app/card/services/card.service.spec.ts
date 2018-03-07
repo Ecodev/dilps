@@ -85,6 +85,11 @@ describe('CardService', () => {
         dataValidator: userMetaTesting,
         imageValidationDate: '2018-01-18T11:43:31',
         imageValidator: userMetaTesting,
+        permissions: {
+            update: true,
+            delete: true,
+            __typename : 'Permissions'
+        },
     };
 
     const expectedOneForAll = {

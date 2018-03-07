@@ -15,6 +15,11 @@ describe('ArtistService', () => {
         creator: userMetaTesting,
         updateDate: '2018-01-18T11:43:31',
         updater: userMetaTesting,
+        permissions: {
+            update: true,
+            delete: true,
+            __typename : 'Permissions'
+        },
     };
 
     const expectedOneForAll = {
