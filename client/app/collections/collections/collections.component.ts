@@ -34,6 +34,7 @@ export class CollectionsComponent implements OnInit {
     private defaultFilters = {
         filters: {
             search: '',
+            parents: [],
         },
         pagination: {
             pageIndex: 0,

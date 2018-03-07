@@ -37,14 +37,48 @@
                 <mat-divider *ngIf="showUnclassified"></mat-divider>
 
                 <mat-nav-list *ngIf="collections">
-                    <a *ngFor="let item of collections" mat-list-item [routerLink]="item.id" routerLinkActive="active"
-                    >
-                        <mat-icon mat-list-icon>collections</mat-icon>
-                        <span matLine fxLayout="row" fxLayoutAlign="start center">{{ item.name }}</span>
-                        <button mat-icon-button (click)="edit($event, item)">
-                            <mat-icon>edit</mat-icon>
-                        </button>
-                    </a>
+                    <ng-container *ngFor="let item of collections">
+                        <a mat-list-item [routerLink]="item.id" routerLinkActive="active">
+                            <mat-icon mat-list-icon>collections</mat-icon>
+                            <span matLine fxLayout="row" fxLayoutAlign="start center">{{ item.name }}</span>
+                            <button mat-icon-button (click)="edit($event, item)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </a>
+
+                        <ng-container *ngFor="let item of item.children">
+                            <a mat-list-item [routerLink]="item.id" routerLinkActive="active" style="padding-left:20px;">
+                                <mat-icon mat-list-icon>collections</mat-icon>
+                                <span matLine fxLayout="row" fxLayoutAlign="start center">{{ item.name }}</span>
+                                <button mat-icon-button (click)="edit($event, item)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                            </a>
+
+                            <ng-container *ngFor="let item of item.children">
+                                <a mat-list-item [routerLink]="item.id" routerLinkActive="active" style="padding-left:40px;">
+                                    <mat-icon mat-list-icon>collections</mat-icon>
+                                    <span matLine fxLayout="row" fxLayoutAlign="start center">{{ item.name }}</span>
+                                    <button mat-icon-button (click)="edit($event, item)">
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+                                </a>
+
+                                <ng-container *ngFor="let item of item.children">
+                                    <a mat-list-item [routerLink]="item.id" routerLinkActive="active" style="padding-left:60px;">
+                                        <mat-icon mat-list-icon>collections</mat-icon>
+                                        <span matLine fxLayout="row" fxLayoutAlign="start center">{{ item.name }}</span>
+                                        <button mat-icon-button (click)="edit($event, item)">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                    </a>
+                                </ng-container>
+
+                            </ng-container>
+
+                        </ng-container>
+
+                    </ng-container>
                     <a mat-list-item (click)="more()" *ngIf="hasMore" fxLayout="column" fxLayoutAlign="center">
                         <mat-icon mat-list-icon>keyboard_arrow_down</mat-icon>
                         <span matLine>Afficher d'avantage</span>

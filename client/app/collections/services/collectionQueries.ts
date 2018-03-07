@@ -7,7 +7,22 @@ query Collections($filters : CollectionFilter, $pagination: PaginationInput) {
         items {
             id
             name
-            description
+            children {
+                id
+                name
+                children {
+                    id
+                    name
+                    children {
+                        id
+                        name
+                        children {
+                            id
+                            name
+                        }
+                    }
+                }
+            }
         }
         pageSize
         pageIndex

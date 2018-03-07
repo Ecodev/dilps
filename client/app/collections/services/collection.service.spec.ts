@@ -35,7 +35,187 @@ describe('CollectionService', () => {
     const expectedOneForAll = {
         id: '456',
         name: 'test string',
-        description: 'test string',
+
+        children: [
+            {
+                id: '456',
+                name: 'test string',
+                children: [
+                    {
+                        id: '456',
+                        name: 'test string',
+                        children: [
+                            {
+                                id: '456',
+                                name: 'test string',
+                                children: [
+                                    {
+                                        id: '456',
+                                        name: 'test string',
+                                        __typename: 'Collection',
+                                    },
+                                    {
+                                        id: '456',
+                                        name: 'test string',
+                                        __typename: 'Collection',
+                                    },
+                                ],
+                                __typename: 'Collection',
+                            },
+                            {
+                                id: '456',
+                                name: 'test string',
+                                children: [
+                                    {
+                                        id: '456',
+                                        name: 'test string',
+                                        __typename: 'Collection',
+                                    },
+                                    {
+                                        id: '456',
+                                        name: 'test string',
+                                        __typename: 'Collection',
+                                    },
+                                ],
+                                __typename: 'Collection',
+                            },
+                        ] ,
+                        __typename: 'Collection',
+                    },
+                    {
+                        id: '456',
+                        name: 'test string',
+                        children: [
+                            {
+                                id: '456',
+                                name: 'test string',
+                                children: [
+                                    {
+                                        id: '456',
+                                        name: 'test string',
+                                        __typename: 'Collection',
+                                    },
+                                    {
+                                        id: '456',
+                                        name: 'test string',
+                                        __typename: 'Collection',
+                                    },
+                                ],
+                                __typename: 'Collection',
+                            },
+                            {
+                                id: '456',
+                                name: 'test string',
+                                children: [
+                                    {
+                                        id: '456',
+                                        name: 'test string',
+                                        __typename: 'Collection',
+                                    },
+                                    {
+                                        id: '456',
+                                        name: 'test string',
+                                        __typename: 'Collection',
+                                    },
+                                ],
+                                __typename: 'Collection',
+                            },
+                        ] ,
+                        __typename: 'Collection',
+                    },
+                ],
+                __typename: 'Collection',
+            },
+            {
+                id: '456',
+                name: 'test string',
+                children: [
+                    {
+                        id: '456',
+                        name: 'test string',
+                        children: [
+                            {
+                                id: '456',
+                                name: 'test string',
+                                children: [
+                                    {
+                                        id: '456',
+                                        name: 'test string',
+                                        __typename: 'Collection',
+                                    },
+                                    {
+                                        id: '456',
+                                        name: 'test string',
+                                        __typename: 'Collection',
+                                    },
+                                ],
+                                __typename: 'Collection',
+                            },
+                            {
+                                id: '456',
+                                name: 'test string',
+                                children: [
+                                    {
+                                        id: '456',
+                                        name: 'test string',
+                                        __typename: 'Collection',
+                                    },
+                                    {
+                                        id: '456',
+                                        name: 'test string',
+                                        __typename: 'Collection',
+                                    },
+                                ],
+                                __typename: 'Collection',
+                            },
+                        ] ,
+                        __typename: 'Collection',
+                    },
+                    {
+                        id: '456',
+                        name: 'test string',
+                        children: [
+                            {
+                                id: '456',
+                                name: 'test string',
+                                children: [
+                                    {
+                                        id: '456',
+                                        name: 'test string',
+                                        __typename: 'Collection',
+                                    },
+                                    {
+                                        id: '456',
+                                        name: 'test string',
+                                        __typename: 'Collection',
+                                    },
+                                ],
+                                __typename: 'Collection',
+                            },
+                            {
+                                id: '456',
+                                name: 'test string',
+                                children: [
+                                    {
+                                        id: '456',
+                                        name: 'test string',
+                                        __typename: 'Collection',
+                                    },
+                                    {
+                                        id: '456',
+                                        name: 'test string',
+                                        __typename: 'Collection',
+                                    },
+                                ],
+                                __typename: 'Collection',
+                            },
+                        ] ,
+                        __typename: 'Collection',
+                    },
+                ],
+                __typename: 'Collection',
+            },
+        ],
         __typename: 'Collection',
     };
 
@@ -74,7 +254,7 @@ describe('CollectionService', () => {
                 MockApolloProvider,
                 {
                     provide: LinkMutationService,
-                    class: DummyServices
+                    class: DummyServices,
                 },
             ],
         });

@@ -16,6 +16,9 @@ class CollectionFilterType extends InputObjectType
                     'creators' => [
                         'type' => self::listOf(self::nonNull(self::id())),
                     ],
+                    'parents' => [
+                        'type' => self::listOf(self::nonNull(self::id())),
+                    ],
                     'isSource' => [
                         'type' => self::boolean(),
                     ],
