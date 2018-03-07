@@ -9,20 +9,20 @@ export class AbstractList implements OnInit {
     public displayedColumns = [
         'name',
     ];
+
     public dataSource;
 
     protected listingOptions = new IncrementSubject({});
 
     constructor(private key,
-                private service,
+                protected service,
                 private component,
-                private router: Router,
-                private route: ActivatedRoute,
-                private dialog: MatDialog) {
+                protected router: Router,
+                protected route: ActivatedRoute,
+                protected dialog: MatDialog) {
     }
 
     ngOnInit() {
-
         const queryRef = this.service.watchAll(this.listingOptions);
         this.dataSource = new PaginatedDataSource(
             queryRef.valueChanges,

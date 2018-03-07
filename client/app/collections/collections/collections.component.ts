@@ -13,13 +13,8 @@ import { Literal } from '../../shared/types';
 })
 export class CollectionsComponent implements OnInit {
 
-    public collections;
+    public collections = [];
     private queryVariables = new IncrementSubject({});
-    /**
-     * Show descriptions
-     * @type {boolean}
-     */
-    public showDescs = false;
 
     /**
      * Show "unclassified" category on the top of the page
@@ -32,6 +27,22 @@ export class CollectionsComponent implements OnInit {
      */
     public canCreate = false;
 
+    public searchedTerm;
+
+    private pageSize = 50;
+
+    private defaultFilters = {
+        filters: {
+            search: '',
+        },
+        pagination: {
+            pageIndex: 0,
+            pageSize: this.pageSize,
+        },
+    };
+
+    public hasMore = false;
+
     constructor(private route: ActivatedRoute,
                 private router: Router,
                 private collectionsSvc: CollectionService,
@@ -40,8 +51,7 @@ export class CollectionsComponent implements OnInit {
 
     ngOnInit() {
 
-        const queryRef = this.collectionsSvc.watchAll(this.queryVariables);
-
+        this.queryVariables.patch(this.defaultFilters);
         this.route.data.subscribe((data: Literal) => {
             this.canCreate = !!data.canCreate;
             this.showUnclassified = data.showUnclassified;
@@ -55,9 +65,24 @@ export class CollectionsComponent implements OnInit {
             this.queryVariables.patch({filters: filters});
         });
 
-        queryRef.valueChanges.subscribe(collections => {
-            this.collections = collections;
+        const queryRef = this.collectionsSvc.watchAll(this.queryVariables);
+        queryRef.valueChanges.subscribe((collections: any) => {
+            this.collections = this.collections.concat(collections.items);
+            if (collections.length > this.collections.length) {
+                this.hasMore = true;
+            } else {
+                this.hasMore = false;
+            }
         });
+    }
+
+    public search(term) {
+        this.queryVariables.patch({filters: {search: term}});
+    }
+
+    public more() {
+        const nextPage = this.queryVariables.getValue().pagination.pageIndex + 1;
+        this.queryVariables.patch({pagination: {pageIndex: nextPage}});
     }
 
     public edit(event, collection) {

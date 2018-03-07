@@ -5,6 +5,20 @@
             <img src="assets/images/logo-blanc.svg" style="max-width:100%;height:30px;" />
             <div fxFlex></div>
 
+            <mat-form-field fxFlex class="searchField width-auto no-padding" floatPlaceholder="never" *ngIf="dataSource">
+                <input matInput
+                       appFocus
+                       placeholder="Rechercher"
+                       [ngModel]="searchedTerm"
+                       (change)="search({search : $event.target.value})"
+                       (keyup.esc)="search({search : ''})"
+                >
+                <mat-icon matPrefix>search</mat-icon>
+                <button mat-icon-button matSuffix (click)="search({search : ''})">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+
             <button mat-icon-button (click)="add()" [matTooltip]="'Créer une collection'" *ngIf="canCreate">
                 <mat-icon>add</mat-icon>
             </button>
@@ -22,11 +36,8 @@
 
                 <mat-divider *ngIf="showUnclassified"></mat-divider>
 
-                <mat-nav-list *ngIf="collections?.items">
-                    <a *ngFor="let item of collections.items"
-                       mat-list-item
-                       [routerLink]="item.id"
-                       routerLinkActive="active"
+                <mat-nav-list *ngIf="collections">
+                    <a *ngFor="let item of collections" mat-list-item [routerLink]="item.id" routerLinkActive="active"
                     >
                         <mat-icon mat-list-icon>collections</mat-icon>
                         <span matLine fxLayout="row" fxLayoutAlign="start center">{{ item.name }}</span>
@@ -34,8 +45,11 @@
                             <mat-icon>edit</mat-icon>
                         </button>
                     </a>
+                    <a mat-list-item (click)="more()" *ngIf="hasMore" fxLayout="column" fxLayoutAlign="center">
+                        <mat-icon mat-list-icon>keyboard_arrow_down</mat-icon>
+                        <span matLine>Afficher d'avantage</span>
+                    </a>
                 </mat-nav-list>
-
             </div>
         </perfect-scrollbar>
     </div>
