@@ -283,7 +283,7 @@ export class AddressComponent implements OnInit {
 
     }
 
-    public getIcon(color = '#3c8bc7') {
+    public getIcon(color = '#ff9800') {
 
         const iconSize = 48;
         const icon: any = {
