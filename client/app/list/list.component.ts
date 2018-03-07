@@ -87,6 +87,7 @@ export class ListComponent implements OnInit {
             margin: 5,
             showLabels: 'true',
             rowHeight: this.thumbnailHeight,
+            zoomRotation: false
         };
 
     }

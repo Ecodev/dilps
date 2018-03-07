@@ -420,8 +420,8 @@ angular-file@^0.5.1:
   resolved "https://registry.yarnpkg.com/angular-file/-/angular-file-0.5.1.tgz#553ed4863306d0dbfcb9c185252e4275df80f602"
 
 angular-natural-gallery@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/angular-natural-gallery/-/angular-natural-gallery-0.3.0.tgz#46ef6f2cdb702aea20897e8a68824e72ea59aafa"
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/angular-natural-gallery/-/angular-natural-gallery-0.3.1.tgz#5f4e81e6fd6b17a875e6fae19399a9bb34634129"
   dependencies:
     natural-gallery-js "^2.7.1"
 
@@ -4900,8 +4900,8 @@ nanomatch@^1.2.5:
     to-regex "^3.0.1"
 
 natural-gallery-js@^2.7.1:
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/natural-gallery-js/-/natural-gallery-js-2.7.1.tgz#e10b834d1303fd545382b8d92802b1661a1e31e5"
+  version "2.7.2"
+  resolved "https://registry.yarnpkg.com/natural-gallery-js/-/natural-gallery-js-2.7.2.tgz#84ab63d9192f45a5fc0257d290b0801f44f9ce1e"
   dependencies:
     photoswipe "^4.1.2"
 
