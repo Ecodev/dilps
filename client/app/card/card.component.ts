@@ -14,6 +14,7 @@ import { Visibility } from '../shared/generated-types';
 import { CollectionSelectorComponent } from '../shared/components/collection-selector/collection-selector.component';
 import { MatDialog } from '@angular/material';
 import { UserService } from '../users/services/user.service';
+import { DownloadComponent } from '../shared/components/download/download.component';
 
 @Component({
     selector: 'app-card',
@@ -281,6 +282,15 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
     public validateImage() {
         this.cardSvc.validateImage(this.model).subscribe(() => {
             this.alertSvc.info('Image validée');
+        });
+    }
+
+    public download(card) {
+        this.dialog.open(DownloadComponent, {
+            width: '400px',
+            data: {
+                images: [card],
+            },
         });
     }
 }
