@@ -44,7 +44,6 @@ describe('CardService', () => {
             },
             __typename: 'Institution',
         },
-        status: 'new',
         original: {
             id: '456',
             width: 1,

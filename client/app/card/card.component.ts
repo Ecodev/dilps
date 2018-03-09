@@ -33,24 +33,6 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
     @Input() public imageSrcFull;
 
     private edit = false;
-    public status = 1;
-    public statuses = {
-        1: {
-            value: 'new',
-            text: 'par moi',
-        },
-        2: {
-            value: 'edited',
-            text: 'par les membres',
-            color: 'accent',
-        },
-        3: {
-            value: 'reviewed',
-            text: 'par tout le monde',
-            color: 'primary',
-        },
-    };
-
     public visibility = 1;
     public visibilities = {
         1: {
@@ -172,11 +154,6 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
     public initCard() {
         if (this.model) {
 
-            // Init status
-            this.status = +findKey(this.statuses, (s) => {
-                return s.value === this.model.status;
-            });
-
             // Init visibility
             this.visibility = +findKey(this.visibilities, (s) => {
                 return s.value === this.model.visibility;
@@ -192,10 +169,6 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
                 this.imageSrcFull = srcFull;
             }
         }
-    }
-
-    public updateStatus(ev) {
-        this.model.status = this.statuses[ev.value].value;
     }
 
     public updateVisibility(ev) {

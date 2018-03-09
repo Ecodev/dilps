@@ -29,7 +29,6 @@ fragment cardDetails on Card {
             name
         }
     }
-    status
     original {
         id
         width
