@@ -7,7 +7,8 @@ import { AlertService } from '../shared/components/alert/alert.service';
 import { UserComponent } from '../users/user/user.component';
 import { UploadService } from '../shared/services/upload.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { isArray } from 'lodash';
+import { CardService } from '../card/services/card.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'app-home',
@@ -28,7 +29,8 @@ export class HomeComponent implements OnInit {
                 private snackBar: MatSnackBar,
                 private alertSvc: AlertService,
                 private dialog: MatDialog,
-                public uploadSvc: UploadService) {
+                public uploadSvc: UploadService,
+                private cardSvc: CardService) {
     }
 
     ngOnInit() {
@@ -46,8 +48,15 @@ export class HomeComponent implements OnInit {
     }
 
     public uploadPhoto(files) {
-        UploadService.pending = isArray(files) ? files[files.length - 1] : files;
-        this.router.navigateByUrl('/card/new');
+        const observables = [];
+        for (const file of files) {
+            const card = this.cardSvc.getEmptyObject();
+            card.file = file;
+            observables.push(this.cardSvc.create(card));
+        }
+        Observable.forkJoin(observables).subscribe(() => {
+            this.router.navigateByUrl('my-collection');
+        });
     }
 
     public editUser() {

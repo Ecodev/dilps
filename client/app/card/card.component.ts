@@ -110,10 +110,7 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
         } else if (!this.model) { // creation
             this.model = this.cardSvc.getEmptyObject();
             this.initCard();
-            this.model.file = UploadService.pending;
-            this.getBase64(this.model.file);
             this.edit = true;
-            UploadService.pending = null;
         }
 
         this.updateUploadWatching();
