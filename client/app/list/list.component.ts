@@ -12,6 +12,7 @@ import { AlertService } from '../shared/components/alert/alert.service';
 import { NaturalGalleryComponent } from 'angular-natural-gallery';
 import { Literal } from '../shared/types';
 import { UserService } from '../users/services/user.service';
+import { UtilityService } from '../shared/services/utility.service';
 
 @Component({
     selector: 'app-list',
@@ -87,7 +88,7 @@ export class ListComponent implements OnInit {
             margin: 5,
             showLabels: 'true',
             rowHeight: this.thumbnailHeight,
-            zoomRotation: false
+            zoomRotation: false,
         };
 
     }
@@ -207,5 +208,14 @@ export class ListComponent implements OnInit {
                     });
                 }
             });
+    }
+
+    public goToQuizz(selected) {
+        if (selected) {
+            selected = UtilityService.shuffleArray(selected.map(e => e.id)).join(',');
+            this.router.navigateByUrl('/quizz;cards=' + selected);
+        } else {
+            // open box, ask for number of items to display in quizz, and get randomized list pageIndex:0, pageSize:nbItems; sort: random'
+        }
     }
 }

@@ -15,6 +15,7 @@ import { ChangesComponent } from './changes/changes/changes.component';
 import { ChangeComponent } from './changes/change/change.component';
 import { UserResolver } from './users/services/user.resolver';
 import { AuthAdminGuard } from './shared/services/auth.admin.guard';
+import { QuizzComponent } from './quizz/quizz.component';
 
 export const routes: Routes = [
 
@@ -77,6 +78,10 @@ export const routes: Routes = [
             {
                 path: 'notification/:changeId',
                 component: ChangeComponent,
+            },
+            {
+                path: 'quizz',
+                component: QuizzComponent,
             },
             {
                 path: 'collection',

@@ -11,6 +11,10 @@ fragment cardDetails on Card {
     width
     visibility
     dating
+    datings {
+        from
+        to
+    }
     artists {
         id
         name

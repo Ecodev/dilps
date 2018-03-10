@@ -18,6 +18,7 @@
 @import '../app/shared/components/alert/alert.theme';
 @import '../app/shared/components/address/address.theme';
 @import '../app/card/card.theme';
+@import '../app/quizz/quizz.theme';
 
 // Include material core (only once !)
 @include mat-core($custom-typography-gt-sm);
@@ -37,6 +38,7 @@
     @include address($theme);
     @include upload($theme);
     @include card($theme);
+    @include quizz($theme);
 }
 
 $mat-dilps: (

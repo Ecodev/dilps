@@ -88,6 +88,7 @@ import { CollectionSelectorComponent } from './shared/components/collection-sele
 import { LinkMutationService } from './shared/services/link-mutation.service';
 import { RolePipe } from './shared/pipes/role.pipe';
 import { AuthAdminGuard } from './shared/services/auth.admin.guard';
+import { QuizzComponent } from './quizz/quizz.component';
 
 @NgModule({
     declarations: [
@@ -120,6 +121,7 @@ import { AuthAdminGuard } from './shared/services/auth.admin.guard';
         CollectionSelectorComponent,
         DownloadComponent,
         RolePipe,
+        QuizzComponent,
     ],
     entryComponents: [
         ConfirmComponent,

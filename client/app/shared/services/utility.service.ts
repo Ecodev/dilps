@@ -65,4 +65,12 @@ export class UtilityService {
     public static lowerCaseFirstLetter(string: string): string {
         return string.charAt(0).toLowerCase() + string.slice(1);
     }
+
+    public static shuffleArray(a) {
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
 }

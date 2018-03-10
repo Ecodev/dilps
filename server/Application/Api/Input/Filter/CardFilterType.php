@@ -16,6 +16,9 @@ class CardFilterType extends InputObjectType
                     'search' => [
                         'type' => self::string(),
                     ],
+                    'ids' => [
+                        'type' => self::listOf(self::nonNull(self::id())),
+                    ],
                     'collections' => [
                         'type' => self::listOf(self::nonNull(self::id())),
                     ],

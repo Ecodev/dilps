@@ -23,6 +23,10 @@ class CardRepository extends AbstractRepository implements LimitedAccessSubQuery
                 $qb->andWhere('card.collections IS EMPTY');
             }
         }
+        if (@$filters['ids'] ?? false) {
+            $qb->andWhere('card.id IN (:ids)');
+            $qb->setParameter('ids', $filters['ids']);
+        }
 
         if (isset($filters['creators'])) {
             if (\count($filters['creators']) > 0) {
@@ -45,9 +49,7 @@ class CardRepository extends AbstractRepository implements LimitedAccessSubQuery
 
     /**
      * Returns pure SQL to get ID of all cards that are accessible to given user.
-     *
      * A card is accessible if:
-     *
      * - card is public
      * - card is member and user is logged in
      * - card owner is the user
@@ -63,7 +65,9 @@ class CardRepository extends AbstractRepository implements LimitedAccessSubQuery
             $visibility[] = Card::VISIBILITY_MEMBER;
         }
 
-        $qb = $this->getEntityManager()->getConnection()->createQueryBuilder()
+        $qb = $this->getEntityManager()
+            ->getConnection()
+            ->createQueryBuilder()
             ->select('card.id')
             ->from('card')
             ->where('card.visibility IN (' . $this->quoteArray($visibility) . ')');
