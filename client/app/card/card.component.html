@@ -30,7 +30,7 @@
             <button mat-icon-button
                     (click)="toggleEdit()"
                     [matTooltip]="'Passer en mode édition'"
-                    *ngIf="model.id && model?.permissions?.update"
+                    *ngIf="!isEdit() && model.id && model?.permissions?.update"
             >
                 <mat-icon>edit</mat-icon>
             </button>

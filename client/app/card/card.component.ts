@@ -186,6 +186,7 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
     public update() {
         this.cardSvc.update(this.model).subscribe(() => {
             this.alertSvc.info('Mis à jour');
+            this.edit = false;
         });
     }
 
