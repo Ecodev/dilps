@@ -39,7 +39,12 @@ abstract class Standard
                 'type' => PaginationType::build($class),
                 'args' => $listArgs,
                 'resolve' => function ($root, array $args) use ($class): array {
-                    $query = _em()->getRepository($class)->getFindAllQuery($args['filters'] ?? []);
+                    $queryArgs = [$args['filters'] ?? []];
+                    if ($args['sort'] ?? false) {
+                        $queryArgs[] = $args['sort'];
+                    }
+
+                    $query = _em()->getRepository($class)->getFindAllQuery(...$queryArgs);
                     $result = Helper::paginate($args['pagination'], $query);
 
                     return $result;
@@ -283,6 +288,12 @@ abstract class Standard
         if ($filters) {
             $listArgs[] = $filters;
         }
+
+        $listArgs[] = [
+            'name' => 'sort',
+            'type' => Type::string(),
+            'description' => 'Field to sort by, eg: `user.name`, `collection.id`',
+        ];
         $listArgs[] = PaginationInputType::build();
 
         return $listArgs;

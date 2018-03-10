@@ -9,7 +9,7 @@ use Doctrine\ORM\QueryBuilder;
 
 class ArtistRepository extends AbstractRepository
 {
-    public function getFindAllQuery(array $filters = []): QueryBuilder
+    public function getFindAllQuery(array $filters = [], string $sort = 'artist.id'): QueryBuilder
     {
         $qb = $this->createQueryBuilder('artist');
 
@@ -18,7 +18,7 @@ class ArtistRepository extends AbstractRepository
             $qb->setParameter('search', '%' . $filters['search'] . '%');
         }
 
-        $qb->addOrderBy('artist.id');
+        $qb->addOrderBy($sort);
 
         return $qb;
     }

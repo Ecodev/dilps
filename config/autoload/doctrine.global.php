@@ -38,6 +38,9 @@ return [
                 'filters' => [
                     \Application\ORM\Query\Filter\AclFilter::class => \Application\ORM\Query\Filter\AclFilter::class,
                 ],
+                'numeric_functions' => [
+                    'rand' => \DoctrineExtensions\Query\Mysql\Rand::class,
+                ],
             ],
         ],
         'types' => [

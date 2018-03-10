@@ -10,7 +10,7 @@ use Doctrine\ORM\QueryBuilder;
 
 class CollectionRepository extends AbstractRepository implements LimitedAccessSubQueryInterface
 {
-    public function getFindAllQuery(array $filters = []): QueryBuilder
+    public function getFindAllQuery(array $filters = [], string $sort = 'collection.name'): QueryBuilder
     {
         $qb = $this->createQueryBuilder('collection');
 
@@ -51,7 +51,7 @@ class CollectionRepository extends AbstractRepository implements LimitedAccessSu
             $qb->setParameter('search', '%' . $filters['search'] . '%');
         }
 
-        $qb->addOrderBy('collection.name');
+        $qb->addOrderBy($sort);
 
         return $qb;
     }

@@ -10,7 +10,7 @@ use Doctrine\ORM\QueryBuilder;
 
 class CardRepository extends AbstractRepository implements LimitedAccessSubQueryInterface
 {
-    public function getFindAllQuery(array $filters = []): QueryBuilder
+    public function getFindAllQuery(array $filters = [], string $sort = 'card.id'): QueryBuilder
     {
         $qb = $this->createQueryBuilder('card');
 
@@ -42,7 +42,12 @@ class CardRepository extends AbstractRepository implements LimitedAccessSubQuery
             $qb->setParameter('search', '%' . $filters['search'] . '%');
         }
 
-        $qb->addOrderBy('card.id');
+        if ($sort === 'random') {
+            $qb->addOrderBy('RAND(card.id)');
+            $qb->addOrderBy('card.id');
+        } else {
+            $qb->addOrderBy($sort);
+        }
 
         return $qb;
     }

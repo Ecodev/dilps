@@ -27,7 +27,8 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.1",
-        "ext-gd2": "*",
+        "ext-gd": "*",
+        "beberlei/DoctrineExtensions": "^1.0",
         "dasprid/container-interop-doctrine": "^1.0",
         "doctrine/migrations": "^1.6",
         "ecodev/graphql-doctrine": "^1.0",

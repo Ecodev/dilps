@@ -9,7 +9,7 @@ use Doctrine\ORM\QueryBuilder;
 
 class InstitutionRepository extends AbstractRepository
 {
-    public function getFindAllQuery(array $filters = []): QueryBuilder
+    public function getFindAllQuery(array $filters = [], string $sort = 'institution.id'): QueryBuilder
     {
         $qb = $this->createQueryBuilder('institution');
 
@@ -18,7 +18,7 @@ class InstitutionRepository extends AbstractRepository
             $qb->setParameter('search', '%' . $filters['search'] . '%');
         }
 
-        $qb->addOrderBy('institution.id');
+        $qb->addOrderBy($sort);
 
         return $qb;
     }
