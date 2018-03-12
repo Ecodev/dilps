@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CardService } from '../card/services/card.service';
-import { merge, pickBy, isNull, defaults, isString, isArray } from 'lodash';
+import { defaults, isArray, isString, merge, pickBy } from 'lodash';
 import { DownloadComponent } from '../shared/components/download/download.component';
 import { IncrementSubject } from '../shared/services/increment-subject';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
@@ -224,14 +224,17 @@ export class ListComponent implements OnInit {
         } else {
             // open box, ask for number of items to display in quizz, and get randomized list pageIndex:0, pageSize:nbItems; sort: random'
             this.dialog.open(NumberSelectorComponent, {
-                width: '400px',
+                width: '200px',
+                position: {
+                    top: '74px',
+                    right: '10px',
+                },
             }).afterClosed().subscribe(number => {
                 if (number > 0) {
                     const quizzVars = this.queryVariables.pipe(map(options => {
                         options.sort = 'random';
                         options.pagination.pageIndex = 0;
                         options.pagination.pageSize = number;
-                        console.log('options', options);
                         return options;
                     }));
 
@@ -260,8 +263,6 @@ export class ListComponent implements OnInit {
             const changeAttributes = pickBy(model, (value, key) => {
                 return isString(value) && value !== '' || isArray(value) && value.length > 0;
             });
-
-            console.log('changeAttributes', changeAttributes);
 
             const observables = [];
             for (const s of selection) {

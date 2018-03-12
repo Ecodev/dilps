@@ -86,8 +86,8 @@ fragment cardDetails on Card {
 
 
 export const cardsQuery = gql`
-query Cards($filters: CardFilter, $pagination: PaginationInput) {
-    cards(filters: $filters, pagination: $pagination) {
+query Cards($filters: CardFilter, $pagination: PaginationInput, $sort: String) {
+    cards(filters: $filters, pagination: $pagination, sort: $sort) {
         items {
             id
             name
