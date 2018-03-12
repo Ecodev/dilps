@@ -109,6 +109,11 @@ describe('CardService', () => {
         width: 1,
         height: 1,
         hasImage: true,
+        permissions: {
+            update: true,
+            delete: true,
+            __typename: 'Permissions',
+        },
         __typename: 'Card',
     };
 

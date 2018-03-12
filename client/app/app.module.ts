@@ -90,6 +90,7 @@ import { RolePipe } from './shared/pipes/role.pipe';
 import { AuthAdminGuard } from './shared/services/auth.admin.guard';
 import { QuizzComponent } from './quizz/quizz.component';
 import { NumberSelectorComponent } from './quizz/shared/number-selector/number-selector.component';
+import { MassEditComponent } from './shared/components/mass-edit/mass-edit.component';
 
 @NgModule({
     declarations: [
@@ -124,6 +125,7 @@ import { NumberSelectorComponent } from './quizz/shared/number-selector/number-s
         RolePipe,
         QuizzComponent,
         NumberSelectorComponent,
+        MassEditComponent,
     ],
     entryComponents: [
         ConfirmComponent,
@@ -134,7 +136,8 @@ import { NumberSelectorComponent } from './quizz/shared/number-selector/number-s
         CollectionSelectorComponent,
         DownloadComponent,
         CollectionComponent,
-        NumberSelectorComponent
+        NumberSelectorComponent,
+        MassEditComponent
     ],
     imports: [
         BrowserModule,

@@ -1,7 +1,13 @@
 <div fxFlex fxLayout="row" *ngIf="model" appFileDrop>
 
-    <div fxFlex="400px" class="containerWithToolbar" fxLayout="column">
-        <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center" [ngClass]="isEdit() ? 'edition' : ''">
+    <div fxFlex="400px" [ngClass]="{'containerWithToolbar': !hideToolbar}" fxLayout="column">
+        <mat-toolbar fxFlex="none"
+                     color="app"
+                     fxLayout="row"
+                     fxLayoutAlign="start center"
+                     [ngClass]="isEdit() ? 'edition' : ''"
+                     *ngIf="!hideToolbar"
+        >
             <img *ngIf="showLogo" src="assets/images/logo-bleu.svg" style="max-width:100%;height:30px;" />
 
             <div *ngIf="title" class="mat-diplay-1">{{ title }}</div>
@@ -19,10 +25,7 @@
                 <button mat-menu-item (click)="validateImage()">Valider l'image</button>
             </mat-menu>
 
-            <button mat-icon-button
-                    (click)="update()"
-                    matTooltip="Enregistrer"
-                    *ngIf="isEdit() && model.id && model?.permissions?.update"
+            <button mat-icon-button (click)="update()" matTooltip="Enregistrer" *ngIf="isEdit() && model.id && model?.permissions?.update"
             >
                 <mat-icon>save</mat-icon>
             </button>
@@ -74,15 +77,16 @@
             <div fxLayout="column" class="padding-top scrolled" fxLayoutAlign="start stretch">
 
                 <div class="innerSpacing" fxLayout="column" *ngIf="user?.role === 'administrator'">
-                    <div fxLayout="row">Visible {{ visibilities[visibility].text }}</div>
+                    <div fxLayout="row">{{ visibilities[visibility] ? 'Visible ' + visibilities[visibility].text : 'Visibilité inchangée' }}</div>
                     <mat-slider [disabled]="!isEdit()"
                                 [min]="1"
                                 [max]="3"
                                 [ngModel]="visibility"
                                 (input)="updateVisibility($event);visibility = $event.value"
-                                [color]="visibilities[visibility].color"
+                                [color]="visibilities[visibility] ? visibilities[visibility].color : null"
                     ></mat-slider>
                 </div>
+
 
                 <mat-form-field class="innerSpacing">
                     <input [readonly]="!isEdit()"
@@ -204,7 +208,7 @@
 
     </div>
 
-    <div fxFlex class="containerWithToolbar" fxLayout="column">
+    <div fxFlex class="containerWithToolbar" fxLayout="column" *ngIf="!hideImage">
         <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center" [ngClass]="isEdit() ? 'edition' : ''">
             <div fxFlex></div>
             <a *ngIf="imageSrcFull && !imageData" mat-icon-button [attr.href]="imageSrcFull" download matTooltip="Télécharger l'image">

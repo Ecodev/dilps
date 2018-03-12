@@ -94,6 +94,10 @@ query Cards($filters: CardFilter, $pagination: PaginationInput) {
             width
             height
             hasImage
+            permissions {
+                update
+                delete
+            }
         }
         pageSize
         pageIndex

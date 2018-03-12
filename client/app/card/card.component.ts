@@ -25,6 +25,8 @@ import { DownloadComponent } from '../shared/components/download/download.compon
 export class CardComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input() public model;
+    @Input() public hideToolbar = false;
+    @Input() public hideImage = false;
     @Input() public title: string;
     @Input() public showLogo = false;
 
@@ -91,6 +93,9 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
 
         } else if (!this.model) { // creation
             this.model = this.cardSvc.getEmptyObject();
+            this.initCard();
+            this.edit = true;
+        } else if (this.model && !this.model.id) { // mass edit case
             this.initCard();
             this.edit = true;
         }

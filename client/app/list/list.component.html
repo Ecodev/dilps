@@ -29,6 +29,10 @@
                 <mat-icon>burst_mode</mat-icon>
             </button>
 
+            <button mat-icon-button (click)="edit(selected)" matTooltip="Editer en masse">
+                <mat-icon>edit</mat-icon>
+            </button>
+
             <button mat-icon-button
                     (click)="delete(selected)"
                     color="warn"

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CardService } from '../card/services/card.service';
-import { merge } from 'lodash';
+import { merge, pickBy, isNull, defaults, isString, isArray } from 'lodash';
 import { DownloadComponent } from '../shared/components/download/download.component';
 import { IncrementSubject } from '../shared/services/increment-subject';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
@@ -15,6 +15,9 @@ import { UserService } from '../users/services/user.service';
 import { UtilityService } from '../shared/services/utility.service';
 import { NumberSelectorComponent } from '../quizz/shared/number-selector/number-selector.component';
 import { map } from 'rxjs/operators';
+import { MassEditComponent } from '../shared/components/mass-edit/mass-edit.component';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/forkJoin';
 
 @Component({
     selector: 'app-list',
@@ -137,6 +140,7 @@ export class ListComponent implements OnInit {
     }
 
     public reload() {
+        this.selected = [];
         this.gallery.collection = [];
         this.queryVariables.patch(this.firstPagination);
         this.sub.refetch();
@@ -237,5 +241,39 @@ export class ListComponent implements OnInit {
                 }
             });
         }
+    }
+
+    public edit(selected) {
+        const selection = selected.filter(card => card.permissions.update);
+
+        this.dialog.open(MassEditComponent, {
+            width: '440px',
+            data: {
+                cards: selection,
+            },
+        }).afterClosed().subscribe(model => {
+
+            if (!model) {
+                return;
+            }
+
+            const changeAttributes = pickBy(model, (value, key) => {
+                return isString(value) && value !== '' || isArray(value) && value.length > 0;
+            });
+
+            console.log('changeAttributes', changeAttributes);
+
+            const observables = [];
+            for (const s of selection) {
+                defaults(s, changeAttributes);
+                observables.push(this.cardSvc.update(s));
+            }
+
+            Observable.forkJoin(observables).subscribe(() => {
+                this.alertSvc.info('Mis à jour');
+                this.reload();
+            });
+        });
+
     }
 }
