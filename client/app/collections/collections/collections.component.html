@@ -34,6 +34,13 @@
                     </a>
                 </mat-nav-list>
 
+                <mat-nav-list *ngIf="showMyCards">
+                    <a mat-list-item [routerLink]="['my-cards']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <mat-icon mat-list-icon>collections</mat-icon>
+                        <span matLine fxLayout="row" fxLayoutAlign="start center">Mes images</span>
+                    </a>
+                </mat-nav-list>
+
                 <mat-divider *ngIf="showUnclassified"></mat-divider>
 
                 <mat-nav-list *ngIf="collections">

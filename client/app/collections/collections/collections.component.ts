@@ -21,6 +21,11 @@ export class CollectionsComponent implements OnInit {
      * @type {boolean}
      */
     public showUnclassified = false;
+    /**
+     * Show "my cards" category on the top of the page
+     * @type {boolean}
+     */
+    public showMyCards = false;
 
     /**
      * Can create permissions
@@ -56,6 +61,7 @@ export class CollectionsComponent implements OnInit {
         this.route.data.subscribe((data: Literal) => {
             this.canCreate = !!data.canCreate;
             this.showUnclassified = data.showUnclassified;
+            this.showMyCards = data.showMyCards;
 
             const filters = data.filters ? data.filters : {};
 

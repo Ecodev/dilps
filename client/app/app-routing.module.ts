@@ -107,6 +107,7 @@ export const routes: Routes = [
                     canCreate: true,
                     showLogo: false,
                     showUnclassified: true,
+                    showMyCards: true,
                     filters: {
                         isSource: false,
                     },
@@ -118,6 +119,11 @@ export const routes: Routes = [
                         data: {
                             filters: {collections: []},
                         },
+                    },
+                    {
+                        path: 'my-cards',
+                        component: ListComponent,
+                        resolve: {creator: UserResolver},
                     },
                     {
                         path: ':collectionId',
