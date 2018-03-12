@@ -220,7 +220,7 @@ UPDATE card
   JOIN ng_meta ON CONCAT(ng_meta.collectionid, ng_meta.imageid) = card.id
   LEFT JOIN ng_location ON ng_meta.locationid = ng_location.id
 SET
-  card.status           = ng_meta.status,
+  card.visibility       = CASE ng_meta.status WHEN 'reviewed' THEN 'member' ELSE 'private' END,
   card.addition         = ng_meta.addition,
   card.name             = ng_meta.title,
   card.expanded_name    = ng_meta.title_expanded,

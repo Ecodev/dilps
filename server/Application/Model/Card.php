@@ -42,9 +42,6 @@ class Card extends AbstractModel
     use HasValidation;
 
     private const IMAGE_PATH = 'data/images/';
-    const STATUS_NEW = 'new';
-    const STATUS_EDITED = 'edited';
-    const STATUS_REVIEWED = 'reviewed';
 
     const VISIBILITY_PRIVATE = 'private';
     const VISIBILITY_MEMBER = 'member';
@@ -124,12 +121,6 @@ class Card extends AbstractModel
      * @ORM\ManyToMany(targetEntity="Card")
      */
     private $cards;
-
-    /**
-     * @var string
-     * @ORM\Column(type="CardStatus", options={"default" = Card::STATUS_NEW})
-     */
-    private $status = self::STATUS_NEW;
 
     /**
      * Constructor
@@ -361,30 +352,6 @@ class Card extends AbstractModel
     public function getTags(): DoctrineCollection
     {
         return $this->tags;
-    }
-
-    /**
-     * Set card status
-     *
-     * @API\Input(type="Application\Api\Enum\CardStatusType")
-     *
-     * @param string $status
-     */
-    public function setStatus(string $status): void
-    {
-        $this->status = $status;
-    }
-
-    /**
-     * Get card status
-     *
-     * @API\Field(type="Application\Api\Enum\CardStatusType")
-     *
-     * @return string
-     */
-    public function getStatus(): string
-    {
-        return $this->status;
     }
 
     /**

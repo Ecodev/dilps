@@ -46,7 +46,6 @@ return [
         'types' => [
             'UserType' => Application\DBAL\Types\UserTypeType::class,
             'UserRole' => Application\DBAL\Types\UserRoleType::class,
-            'CardStatus' => Application\DBAL\Types\CardStatusType::class,
             'ChangeType' => Application\DBAL\Types\ChangeTypeType::class,
             'Visibility' => Application\DBAL\Types\VisibilityType::class,
         ],
