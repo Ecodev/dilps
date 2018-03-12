@@ -69,6 +69,18 @@ describe('CardService', () => {
         locality: 'test string',
         latitude: 0.5,
         longitude: 0.5,
+        collections: [
+            {
+                id: '456',
+                name: 'test string',
+                __typename: 'Collection',
+            },
+            {
+                id: '456',
+                name: 'test string',
+                __typename: 'Collection',
+            },
+        ],
         country: {
             id: '456',
             code: 'test string',

@@ -3,10 +3,7 @@
     <!-- Collection existante -->
     <mat-tab label="Collection existante">
         <div class="padding" fxLayout="column">
-            <app-select [service]="collectionSvc"
-                        [(model)]="collection"
-                        placeholder="Sélectionnez la collection"
-                        [filters]="listFilters"
+            <app-select [service]="collectionSvc" [(model)]="collection" placeholder="Sélectionnez la collection" [filters]="listFilters"
             ></app-select>
             <div fxLayout="row" fxFlexAlign="end">
                 <button mat-button [disabled]="!collection?.id" (click)="link()">Ajouter à la collection</button>
@@ -40,3 +37,14 @@
         </div>
     </mat-tab>
 </mat-tab-group>
+
+<div fxLayout="column">
+    <div class="mat-subheading-2" *ngIf="image?.collections?.length">Collections liées à la fiche</div>
+    <div *ngFor="let collection of image?.collections" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+        <mat-icon>collections</mat-icon>
+        <div fxFlex>{{ collection.name }}</div>
+        <button mat-icon-button (click)="unlink(image, collection)" matTooltip="Retirer la fiche de la collection">
+            <mat-icon>remove</mat-icon>
+        </button>
+    </div>
+</div>
