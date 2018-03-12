@@ -84,10 +84,22 @@ describe('CardService', () => {
         dataValidator: userMetaTesting,
         imageValidationDate: '2018-01-18T11:43:31',
         imageValidator: userMetaTesting,
+        datings: [
+            {
+                from: '2018-01-18T11:43:31',
+                to: '2018-01-18T11:43:31',
+                __typename: 'Dating',
+            },
+            {
+                from: '2018-01-18T11:43:31',
+                to: '2018-01-18T11:43:31',
+                __typename: 'Dating',
+            },
+        ],
         permissions: {
             update: true,
             delete: true,
-            __typename : 'Permissions'
+            __typename: 'Permissions',
         },
     };
 
