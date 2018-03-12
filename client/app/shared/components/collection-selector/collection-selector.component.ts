@@ -31,14 +31,7 @@ export class CollectionSelectorComponent implements OnInit {
     ngOnInit() {
 
         this.userSvc.getCurrentUser().subscribe(user => {
-            if (user.role === UserRole.administrator) {
-                this.listFilters = {
-                    visibilities: [
-                        CollectionVisibility.administrator,
-                        CollectionVisibility.member,
-                    ],
-                };
-            } else {
+            if (user.role !== UserRole.administrator) {
                 this.listFilters = {creators: [user.id]};
             }
         });
