@@ -3,6 +3,17 @@
         <mat-tab label="Collection">
 
             <div fxLayout="column" class="padding" fxLayoutGap="10px" class="padding-v">
+
+                <div class="innerSpacing" fxLayout="column" style="max-width:300px" *ngIf="showVisibility()">
+                    <div fxLayout="row">Visible {{ visibilities[visibility].text }}</div>
+                    <mat-slider [min]="1"
+                                [max]="3"
+                                [ngModel]="visibility"
+                                (input)="updateVisibility($event);visibility = $event.value"
+                                [color]="visibilities[visibility] ? visibilities[visibility].color : null"
+                    ></mat-slider>
+                </div>
+
                 <mat-form-field>
                     <input matInput [(ngModel)]="data.item.name" placeholder="Nom" >
                 </mat-form-field>
@@ -11,8 +22,7 @@
                     <input matInput [(ngModel)]="data.item.description" placeholder="Description" >
                 </mat-form-field>
 
-                <app-thesaurus [readonly]="true"
-                               [service]="institutionSvc"
+                <app-thesaurus [service]="institutionSvc"
                                placeholder="Institution"
                                [model]="data.item.institution"
                                (modelChange)="data.item.institution = $event"

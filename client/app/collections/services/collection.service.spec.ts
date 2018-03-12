@@ -15,6 +15,7 @@ describe('CollectionService', () => {
         description: 'test string',
         isSource: true,
         sorting: 1,
+        visibility: 'private',
         institution: {
             id: '456',
             name: 'test string',

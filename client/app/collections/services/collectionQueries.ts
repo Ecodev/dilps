@@ -38,6 +38,7 @@ query Collection($id: CollectionID!) {
         description
         isSource
         sorting
+        visibility
         institution {
             id
             name

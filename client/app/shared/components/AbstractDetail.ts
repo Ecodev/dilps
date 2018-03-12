@@ -26,11 +26,14 @@ export class AbstractDetail implements OnInit {
         if (this.data.item.id) {
             this.service.getOne(this.data.item.id).subscribe(res => {
                 merge(this.data.item, res); // init all fields considering getOne query
+                this.postQuery();
             });
         }
 
         this.userSvc.getCurrentUser().subscribe(user => this.user = user);
     }
+
+    protected postQuery() {}
 
     public update() {
         this.service.update(this.data.item).subscribe(() => {
