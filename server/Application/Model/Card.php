@@ -10,7 +10,6 @@ use Application\Traits\HasAddress;
 use Application\Traits\HasInstitution;
 use Application\Traits\HasName;
 use Application\Traits\HasValidation;
-use Application\Traits\HasVisibility;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection as DoctrineCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -38,7 +37,6 @@ class Card extends AbstractModel
     use HasInstitution;
     use HasAddress;
     use CardSimpleProperties;
-    use HasVisibility;
     use HasValidation;
 
     private const IMAGE_PATH = 'data/images/';
@@ -46,6 +44,41 @@ class Card extends AbstractModel
     const VISIBILITY_PRIVATE = 'private';
     const VISIBILITY_MEMBER = 'member';
     const VISIBILITY_PUBLIC = 'public';
+
+    /**
+     * @var string
+     * @ORM\Column(type="CardVisibility", options={"default" = Card::VISIBILITY_PRIVATE})
+     */
+    private $visibility = self::VISIBILITY_PRIVATE;
+
+    /**
+     * Return whether this is publicly available to everybody, or only member, or only owner
+     *
+     * @API\Field(type="Application\Api\Enum\CardVisibilityType")
+     *
+     * @return string
+     */
+    public function getVisibility(): string
+    {
+        return $this->visibility;
+    }
+
+    /**
+     * Set whether this is publicly available to everybody, or only member, or only owner
+     *
+     * @API\Input(type="Application\Api\Enum\CardVisibilityType")
+     *
+     * @param string $visibility
+     */
+    public function setVisibility(string $visibility): void
+    {
+        $user = User::getCurrent();
+        if ($visibility === self::VISIBILITY_PUBLIC && $this->visibility !== self::VISIBILITY_PUBLIC && $user->getRole() !== User::ROLE_ADMINISTRATOR) {
+            throw new Exception('Only administrator can make it public');
+        }
+
+        $this->visibility = $visibility;
+    }
 
     /**
      * @var string

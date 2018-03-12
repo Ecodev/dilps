@@ -6,7 +6,7 @@ namespace Application\DBAL\Types;
 
 use Application\Model\Card;
 
-class VisibilityType extends AbstractEnumType
+class CardVisibilityType extends AbstractEnumType
 {
     protected function getPossibleValues(): array
     {

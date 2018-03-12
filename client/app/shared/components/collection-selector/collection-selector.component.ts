@@ -5,7 +5,7 @@ import { ArtistComponent } from '../../../artists/artist/artist.component';
 import 'rxjs/add/observable/forkJoin';
 import { UserService } from '../../../users/services/user.service';
 import { Literal } from '../../types';
-import { UserRole, Visibility } from '../../generated-types';
+import { UserRole, CollectionVisibility } from '../../generated-types';
 
 @Component({
     selector: 'app-collection-selector',
@@ -34,8 +34,8 @@ export class CollectionSelectorComponent implements OnInit {
             if (user.role === UserRole.administrator) {
                 this.listFilters = {
                     visibilities: [
-                        Visibility.member,
-                        Visibility.public,
+                        CollectionVisibility.administrator,
+                        CollectionVisibility.member,
                     ],
                 };
             } else {

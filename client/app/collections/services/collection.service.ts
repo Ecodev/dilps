@@ -14,7 +14,8 @@ import {
     CollectionsQuery,
     CreateCollectionMutation,
     DeleteCollectionsMutation,
-    UpdateCollectionMutation, Visibility,
+    UpdateCollectionMutation,
+    CollectionVisibility,
 } from '../../shared/generated-types';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
@@ -44,7 +45,7 @@ export class CollectionService
             description: '',
             isSource: false,
             sorting: 0,
-            visibility: Visibility.private,
+            visibility: CollectionVisibility.private,
         };
     }
 

@@ -47,7 +47,8 @@ return [
             'UserType' => Application\DBAL\Types\UserTypeType::class,
             'UserRole' => Application\DBAL\Types\UserRoleType::class,
             'ChangeType' => Application\DBAL\Types\ChangeTypeType::class,
-            'Visibility' => Application\DBAL\Types\VisibilityType::class,
+            'CardVisibility' => Application\DBAL\Types\CardVisibilityType::class,
+            'CollectionVisibility' => Application\DBAL\Types\CollectionVisibilityType::class,
         ],
         // migrations configuration
         'migrations_configuration' => [

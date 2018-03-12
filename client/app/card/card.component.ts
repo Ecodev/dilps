@@ -10,7 +10,7 @@ import { ArtistComponent } from '../artists/artist/artist.component';
 import { InstitutionComponent } from '../institutions/institution/institution.component';
 import { ChangeService } from '../changes/services/change.service';
 import { UploadService } from '../shared/services/upload.service';
-import { Visibility } from '../shared/generated-types';
+import { CardVisibility } from '../shared/generated-types';
 import { CollectionSelectorComponent } from '../shared/components/collection-selector/collection-selector.component';
 import { MatDialog } from '@angular/material';
 import { UserService } from '../users/services/user.service';
@@ -36,17 +36,17 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
     public visibility = 1;
     public visibilities = {
         1: {
-            value: Visibility.private,
+            value: CardVisibility.private,
             text: 'par moi',
             color: null,
         },
         2: {
-            value: Visibility.member,
+            value: CardVisibility.member,
             text: 'par les membres',
             color: 'accent',
         },
         3: {
-            value: Visibility.public,
+            value: CardVisibility.public,
             text: 'par tout le monde',
             color: 'primary',
         },

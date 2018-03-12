@@ -6,7 +6,6 @@ namespace Application\Model;
 
 use Application\Traits\HasInstitution;
 use Application\Traits\HasName;
-use Application\Traits\HasVisibility;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection as DoctrineCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -23,7 +22,40 @@ class Collection extends AbstractModel
 {
     use HasName;
     use HasInstitution;
-    use HasVisibility;
+
+    const VISIBILITY_PRIVATE = 'private';
+    const VISIBILITY_ADMINISTRATOR = 'administrator';
+    const VISIBILITY_MEMBER = 'member';
+
+    /**
+     * @var string
+     * @ORM\Column(type="CollectionVisibility", options={"default" = Collection::VISIBILITY_PRIVATE})
+     */
+    private $visibility = self::VISIBILITY_PRIVATE;
+
+    /**
+     * Return whether this is publicly available to only to member, or only administrators, or only owner
+     *
+     * @API\Field(type="Application\Api\Enum\CollectionVisibilityType")
+     *
+     * @return string
+     */
+    public function getVisibility(): string
+    {
+        return $this->visibility;
+    }
+
+    /**
+     * Set whether this is publicly available to only to member, or only administrators, or only owner
+     *
+     * @API\Input(type="Application\Api\Enum\CollectionVisibilityType")
+     *
+     * @param string $visibility
+     */
+    public function setVisibility(string $visibility): void
+    {
+        $this->visibility = $visibility;
+    }
 
     /**
      * @var string

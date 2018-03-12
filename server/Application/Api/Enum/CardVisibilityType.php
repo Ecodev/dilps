@@ -6,7 +6,7 @@ namespace Application\Api\Enum;
 
 use Application\Model\Card;
 
-class VisibilityType extends AbstractEnumType
+class CardVisibilityType extends AbstractEnumType
 {
     public function __construct()
     {
