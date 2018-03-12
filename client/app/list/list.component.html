@@ -40,6 +40,12 @@
 
         </ng-container>
 
+        <ng-container *ngIf="!selected?.length">
+            <button mat-icon-button (click)="goToQuizz()" matTooltip="Lecture d'oeuvre">
+                <mat-icon>burst_mode</mat-icon>
+            </button>
+        </ng-container>
+
     </mat-toolbar>
 
     <perfect-scrollbar fxFlex #scrollable>

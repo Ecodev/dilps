@@ -89,6 +89,7 @@ import { LinkMutationService } from './shared/services/link-mutation.service';
 import { RolePipe } from './shared/pipes/role.pipe';
 import { AuthAdminGuard } from './shared/services/auth.admin.guard';
 import { QuizzComponent } from './quizz/quizz.component';
+import { NumberSelectorComponent } from './quizz/shared/number-selector/number-selector.component';
 
 @NgModule({
     declarations: [
@@ -122,6 +123,7 @@ import { QuizzComponent } from './quizz/quizz.component';
         DownloadComponent,
         RolePipe,
         QuizzComponent,
+        NumberSelectorComponent,
     ],
     entryComponents: [
         ConfirmComponent,
@@ -131,7 +133,8 @@ import { QuizzComponent } from './quizz/quizz.component';
         ArtistComponent,
         CollectionSelectorComponent,
         DownloadComponent,
-        CollectionComponent
+        CollectionComponent,
+        NumberSelectorComponent
     ],
     imports: [
         BrowserModule,

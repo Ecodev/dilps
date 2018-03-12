@@ -13,6 +13,8 @@ import { NaturalGalleryComponent } from 'angular-natural-gallery';
 import { Literal } from '../shared/types';
 import { UserService } from '../users/services/user.service';
 import { UtilityService } from '../shared/services/utility.service';
+import { NumberSelectorComponent } from '../quizz/shared/number-selector/number-selector.component';
+import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-list',
@@ -210,12 +212,30 @@ export class ListComponent implements OnInit {
             });
     }
 
-    public goToQuizz(selected) {
+    public goToQuizz(selected = null) {
+
         if (selected) {
             selected = UtilityService.shuffleArray(selected.map(e => e.id)).join(',');
             this.router.navigateByUrl('/quizz;cards=' + selected);
         } else {
             // open box, ask for number of items to display in quizz, and get randomized list pageIndex:0, pageSize:nbItems; sort: random'
+            this.dialog.open(NumberSelectorComponent, {
+                width: '400px',
+            }).afterClosed().subscribe(number => {
+                if (number > 0) {
+                    const quizzVars = this.queryVariables.pipe(map(options => {
+                        options.sort = 'random';
+                        options.pagination.pageIndex = 0;
+                        options.pagination.pageSize = number;
+                        console.log('options', options);
+                        return options;
+                    }));
+
+                    this.cardSvc.getAll(quizzVars).subscribe(cards => {
+                        this.router.navigateByUrl('quizz;cards=' + cards.items.map(e => e.id).join(','));
+                    });
+                }
+            });
         }
     }
 }
