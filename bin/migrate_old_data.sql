@@ -155,9 +155,10 @@ INSERT INTO collection (id, name)
     CONVERT(CAST(name AS BINARY) USING utf8mb4)
   FROM ng_group;
 
-UPDATE collection
-  JOIN ng_group ON collection.id = 1000 + ng_group.parentid
-SET parent_id = 1000 + ng_group.id;
+UPDATE collection AS child
+  JOIN ng_group ON child.id = 1000 + ng_group.id
+  JOIN collection AS parent ON parent.id = 1000 + ng_group.parentid
+SET child.parent_id = 1000 + ng_group.parentid;
 
 
 INSERT INTO user (id, creation_date, login, password, email, role, active_until, type)
