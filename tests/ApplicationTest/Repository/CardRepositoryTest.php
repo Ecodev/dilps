@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ApplicationTest\Repository;
 
 use Application\Model\Card;
+use Application\Model\User;
 use Application\Repository\CardRepository;
 
 /**
@@ -37,5 +38,12 @@ class CardRepositoryTest extends AbstractRepositoryTest
         $this->getEntityManager()->remove($card);
         $this->getEntityManager()->flush();
         self::assertFileNotExists($card->getPath(), 'test file must have been deleted when record was deleted');
+    }
+
+    public function testRandom(): void
+    {
+        User::setCurrent(_em()->getReference(User::class, 1000));
+        $result = $this->repository->getFindAllQuery([], 'random')->getQuery()->getResult();
+        self::assertCount(6, $result);
     }
 }

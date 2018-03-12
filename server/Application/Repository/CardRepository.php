@@ -43,8 +43,7 @@ class CardRepository extends AbstractRepository implements LimitedAccessSubQuery
         }
 
         if ($sort === 'random') {
-            $qb->addOrderBy('RAND(card.id)');
-            $qb->addOrderBy('card.id');
+            $qb->addOrderBy('RAND()');
         } else {
             $qb->addOrderBy($sort);
         }
