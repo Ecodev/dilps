@@ -16,6 +16,7 @@ import { ChangeComponent } from './changes/change/change.component';
 import { UserResolver } from './users/services/user.resolver';
 import { AuthAdminGuard } from './shared/services/auth.admin.guard';
 import { QuizzComponent } from './quizz/quizz.component';
+import { CollectionVisibility } from './shared/generated-types';
 
 export const routes: Routes = [
 
@@ -89,6 +90,7 @@ export const routes: Routes = [
                 data: {
                     filters: {
                         isSource: false,
+                        visibilities: [CollectionVisibility.administrator, CollectionVisibility.member]
                     },
                 },
                 children: [

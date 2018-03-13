@@ -5,6 +5,8 @@ import { IncrementSubject } from '../../shared/services/increment-subject';
 import { MatDialog } from '@angular/material';
 import { CollectionComponent } from '../collection/collection.component';
 import { Literal } from '../../shared/types';
+import { CollectionVisibility, UserRole } from '../../shared/generated-types';
+import { UserService } from '../../users/services/user.service';
 
 @Component({
     selector: 'app-collections',
@@ -52,7 +54,8 @@ export class CollectionsComponent implements OnInit {
     constructor(private route: ActivatedRoute,
                 private router: Router,
                 private collectionsSvc: CollectionService,
-                private dialog: MatDialog) {
+                private dialog: MatDialog,
+                private userSvc: UserService) {
     }
 
     ngOnInit() {
@@ -81,6 +84,7 @@ export class CollectionsComponent implements OnInit {
             }
             this.hasMore = collections.length > this.collections.length;
         });
+
     }
 
     public search(term) {

@@ -18,6 +18,7 @@ import { map } from 'rxjs/operators';
 import { MassEditComponent } from '../shared/components/mass-edit/mass-edit.component';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
+import { CollectionVisibility, UserRole } from '../shared/generated-types';
 
 @Component({
     selector: 'app-list',
