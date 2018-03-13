@@ -75,10 +75,10 @@ export class ListComponent implements OnInit {
 
             this.showLogo = data.showLogo;
 
-            let filters: Literal = {hasImage: true};
+            const filters: Literal = {hasImage: true};
 
             if (data.filters) {
-                filters = this.route.snapshot.data.filters;
+                merge(filters, this.route.snapshot.data.filters);
             }
 
             if (data.creator && !this.collection) {

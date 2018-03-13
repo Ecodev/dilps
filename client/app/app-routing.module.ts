@@ -147,7 +147,7 @@ export const routes: Routes = [
                         component: ListComponent,
                         data: {
                             showLogo: false,
-                            filters: {}
+                            filters: {},
                         },
                     },
                 ],
