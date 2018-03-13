@@ -25,6 +25,9 @@ class CardFilterType extends InputObjectType
                     'creators' => [
                         'type' => self::listOf(self::nonNull(self::id())),
                     ],
+                    'hasImage' => [
+                        'type' => self::boolean(),
+                    ],
                 ];
             },
         ];

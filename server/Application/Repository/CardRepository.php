@@ -42,6 +42,14 @@ class CardRepository extends AbstractRepository implements LimitedAccessSubQuery
             $qb->setParameter('search', '%' . $filters['search'] . '%');
         }
 
+        if (isset($filters['hasImage'])) {
+            if ($filters['hasImage'] === true) {
+                $qb->andWhere("card.filename != ''");
+            } elseif ($filters['hasImage'] === false) {
+                $qb->andWhere("card.filename = ''");
+            }
+        }
+
         if ($sort === 'random') {
             $qb->addOrderBy('RAND()');
         } else {
