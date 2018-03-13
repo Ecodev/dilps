@@ -57,7 +57,13 @@
                     ></app-card>
                 </div>
                 <div fxFlex fxLayout="column" *ngIf="suggestion">
-                    <app-card fxFlex [(model)]="suggestion" title="Suggestion" [imageSrc]="suggestionImageSrc" [editable]="true"></app-card>
+                    <app-card fxFlex
+                              [(model)]="suggestion"
+                              title="Suggestion"
+                              [imageSrc]="suggestionImageSrc"
+                              [editable]="true"
+                              [hideTools]="true"
+                    ></app-card>
                 </div>
             </div>
         </div>

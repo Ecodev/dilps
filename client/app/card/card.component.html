@@ -25,8 +25,8 @@
                 <button mat-menu-item (click)="validateImage()">Valider l'image</button>
             </mat-menu>
 
-            <button mat-icon-button (click)="update()" matTooltip="Enregistrer" *ngIf="isEdit() && model.id && model?.permissions?.update"
-            >
+            <ng-container *ngIf="!hideTools">
+            <button mat-icon-button (click)="update()" matTooltip="Enregistrer" *ngIf="isEdit() && model.id && model?.permissions?.update">
                 <mat-icon>save</mat-icon>
             </button>
 
@@ -70,7 +70,7 @@
             <button mat-icon-button (click)="download(model)" matTooltip="Télécharger">
                 <mat-icon>file_download</mat-icon>
             </button>
-
+            </ng-container>
         </mat-toolbar>
 
         <perfect-scrollbar fxFlex>

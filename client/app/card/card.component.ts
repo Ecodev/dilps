@@ -28,6 +28,7 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
     @Input() public hideToolbar = false;
     @Input() public hideImage = false;
     @Input() public hideCards = false;
+    @Input() public hideTools = false;
     @Input() public title: string;
     @Input() public showLogo = false;
 
