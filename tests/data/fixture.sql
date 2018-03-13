@@ -6,7 +6,8 @@ INSERT INTO `user` (`id`, `login`, `email`, password, role) VALUES
 
 INSERT INTO `collection` (`id`, creator_id, visibility, `name`, `description`) VALUES
   (2000, 1003, 'private', 'Test collection 2000', 'Roads? Where we''re going we don''t need roads.'),
-  (2001, NULL, 'member', 'Test collection 2001', 'Hello. My name is Inigo Montoya. You killed my father. Prepare to die.');
+  (2001, NULL, 'member', 'Test collection 2001', 'Hello. My name is Inigo Montoya. You killed my father. Prepare to die.'),
+  (2002, 1002, 'member', 'Test collection 2002', 'You''re gonna need a bigger boat.');
 
 INSERT INTO `artist` (`id`, `name`) VALUES
   (3000, 'Test artist 3000');
@@ -23,7 +24,8 @@ INSERT INTO `card` (`id`, creator_id, `original_id`, visibility, `name`, `filena
   (6002, NULL, 6000, 'private', 'Test suggestion card 6002', 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg', 960, 425, 90188, ''),
   (6003, 1003, NULL, 'private', 'Test card 6003', 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg', 960, 425, 90188, ''),
   (6004, 1003, 6000, 'member', 'Test card 6004', 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg', 960, 425, 90188, ''),
-  (6005, NULL, 6000, 'public', 'Test related card 6005', 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg', 960, 425, 90188, '');
+  (6005, NULL, 6000, 'public', 'Test related card 6005', 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg', 960, 425, 90188, ''),
+  (6006, 1002, NULL, 'member', 'Test junior card 6006', 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg', 960, 425, 90188, '');
 
 INSERT INTO `card_artist` (`card_id`, `artist_id`) VALUES
   (6000, 3000);

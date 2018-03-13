@@ -44,6 +44,6 @@ class CardRepositoryTest extends AbstractRepositoryTest
     {
         User::setCurrent(_em()->getReference(User::class, 1000));
         $result = $this->repository->getFindAllQuery([], 'random')->getQuery()->getResult();
-        self::assertCount(6, $result);
+        self::assertCount(7, $result);
     }
 }

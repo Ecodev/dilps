@@ -194,8 +194,8 @@ class CardTest extends TestCase
         $expected2 = [
             'create' => true,
             'read' => true,
-            'update' => true,
-            'delete' => true,
+            'update' => false,
+            'delete' => false,
         ];
         self::assertEquals($expected2, $actual2, 'should be able to get permissions as creator');
     }

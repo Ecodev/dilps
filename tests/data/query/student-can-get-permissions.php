@@ -19,7 +19,7 @@ return [
                 }
             }
 
-            card (id: 6000) {
+            card (id: 6005) {
                 permissions {
                     create
                     read
@@ -66,8 +66,8 @@ return [
                 'permissions' => [
                     'create' => true,
                     'read' => true,
-                    'update' => true,
-                    'delete' => true,
+                    'update' => false,
+                    'delete' => false,
                 ],
             ],
         ],

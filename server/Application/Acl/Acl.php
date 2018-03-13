@@ -6,6 +6,7 @@ namespace Application\Acl;
 
 use Application\Acl\Assertion\IsMyself;
 use Application\Acl\Assertion\IsOwner;
+use Application\Acl\Assertion\IsSuggestion;
 use Application\Acl\Assertion\Visibility;
 use Application\Model\AbstractModel;
 use Application\Model\Artist;
@@ -55,7 +56,7 @@ class Acl extends \Zend\Permissions\Acl\Acl
 
         $this->allow(User::ROLE_STUDENT, new ModelResource(Artist::class), 'create');
         $this->allow(User::ROLE_STUDENT, new ModelResource(Card::class), 'create');
-        $this->allow(User::ROLE_STUDENT, new ModelResource(Card::class), ['update', 'delete'], new IsOwner());
+        $this->allow(User::ROLE_STUDENT, new ModelResource(Card::class), ['update'], new IsSuggestion());
         $this->allow(User::ROLE_STUDENT, new ModelResource(Card::class), 'read', new Visibility(Card::VISIBILITY_MEMBER));
         $this->allow(User::ROLE_STUDENT, new ModelResource(Collection::class), 'read', new Visibility(Collection::VISIBILITY_MEMBER));
         $this->allow(User::ROLE_STUDENT, new ModelResource(Change::class), 'read', new IsOwner());
@@ -66,6 +67,10 @@ class Acl extends \Zend\Permissions\Acl\Acl
         $this->allow(User::ROLE_STUDENT, new ModelResource(Tag::class), 'create');
         $this->allow(User::ROLE_STUDENT, new ModelResource(User::class), 'read');
         $this->allow(User::ROLE_STUDENT, new ModelResource(User::class), ['update', 'delete'], new IsMyself());
+
+        $this->allow(User::ROLE_JUNIOR, new ModelResource(Card::class), ['update'], new IsOwner());
+
+        $this->allow(User::ROLE_SENIOR, new ModelResource(Card::class), ['delete'], new IsOwner());
 
         // Administrator inherits nothing, but is allowed almost all privileges
         $this->allow(User::ROLE_ADMINISTRATOR, new ModelResource(Artist::class));

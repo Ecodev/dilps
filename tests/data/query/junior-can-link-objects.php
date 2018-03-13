@@ -5,14 +5,14 @@ declare(strict_types=1);
 return [
     [
         'query' => 'mutation {
-            linkCollectionCard(collection: 2000, card: 6005) {
+            linkCollectionCard(collection: 2002, card: 6005) {
                 id
                 cards {
                     id
                 }
             }
 
-            linkCardCard(card1: 6000, card2: 6005) {
+            linkCardCard(card1: 6006, card2: 6005) {
                 id
                 cards {
                     id
@@ -26,24 +26,21 @@ return [
     [
         'data' => [
             'linkCollectionCard' => [
-                'id' => '2000',
+                'id' => '2002',
                 'cards' => [
-                    [
-                        'id' => '6000',
-                    ],
                     [
                         'id' => '6005',
                     ],
                 ],
             ],
             'linkCardCard' => [
-                'id' => '6000',
+                'id' => '6006',
                 'cards' => [
                     [
                         'id' => '6005',
                         'cards' => [
                             [
-                                'id' => '6000',
+                                'id' => '6006',
                             ],
                         ],
                     ],
