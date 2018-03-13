@@ -77,7 +77,8 @@
             <div fxLayout="column" class="padding-top scrolled" fxLayoutAlign="start stretch">
 
                 <div class="innerSpacing" fxLayout="column" *ngIf="user?.role === 'administrator'">
-                    <div fxLayout="row">{{ visibilities[visibility] ? 'Visible ' + visibilities[visibility].text : 'Visibilité inchangée' }}</div>
+                    <div fxLayout="row">{{ visibilities[visibility] ? 'Visible ' + visibilities[visibility].text : 'Visibilité inchangée' }}
+                    </div>
                     <mat-slider [disabled]="!isEdit()"
                                 [min]="1"
                                 [max]="3"
@@ -86,7 +87,6 @@
                                 [color]="visibilities[visibility] ? visibilities[visibility].color : null"
                     ></mat-slider>
                 </div>
-
 
                 <mat-form-field class="innerSpacing">
                     <input [readonly]="!isEdit()"
@@ -198,6 +198,24 @@
                 ></app-thesaurus>
 
                 <app-address [(model)]="model" [vertical]="true" [readonly]="!isEdit()"></app-address>
+
+                <!-- Don't show related cards if current card has no id : it's required to create a relation-->
+
+                <div *ngIf="!hideCards && model && model.id">
+                    <br />
+                    <div class="mat-title innerSpacing">Fiches additionnelles</div>
+
+                    <div class="innerSpacing">
+                        <app-relations [disabled]="!isEdit()"
+                                       [main]="model"
+                                       [service]="cardSvc"
+                                       [items]="model.cards"
+                                       placeholder="Chercher une fiche"
+                                       (select)="goToCard($event)"
+                        ></app-relations>
+                    </div>
+                </div>
+
             </div>
 
         </perfect-scrollbar>

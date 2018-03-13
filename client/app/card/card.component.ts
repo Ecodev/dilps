@@ -27,6 +27,7 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
     @Input() public model;
     @Input() public hideToolbar = false;
     @Input() public hideImage = false;
+    @Input() public hideCards = false;
     @Input() public title: string;
     @Input() public showLogo = false;
 
@@ -70,7 +71,7 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
                 private router: Router,
                 private changeSvc: ChangeService,
                 public themeSvc: ThemeService,
-                private cardSvc: CardService,
+                public cardSvc: CardService,
                 private alertSvc: AlertService,
                 public artistService: ArtistService,
                 public institutionSvc: InstitutionService,
@@ -86,18 +87,21 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
         });
 
         this.route.data.subscribe(data => this.showLogo = data.showLogo);
-        if (this.route.snapshot.data['card']) { // edition
-            // merge to have editable object instead of apollo readonly object
-            this.model = merge({}, this.route.snapshot.data['card']);
-            this.initCard();
 
-        } else if (!this.model) { // creation
-            this.model = this.cardSvc.getEmptyObject();
+        if (this.model && !this.model.id) {
+            // mass edit and create a change case
             this.initCard();
             this.edit = true;
-        } else if (this.model && !this.model.id) { // mass edit case
-            this.initCard();
-            this.edit = true;
+
+        } else {
+            this.route.params.subscribe(params => {
+                if (params.cardId) {
+                    this.model = merge({}, this.route.snapshot.data['card']);
+                    this.initCard();
+                } else if (!params.cardId && this.model && this.model.id) {
+                    this.initCard();
+                }
+            });
         }
 
         this.updateUploadWatching();
@@ -268,5 +272,9 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
                 images: [card],
             },
         });
+    }
+
+    public goToCard(card) {
+        this.router.navigateByUrl('/card/' + card.id);
     }
 }

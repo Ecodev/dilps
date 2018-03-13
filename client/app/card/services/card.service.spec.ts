@@ -50,6 +50,18 @@ describe('CardService', () => {
             height: 1,
             __typename: 'Card',
         },
+        cards: [
+            {
+                id: '456',
+                name: 'test string',
+                __typename: 'Card',
+            },
+            {
+                id: '456',
+                name: 'test string',
+                __typename: 'Card',
+            },
+        ],
         addition: 'test string',
         material: 'test string',
         technique: 'test string',

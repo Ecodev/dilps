@@ -57,6 +57,10 @@ fragment cardDetails on Card {
     postcode
     latitude
     longitude
+    cards {
+        id
+        name
+    }
     collections {
         id
         name

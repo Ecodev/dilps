@@ -7,7 +7,7 @@ import { merge } from 'lodash';
  */
 export class IncrementSubject extends BehaviorSubject<any> {
 
-    constructor(_val: any) {
+    constructor(_val: any = null) {
         super(_val);
     }
 
