@@ -124,11 +124,19 @@ export class LinkMutationService {
      */
     private replaceVars(string: string, obj1, obj2): string {
 
+        let paramName1 = obj1.__typename;
+        let paramName2 = obj2.__typename;
+
+        if (paramName2 === paramName1) {
+            paramName1 = paramName1 + '1';
+            paramName2 = paramName2 + '2';
+        }
+
         return string
-            .replace('#name1', UtilityService.lowerCaseFirstLetter(obj1.__typename))
+            .replace('#name1', UtilityService.lowerCaseFirstLetter(paramName1))
             .replace('#upperName1', obj1.__typename)
             .replace('#id1', obj1.id)
-            .replace('#name2', UtilityService.lowerCaseFirstLetter(obj2.__typename))
+            .replace('#name2', UtilityService.lowerCaseFirstLetter(paramName2))
             .replace('#upperName2', obj2.__typename)
             .replace('#id2', obj2.id);
     }
