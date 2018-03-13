@@ -113,13 +113,14 @@ INSERT INTO artist (name)
 DELETE FROM artist
 WHERE name IN ('', '-', '--', '?', 'A EFFACER');
 
-INSERT INTO collection (id, name, description, sorting, is_source)
+INSERT INTO collection (id, name, description, sorting, is_source, visibility)
   SELECT
     ng_collection.collectionid,
     ng_collection.name,
     ng_collection.descr,
     ng_collection.indexfeld,
-    TRUE
+    TRUE,
+    'member'
   FROM ng_collection;
 
 UPDATE collection
@@ -149,10 +150,11 @@ INSERT INTO dating (card_id, `from`, `to`)
     CONCAT(collectionid, imageid) IN (SELECT id FROM card);
 
 
-INSERT INTO collection (id, name)
+INSERT INTO collection (id, name, visibility)
   SELECT
     1000 + ng_group.id,
-    CONVERT(CAST(name AS BINARY) USING utf8mb4)
+    CONVERT(CAST(name AS BINARY) USING utf8mb4),
+    'member'
   FROM ng_group;
 
 UPDATE collection AS child
@@ -280,11 +282,12 @@ SET
   card.updater_id = user.id;
 
 
-INSERT INTO collection (id, creation_date, name)
+INSERT INTO collection (id, creation_date, name, visibility)
   SELECT
     2000 + id,
     date,
-    CONVERT(CAST(motclef AS BINARY) USING utf8mb4)
+    CONVERT(CAST(motclef AS BINARY) USING utf8mb4),
+    'private'
   FROM ng_panier;
 
 -- Link collection to creator
