@@ -75,7 +75,7 @@ export class ListComponent implements OnInit {
 
             this.showLogo = data.showLogo;
 
-            let filters: Literal = {};
+            let filters: Literal = {hasImage: true};
 
             if (data.filters) {
                 filters = this.route.snapshot.data.filters;
