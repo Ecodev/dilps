@@ -74,17 +74,16 @@ export class CollectionsComponent implements OnInit {
 
         const queryRef = this.collectionsSvc.watchAll(this.queryVariables);
         queryRef.valueChanges.subscribe((collections: any) => {
-            this.collections = this.collections.concat(collections.items);
-            if (collections.length > this.collections.length) {
-                this.hasMore = true;
+            if (collections.pageIndex === 0) {
+                this.collections = collections.items;
             } else {
-                this.hasMore = false;
+                this.collections = this.collections.concat(collections.items);
             }
+            this.hasMore = collections.length > this.collections.length;
         });
     }
 
     public search(term) {
-        this.collections = [];
         this.queryVariables.patch({filters: {search: term}});
     }
 

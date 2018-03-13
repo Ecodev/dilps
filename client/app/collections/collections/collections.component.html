@@ -43,7 +43,7 @@
 
                 <mat-divider *ngIf="showUnclassified"></mat-divider>
 
-                <mat-nav-list *ngIf="collections">
+                <mat-nav-list>
                     <ng-container *ngFor="let item of collections">
                         <a mat-list-item [routerLink]="item.id" routerLinkActive="active">
                             <mat-icon mat-list-icon>collections</mat-icon>
