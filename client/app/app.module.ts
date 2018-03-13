@@ -91,6 +91,7 @@ import { AuthAdminGuard } from './shared/services/auth.admin.guard';
 import { QuizzComponent } from './quizz/quizz.component';
 import { NumberSelectorComponent } from './quizz/shared/number-selector/number-selector.component';
 import { MassEditComponent } from './shared/components/mass-edit/mass-edit.component';
+import { RelationsComponent } from './shared/components/relations/relations.component';
 
 @NgModule({
     declarations: [
@@ -126,6 +127,7 @@ import { MassEditComponent } from './shared/components/mass-edit/mass-edit.compo
         QuizzComponent,
         NumberSelectorComponent,
         MassEditComponent,
+        RelationsComponent
     ],
     entryComponents: [
         ConfirmComponent,
