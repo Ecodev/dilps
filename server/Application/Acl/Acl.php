@@ -48,7 +48,6 @@ class Acl extends \Zend\Permissions\Acl\Acl
 
         $this->allow(User::ROLE_ANONYMOUS, new ModelResource(Artist::class), 'read');
         $this->allow(User::ROLE_ANONYMOUS, new ModelResource(Card::class), 'read', new Visibility(Card::VISIBILITY_PUBLIC));
-        $this->allow(User::ROLE_ANONYMOUS, new ModelResource(Collection::class), 'read', new Visibility(Card::VISIBILITY_PUBLIC));
         $this->allow(User::ROLE_ANONYMOUS, new ModelResource(Country::class), 'read');
         $this->allow(User::ROLE_ANONYMOUS, new ModelResource(Dating::class), 'read');
         $this->allow(User::ROLE_ANONYMOUS, new ModelResource(Institution::class), 'read');
@@ -58,7 +57,7 @@ class Acl extends \Zend\Permissions\Acl\Acl
         $this->allow(User::ROLE_STUDENT, new ModelResource(Card::class), 'create');
         $this->allow(User::ROLE_STUDENT, new ModelResource(Card::class), ['update', 'delete'], new IsOwner());
         $this->allow(User::ROLE_STUDENT, new ModelResource(Card::class), 'read', new Visibility(Card::VISIBILITY_MEMBER));
-        $this->allow(User::ROLE_STUDENT, new ModelResource(Collection::class), 'read', new Visibility(Card::VISIBILITY_MEMBER));
+        $this->allow(User::ROLE_STUDENT, new ModelResource(Collection::class), 'read', new Visibility(Collection::VISIBILITY_MEMBER));
         $this->allow(User::ROLE_STUDENT, new ModelResource(Change::class), 'read', new IsOwner());
         $this->allow(User::ROLE_STUDENT, new ModelResource(Change::class), 'create');
         $this->allow(User::ROLE_STUDENT, new ModelResource(Collection::class), 'create');
@@ -68,8 +67,17 @@ class Acl extends \Zend\Permissions\Acl\Acl
         $this->allow(User::ROLE_STUDENT, new ModelResource(User::class), 'read');
         $this->allow(User::ROLE_STUDENT, new ModelResource(User::class), ['update', 'delete'], new IsMyself());
 
-        // Administrator inherits nothing, but is allowed all privileges
-        $this->allow(User::ROLE_ADMINISTRATOR);
+        // Administrator inherits nothing, but is allowed almost all privileges
+        $this->allow(User::ROLE_ADMINISTRATOR, new ModelResource(Artist::class));
+        $this->allow(User::ROLE_ADMINISTRATOR, new ModelResource(Card::class));
+        $this->allow(User::ROLE_ADMINISTRATOR, new ModelResource(Change::class));
+        $this->allow(User::ROLE_ADMINISTRATOR, new ModelResource(Collection::class), 'create');
+        $this->allow(User::ROLE_ADMINISTRATOR, new ModelResource(Collection::class), null, new Visibility(Collection::VISIBILITY_ADMINISTRATOR));
+        $this->allow(User::ROLE_ADMINISTRATOR, new ModelResource(Country::class));
+        $this->allow(User::ROLE_ADMINISTRATOR, new ModelResource(Dating::class));
+        $this->allow(User::ROLE_ADMINISTRATOR, new ModelResource(Institution::class));
+        $this->allow(User::ROLE_ADMINISTRATOR, new ModelResource(Tag::class));
+        $this->allow(User::ROLE_ADMINISTRATOR, new ModelResource(User::class));
     }
 
     /**

@@ -20,16 +20,16 @@ class UserTest extends TestCase
         $actual = $user->getGlobalPermissions();
         $expected = [
             'artist' => [
-                'create' => false,
+                'create' => true,
             ],
             'card' => [
-                'create' => false,
+                'create' => true,
             ],
             'change' => [
-                'create' => false,
+                'create' => true,
             ],
             'collection' => [
-                'create' => false,
+                'create' => true,
             ],
             'country' => [
                 'create' => false,
@@ -38,10 +38,10 @@ class UserTest extends TestCase
                 'create' => false,
             ],
             'institution' => [
-                'create' => false,
+                'create' => true,
             ],
             'tag' => [
-                'create' => false,
+                'create' => true,
             ],
             'user' => [
                 'create' => false,
@@ -50,7 +50,7 @@ class UserTest extends TestCase
 
         self::assertEquals($expected, $actual);
 
-        $expected2 = [
+        $expectedForAdmin = [
             'artist' => [
                 'create' => true,
             ],
@@ -80,14 +80,15 @@ class UserTest extends TestCase
             ],
         ];
 
-        $user2 = new User();
+        User::setCurrent($user);
+        self::assertSame($user, User::getCurrent());
 
         $admin = new User(User::ROLE_ADMINISTRATOR);
-        User::setCurrent($admin);
-        self::assertSame($admin, User::getCurrent());
-        $actual2 = $user2->getGlobalPermissions();
-        self::assertSame($expected2, $actual2);
-        self::assertSame($admin, User::getCurrent());
+        $actualForAdmin = $admin->getGlobalPermissions();
+
+        self::assertEquals($expectedForAdmin, $actualForAdmin);
+        self::assertSame($user, User::getCurrent());
+        self::assertNotEquals($expectedForAdmin, $expected);
     }
 
     /**

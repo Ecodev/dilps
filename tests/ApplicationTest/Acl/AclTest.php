@@ -6,6 +6,7 @@ namespace ApplicationTest\Acl;
 
 use Application\Acl\Acl;
 use Application\Model\Card;
+use Application\Model\Collection;
 use Application\Model\User;
 use PHPUnit\Framework\TestCase;
 
@@ -36,8 +37,17 @@ class AclTest extends TestCase
         self::assertSame('User "John" with role student is not allowed on resource "Card#" with privilege "update"', $acl->getLastDenialMessage());
 
         $user3 = new User(User::ROLE_ADMINISTRATOR);
+        $user3->setLogin('Jane');
         User::setCurrent($user3);
         self::assertTrue($acl->isCurrentUserAllowed($card, 'update'), 'admin can do anything');
+        self::assertNull($acl->getLastDenialMessage());
+
+        $collection = new Collection();
+        self::assertFalse($acl->isCurrentUserAllowed($collection, 'read'), 'admin cannot read non-admin collection');
+        self::assertSame('User "Jane" with role administrator is not allowed on resource "Collection#" with privilege "read"', $acl->getLastDenialMessage());
+
+        $collection->setVisibility(Collection::VISIBILITY_ADMINISTRATOR);
+        self::assertTrue($acl->isCurrentUserAllowed($collection, 'read'), 'admin can do anything');
         self::assertNull($acl->getLastDenialMessage());
     }
 }

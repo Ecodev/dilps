@@ -67,15 +67,20 @@ class AclFilterTest extends TestCase
                 Card::class,
                 'test.id IN (SELECT card.id FROM card WHERE (card.visibility IN (\'public\', \'member\')) OR (card.creator_id = \'1003\'))',
             ],
-            'only public collections are accessible to anonymous' => [
+            'collections are invisible to anonymous' => [
                 null,
                 Collection::class,
-                'test.id IN (SELECT collection.id FROM collection WHERE collection.visibility IN (\'public\'))',
+                'test.id IN (-1)',
             ],
-            'student can access collections that are his own or are public or member' => [
+            'student can access collections that are his own or are member' => [
                 'student',
                 Collection::class,
-                'test.id IN (SELECT collection.id FROM collection WHERE (collection.visibility IN (\'public\', \'member\')) OR (collection.creator_id = \'1003\'))',
+                'test.id IN (SELECT collection.id FROM collection WHERE (collection.visibility IN (\'member\')) OR (collection.creator_id = \'1003\'))',
+            ],
+            'administrator can access collections that are his own or are administrator or member' => [
+                'administrator',
+                Collection::class,
+                'test.id IN (SELECT collection.id FROM collection WHERE (collection.visibility IN (\'member\', \'administrator\')) OR (collection.creator_id = \'1000\'))',
             ],
             'changes are invisible to anonymous' => [
                 null,

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Application\ORM\Query\Filter;
 
+use Application\Model\Collection;
 use Application\Model\User;
 use Application\Repository\LimitedAccessSubQueryInterface;
 use Doctrine\ORM\Mapping\ClassMetaData;
@@ -104,8 +105,8 @@ class AclFilter extends SQLFilter
 
     private function getSubQuery(string $class): ?string
     {
-        // Administrator can always access everything
-        if (!array_key_exists($class, $this->subQueriesCache) && $this->user && $this->user->getRole() === User::ROLE_ADMINISTRATOR) {
+        // Administrator can always access everything, except for collection
+        if ($class !== Collection::class && !array_key_exists($class, $this->subQueriesCache) && $this->user && $this->user->getRole() === User::ROLE_ADMINISTRATOR) {
             $this->subQueriesCache[$class] = null;
         }
 

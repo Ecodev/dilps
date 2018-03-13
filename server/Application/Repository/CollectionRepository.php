@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Repository;
 
-use Application\Model\Card;
+use Application\Model\Collection;
 use Application\Model\User;
 use Doctrine\ORM\QueryBuilder;
 
@@ -61,8 +61,8 @@ class CollectionRepository extends AbstractRepository implements LimitedAccessSu
      *
      * A collection is accessible if:
      *
-     * - collection is public
      * - collection is member and user is logged in
+     * - collection is admin and user is admin
      * - collection owner is the user
      *
      * @param null|User $user
@@ -71,9 +71,13 @@ class CollectionRepository extends AbstractRepository implements LimitedAccessSu
      */
     public function getAccessibleSubQuery(?User $user): string
     {
-        $visibility = [Card::VISIBILITY_PUBLIC];
-        if ($user) {
-            $visibility[] = Card::VISIBILITY_MEMBER;
+        if (!$user) {
+            return '-1';
+        }
+
+        $visibility = [Collection::VISIBILITY_MEMBER];
+        if ($user->getRole() === User::ROLE_ADMINISTRATOR) {
+            $visibility[] = Collection::VISIBILITY_ADMINISTRATOR;
         }
 
         $qb = $this->getEntityManager()->getConnection()->createQueryBuilder()

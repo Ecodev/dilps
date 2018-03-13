@@ -323,7 +323,7 @@ class User extends AbstractModel
     public function getGlobalPermissions(): array
     {
         $acl = new Acl();
-        $type = [
+        $types = [
             Artist::class,
             Card::class,
             Change::class,
@@ -339,8 +339,9 @@ class User extends AbstractModel
         $result = [];
 
         $previousUser = self::getCurrent();
-        foreach ($type as $t) {
-            $instance = new $t();
+        self::setCurrent($this);
+        foreach ($types as $type) {
+            $instance = new $type();
             $sh = lcfirst(Utility::getShortClassName($instance));
             $result[$sh] = [];
 
