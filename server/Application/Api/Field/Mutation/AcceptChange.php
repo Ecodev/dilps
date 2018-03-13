@@ -29,10 +29,8 @@ class AcceptChange implements FieldInterface
                 $image = null;
                 switch ($change->getType()) {
                     case Change::TYPE_CREATE:
-                        $image = new Card();
-                        _em()->persist($image);
-                        $change->getSuggestion()->copyInto($image);
-                        _em()->remove($change->getSuggestion());
+                        $image = $change->getSuggestion();
+                        $image->timestampUpdate();
 
                         break;
                     case Change::TYPE_UPDATE:

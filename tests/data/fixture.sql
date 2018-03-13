@@ -20,8 +20,8 @@ INSERT INTO `institution` (`id`, `country_id`, `name`) VALUES
 
 INSERT INTO `card` (`id`, creator_id, `original_id`, visibility, `name`, `filename`, `width`, `height`, file_size, dating) VALUES
   (6000, 1003, NULL, 'private', 'Test card 6000', 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg', 960, 425, 90188, '2000'),
-  (6001, NULL, NULL, 'private', 'Test suggestion card 6001', 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg', 960, 425, 90188, ''),
-  (6002, NULL, 6000, 'private', 'Test suggestion card 6002', 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg', 960, 425, 90188, ''),
+  (6001, 1003, NULL, 'private', 'Test suggestion card 6001', 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg', 960, 425, 90188, ''),
+  (6002, 1003, 6000, 'private', 'Test suggestion card 6002', 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg', 960, 425, 90188, ''),
   (6003, 1003, NULL, 'private', 'Test card 6003', 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg', 960, 425, 90188, ''),
   (6004, 1003, 6000, 'member', 'Test card 6004', 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg', 960, 425, 90188, ''),
   (6005, NULL, 6000, 'public', 'Test related card 6005', 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg', 960, 425, 90188, ''),
