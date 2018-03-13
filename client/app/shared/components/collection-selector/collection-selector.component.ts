@@ -46,7 +46,7 @@ export class CollectionSelectorComponent implements OnInit {
 
     public link() {
         this.collectionSvc.link(this.collection, this.data.images).subscribe(() => {
-            if (this.data.images.length === 1) {
+            if (this.data.images.length === 1 && this.data.images[0].collections) {
                 this.data.images[0].collections.push(this.collection);
             }
             this.dialogRef.close(this.collection);
