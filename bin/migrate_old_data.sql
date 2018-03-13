@@ -196,6 +196,20 @@ UPDATE user
   JOIN ng_licence ON user.login = ng_licence.utilisateur
 SET user.terms_agreement = ng_licence.date;
 
+-- Inject non-existing user based on all other tables
+INSERT INTO user (login)
+  SELECT login FROM
+    (
+      SELECT DISTINCT ng_group.owner AS login FROM ng_group
+      UNION
+      SELECT DISTINCT ng_meta.metacreator AS login FROM ng_meta
+      UNION
+      SELECT DISTINCT ng_meta.metaeditor AS login FROM ng_meta
+      UNION
+      SELECT DISTINCT ng_panier.utilisateur AS login FROM ng_panier
+    ) AS tmp
+  WHERE login NOT IN (SELECT login FROM user);
+
 -- Update group user with their owner
 UPDATE collection
   JOIN ng_group ON collection.id = 1000 + ng_group.id
@@ -521,6 +535,10 @@ UPDATE card
       card.latitude   = NULL,
       card.longitude  = NULL,
       card.country_id = NULL;
+
+-- Make orphan collection visible to at least administrators
+UPDATE collection SET visibility = 'administrator'
+WHERE creator_id IS NULL AND visibility = 'private';
 
 COMMIT;
 
