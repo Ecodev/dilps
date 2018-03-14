@@ -3,7 +3,13 @@
         <mat-tab label="Artiste">
             <div fxLayout="column" fxLayoutGap="10px" class="padding-v">
                 <mat-form-field>
-                    <input matInput type="text" name="name" placeholder="Nom" [(ngModel)]="data.item.name">
+                    <input matInput
+                           type="text"
+                           name="name"
+                           placeholder="Nom"
+                           [(ngModel)]="data.item.name"
+                           [readonly]="data?.item?.permissions && !data.item.permissions.update"
+                    >
                 </mat-form-field>
             </div>
         </mat-tab>
