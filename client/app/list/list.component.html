@@ -25,7 +25,7 @@
                 <mat-icon>close</mat-icon>
             </button>
 
-            <button mat-icon-button (click)="goToQuizz(selected)" matTooltip="Lecture d'oeuvre">
+            <button mat-icon-button (click)="goToQuizz(selected)" matTooltip="Lecture d'oeuvre" *ngIf="!!user">
                 <mat-icon>burst_mode</mat-icon>
             </button>
 
@@ -44,7 +44,7 @@
 
         </ng-container>
 
-        <ng-container *ngIf="!selected?.length">
+        <ng-container *ngIf="!selected?.length && user">
             <button mat-icon-button (click)="goToQuizz()" matTooltip="Lecture d'oeuvre">
                 <mat-icon>burst_mode</mat-icon>
             </button>
