@@ -271,6 +271,7 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
             width: '400px',
             data: {
                 images: [card],
+                denyLegendsDownload : !this.user
             },
         });
     }

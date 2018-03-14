@@ -37,7 +37,7 @@
                     (click)="delete(selected)"
                     color="warn"
                     matTooltip="Supprimer la fiche définitivement"
-                    *ngIf="user.role === 'administrator'"
+                    *ngIf="user?.role === 'administrator'"
             >
                 <mat-icon>delete_forever</mat-icon>
             </button>

@@ -188,6 +188,7 @@ export class ListComponent implements OnInit {
             width: '400px',
             data: {
                 images: selection,
+                denyLegendsDownload : !this.user
             },
         });
     }

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ArtistComponent } from '../../../artists/artist/artist.component';
 import 'rxjs/add/observable/forkJoin';
@@ -29,9 +29,14 @@ export class DownloadComponent implements OnInit {
 
     public backgroundColor = '#000000';
     public textColor = '#FFFFFF';
+    public denyLegendsDownload = false;
 
     constructor(private dialogRef: MatDialogRef<ArtistComponent>,
                 @Inject(MAT_DIALOG_DATA) public data: any) {
+        console.log('denyLegends', data.denyLegendsDownload);
+
+        this.denyLegendsDownload = data.denyLegendsDownload;
+        this.includeLegend = !this.denyLegendsDownload;
     }
 
     ngOnInit() {
@@ -40,13 +45,13 @@ export class DownloadComponent implements OnInit {
     public downloadPowerPoint() {
         const url = '/pptx/' + this.getIds() + '/' + this.toRgba(this.backgroundColor) + '/' + this.toRgba(this.textColor);
         (window.document.location as any) = url;
-        // this.dialogRef.close();
+        this.dialogRef.close();
     }
 
     public downloadZip() {
         const url = '/zip/' + this.getIds() + '/' + (this.includeLegend ? '1' : '0') + (this.size ? '/' + this.size : '');
         (window.document.location as any) = url;
-        // this.dialogRef.close();
+        this.dialogRef.close();
     }
 
     private getIds(): string {

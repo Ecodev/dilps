@@ -114,6 +114,13 @@
                     </ng-container>
 
                     <mat-nav-list fxFlex *ngIf="!user">
+
+                        <!-- Dashboard -->
+                        <a mat-list-item routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                            <mat-icon mat-list-icon>home</mat-icon>
+                            <span matLine>Accueil</span>
+                        </a>
+
                         <!-- Logout -->
                         <a mat-list-item (click)="userSvc.revokeTempAccess()" matTooltipPosition="after" matTooltip="Se connecter">
                             <mat-icon mat-list-icon>account_circle</mat-icon>
