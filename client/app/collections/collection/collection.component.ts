@@ -55,7 +55,7 @@ export class CollectionComponent extends AbstractDetail implements OnInit {
     }
 
     /**
-     * Visibility slider can always be seen by creator or by admins if visibility is accessible to administrators/members
+     * Visibility is seen by >=seniors if their are the creator, or by admins if visibility is set to admin.
      * @returns {boolean}
      */
     public showVisibility() {
@@ -65,13 +65,18 @@ export class CollectionComponent extends AbstractDetail implements OnInit {
             return false;
         }
 
+        const hasCreator = !!this.data.item.creator;
+        const isCreator = hasCreator && this.user.id === this.data.item.creator.id;
+        const isOwner = isCreator && this.user.role === UserRole.senior || isCreator && this.user.role === UserRole.administrator;
+
+        if (isOwner) {
+            return true;
+        }
+
         const collectionIsNotPrivate = this.data.item.visibility === CollectionVisibility.administrator ||
                                        this.data.item.visibility === CollectionVisibility.member;
 
-        const hasCreator = !!this.data.item.creator;
-        const isCreator = hasCreator && this.user.id === this.data.item.creator.id;
-
-        const adminCanView = this.user.role === UserRole.administrator && (collectionIsNotPrivate || !hasCreator);
-        return isCreator || adminCanView;
+        // If is admin and has visibility
+        return this.user.role === UserRole.administrator && collectionIsNotPrivate;
     }
 }
