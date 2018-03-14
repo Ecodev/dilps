@@ -116,10 +116,13 @@ export class ListComponent implements OnInit {
                 eHeight: big.height,
             };
 
-            const fields = {
-                link: 'true',
+            const fields: any = {
                 title: card.name ? card.name : 'Voir le détail',
             };
+
+            if (this.user) {
+                fields.link = 'true';
+            }
 
             return merge({}, card, thumb, big, fields);
         });
@@ -188,7 +191,7 @@ export class ListComponent implements OnInit {
             width: '400px',
             data: {
                 images: selection,
-                denyLegendsDownload : !this.user
+                denyLegendsDownload: !this.user,
             },
         });
     }
