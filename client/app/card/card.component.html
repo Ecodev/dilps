@@ -59,11 +59,11 @@
                 <mat-icon>spellcheck</mat-icon>
             </button>
 
-            <button mat-icon-button (click)="linkToCollection()" matTooltip="Ajouter à une collection" *ngIf="model.id">
+            <button mat-icon-button (click)="linkToCollection()" matTooltip="Ajouter à une collection" *ngIf="model.id && user">
                 <mat-icon>library_add</mat-icon>
             </button>
 
-            <button mat-icon-button [matMenuTriggerFor]="changeMenu" matTooltip="Signaler un changement">
+            <button mat-icon-button [matMenuTriggerFor]="changeMenu" matTooltip="Signaler un changement" *ngIf="user">
                 <mat-icon>add_alert</mat-icon>
             </button>
 
