@@ -24,10 +24,10 @@ class Visibility implements AssertionInterface
     /**
      * Assert that the object is the given visibility, or belongs to the current user
      *
-     * @param  Acl $acl
-     * @param  RoleInterface $role
-     * @param  ResourceInterface $resource
-     * @param  string $privilege
+     * @param Acl $acl
+     * @param RoleInterface $role
+     * @param ResourceInterface $resource
+     * @param string $privilege
      *
      * @return bool
      */

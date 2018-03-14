@@ -15,10 +15,10 @@ class IsOwner implements AssertionInterface
     /**
      * Assert that the object belongs to the current user
      *
-     * @param  Acl $acl
-     * @param  RoleInterface $role
-     * @param  ResourceInterface $resource
-     * @param  string $privilege
+     * @param Acl $acl
+     * @param RoleInterface $role
+     * @param ResourceInterface $resource
+     * @param string $privilege
      *
      * @return bool
      */

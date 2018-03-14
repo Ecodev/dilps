@@ -15,10 +15,10 @@ class IsMyself implements AssertionInterface
     /**
      * Assert that the user is the current user himself
      *
-     * @param  Acl $acl
-     * @param  RoleInterface $role
-     * @param  ResourceInterface $resource
-     * @param  string $privilege
+     * @param Acl $acl
+     * @param RoleInterface $role
+     * @param ResourceInterface $resource
+     * @param string $privilege
      *
      * @return bool
      */

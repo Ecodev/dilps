@@ -14,10 +14,10 @@ class IsSuggestion implements AssertionInterface
     /**
      * Assert that the card is a suggestion (has an original)
      *
-     * @param  Acl $acl
-     * @param  RoleInterface $role
-     * @param  ResourceInterface $resource
-     * @param  string $privilege
+     * @param Acl $acl
+     * @param RoleInterface $role
+     * @param ResourceInterface $resource
+     * @param string $privilege
      *
      * @return bool
      */
