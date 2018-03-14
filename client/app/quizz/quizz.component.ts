@@ -78,6 +78,7 @@ export class QuizzComponent implements OnInit, OnDestroy {
     }
 
     public goToNext() {
+        this.formCtrl.setValue('');
         const index = this.cards.findIndex(c => c === this.card.id);
         this.getCard(this.cards[index + 1]);
     }
@@ -126,12 +127,15 @@ export class QuizzComponent implements OnInit, OnDestroy {
     }
 
     private testDate(formValue, rules) {
+
         const years: string[] = uniq(formValue.match(/(-?\d+)/));
         if (years) {
-            for (const number of years) {
-                const enteredDate = new Date(number);
+            for (const year of years) {
+                const searched = (new Date(year)).getFullYear();
                 for (const date of rules) {
-                    if (enteredDate >= new Date(date.from) && enteredDate <= new Date(date.to)) {
+                    const from = (new Date(date.from)).getFullYear();
+                    const to = (new Date(date.to)).getFullYear();
+                    if (searched >= from && searched <= to) {
                         return true;
                     }
                 }
@@ -139,7 +143,6 @@ export class QuizzComponent implements OnInit, OnDestroy {
         }
 
         return false;
-
     }
 
     public stripVowelAccent(str) {
