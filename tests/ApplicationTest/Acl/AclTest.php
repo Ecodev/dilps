@@ -6,6 +6,7 @@ namespace ApplicationTest\Acl;
 
 use Application\Acl\Acl;
 use Application\Model\Card;
+use Application\Model\Change;
 use Application\Model\Collection;
 use Application\Model\User;
 use PHPUnit\Framework\TestCase;
@@ -37,7 +38,12 @@ class AclTest extends TestCase
 
         self::assertTrue($acl->isCurrentUserAllowed($card, 'update'), 'only junior owner can update');
         self::assertNull($acl->getLastDenialMessage());
-        self::assertFalse($acl->isCurrentUserAllowed($card, 'delete'), 'junior cannot delete his card');
+        self::assertTrue($acl->isCurrentUserAllowed($card, 'delete'), 'junior can delete his card');
+        self::assertNull($acl->getLastDenialMessage());
+
+        $change = new Change();
+        $change->setSuggestion($card);
+        self::assertFalse($acl->isCurrentUserAllowed($card, 'delete'), 'junior cannot delete his card if it is a suggestion');
         self::assertSame('User "Kyle" with role junior is not allowed on resource "Card#" with privilege "delete"', $acl->getLastDenialMessage());
 
         $otherStudent = new User();

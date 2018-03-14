@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Application\Acl;
 
 use Application\Acl\Assertion\IsMyself;
+use Application\Acl\Assertion\IsNotSuggestion;
 use Application\Acl\Assertion\IsOwner;
 use Application\Acl\Assertion\IsSuggestion;
 use Application\Acl\Assertion\Visibility;
@@ -69,6 +70,7 @@ class Acl extends \Zend\Permissions\Acl\Acl
         $this->allow(User::ROLE_STUDENT, new ModelResource(User::class), ['update', 'delete'], new IsMyself());
 
         $this->allow(User::ROLE_JUNIOR, new ModelResource(Card::class), ['update'], new IsOwner());
+        $this->allow(User::ROLE_JUNIOR, new ModelResource(Card::class), ['delete'], new IsNotSuggestion());
 
         $this->allow(User::ROLE_SENIOR, new ModelResource(Card::class), ['delete'], new IsOwner());
 

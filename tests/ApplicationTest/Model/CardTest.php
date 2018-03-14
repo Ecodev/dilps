@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ApplicationTest\Model;
 
 use Application\Model\Card;
+use Application\Model\Change;
 use Application\Model\Collection;
 use Application\Model\Country;
 use Application\Model\User;
@@ -198,5 +199,18 @@ class CardTest extends TestCase
             'delete' => false,
         ];
         self::assertEquals($expected2, $actual2, 'should be able to get permissions as creator');
+    }
+
+    public function testChange(): void
+    {
+        $card = new Card();
+        $change = new Change();
+        self::assertNull($card->getChange());
+
+        $change->setSuggestion($card);
+        self::assertSame($change, $card->getChange());
+
+        $change->setSuggestion(null);
+        self::assertNull($card->getChange());
     }
 }

@@ -38,7 +38,7 @@ class Change extends AbstractModel
     /**
      * @var null|Card
      *
-     * @ORM\ManyToOne(targetEntity="Card")
+     * @ORM\OneToOne(targetEntity="Card", inversedBy="change")
      * @ORM\JoinColumns({
      *     @ORM\JoinColumn(onDelete="CASCADE")
      * })
@@ -117,7 +117,15 @@ class Change extends AbstractModel
      */
     public function setSuggestion(?Card $suggestion): void
     {
+        if ($this->suggestion) {
+            $this->suggestion->changeAdded(null);
+        }
+
         $this->suggestion = $suggestion;
+
+        if ($this->suggestion) {
+            $this->suggestion->changeAdded($this);
+        }
     }
 
     /**

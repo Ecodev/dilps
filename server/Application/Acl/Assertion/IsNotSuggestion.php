@@ -9,10 +9,10 @@ use Zend\Permissions\Acl\Assertion\AssertionInterface;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 use Zend\Permissions\Acl\Role\RoleInterface;
 
-class IsSuggestion implements AssertionInterface
+class IsNotSuggestion implements AssertionInterface
 {
     /**
-     * Assert that the card is a suggestion (has a change)
+     * Assert that the card is NOT a suggestion (has a change)
      *
      * @param Acl $acl
      * @param RoleInterface $role
@@ -26,6 +26,6 @@ class IsSuggestion implements AssertionInterface
         $object = $resource->getInstance();
         $isOwner = new IsOwner();
 
-        return (bool) $object->getChange() && $isOwner->assert($acl, $role, $resource, $privilege);
+        return !$object->getChange() && $isOwner->assert($acl, $role, $resource, $privilege);
     }
 }

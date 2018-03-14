@@ -156,6 +156,13 @@ class Card extends AbstractModel
     private $cards;
 
     /**
+     * @var null|Change
+     *
+     * @ORM\OneToOne(targetEntity="Change", mappedBy="suggestion")
+     */
+    private $change;
+
+    /**
      * Constructor
      *
      * @param string $name
@@ -678,5 +685,26 @@ class Card extends AbstractModel
     {
         $this->cards->removeElement($card);
         $card->cards->removeElement($this);
+    }
+
+    /**
+     * Return the change this card is a suggestion for, if any
+     *
+     * @return null|Change
+     */
+    public function getChange(): ?Change
+    {
+        return $this->change;
+    }
+
+    /**
+     * Notify the Card that it was added to a Change.
+     * This should only be called by Change::addCard()
+     *
+     * @param null|Change $change
+     */
+    public function changeAdded(?Change $change): void
+    {
+        $this->change = $change;
     }
 }
