@@ -14,11 +14,11 @@ class Visibility implements AssertionInterface
     /**
      * @var string
      */
-    private $visibility;
+    private $allowedVisibilities;
 
-    public function __construct(string $visibility)
+    public function __construct(array $visibilities)
     {
-        $this->visibility = $visibility;
+        $this->allowedVisibilities = $visibilities;
     }
 
     /**
@@ -36,6 +36,6 @@ class Visibility implements AssertionInterface
         $object = $resource->getInstance();
         $isOwner = new IsOwner();
 
-        return $object->getVisibility() === $this->visibility || $isOwner->assert($acl, $role, $resource, $privilege);
+        return in_array($object->getVisibility(), $this->allowedVisibilities, true) || $isOwner->assert($acl, $role, $resource, $privilege);
     }
 }
