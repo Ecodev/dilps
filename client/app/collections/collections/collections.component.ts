@@ -114,18 +114,8 @@ export class CollectionsComponent implements OnInit {
     }
 
     public add() {
-        const dialogRef = this.dialog.open(CollectionComponent, {
+        this.dialog.open(CollectionComponent, {
             width: '800px',
-        });
-
-        dialogRef.afterClosed().subscribe(collection => {
-            if (collection) {
-                this.router.navigate([
-                    '/collection',
-                    collection.id,
-                ], {relativeTo: this.route.firstChild});
-
-            }
         });
     }
 
