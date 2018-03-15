@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CardVisibility } from '../../shared/generated-types';
 import { ChangeService } from '../services/change.service';
 import { CardService } from '../../card/services/card.service';
 import { merge, omit } from 'lodash';
@@ -42,6 +43,7 @@ export class ChangeComponent implements OnInit {
             this.cardService.getOne(this.route.snapshot.params['cardId']).subscribe(card => {
                 this.original = merge({}, card);
                 this.suggestion = omit(merge({}, card, {original: card}), 'id');
+                this.suggestion.visibility = CardVisibility.private;
                 this.suggestionImageSrcFull = CardService.getImageLink(card, null);
                 this.suggestionImageSrc = CardService.getImageLink(card, 2000);
                 this.loaded = true;

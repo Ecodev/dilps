@@ -616,8 +616,13 @@ class Card extends AbstractModel
         // Trigger loading of proxy
         $original->getName();
 
-        // Copy scalars
-        $blacklist = ['id', '__initializer__', '__cloner__', '__isInitialized__'];
+        $blacklist = [
+            'id',
+            'visibility',
+            '__initializer__',
+            '__cloner__',
+            '__isInitialized__',
+        ];
 
         if (!$this->hasImage()) {
             $blacklist[] = 'filename';
@@ -625,6 +630,8 @@ class Card extends AbstractModel
             $blacklist[] = 'height';
             $blacklist[] = 'fileSize';
         }
+
+        // Copy scalars
         foreach ($this as $property => $value) {
             if (in_array($property, $blacklist, true)) {
                 continue;

@@ -66,8 +66,11 @@ class CardTest extends TestCase
 
     public function testCopyInto(): void
     {
-        $collection = new Collection();
+        $admin = new User(User::ROLE_ADMINISTRATOR);
+        User::setCurrent($admin);
+
         $suggestion = new Card();
+        $suggestion->setVisibility(Card::VISIBILITY_MEMBER);
         $suggestion->setName('test name');
         $suggestion->setDating('2010');
         $suggestion->setArtists(['John', 'Sarah']);
@@ -77,17 +80,21 @@ class CardTest extends TestCase
         $suggestion->setWidth(123);
         $suggestion->setHeight(123);
         $suggestion->setFileSize(123);
-        $collection->addCard($suggestion);
         $suggestion->setFilename('foo.png');
         touch($suggestion->getPath());
 
+        $collection = new Collection();
+        $collection->addCard($suggestion);
+
         $original = new Card();
+        $original->setVisibility(Card::VISIBILITY_PUBLIC);
         $original->setWidth(456);
         $original->setHeight(456);
         $original->setFileSize(456);
         $suggestion->setOriginal($original);
         $suggestion->copyInto($original);
 
+        self::assertSame(Card::VISIBILITY_PUBLIC, $original->getVisibility());
         self::assertSame('test name', $original->getName());
         self::assertSame('2010', $original->getDating());
         self::assertSame('2010-01-01T00:00:00+00:00', $original->getDatings()->first()->getFrom()->format('c'), 'datings should be re-computed');
