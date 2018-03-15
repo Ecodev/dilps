@@ -15,9 +15,15 @@
             <div fxFlex></div>
 
             <mat-menu #changeMenu="matMenu" [overlapTrigger]="false">
-                <button mat-menu-item (click)="suggestUpdate()" *ngIf="model.id">Suggérer une modification</button>
-                <button mat-menu-item (click)="suggestDeletion()" *ngIf="model.id">Suggérer la suppression</button>
-                <button mat-menu-item (click)="suggestCreation()" *ngIf="!model.id">Suggérer l'ajout</button>
+                <button mat-menu-item (click)="suggestUpdate()" *ngIf="canSuggestUpdate()">
+                    Suggérer une modification
+                </button>
+                <button mat-menu-item (click)="suggestDeletion()" *ngIf="canSuggestDelete()">
+                    Suggérer la suppression
+                </button>
+                <button mat-menu-item (click)="suggestCreation()" *ngIf="canSuggestCreate()">
+                    Suggérer l'ajout
+                </button>
             </mat-menu>
 
             <mat-menu #validationMenu="matMenu" [overlapTrigger]="false">
@@ -26,50 +32,54 @@
             </mat-menu>
 
             <ng-container *ngIf="!hideTools">
-            <button mat-icon-button (click)="update()" matTooltip="Enregistrer" *ngIf="isEdit() && model.id && model?.permissions?.update">
-                <mat-icon>save</mat-icon>
-            </button>
+                <button mat-icon-button
+                        (click)="update()"
+                        matTooltip="Enregistrer"
+                        *ngIf="isEdit() && model.id && model?.permissions?.update"
+                >
+                    <mat-icon>save</mat-icon>
+                </button>
 
-            <button mat-icon-button
-                    (click)="toggleEdit()"
-                    [matTooltip]="'Passer en mode édition'"
-                    *ngIf="!isEdit() && model.id && model?.permissions?.update"
-            >
-                <mat-icon>edit</mat-icon>
-            </button>
+                <button mat-icon-button
+                        (click)="toggleEdit()"
+                        [matTooltip]="'Passer en mode édition'"
+                        *ngIf="!isEdit() && model.id && model?.permissions?.update"
+                >
+                    <mat-icon>edit</mat-icon>
+                </button>
 
-            <button mat-icon-button (click)="create()" matTooltip="Créer" *ngIf="!model.id && user?.globalPermissions?.card?.create">
-                <mat-icon>add</mat-icon>
-            </button>
+                <button mat-icon-button (click)="create()" matTooltip="Créer" *ngIf="!model.id && user?.globalPermissions?.card?.create">
+                    <mat-icon>add</mat-icon>
+                </button>
 
-            <button mat-icon-button
-                    color="warn"
-                    (click)="confirmDelete()"
-                    matTooltip="Supprimer"
-                    *ngIf="model.id && model?.permissions?.delete"
-            >
-                <mat-icon>delete_forever</mat-icon>
-            </button>
+                <button mat-icon-button
+                        color="warn"
+                        (click)="confirmDelete()"
+                        matTooltip="Supprimer"
+                        *ngIf="model.id && model?.permissions?.delete"
+                >
+                    <mat-icon>delete_forever</mat-icon>
+                </button>
 
-            <button mat-icon-button
-                    [matMenuTriggerFor]="validationMenu"
-                    matTooltip="Valider"
-                    *ngIf="model.id && user?.role === 'administrator'"
-            >
-                <mat-icon>spellcheck</mat-icon>
-            </button>
+                <button mat-icon-button
+                        [matMenuTriggerFor]="validationMenu"
+                        matTooltip="Valider"
+                        *ngIf="model.id && user?.role === 'administrator'"
+                >
+                    <mat-icon>spellcheck</mat-icon>
+                </button>
 
-            <button mat-icon-button (click)="linkToCollection()" matTooltip="Ajouter à une collection" *ngIf="model.id && user">
-                <mat-icon>library_add</mat-icon>
-            </button>
+                <button mat-icon-button (click)="linkToCollection()" matTooltip="Ajouter à une collection" *ngIf="model.id && user">
+                    <mat-icon>library_add</mat-icon>
+                </button>
 
-            <button mat-icon-button [matMenuTriggerFor]="changeMenu" matTooltip="Signaler un changement" *ngIf="user">
-                <mat-icon>add_alert</mat-icon>
-            </button>
+                <button mat-icon-button [matMenuTriggerFor]="changeMenu" matTooltip="Signaler un changement" *ngIf="user">
+                    <mat-icon>add_alert</mat-icon>
+                </button>
 
-            <button mat-icon-button (click)="download(model)" matTooltip="Télécharger">
-                <mat-icon>file_download</mat-icon>
-            </button>
+                <button mat-icon-button (click)="download(model)" matTooltip="Télécharger">
+                    <mat-icon>file_download</mat-icon>
+                </button>
             </ng-container>
         </mat-toolbar>
 

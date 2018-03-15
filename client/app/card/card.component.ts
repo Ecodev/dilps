@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@
 import { ThemeService } from '../shared/services/theme.service';
 import { CardService } from './services/card.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { findKey, merge } from 'lodash';
+import { findKey, merge, omit } from 'lodash';
 import { InstitutionService } from '../institutions/services/institution.service';
 import { AlertService } from '../shared/components/alert/alert.service';
 import { ArtistService } from '../artists/services/artist.service';
@@ -233,10 +233,8 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     public suggestCreation() {
-        this.cardSvc.create(this.model).subscribe(card => {
-            this.changeSvc.suggestCreation(card).subscribe((c) => {
-                this.router.navigateByUrl('notification');
-            });
+        this.changeSvc.suggestCreation(this.model).subscribe(() => {
+            this.router.navigateByUrl('notification');
         });
     }
 
@@ -278,5 +276,17 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
 
     public goToCard(card) {
         this.router.navigateByUrl('/card/' + card.id);
+    }
+
+    public canSuggestCreate() {
+        return this.user && this.model.creator.id === this.user.id && this.model.visibility === CardVisibility.private;
+    }
+
+    public canSuggestUpdate() {
+        return this.model.visibility !== CardVisibility.private;
+    }
+
+    public canSuggestDelete() {
+        return this.model.visibility !== CardVisibility.private;
     }
 }
