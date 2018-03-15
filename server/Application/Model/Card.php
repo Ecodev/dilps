@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Model;
 
+use Application\Api\Exception;
 use Application\Service\DatingRule;
 use Application\Traits\CardSimpleProperties;
 use Application\Traits\HasAddress;
@@ -72,9 +73,13 @@ class Card extends AbstractModel
      */
     public function setVisibility(string $visibility): void
     {
+        if ($this->visibility === $visibility) {
+            return;
+        }
+
         $user = User::getCurrent();
-        if ($visibility === self::VISIBILITY_PUBLIC && $this->visibility !== self::VISIBILITY_PUBLIC && $user->getRole() !== User::ROLE_ADMINISTRATOR) {
-            throw new Exception('Only administrator can make it public');
+        if ($visibility === self::VISIBILITY_PUBLIC && $user->getRole() !== User::ROLE_ADMINISTRATOR) {
+            throw new Exception('Only administrator can make a card public');
         }
 
         $this->visibility = $visibility;

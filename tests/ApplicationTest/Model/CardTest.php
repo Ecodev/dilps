@@ -213,4 +213,54 @@ class CardTest extends TestCase
         $change->setSuggestion(null);
         self::assertNull($card->getChange());
     }
+
+    /**
+     * @dataProvider providerSetVisibility
+     *
+     * @param string $role
+     * @param string $previous
+     * @param string $next
+     * @param bool $shouldThrow
+     */
+    public function testSetVisibility(string $role, string $previous, string $next, bool $shouldThrow): void
+    {
+        $admin = new User(User::ROLE_ADMINISTRATOR);
+        User::setCurrent($admin);
+        $card = new Card();
+        $card->setVisibility($previous);
+
+        $user = new User($role);
+        User::setCurrent($user);
+
+        if ($shouldThrow) {
+            $this->expectExceptionMessage('Only administrator can make a card public');
+        }
+
+        $card->setVisibility($next);
+        self::assertSame($next, $card->getVisibility());
+    }
+
+    public function providerSetVisibility(): array
+    {
+        return [
+            [User::ROLE_STUDENT, Card::VISIBILITY_PRIVATE, Card::VISIBILITY_PRIVATE, false],
+            [User::ROLE_STUDENT, Card::VISIBILITY_PRIVATE, Card::VISIBILITY_MEMBER, false],
+            [User::ROLE_STUDENT, Card::VISIBILITY_PRIVATE, Card::VISIBILITY_PUBLIC, true],
+            [User::ROLE_STUDENT, Card::VISIBILITY_MEMBER, Card::VISIBILITY_PRIVATE, false],
+            [User::ROLE_STUDENT, Card::VISIBILITY_MEMBER, Card::VISIBILITY_MEMBER, false],
+            [User::ROLE_STUDENT, Card::VISIBILITY_MEMBER, Card::VISIBILITY_PUBLIC, true],
+            [User::ROLE_STUDENT, Card::VISIBILITY_PUBLIC, Card::VISIBILITY_PRIVATE, false],
+            [User::ROLE_STUDENT, Card::VISIBILITY_PUBLIC, Card::VISIBILITY_MEMBER, false],
+            [User::ROLE_STUDENT, Card::VISIBILITY_PUBLIC, Card::VISIBILITY_PUBLIC, false],
+            [User::ROLE_ADMINISTRATOR, Card::VISIBILITY_PRIVATE, Card::VISIBILITY_PRIVATE, false],
+            [User::ROLE_ADMINISTRATOR, Card::VISIBILITY_PRIVATE, Card::VISIBILITY_MEMBER, false],
+            [User::ROLE_ADMINISTRATOR, Card::VISIBILITY_PRIVATE, Card::VISIBILITY_PUBLIC, false],
+            [User::ROLE_ADMINISTRATOR, Card::VISIBILITY_MEMBER, Card::VISIBILITY_PRIVATE, false],
+            [User::ROLE_ADMINISTRATOR, Card::VISIBILITY_MEMBER, Card::VISIBILITY_MEMBER, false],
+            [User::ROLE_ADMINISTRATOR, Card::VISIBILITY_MEMBER, Card::VISIBILITY_PUBLIC, false],
+            [User::ROLE_ADMINISTRATOR, Card::VISIBILITY_PUBLIC, Card::VISIBILITY_PRIVATE, false],
+            [User::ROLE_ADMINISTRATOR, Card::VISIBILITY_PUBLIC, Card::VISIBILITY_MEMBER, false],
+            [User::ROLE_ADMINISTRATOR, Card::VISIBILITY_PUBLIC, Card::VISIBILITY_PUBLIC, false],
+        ];
+    }
 }
