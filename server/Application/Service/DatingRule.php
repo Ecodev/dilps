@@ -55,9 +55,7 @@ class DatingRule
     }
 
     /**
-     * Wrapper for GregorianToJD
-     *
-     * Applies some extra checking on GregorianToJD
+     * Create a DateTime but force year 1 instead of year 0
      *
      * @param int $year
      * @param int $month
@@ -71,10 +69,9 @@ class DatingRule
             $year = 1;
         }
 
-        $a = new DateTimeImmutable();
-        $q = $a->setDate($year, $month, $day);
+        $date = new DateTimeImmutable();
 
-        return $q;
+        return $date->setDate($year, $month, $day);
     }
 
     private function getMatches(): array
