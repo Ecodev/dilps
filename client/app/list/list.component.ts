@@ -149,6 +149,11 @@ export class ListComponent implements OnInit {
         this.sub.refetch();
     }
 
+    public search(term) {
+        this.reload();
+        this.queryVariables.patch({filters: {search: term}});
+    }
+
     public loadMore(ev) {
 
         const pagination = {
