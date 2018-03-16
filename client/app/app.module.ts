@@ -7,6 +7,7 @@ import { createUploadLink } from 'apollo-upload-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
+    DateAdapter,
     MatAutocompleteModule,
     MatButtonModule,
     MatCheckboxModule,
@@ -127,7 +128,7 @@ import { RelationsComponent } from './shared/components/relations/relations.comp
         QuizzComponent,
         NumberSelectorComponent,
         MassEditComponent,
-        RelationsComponent
+        RelationsComponent,
     ],
     entryComponents: [
         ConfirmComponent,
@@ -139,7 +140,7 @@ import { RelationsComponent } from './shared/components/relations/relations.comp
         DownloadComponent,
         CollectionComponent,
         NumberSelectorComponent,
-        MassEditComponent
+        MassEditComponent,
     ],
     imports: [
         BrowserModule,
@@ -202,7 +203,12 @@ import { RelationsComponent } from './shared/components/relations/relations.comp
     bootstrap: [AppComponent],
 })
 export class AppModule {
-    constructor(apollo: Apollo, networkActivitySvc: NetworkActivityService, alertSvc: AlertService) {
+    constructor(apollo: Apollo,
+                networkActivitySvc: NetworkActivityService,
+                alertSvc: AlertService,
+                private dateAdapter: DateAdapter<Date>) {
+
+        dateAdapter.setLocale('fr-ch');
 
         const link = createUploadLink({
             uri: '/graphql',
