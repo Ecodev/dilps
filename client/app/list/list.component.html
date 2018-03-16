@@ -8,11 +8,12 @@
                 <input matInput
                        appFocus
                        placeholder="Rechercher"
+                       [(ngModel)]="searchedTerm"
                        (change)="search($event.target.value)"
-                       (keyup.esc)="search('')"
+                       (keyup.esc)="search(''); searchedTerm = ''"
                 >
                 <mat-icon matPrefix>search</mat-icon>
-                <button mat-icon-button matSuffix (click)="search('')">
+                <button mat-icon-button matSuffix (click)="search(''); searchedTerm = ''">
                     <mat-icon>close</mat-icon>
                 </button>
             </mat-form-field>

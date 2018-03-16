@@ -47,6 +47,8 @@ export class ListComponent implements OnInit {
 
     public user;
 
+    public searchedTerm;
+
     constructor(private router: Router,
                 private route: ActivatedRoute,
                 private cardSvc: CardService,
