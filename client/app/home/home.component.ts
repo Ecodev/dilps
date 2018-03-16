@@ -31,6 +31,8 @@ export class HomeComponent implements OnInit {
                 private dialog: MatDialog,
                 public uploadSvc: UploadService,
                 private cardSvc: CardService) {
+
+        this.network.errors.next([]);
     }
 
     ngOnInit() {
