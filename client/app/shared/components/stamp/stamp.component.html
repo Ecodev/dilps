@@ -23,7 +23,7 @@
             le {{ item.dataValidationDate | date: 'dd.MM.yyyy' }} à {{ item.dataValidationDate | date: 'HH:mm' }}
         </span>
     </div>
-<
+
     <div *ngIf="item.imageValidationDate || item.imageValidator">
         Image validée
         <span *ngIf="item.imageValidator">par {{ item.imageValidator.login }}</span>
