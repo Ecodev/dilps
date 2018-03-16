@@ -140,6 +140,12 @@ INSERT INTO card (id, filename, creation_date, update_date, width, height, file_
     size
   FROM ng_img;
 
+-- Link card to source collection
+INSERT INTO collection_card (collection_id, card_id) SELECT
+    collectionid,
+    CONCAT(collectionid, imageid)
+    FROM ng_meta;
+
 INSERT INTO dating (card_id, `from`, `to`)
   SELECT
     CONCAT(collectionid, imageid),
