@@ -56,6 +56,7 @@ export class HomeComponent implements OnInit {
             card.file = file;
             observables.push(this.cardSvc.create(card));
         }
+        files.length = 0;
         Observable.forkJoin(observables).subscribe(() => {
             this.router.navigateByUrl('my-collection');
         });
