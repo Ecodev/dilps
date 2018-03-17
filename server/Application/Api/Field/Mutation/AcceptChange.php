@@ -40,7 +40,12 @@ class AcceptChange implements FieldInterface
 
                         break;
                     case Change::TYPE_DELETE:
-                        _em()->remove($change->getOriginal());
+                        $original = $change->getOriginal();
+
+                        // Trigger proxy loading, so the image on disk will be able to be deleted after the flush
+                        $original->getPath();
+
+                        _em()->remove($original);
 
                         break;
                     default:
