@@ -50,6 +50,7 @@ export class HomeComponent implements OnInit {
     }
 
     public uploadPhoto(files) {
+        console.log('uploadPhoto', files);
         const observables = [];
         for (const file of files) {
             const card = this.cardSvc.getEmptyObject();
@@ -60,6 +61,8 @@ export class HomeComponent implements OnInit {
         Observable.forkJoin(observables).subscribe(() => {
             this.router.navigateByUrl('my-collection');
         });
+
+        files.length = 0;
     }
 
     public editUser() {
