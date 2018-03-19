@@ -104,7 +104,7 @@
                            [(ngModel)]="model.name"
                            placeholder="Titre"
                            matTooltipPosition="after"
-                           [matTooltip]="!isEdit() ? '' : 'Maecenas sed diam eget risus varius blandit sit amet non magna. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla.'"
+                           [matTooltip]="!isEdit() ? '' : 'Pour un objet simple (tableau, statue, etc.), le titre suffit (exemple : &quot;Les Demoiselles d\'Avignon&quot;)\n\nPour un objet lié à un lieu (une église, un monument, etc.), l\'annotation se présentera sous la forme suivante : &quot;Ville, monument, partie du monument : Sujet représenté&quot; (exemple : &quot;Chartres, Notre-Dame, façade sud : Sainte Cindy&quot;)\n\nDans le titre, le nom du lieu se met si possible en français.'"
                     >
                 </mat-form-field>
 
@@ -114,7 +114,7 @@
                            [(ngModel)]="model.expandedName"
                            placeholder="Titre étendu"
                            matTooltipPosition="after"
-                           [matTooltip]="!isEdit() ? '' : 'Maecenas sed diam eget risus varius blandit sit amet non magna. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla.'"
+                           [matTooltip]="!isEdit() ? '' : 'Titre étendu\n\nPour un objet simple (tableau, statue, etc.), le titre suffit (exemple : &quot;Les Demoiselles d\'Avignon&quot;)\n\nPour un objet lié à un lieu (une église, un monument, etc.), l\'annotation se présentera sous la forme suivante : &quot;Ville, monument, partie du monument : Sujet représenté&quot; (exemple : &quot;Chartres, Notre-Dame, façade sud : Sainte Cindy&quot;)\n\nDans le titre, le nom du lieu se met si possible en français.'"
                     >
                 </mat-form-field>
 
@@ -124,6 +124,8 @@
                                [model]="model.artists"
                                (modelChange)="model.artists = $event"
                                [previewComponent]="artistComponent"
+                               matTooltipPosition="after"
+                               [matTooltip]="!isEdit() ? '' : 'Le nom de l\'artiste s\'insère sous la forme\n &quot;Nom, Prénom&quot;\n\nSi l\'artiste est inconnu, le champ doit rester vide.'"
                 ></app-thesaurus>
 
                 <mat-form-field class="innerSpacing">
@@ -132,12 +134,18 @@
                            [(ngModel)]="model.addition"
                            placeholder="Supplément"
                            matTooltipPosition="after"
-                           [matTooltip]="!isEdit() ? '' : 'Maecenas sed diam eget risus varius blandit sit amet non magna. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla.'"
+                           [matTooltip]="!isEdit() ? '' : 'Le champ supplément permet de saisir toute information n\'entrant pas ailleurs (complément, précision, numéro d\'inventaire, etc.).'"
                     >
                 </mat-form-field>
 
                 <mat-form-field class="innerSpacing">
-                    <input [readonly]="!isEdit()" matInput [(ngModel)]="model.technique" placeholder="Technique" >
+                    <input [readonly]="!isEdit()"
+                           matInput
+                           [(ngModel)]="model.technique"
+                           placeholder="Technique"
+                           matTooltipPosition="after"
+                           [matTooltip]="!isEdit() ? '' : 'Matériel précise ce que technique donne de façon générique (exemple : &quot;Matériel : Huile sur toile&quot;, &quot;Technique : Peinture&quot;).'"
+                    >
                 </mat-form-field>
 
                 <mat-form-field class="innerSpacing">
@@ -150,7 +158,7 @@
                            [(ngModel)]="model.dating"
                            placeholder="Datation"
                            matTooltipPosition="after"
-                           [matTooltip]="!isEdit() ? '' : 'Maecenas sed diam eget risus varius blandit sit amet non magna. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla.'"
+                           [matTooltip]="!isEdit() ? '' : 'Les siècles s\'écrivent en chiffres romains.\n&quot;Vers 1912&quot; s\'écrit &quot;c. 1912&quot; (pour circa).'"
                     >
                 </mat-form-field>
 
@@ -160,7 +168,7 @@
                            [(ngModel)]="model.material"
                            placeholder="Matériel"
                            matTooltipPosition="after"
-                           [matTooltip]="!isEdit() ? '' : 'Maecenas sed diam eget risus varius blandit sit amet non magna. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla.'"
+                           [matTooltip]="!isEdit() ? '' : 'Matériel précise ce que technique donne de façon générique (exemple : &quot;Matériel : Huile sur toile&quot;, &quot;Technique : Peinture&quot;).'"
                     >
                 </mat-form-field>
 
@@ -170,7 +178,7 @@
                            [(ngModel)]="model.literature"
                            placeholder="Source"
                            matTooltipPosition="after"
-                           [matTooltip]="!isEdit() ? '' : 'Maecenas sed diam eget risus varius blandit sit amet non magna. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla.'"
+                           [matTooltip]="!isEdit() ? '' : 'La source est la référence bibliographique de l\'ouvrage d\'où provient l\'image.\n\nLa notice s\'écrit en principe sur le schéma :\n&quot;Prénom Nom, Titre et sous-titre, Lieu de publication : éditeur, année (première édition).&quot;\n\nNe pas oublier de noter le numéro de page ou de planche correspondant à l\'image.'"
                     >
                 </mat-form-field>
 
@@ -192,7 +200,7 @@
                            [(ngModel)]="model.isbn"
                            placeholder="ISBN"
                            matTooltipPosition="after"
-                           [matTooltip]="!isEdit() ? '' : 'Maecenas sed diam eget risus varius blandit sit amet non magna. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla.'"
+                           [matTooltip]="!isEdit() ? '' : 'Numéro ISBN de l\'ouvrage source, sans les tirets.'"
                     >
                 </mat-form-field>
 
@@ -205,6 +213,8 @@
                                (modelChange)="model.institution = $event"
                                [multiple]="false"
                                [previewComponent]="institutionComponent"
+                               matTooltipPosition="after"
+                               [matTooltip]="!isEdit() ? '' : 'L\'institution où se trouve l\'oeuvre.\n\nL\'institution s\'écrit en principe dans la langue originale du pays.'"
                 ></app-thesaurus>
 
                 <app-address [(model)]="model" [vertical]="true" [readonly]="!isEdit()"></app-address>

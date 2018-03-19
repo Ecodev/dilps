@@ -97,3 +97,8 @@ perfect-scrollbar {
 .searchField {
     font-size: 16px;
 }
+
+// Allow newline in tooltips
+.mat-tooltip {
+    white-space: pre-line;
+}

@@ -91,7 +91,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     private showTerms(user) {
-        this.dialog.open(TermsAgreementComponent).afterClosed().subscribe((accepted) => {
+        this.dialog.open(TermsAgreementComponent, {maxWidth: 700}).afterClosed().subscribe((accepted) => {
             if (accepted) {
                 const date = {termsAgreement: (new Date()).toDateString()};
                 this.userService.update(merge({}, user, date)).subscribe(u => {
