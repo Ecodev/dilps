@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit {
     public errors = [];
     public user;
 
+
     constructor(public themeSvc: ThemeService,
                 public route: ActivatedRoute,
                 public router: Router,
@@ -36,6 +37,7 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
+
         // Watch errors
         this.network.errors.subscribe(errors => {
             this.errors = this.errors.concat(errors);
@@ -50,7 +52,6 @@ export class HomeComponent implements OnInit {
     }
 
     public uploadPhoto(files) {
-        console.log('uploadPhoto', files);
         const observables = [];
         for (const file of files) {
             const card = this.cardSvc.getEmptyObject();
@@ -59,7 +60,7 @@ export class HomeComponent implements OnInit {
         }
         files.length = 0;
         Observable.forkJoin(observables).subscribe(() => {
-            this.router.navigateByUrl('my-collection');
+            this.router.navigateByUrl('my-collection;upload=' + Date.now());
         });
 
         files.length = 0;

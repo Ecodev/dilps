@@ -49,6 +49,8 @@ export class ListComponent implements OnInit {
 
     public searchedTerm;
 
+    public lastUpload;
+
     constructor(private router: Router,
                 private route: ActivatedRoute,
                 private cardSvc: CardService,
@@ -63,6 +65,11 @@ export class ListComponent implements OnInit {
         this.userSvc.getCurrentUser().subscribe(user => this.user = user);
 
         this.route.params.subscribe(params => {
+
+            if (params.upload && params.upload !== this.lastUpload) {
+                this.reload();
+            }
+
             if (params.collectionId) {
                 this.collection = {
                     id: params.collectionId,
@@ -174,9 +181,6 @@ export class ListComponent implements OnInit {
         if (!this.sub) {
             this.sub = this.cardSvc.watchAll(this.queryVariables);
             this.sub.valueChanges.subscribe(data => {
-                // if (data.pageIndex === 0) {
-                //     this.gallery.collection = [];
-                // }
                 this.gallery.addItems(this.formatImages(data.items));
             });
         }

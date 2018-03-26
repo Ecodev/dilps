@@ -19,7 +19,6 @@ import { QuizzComponent } from './quizz/quizz.component';
 import { CollectionVisibility, UserRole } from './shared/generated-types';
 
 export const routes: Routes = [
-
     {
         path: 'login',
         component: LoginComponent,
