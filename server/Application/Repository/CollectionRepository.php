@@ -46,7 +46,7 @@ class CollectionRepository extends AbstractRepository implements LimitedAccessSu
             }
         }
 
-        $this->addSearch($qb, @$filters['search'], ['collection.name']);
+        $this->addSearch($qb, $filters['search'] ?? '', ['collection.name']);
 
         $qb->addOrderBy($sort, $order);
 

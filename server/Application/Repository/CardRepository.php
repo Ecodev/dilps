@@ -51,7 +51,7 @@ class CardRepository extends AbstractRepository implements LimitedAccessSubQuery
                 'artist.name',
             ];
 
-            $this->addSearch($qb, @$filters['search'], $fields);
+            $this->addSearch($qb, $filters['search'] ?? '', $fields);
         }
 
         if (isset($filters['hasImage'])) {
