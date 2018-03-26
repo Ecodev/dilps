@@ -135,15 +135,18 @@ describe('CardService', () => {
         hasImage: true,
         artists: [
             {
+                id: '456',
                 name: 'test string',
                 __typename: 'Artist',
             },
             {
+                id: '456',
                 name: 'test string',
                 __typename: 'Artist',
             },
         ],
         institution: {
+            id: '456',
             name: 'test string',
             __typename: 'Institution',
         },

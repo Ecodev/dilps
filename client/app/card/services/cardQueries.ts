@@ -102,9 +102,11 @@ query Cards($filters: CardFilter, $pagination: PaginationInput, $sort: String) {
             height
             hasImage
             artists {
+                id
                 name
             }
             institution {
+                id
                 name
             }
             permissions {

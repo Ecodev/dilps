@@ -1,25 +1,14 @@
 <div fxLayout="column" [fxLayoutGap]="vertical ? '0px' : '10px'">
-    <mat-form-field>
-        <input matInput
-               [readonly]="readonly"
-               name="street"
-               placeholder="Rue"
-               [(ngModel)]="model.street"
-               (keyup.enter)="search()"
-        >
+    <mat-form-field *ngIf="!readonly || !!model.street">
+        <input matInput [readonly]="readonly" name="street" placeholder="Rue" [(ngModel)]="model.street" (keyup.enter)="search()" >
     </mat-form-field>
 
     <div [fxLayout]="vertical ? 'column': 'row'" [fxLayoutGap]="vertical ? '0px' : '10px'">
-        <mat-form-field>
-            <input matInput
-                   [readonly]="readonly"
-                   name="postcode"
-                   placeholder="NPA"
-                   [(ngModel)]="model.postcode"
-                   (keyup.enter)="search()"
+        <mat-form-field *ngIf="!readonly || !!model.postcode">
+            <input matInput [readonly]="readonly" name="postcode" placeholder="NPA" [(ngModel)]="model.postcode" (keyup.enter)="search()"
             >
         </mat-form-field>
-        <mat-form-field [fxFlex]="!vertical">
+        <mat-form-field [fxFlex]="!vertical" *ngIf="!readonly || !!model.locality">
             <input matInput
                    [readonly]="readonly"
                    name="locality"
@@ -29,7 +18,7 @@
             >
         </mat-form-field>
 
-        <app-select *ngIf="countries"
+        <app-select *ngIf="countries && (!readonly || !!model.postcode)"
                     [items]="countries"
                     [(model)]="model.country"
                     [showIcon]="false"
@@ -56,7 +45,13 @@
     </mat-form-field>
 
     <!-- Map -->
-    <agm-map [latitude]="model.latitude" [longitude]="model.longitude" [zoom]="zoom" [styles]="mapStyles" [scrollwheel]="false">
+    <agm-map [latitude]="model.latitude"
+             [longitude]="model.longitude"
+             [zoom]="zoom"
+             [styles]="mapStyles"
+             [scrollwheel]="false"
+             *ngIf="!readonly || (!!model.latitude && !!model.longitude)"
+    >
         <agm-marker [latitude]="model.latitude"
                     [longitude]="model.longitude"
                     [markerDraggable]="!readonly"

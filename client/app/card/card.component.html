@@ -98,7 +98,7 @@
                     ></mat-slider>
                 </div>
 
-                <mat-form-field class="innerSpacing">
+                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.name">
                     <textarea [readonly]="!isEdit()"
                               matTextareaAutosize
                               matAutosizeMinRows="1"
@@ -110,7 +110,7 @@
                     ></textarea>
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing">
+                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.expandedName">
                     <textarea [readonly]="!isEdit()"
                               matTextareaAutosize
                               matAutosizeMinRows="1"
@@ -122,7 +122,8 @@
                     ></textarea>
                 </mat-form-field>
 
-                <app-thesaurus [readonly]="!isEdit()"
+                <app-thesaurus *ngIf="isEdit() || !!model.artists.length"
+                               [readonly]="!isEdit()"
                                [service]="artistService"
                                placeholder="Artistes"
                                [model]="model.artists"
@@ -132,7 +133,7 @@
                                [matTooltip]="!isEdit() ? '' : 'Le nom de l\'artiste s\'insère sous la forme\n &quot;Nom, Prénom&quot;\n\nSi l\'artiste est inconnu, le champ doit rester vide.'"
                 ></app-thesaurus>
 
-                <mat-form-field class="innerSpacing">
+                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.techniqueAuthor">
                     <textarea [readonly]="!isEdit()"
                               matInput
                               matTextareaAutosize
@@ -142,7 +143,7 @@
                     ></textarea>
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing">
+                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.addition">
                     <textarea [readonly]="!isEdit()"
                               matTextareaAutosize
                               matAutosizeMinRows="1"
@@ -154,7 +155,7 @@
                     ></textarea>
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing">
+                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.dating">
                     <textarea [readonly]="!isEdit()"
                               matTextareaAutosize
                               matAutosizeMinRows="1"
@@ -166,7 +167,7 @@
                     ></textarea>
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing">
+                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.technique">
                     <textarea [readonly]="!isEdit()"
                               matInput
                               matTextareaAutosize
@@ -178,7 +179,7 @@
                     ></textarea>
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing">
+                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.material">
                     <textarea [readonly]="!isEdit()"
                               matInput
                               matTextareaAutosize
@@ -190,7 +191,7 @@
                     ></textarea>
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing">
+                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.format">
                     <textarea [readonly]="!isEdit()"
                               matInput
                               matTextareaAutosize
@@ -202,7 +203,7 @@
                     ></textarea>
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing">
+                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.literature">
                     <textarea [readonly]="!isEdit()"
                               matInput
                               matTextareaAutosize
@@ -214,19 +215,19 @@
                     ></textarea>
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing">
+                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.page">
                     <input [readonly]="!isEdit()" matInput [(ngModel)]="model.page" placeholder="Page" >
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing">
+                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.figure">
                     <input [readonly]="!isEdit()" matInput [(ngModel)]="model.figure" placeholder="Figure" >
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing">
+                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.table">
                     <input [readonly]="!isEdit()" matInput [(ngModel)]="model.table" placeholder="Planche" >
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing">
+                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.isbn">
                     <input [readonly]="!isEdit()"
                            matInput
                            [(ngModel)]="model.isbn"
@@ -236,7 +237,7 @@
                     >
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing">
+                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.rights">
                     <textarea [readonly]="!isEdit()"
                               matInput
                               matTextareaAutosize
@@ -246,9 +247,10 @@
                     ></textarea>
                 </mat-form-field>
 
-                <div class="mat-title innerSpacing">Lieu</div>
+                <div class="mat-title innerSpacing" *ngIf="isEdit() || !!model.institution">Lieu</div>
 
-                <app-thesaurus [readonly]="!isEdit()"
+                <app-thesaurus *ngIf="isEdit() || !!model.institution"
+                               [readonly]="!isEdit()"
                                [service]="institutionSvc"
                                placeholder="Institution"
                                [model]="model.institution"
