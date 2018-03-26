@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Application\Api\Field;
 
+use Application\Api\Enum\OrderType;
 use Application\Api\Helper;
 use Application\Api\Input\Filter\Filters;
 use Application\Api\Input\PaginationInputType;
 use Application\Api\Output\PaginationType;
 use Application\Model\AbstractModel;
+use Application\Model\Card;
+use Application\Model\Collection;
 use GraphQL\Type\Definition\Type;
 use ReflectionClass;
 
@@ -30,7 +33,7 @@ abstract class Standard
         $name = lcfirst($reflect->getShortName());
         $plural = self::makePlural($name);
 
-        $listArgs = self::getListArguments($class);
+        $listArgs = self::getListArguments($class, $name);
         $singleArgs = self::getSingleArguments($class);
 
         return [
@@ -40,9 +43,8 @@ abstract class Standard
                 'args' => $listArgs,
                 'resolve' => function ($root, array $args) use ($class): array {
                     $queryArgs = [$args['filters'] ?? []];
-                    if ($args['sort'] ?? false) {
-                        $queryArgs[] = $args['sort'];
-                    }
+                    $queryArgs[] = $args['sort'];
+                    $queryArgs[] = $args['order'];
 
                     $query = _em()->getRepository($class)->getFindAllQuery(...$queryArgs);
                     $result = Helper::paginate($args['pagination'], $query);
@@ -281,7 +283,7 @@ abstract class Standard
      *
      * @return array
      */
-    private static function getListArguments(string $class): array
+    private static function getListArguments(string $class, string $name): array
     {
         $listArgs = [];
         $filters = Filters::build($class);
@@ -289,11 +291,29 @@ abstract class Standard
             $listArgs[] = $filters;
         }
 
+        $defaultSort = $name . 'id';
+        $defaultOrder = 'ASC';
+        if ($class === Collection::class) {
+            $defaultSort = 'collection.name';
+        } elseif ($class === Card::class) {
+            $defaultSort = 'card.creationDate';
+            $defaultOrder = 'DESC';
+        }
+
         $listArgs[] = [
             'name' => 'sort',
             'type' => Type::string(),
             'description' => 'Field to sort by, eg: `user.name`, `collection.id`',
+            'defaultValue' => $defaultSort,
         ];
+
+        $listArgs[] = [
+            'name' => 'order',
+            'type' => _types()->get(OrderType::class),
+            'description' => 'Order sort by, either: `ASC` or `DESC`',
+            'defaultValue' => $defaultOrder,
+        ];
+
         $listArgs[] = PaginationInputType::build();
 
         return $listArgs;

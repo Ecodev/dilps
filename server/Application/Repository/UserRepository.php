@@ -10,7 +10,7 @@ use Doctrine\ORM\QueryBuilder;
 
 class UserRepository extends AbstractRepository implements LimitedAccessSubQueryInterface
 {
-    public function getFindAllQuery(array $filters = [], string $sort = 'user.id'): QueryBuilder
+    public function getFindAllQuery(array $filters = [], string $sort = 'user.id', string $order = 'ASC'): QueryBuilder
     {
         $qb = $this->createQueryBuilder('user');
 
@@ -29,7 +29,7 @@ class UserRepository extends AbstractRepository implements LimitedAccessSubQuery
             $qb->setParameter('search', '%' . $filters['search'] . '%');
         }
 
-        $qb->addOrderBy($sort);
+        $qb->addOrderBy($sort, $order);
 
         return $qb;
     }

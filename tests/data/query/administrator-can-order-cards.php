@@ -5,7 +5,7 @@ declare(strict_types=1);
 return [
     [
         'query' => '{
-            cards(sort: "card.id") {
+            cards(sort: "card.id", order: ASC) {
                 items {
                     id
                 }
