@@ -99,23 +99,27 @@
                 </div>
 
                 <mat-form-field class="innerSpacing">
-                    <input [readonly]="!isEdit()"
-                           matInput
-                           [(ngModel)]="model.name"
-                           placeholder="Titre"
-                           matTooltipPosition="after"
-                           [matTooltip]="!isEdit() ? '' : 'Pour un objet simple (tableau, statue, etc.), le titre suffit (exemple : &quot;Les Demoiselles d\'Avignon&quot;)\n\nPour un objet lié à un lieu (une église, un monument, etc.), l\'annotation se présentera sous la forme suivante : &quot;Ville, monument, partie du monument : Sujet représenté&quot; (exemple : &quot;Chartres, Notre-Dame, façade sud : Sainte Cindy&quot;)\n\nDans le titre, le nom du lieu se met si possible en français.'"
-                    >
+                    <textarea [readonly]="!isEdit()"
+                              matTextareaAutosize
+                              matAutosizeMinRows="1"
+                              matInput
+                              [(ngModel)]="model.name"
+                              placeholder="Titre"
+                              matTooltipPosition="after"
+                              [matTooltip]="!isEdit() ? '' : 'Pour un objet simple (tableau, statue, etc.), le titre suffit (exemple : &quot;Les Demoiselles d\'Avignon&quot;)\n\nPour un objet lié à un lieu (une église, un monument, etc.), l\'annotation se présentera sous la forme suivante : &quot;Ville, monument, partie du monument : Sujet représenté&quot; (exemple : &quot;Chartres, Notre-Dame, façade sud : Sainte Cindy&quot;)\n\nDans le titre, le nom du lieu se met si possible en français.'"
+                    ></textarea>
                 </mat-form-field>
 
                 <mat-form-field class="innerSpacing">
-                    <input [readonly]="!isEdit()"
-                           matInput
-                           [(ngModel)]="model.expandedName"
-                           placeholder="Titre étendu"
-                           matTooltipPosition="after"
-                           [matTooltip]="!isEdit() ? '' : 'Titre étendu\n\nPour un objet simple (tableau, statue, etc.), le titre suffit (exemple : &quot;Les Demoiselles d\'Avignon&quot;)\n\nPour un objet lié à un lieu (une église, un monument, etc.), l\'annotation se présentera sous la forme suivante : &quot;Ville, monument, partie du monument : Sujet représenté&quot; (exemple : &quot;Chartres, Notre-Dame, façade sud : Sainte Cindy&quot;)\n\nDans le titre, le nom du lieu se met si possible en français.'"
-                    >
+                    <textarea [readonly]="!isEdit()"
+                              matTextareaAutosize
+                              matAutosizeMinRows="1"
+                              matInput
+                              [(ngModel)]="model.expandedName"
+                              placeholder="Titre étendu"
+                              matTooltipPosition="after"
+                              [matTooltip]="!isEdit() ? '' : 'Titre étendu\n\nPour un objet simple (tableau, statue, etc.), le titre suffit (exemple : &quot;Les Demoiselles d\'Avignon&quot;)\n\nPour un objet lié à un lieu (une église, un monument, etc.), l\'annotation se présentera sous la forme suivante : &quot;Ville, monument, partie du monument : Sujet représenté&quot; (exemple : &quot;Chartres, Notre-Dame, façade sud : Sainte Cindy&quot;)\n\nDans le titre, le nom du lieu se met si possible en français.'"
+                    ></textarea>
                 </mat-form-field>
 
                 <app-thesaurus [readonly]="!isEdit()"
@@ -129,67 +133,85 @@
                 ></app-thesaurus>
 
                 <mat-form-field class="innerSpacing">
-                    <input [readonly]="!isEdit()" matInput [(ngModel)]="model.techniqueAuthor" placeholder="Auteur technique" >
+                    <textarea [readonly]="!isEdit()"
+                              matInput
+                              matTextareaAutosize
+                              matAutosizeMinRows="1"
+                              [(ngModel)]="model.techniqueAuthor"
+                              placeholder="Auteur technique"
+                    ></textarea>
                 </mat-form-field>
 
                 <mat-form-field class="innerSpacing">
-                    <input [readonly]="!isEdit()"
-                           matInput
-                           [(ngModel)]="model.addition"
-                           placeholder="Supplément"
-                           matTooltipPosition="after"
-                           [matTooltip]="!isEdit() ? '' : 'Le champ supplément permet de saisir toute information n\'entrant pas ailleurs (complément, précision, numéro d\'inventaire, etc.).'"
-                    >
+                    <textarea [readonly]="!isEdit()"
+                              matTextareaAutosize
+                              matAutosizeMinRows="1"
+                              matInput
+                              [(ngModel)]="model.addition"
+                              placeholder="Supplément"
+                              matTooltipPosition="after"
+                              [matTooltip]="!isEdit() ? '' : 'Le champ supplément permet de saisir toute information n\'entrant pas ailleurs (complément, précision, numéro d\'inventaire, etc.).'"
+                    ></textarea>
                 </mat-form-field>
 
                 <mat-form-field class="innerSpacing">
-                    <input [readonly]="!isEdit()"
-                           matInput
-                           [(ngModel)]="model.dating"
-                           placeholder="Datation"
-                           matTooltipPosition="after"
-                           [matTooltip]="!isEdit() ? '' : 'Les siècles s\'écrivent en chiffres romains.\n&quot;Vers 1912&quot; s\'écrit &quot;c. 1912&quot; (pour circa).'"
-                    >
+                    <textarea [readonly]="!isEdit()"
+                              matTextareaAutosize
+                              matAutosizeMinRows="1"
+                              matInput
+                              [(ngModel)]="model.dating"
+                              placeholder="Datation"
+                              matTooltipPosition="after"
+                              [matTooltip]="!isEdit() ? '' : 'Les siècles s\'écrivent en chiffres romains.\n&quot;Vers 1912&quot; s\'écrit &quot;c. 1912&quot; (pour circa).'"
+                    ></textarea>
                 </mat-form-field>
 
                 <mat-form-field class="innerSpacing">
-                    <input [readonly]="!isEdit()"
-                           matInput
-                           [(ngModel)]="model.technique"
-                           placeholder="Technique"
-                           matTooltipPosition="after"
-                           [matTooltip]="!isEdit() ? '' : 'Matériel précise ce que technique donne de façon générique (exemple : &quot;Matériel : Huile sur toile&quot;, &quot;Technique : Peinture&quot;).'"
-                    >
+                    <textarea [readonly]="!isEdit()"
+                              matInput
+                              matTextareaAutosize
+                              matAutosizeMinRows="1"
+                              [(ngModel)]="model.technique"
+                              placeholder="Technique"
+                              matTooltipPosition="after"
+                              [matTooltip]="!isEdit() ? '' : 'Matériel précise ce que technique donne de façon générique (exemple : &quot;Matériel : Huile sur toile&quot;, &quot;Technique : Peinture&quot;).'"
+                    ></textarea>
                 </mat-form-field>
 
                 <mat-form-field class="innerSpacing">
-                    <input [readonly]="!isEdit()"
-                           matInput
-                           [(ngModel)]="model.material"
-                           placeholder="Matériel"
-                           matTooltipPosition="after"
-                           [matTooltip]="!isEdit() ? '' : 'Matériel précise ce que technique donne de façon générique (exemple : &quot;Matériel : Huile sur toile&quot;, &quot;Technique : Peinture&quot;).'"
-                    >
+                    <textarea [readonly]="!isEdit()"
+                              matInput
+                              matTextareaAutosize
+                              matAutosizeMinRows="1"
+                              [(ngModel)]="model.material"
+                              placeholder="Matériel"
+                              matTooltipPosition="after"
+                              [matTooltip]="!isEdit() ? '' : 'Matériel précise ce que technique donne de façon générique (exemple : &quot;Matériel : Huile sur toile&quot;, &quot;Technique : Peinture&quot;).'"
+                    ></textarea>
                 </mat-form-field>
 
                 <mat-form-field class="innerSpacing">
-                    <input [readonly]="!isEdit()"
-                           matInput
-                           [(ngModel)]="model.format"
-                           placeholder="Dimensions"
-                           matTooltipPosition="after"
-                           [matTooltip]="!isEdit() ? '' : 'Les dimensions s\'expriment en centimètres (exemple : &quot;19,9 x 32,5 cm&quot;).'"
-                    >
+                    <textarea [readonly]="!isEdit()"
+                              matInput
+                              matTextareaAutosize
+                              matAutosizeMinRows="1"
+                              [(ngModel)]="model.format"
+                              placeholder="Dimensions"
+                              matTooltipPosition="after"
+                              [matTooltip]="!isEdit() ? '' : 'Les dimensions s\'expriment en centimètres (exemple : &quot;19,9 x 32,5 cm&quot;).'"
+                    ></textarea>
                 </mat-form-field>
 
                 <mat-form-field class="innerSpacing">
-                    <input [readonly]="!isEdit()"
-                           matInput
-                           [(ngModel)]="model.literature"
-                           placeholder="Source"
-                           matTooltipPosition="after"
-                           [matTooltip]="!isEdit() ? '' : 'La source est la référence bibliographique de l\'ouvrage d\'où provient l\'image.\n\nLa notice s\'écrit en principe sur le schéma :\n&quot;Prénom Nom, Titre et sous-titre, Lieu de publication : éditeur, année (première édition).&quot;\n\nNe pas oublier de noter le numéro de page ou de planche correspondant à l\'image.'"
-                    >
+                    <textarea [readonly]="!isEdit()"
+                              matInput
+                              matTextareaAutosize
+                              matAutosizeMinRows="1"
+                              [(ngModel)]="model.literature"
+                              placeholder="Source"
+                              matTooltipPosition="after"
+                              [matTooltip]="!isEdit() ? '' : 'La source est la référence bibliographique de l\'ouvrage d\'où provient l\'image.\n\nLa notice s\'écrit en principe sur le schéma :\n&quot;Prénom Nom, Titre et sous-titre, Lieu de publication : éditeur, année (première édition).&quot;\n\nNe pas oublier de noter le numéro de page ou de planche correspondant à l\'image.'"
+                    ></textarea>
                 </mat-form-field>
 
                 <mat-form-field class="innerSpacing">
@@ -215,7 +237,13 @@
                 </mat-form-field>
 
                 <mat-form-field class="innerSpacing">
-                    <input [readonly]="!isEdit()" matInput [(ngModel)]="model.rights" placeholder="Droits d'auteur">
+                    <textarea [readonly]="!isEdit()"
+                              matInput
+                              matTextareaAutosize
+                              matAutosizeMinRows="1"
+                              [(ngModel)]="model.rights"
+                              placeholder="Droits d'auteur"
+                    ></textarea>
                 </mat-form-field>
 
                 <div class="mat-title innerSpacing">Lieu</div>
