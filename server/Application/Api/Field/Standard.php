@@ -291,7 +291,7 @@ abstract class Standard
             $listArgs[] = $filters;
         }
 
-        $defaultSort = $name . 'id';
+        $defaultSort = $name . '.id';
         $defaultOrder = 'ASC';
         if ($class === Collection::class) {
             $defaultSort = 'collection.name';
