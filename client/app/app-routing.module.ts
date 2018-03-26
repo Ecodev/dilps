@@ -16,7 +16,7 @@ import { ChangeComponent } from './changes/change/change.component';
 import { UserResolver } from './users/services/user.resolver';
 import { AuthAdminGuard } from './shared/services/auth.admin.guard';
 import { QuizzComponent } from './quizz/quizz.component';
-import { CollectionVisibility } from './shared/generated-types';
+import { CollectionVisibility, UserRole } from './shared/generated-types';
 
 export const routes: Routes = [
 
@@ -88,6 +88,7 @@ export const routes: Routes = [
                 path: 'collection',
                 component: CollectionsComponent,
                 data: {
+                    editionButtonsForRoles : [UserRole.administrator, UserRole.senior],
                     filters: {
                         isSource: false,
                         visibilities: [CollectionVisibility.administrator, CollectionVisibility.member]

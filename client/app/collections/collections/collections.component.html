@@ -33,7 +33,7 @@
                         <a mat-list-item [routerLink]="item.id" routerLinkActive="active">
                             <mat-icon mat-list-icon>collections</mat-icon>
                             <span matLine fxLayout="row" fxLayoutAlign="start center">{{ item.name }}</span>
-                            <button mat-icon-button (click)="edit($event, item)">
+                            <button mat-icon-button (click)="edit($event, item)" *ngIf="showEditButtons">
                                 <mat-icon>edit</mat-icon>
                             </button>
                         </a>
@@ -43,7 +43,7 @@
                             <a mat-list-item [routerLink]="item.id" routerLinkActive="active" style="padding-left:20px;">
                                 <mat-icon mat-list-icon>collections</mat-icon>
                                 <span matLine fxLayout="row" fxLayoutAlign="start center">{{ item.name }}</span>
-                                <button mat-icon-button (click)="edit($event, item)">
+                                <button mat-icon-button (click)="edit($event, item)" *ngIf="showEditButtons">
                                     <mat-icon>edit</mat-icon>
                                 </button>
                             </a>
@@ -52,7 +52,7 @@
                                 <a mat-list-item [routerLink]="item.id" routerLinkActive="active" style="padding-left:40px;">
                                     <mat-icon mat-list-icon>collections</mat-icon>
                                     <span matLine fxLayout="row" fxLayoutAlign="start center">{{ item.name }}</span>
-                                    <button mat-icon-button (click)="edit($event, item)">
+                                    <button mat-icon-button (click)="edit($event, item)" *ngIf="showEditButtons">
                                         <mat-icon>edit</mat-icon>
                                     </button>
                                 </a>
@@ -61,7 +61,7 @@
                                     <a mat-list-item [routerLink]="item.id" routerLinkActive="active" style="padding-left:60px;">
                                         <mat-icon mat-list-icon>collections</mat-icon>
                                         <span matLine fxLayout="row" fxLayoutAlign="start center">{{ item.name }}</span>
-                                        <button mat-icon-button (click)="edit($event, item)">
+                                        <button mat-icon-button (click)="edit($event, item)" *ngIf="showEditButtons">
                                             <mat-icon>edit</mat-icon>
                                         </button>
                                     </a>

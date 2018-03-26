@@ -5,7 +5,6 @@ import { IncrementSubject } from '../../shared/services/increment-subject';
 import { MatDialog } from '@angular/material';
 import { CollectionComponent } from '../collection/collection.component';
 import { Literal } from '../../shared/types';
-import { CollectionVisibility, UserRole } from '../../shared/generated-types';
 import { UserService } from '../../users/services/user.service';
 
 @Component({
@@ -49,7 +48,9 @@ export class CollectionsComponent implements OnInit {
         },
     };
 
+    public user;
     public hasMore = false;
+    public showEditButtons = true;
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
@@ -59,6 +60,11 @@ export class CollectionsComponent implements OnInit {
     }
 
     ngOnInit() {
+
+        this.userSvc.getCurrentUser().subscribe(user => {
+            this.user = user;
+            this.showEditButtons = this.showEditionButtons();
+        });
 
         this.queryVariables.patch(this.defaultFilters);
         this.route.data.subscribe((data: Literal) => {
@@ -85,6 +91,15 @@ export class CollectionsComponent implements OnInit {
             this.hasMore = collections.length > this.collections.length;
         });
 
+    }
+
+    public showEditionButtons() {
+        const authorizedRoles = this.route.snapshot.data.editionButtonsForRoles;
+        if (!authorizedRoles) {
+            return true;
+        }
+
+        return authorizedRoles.indexOf(this.user.role) > -1;
     }
 
     public search(term) {
