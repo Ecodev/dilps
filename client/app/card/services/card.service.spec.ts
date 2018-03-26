@@ -133,6 +133,20 @@ describe('CardService', () => {
         width: 1,
         height: 1,
         hasImage: true,
+        artists: [
+            {
+                name: 'test string',
+                __typename: 'Artist',
+            },
+            {
+                name: 'test string',
+                __typename: 'Artist',
+            },
+        ],
+        institution: {
+            name: 'test string',
+            __typename: 'Institution',
+        },
         permissions: {
             update: true,
             delete: true,

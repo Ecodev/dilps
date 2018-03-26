@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CardService } from '../card/services/card.service';
-import { defaults, isArray, isString, merge, pickBy } from 'lodash';
+import { clone, defaults, isArray, isString, merge, pickBy } from 'lodash';
 import { DownloadComponent } from '../shared/components/download/download.component';
 import { IncrementSubject } from '../shared/services/increment-subject';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
@@ -274,9 +274,6 @@ export class ListComponent implements OnInit {
 
         this.dialog.open(MassEditComponent, {
             width: '440px',
-            data: {
-                cards: selection,
-            },
         }).afterClosed().subscribe(model => {
 
             if (!model) {
@@ -289,8 +286,15 @@ export class ListComponent implements OnInit {
 
             const observables = [];
             for (const s of selection) {
-                defaults(s, changeAttributes);
-                observables.push(this.cardSvc.update(s));
+                const changes = clone(changeAttributes);
+                defaults(changes, s);
+                if (changes.artists) {
+                    changes.artists = changes.artists.map(a => a.name ? a.name : a);
+                }
+                if (changes.institution) {
+                    changes.institution = changes.institution.name ? changes.institution.name : changes.institution;
+                }
+                observables.push(this.cardSvc.update(changes as { id: any }));
             }
 
             Observable.forkJoin(observables).subscribe(() => {

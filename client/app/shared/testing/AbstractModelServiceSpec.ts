@@ -131,14 +131,14 @@ export abstract class AbstractModelServiceSpec {
         );
 
         // Disabled for now, as list of IDS is not implemented yet
-        xit('should delete one object',
+        it('should delete one object',
             fakeAsync(inject([serviceClass], (service: AbstractModelService<any, any, any, any, any>) => {
                 this.expectNotConfiguredOrEqual(expectedDelete, (vars) => service.delete(vars), {id: 123});
             })),
         );
 
         // Disabled for now, as list of IDS is not implemented yet
-        xit('should delete several objects at once',
+        it('should delete several objects at once',
             fakeAsync(inject([serviceClass], (service: AbstractModelService<any, any, any, any, any>) => {
                 this.expectNotConfiguredOrEqual(expectedDelete, (vars) => service.delete(vars), [{id: 123}, {id: 456}]);
             })),

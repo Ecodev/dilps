@@ -92,7 +92,6 @@ fragment cardDetails on Card {
     }
 }${userMetaFragment}`;
 
-
 export const cardsQuery = gql`
 query Cards($filters: CardFilter, $pagination: PaginationInput, $sort: String) {
     cards(filters: $filters, pagination: $pagination, sort: $sort) {
@@ -102,6 +101,12 @@ query Cards($filters: CardFilter, $pagination: PaginationInput, $sort: String) {
             width
             height
             hasImage
+            artists {
+                name
+            }
+            institution {
+                name
+            }
             permissions {
                 update
                 delete
