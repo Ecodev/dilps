@@ -122,7 +122,7 @@
                     ></textarea>
                 </mat-form-field>
 
-                <app-thesaurus *ngIf="isEdit() || !!model.artists.length"
+                <app-thesaurus *ngIf="isEdit() || !!model.artists?.length"
                                [readonly]="!isEdit()"
                                [service]="artistService"
                                placeholder="Artistes"
