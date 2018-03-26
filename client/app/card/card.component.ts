@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@
 import { ThemeService } from '../shared/services/theme.service';
 import { CardService } from './services/card.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { findKey, merge, omit } from 'lodash';
+import { findKey, merge } from 'lodash';
 import { InstitutionService } from '../institutions/services/institution.service';
 import { AlertService } from '../shared/components/alert/alert.service';
 import { ArtistService } from '../artists/services/artist.service';
@@ -93,6 +93,9 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
             // mass edit and create a change case
             this.initCard();
             this.edit = true;
+
+        } else if (this.model && this.model.id) {
+            this.initCard();
 
         } else {
             this.route.params.subscribe(params => {
@@ -269,7 +272,7 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
             width: '400px',
             data: {
                 images: [card],
-                denyLegendsDownload : !this.user
+                denyLegendsDownload: !this.user,
             },
         });
     }
@@ -280,8 +283,8 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
 
     public canSuggestCreate() {
         return this.user && this.model.creator
-            && this.model.creator.id === this.user.id
-            && this.model.visibility === CardVisibility.private;
+               && this.model.creator.id === this.user.id
+               && this.model.visibility === CardVisibility.private;
     }
 
     public canSuggestUpdate() {
