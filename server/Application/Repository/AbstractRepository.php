@@ -10,11 +10,14 @@ use Doctrine\ORM\QueryBuilder;
 
 abstract class AbstractRepository extends EntityRepository
 {
-    public function getFindAllQuery(array $filters = [], string $sort = 'o.id', string $order = 'ASC'): QueryBuilder
+    public function getFindAllQuery(array $filters = [], string $sort = 'id', string $order = 'ASC'): QueryBuilder
     {
-        $qb = $this->createQueryBuilder('o');
+        $reflect = $this->getClassMetadata()->getReflectionClass();
+        $name = lcfirst($reflect->getShortName());
+
+        $qb = $this->createQueryBuilder($name);
         foreach ($filters as $key => $value) {
-            $qb->andWhere('o.' . $key . '=' . $this->getEntityManager()->getConnection()->quote($value));
+            $qb->andWhere($name . '.' . $key . '=' . $this->getEntityManager()->getConnection()->quote($value));
         }
 
         $qb->addOrderBy($sort, $order);
