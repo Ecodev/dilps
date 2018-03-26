@@ -129,6 +129,10 @@
                 ></app-thesaurus>
 
                 <mat-form-field class="innerSpacing">
+                    <input [readonly]="!isEdit()" matInput [(ngModel)]="model.techniqueAuthor" placeholder="Auteur technique" >
+                </mat-form-field>
+
+                <mat-form-field class="innerSpacing">
                     <input [readonly]="!isEdit()"
                            matInput
                            [(ngModel)]="model.addition"
@@ -136,20 +140,6 @@
                            matTooltipPosition="after"
                            [matTooltip]="!isEdit() ? '' : 'Le champ supplément permet de saisir toute information n\'entrant pas ailleurs (complément, précision, numéro d\'inventaire, etc.).'"
                     >
-                </mat-form-field>
-
-                <mat-form-field class="innerSpacing">
-                    <input [readonly]="!isEdit()"
-                           matInput
-                           [(ngModel)]="model.technique"
-                           placeholder="Technique"
-                           matTooltipPosition="after"
-                           [matTooltip]="!isEdit() ? '' : 'Matériel précise ce que technique donne de façon générique (exemple : &quot;Matériel : Huile sur toile&quot;, &quot;Technique : Peinture&quot;).'"
-                    >
-                </mat-form-field>
-
-                <mat-form-field class="innerSpacing">
-                    <input [readonly]="!isEdit()" matInput [(ngModel)]="model.techniqueAuthor" placeholder="Auteur technique" >
                 </mat-form-field>
 
                 <mat-form-field class="innerSpacing">
@@ -165,10 +155,30 @@
                 <mat-form-field class="innerSpacing">
                     <input [readonly]="!isEdit()"
                            matInput
+                           [(ngModel)]="model.technique"
+                           placeholder="Technique"
+                           matTooltipPosition="after"
+                           [matTooltip]="!isEdit() ? '' : 'Matériel précise ce que technique donne de façon générique (exemple : &quot;Matériel : Huile sur toile&quot;, &quot;Technique : Peinture&quot;).'"
+                    >
+                </mat-form-field>
+
+                <mat-form-field class="innerSpacing">
+                    <input [readonly]="!isEdit()"
+                           matInput
                            [(ngModel)]="model.material"
                            placeholder="Matériel"
                            matTooltipPosition="after"
                            [matTooltip]="!isEdit() ? '' : 'Matériel précise ce que technique donne de façon générique (exemple : &quot;Matériel : Huile sur toile&quot;, &quot;Technique : Peinture&quot;).'"
+                    >
+                </mat-form-field>
+
+                <mat-form-field class="innerSpacing">
+                    <input [readonly]="!isEdit()"
+                           matInput
+                           [(ngModel)]="model.format"
+                           placeholder="Dimensions"
+                           matTooltipPosition="after"
+                           [matTooltip]="!isEdit() ? '' : 'Les dimensions s\'expriment en centimètres (exemple : &quot;19,9 x 32,5 cm&quot;).'"
                     >
                 </mat-form-field>
 
@@ -202,6 +212,10 @@
                            matTooltipPosition="after"
                            [matTooltip]="!isEdit() ? '' : 'Numéro ISBN de l\'ouvrage source, sans les tirets.'"
                     >
+                </mat-form-field>
+
+                <mat-form-field class="innerSpacing">
+                    <input [readonly]="!isEdit()" matInput [(ngModel)]="model.rights" placeholder="Droits d'auteur">
                 </mat-form-field>
 
                 <div class="mat-title innerSpacing">Lieu</div>
