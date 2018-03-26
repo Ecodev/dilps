@@ -45,9 +45,21 @@ $app->get('/image/{id:\d+}[/{maxHeight:\d+}]', [
 ], 'image');
 
 $app->get('/pptx/{ids:\d+[,\d]*}[/{backgroundColor:[\da-fA-F]{8}}[/{textColor:[\da-fA-F]{8}}]]', [
+    \Application\Middleware\CardsFetcherMiddleware::class,
     Application\Action\PptxAction::class,
 ], 'pptx');
 
 $app->get('/zip/{ids:\d+[,\d]*}[/{includeLegend:0|1}[/{maxHeight:\d+}]]', [
+    \Application\Middleware\CardsFetcherMiddleware::class,
     Application\Action\ZipAction::class,
 ], 'zip');
+
+$app->get('/pptx/collection/{ids:\d+[,\d]*}[/{backgroundColor:[\da-fA-F]{8}}[/{textColor:[\da-fA-F]{8}}]]', [
+    \Application\Middleware\CollectionFetcherMiddleware::class,
+    Application\Action\PptxAction::class,
+], 'pptx/collection');
+
+$app->get('/zip/collection/{ids:\d+[,\d]*}[/{includeLegend:0|1}[/{maxHeight:\d+}]]', [
+    \Application\Middleware\CollectionFetcherMiddleware::class,
+    Application\Action\ZipAction::class,
+], 'zip/collection');

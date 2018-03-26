@@ -10,7 +10,7 @@ use Doctrine\ORM\QueryBuilder;
 
 class CardRepository extends AbstractRepository implements LimitedAccessSubQueryInterface
 {
-    public function getFindAllQuery(array $filters = [], string $sort = 'card.id', string $order = 'ASC'): QueryBuilder
+    public function getFindAllQuery(array $filters = [], string $sort = 'card.creationDate', string $order = 'ASC'): QueryBuilder
     {
         $qb = $this->createQueryBuilder('card');
 

@@ -55,6 +55,10 @@ export class DownloadComponent implements OnInit {
     }
 
     private getIds(): string {
+        if (this.data.collection) {
+            return 'collection/' + this.data.collection.id;
+        }
+
         return this.data.images.map(card => card.id).join(',');
     }
 

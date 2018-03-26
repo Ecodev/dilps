@@ -6,7 +6,6 @@ namespace Application\Action;
 
 use Application\Model\Card;
 use Application\Model\User;
-use Application\Repository\CardRepository;
 use Application\Service\ImageService;
 use Application\Stream\TemporaryFile;
 use Imagine\Image\ImagineInterface;
@@ -27,11 +26,6 @@ use Zend\Diactoros\Response;
  */
 class PptxAction extends AbstractAction
 {
-    /**
-     * @var CardRepository
-     */
-    private $cardRepository;
-
     /**
      * @var ImagineInterface
      */
@@ -57,9 +51,8 @@ class PptxAction extends AbstractAction
      */
     private $backgroundColor = Color::COLOR_BLACK;
 
-    public function __construct(CardRepository $cardRepository, ImageService $imageService, ImagineInterface $imagine)
+    public function __construct(ImageService $imageService, ImagineInterface $imagine)
     {
-        $this->cardRepository = $cardRepository;
         $this->imageService = $imageService;
         $this->imagine = $imagine;
     }
@@ -74,16 +67,10 @@ class PptxAction extends AbstractAction
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $ids = explode(',', $request->getAttribute('ids'));
         $this->textColor = $request->getAttribute('textColor', $this->textColor);
         $this->backgroundColor = $request->getAttribute('backgroundColor', $this->backgroundColor);
-
-        /** @var Card $card */
-        $cards = $this->cardRepository->findById($ids);
-        if (!$cards) {
-            return $this->createError('No cards found in database for any of the ids: ' . implode(', ', $ids));
-        }
-
+        $cards = $request->getAttribute('cards');
+        //w(count($cards));
         $title = 'DILPS ' . date('c', time());
         $presentation = $this->export($cards, $title);
 

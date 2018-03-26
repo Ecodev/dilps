@@ -6,7 +6,6 @@ namespace Application\Action;
 
 use Application\Model\Card;
 use Application\Model\User;
-use Application\Repository\CardRepository;
 use Application\Service\ImageService;
 use Application\Stream\TemporaryFile;
 use Imagine\Image\ImagineInterface;
@@ -21,11 +20,6 @@ use ZipArchive;
  */
 class ZipAction extends AbstractAction
 {
-    /**
-     * @var CardRepository
-     */
-    private $cardRepository;
-
     /**
      * @var ImagineInterface
      */
@@ -56,9 +50,8 @@ class ZipAction extends AbstractAction
      */
     private $fileIndex = 0;
 
-    public function __construct(CardRepository $cardRepository, ImageService $imageService, ImagineInterface $imagine)
+    public function __construct(ImageService $imageService, ImagineInterface $imagine)
     {
-        $this->cardRepository = $cardRepository;
         $this->imageService = $imageService;
         $this->imagine = $imagine;
     }
@@ -73,15 +66,9 @@ class ZipAction extends AbstractAction
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $ids = explode(',', $request->getAttribute('ids'));
         $this->includeLegend = (bool) $request->getAttribute('includeLegend', $this->includeLegend);
         $this->maxHeight = (int) $request->getAttribute('maxHeight', $this->maxHeight);
-
-        /** @var Card $card */
-        $cards = $this->cardRepository->findById($ids);
-        if (!$cards) {
-            return $this->createError('No cards found in database for any of the ids: ' . implode(', ', $ids));
-        }
+        $cards = $request->getAttribute('cards');
 
         // Write to disk
         $tempFile = tempnam('data/tmp/', 'zip');

@@ -196,14 +196,23 @@ export class ListComponent implements OnInit {
         });
     }
 
-    public download(selection) {
+    private download(selection) {
+        const data = merge({denyLegendsDownload: !this.user}, selection);
+
         this.dialog.open(DownloadComponent, {
             width: '400px',
-            data: {
-                images: selection,
-                denyLegendsDownload: !this.user,
-            },
+            data,
         });
+    }
+
+    public downloadSelection(selection) {
+
+        this.download({images: selection});
+    }
+
+    public downloadCollection(collection) {
+
+        this.download({collection});
     }
 
     public unlinkFromCollection(selection) {
