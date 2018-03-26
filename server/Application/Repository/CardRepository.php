@@ -40,18 +40,18 @@ class CardRepository extends AbstractRepository implements LimitedAccessSubQuery
         if (@$filters['search']) {
             $qb->leftJoin('card.institution', 'institution');
             $qb->leftJoin('card.artists', 'artist');
-            $qb->andWhere(
-                'card.name LIKE :search
-                OR card.expandedName like :search
-                OR card.material like :search
-                OR card.technique like :search
-                OR card.addition like :search
-                OR card.locality like :search
-                OR institution.name like :search
-                OR artist.name like :search
-                '
-            );
-            $qb->setParameter('search', '%' . $filters['search'] . '%');
+            $fields = [
+                'card.name',
+                'card.expandedName',
+                'card.material',
+                'card.technique',
+                'card.addition',
+                'card.locality',
+                'institution.name',
+                'artist.name',
+            ];
+
+            $this->addSearch($qb, @$filters['search'], $fields);
         }
 
         if (isset($filters['hasImage'])) {

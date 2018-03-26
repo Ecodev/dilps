@@ -55,4 +55,38 @@ abstract class AbstractRepository extends EntityRepository
 
         return implode(', ', $result);
     }
+
+    /**
+     * Modify $qb to add a constraint to search for all words contained in $search.
+     *
+     * @param QueryBuilder $qb
+     * @param string $search
+     * @param array $fields an array of table.field strings
+     */
+    protected function addSearch(QueryBuilder $qb, string $search, array $fields): void
+    {
+        if (!trim($search)) {
+            return;
+        }
+
+        // Build the WHERE clause
+        $wordWheres = [];
+        foreach (preg_split('/[[:space:]]+/', $search, -1, PREG_SPLIT_NO_EMPTY) as $i => $word) {
+            $parameterName = 'searchWord' . $i;
+
+            $fieldWheres = [];
+            foreach ($fields as $field) {
+                $fieldWheres[] = $field . ' LIKE :' . $parameterName;
+            }
+
+            if ($fieldWheres) {
+                $wordWheres[] = '(' . implode(' OR ', $fieldWheres) . ')';
+                $qb->setParameter($parameterName, '%' . $word . '%');
+            }
+        }
+
+        if ($wordWheres) {
+            $qb->andWhere('(' . implode(' AND ', $wordWheres) . ')');
+        }
+    }
 }

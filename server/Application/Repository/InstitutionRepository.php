@@ -13,10 +13,7 @@ class InstitutionRepository extends AbstractRepository
     {
         $qb = $this->createQueryBuilder('institution');
 
-        if (@$filters['search']) {
-            $qb->andWhere('institution.name LIKE :search');
-            $qb->setParameter('search', '%' . $filters['search'] . '%');
-        }
+        $this->addSearch($qb, @$filters['search'], ['institution.name']);
 
         $qb->addOrderBy($sort, $order);
 

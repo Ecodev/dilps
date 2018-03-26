@@ -13,10 +13,7 @@ class ArtistRepository extends AbstractRepository
     {
         $qb = $this->createQueryBuilder('artist');
 
-        if (@$filters['search']) {
-            $qb->andWhere('artist.name LIKE :search');
-            $qb->setParameter('search', '%' . $filters['search'] . '%');
-        }
+        $this->addSearch($qb, @$filters['search'], ['artist.name']);
 
         $qb->addOrderBy($sort, $order);
 

@@ -24,10 +24,11 @@ class UserRepository extends AbstractRepository implements LimitedAccessSubQuery
             $qb->setParameter('email', '%' . $filters['email'] . '%');
         }
 
-        if (@$filters['search']) {
-            $qb->andWhere('user.login LIKE :search OR user.email LIKE :search');
-            $qb->setParameter('search', '%' . $filters['search'] . '%');
-        }
+        $fields = [
+            'user.login',
+            'user.email',
+        ];
+        $this->addSearch($qb, @$filters['search'], $fields);
 
         $qb->addOrderBy($sort, $order);
 
