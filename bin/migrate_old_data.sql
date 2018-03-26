@@ -546,6 +546,34 @@ UPDATE card
 UPDATE collection SET visibility = 'administrator'
 WHERE creator_id IS NULL AND visibility = 'private';
 
+-- Fix incorrect quote escaping
+UPDATE artist SET name = REPLACE(name, "\\'", "'");
+UPDATE institution SET
+  name = REPLACE(name, "\\'", "'"),
+  locality = REPLACE(locality, "\\'", "'"),
+  area = REPLACE(area, "\\'", "'");
+UPDATE card SET
+  name = REPLACE(name, "\\'", "'"),
+  dating = REPLACE(dating, "\\'", "'"),
+  locality = REPLACE(locality, "\\'", "'"),
+  area = REPLACE(area, "\\'", "'"),
+  addition = REPLACE(addition, "\\'", "'"),
+  expanded_name = REPLACE(expanded_name, "\\'", "'"),
+  material = REPLACE(material, "\\'", "'"),
+  technique = REPLACE(technique, "\\'", "'"),
+  technique_author = REPLACE(technique_author, "\\'", "'"),
+  format = REPLACE(format, "\\'", "'"),
+  literature = REPLACE(literature, "\\'", "'"),
+  page = REPLACE(page, "\\'", "'"),
+  figure = REPLACE(figure, "\\'", "'"),
+  `table` = REPLACE(`table`, "\\'", "'"),
+  isbn = REPLACE(isbn, "\\'", "'"),
+  rights = REPLACE(rights, "\\'", "'"),
+  museris_url = REPLACE(museris_url, "\\'", "'"),
+  museris_cote = REPLACE(museris_cote, "\\'", "'"),
+  filename = REPLACE(filename, "\\'", "'"),
+  `comment` = REPLACE(`comment`, "\\'", "'");
+
 COMMIT;
 
 DROP PROCEDURE createRelationBetweenCollectionAndCard;
