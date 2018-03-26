@@ -174,9 +174,9 @@ export class ListComponent implements OnInit {
         if (!this.sub) {
             this.sub = this.cardSvc.watchAll(this.queryVariables);
             this.sub.valueChanges.subscribe(data => {
-                if (!data.pageIndex) {
-                    this.gallery.collection = [];
-                }
+                // if (data.pageIndex === 0) {
+                //     this.gallery.collection = [];
+                // }
                 this.gallery.addItems(this.formatImages(data.items));
             });
         }
