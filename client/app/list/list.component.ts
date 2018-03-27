@@ -194,6 +194,8 @@ export class ListComponent implements OnInit {
                 right: '10px',
             },
             data: selection,
+        }).afterClosed().subscribe(() => {
+            this.alertSvc.info('Fiches ajoutées');
         });
     }
 
