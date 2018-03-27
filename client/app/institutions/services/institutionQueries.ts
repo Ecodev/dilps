@@ -7,6 +7,7 @@ query Institutions($filters: InstitutionFilter, $pagination: PaginationInput) {
         items {
             id
             name
+            locality
         }
         pageSize
         pageIndex

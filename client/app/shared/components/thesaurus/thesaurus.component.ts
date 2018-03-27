@@ -62,7 +62,7 @@ export class ThesaurusComponent implements OnInit {
 
     public suggestionsObs: Observable<any>;
 
-    public items: { name }[] = [];
+    public items: { name: string, locality?: string }[] = [];
 
     constructor(private dialog: MatDialog) {
     }

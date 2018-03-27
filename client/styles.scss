@@ -46,6 +46,16 @@ pre.debug {
     border: 2px solid green;
 }
 
+.mat-autocomplete-panel {
+    .mat-option.multiline {
+        min-height:48px;
+        height: auto;
+        line-height: 1.6em;
+        padding-top:10px;
+        padding-bottom:10px;
+    }
+}
+
 //#appBody {
 //    overflow-y: hidden;
 //    & > *:not(router-outlet) {

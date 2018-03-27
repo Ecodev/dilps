@@ -36,6 +36,7 @@ describe('InstitutionService', () => {
     const expectedOneForAll = {
         id: '456',
         name: 'test string',
+        locality: 'test string',
         __typename: 'Institution',
     };
 
