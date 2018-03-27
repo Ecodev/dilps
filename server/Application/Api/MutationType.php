@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Application\Api;
 
 use Application\Api\Field\Mutation\AcceptChange;
+use Application\Api\Field\Mutation\LinkCollectionToCollection;
 use Application\Api\Field\Mutation\Login;
 use Application\Api\Field\Mutation\Logout;
 use Application\Api\Field\Mutation\RejectChange;
@@ -35,6 +36,7 @@ class MutationType extends ObjectType
             Logout::build(),
             ValidateData::build(),
             ValidateImage::build(),
+            LinkCollectionToCollection::build(),
         ];
 
         $fields = array_merge(

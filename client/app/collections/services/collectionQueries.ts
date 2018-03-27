@@ -83,3 +83,10 @@ export const deleteCollectionsMutation = gql`
 mutation DeleteCollections ($ids: [CollectionID!]!){
     deleteCollections(ids: $ids)
 }`;
+
+export const linkCollectionToCollectionMutation = gql`
+mutation LinkCollectionToCollection ($sourceCollection: CollectionID!, $targetCollection: CollectionID!) {
+    linkCollectionToCollection(sourceCollection: $sourceCollection, targetCollection: $targetCollection) {
+        id
+    }
+}`;

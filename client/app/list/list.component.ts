@@ -186,18 +186,23 @@ export class ListComponent implements OnInit {
         }
     }
 
-    public linkToCollection(selection) {
-
+    private linkToCollection(selection) {
         this.dialog.open(CollectionSelectorComponent, {
             width: '400px',
             position: {
                 top: '74px',
                 right: '10px',
             },
-            data: {
-                images: selection,
-            },
+            data: selection,
         });
+    }
+
+    public linkSelectionToCollection(selection) {
+        this.linkToCollection({images: selection});
+    }
+
+    public linkCollectionToCollection(collection) {
+        this.linkToCollection({collection});
     }
 
     private download(selection) {
@@ -210,12 +215,10 @@ export class ListComponent implements OnInit {
     }
 
     public downloadSelection(selection) {
-
         this.download({images: selection});
     }
 
     public downloadCollection(collection) {
-
         this.download({collection});
     }
 

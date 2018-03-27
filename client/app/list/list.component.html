@@ -28,7 +28,7 @@
                 <mat-icon>select_all</mat-icon>
             </button>
 
-            <button mat-icon-button (click)="linkToCollection(selected)" matTooltip="Ajouter à une collection">
+            <button mat-icon-button (click)="linkSelectionToCollection(selected)" matTooltip="Ajouter à une collection">
                 <mat-icon>library_add</mat-icon>
             </button>
             <button mat-icon-button *ngIf="collection?.id" (click)="unlinkFromCollection(selected)" matTooltip="Supprimer de la collection">
@@ -59,7 +59,11 @@
         </ng-container>
 
         <ng-container *ngIf="!selected?.length && user">
-            <button mat-icon-button  *ngIf="collection?.id" (click)="downloadCollection(collection)" matTooltip="Télécharger la collection">
+            <button mat-icon-button *ngIf="collection?.id" (click)="linkCollectionToCollection(collection)" matTooltip="Ajouter la collection à une autre collection">
+                <mat-icon>library_add</mat-icon>
+            </button>
+
+            <button mat-icon-button *ngIf="collection?.id" (click)="downloadCollection(collection)" matTooltip="Télécharger la collection">
                 <mat-icon>file_download</mat-icon>
             </button>
 

@@ -39,18 +39,30 @@ export class CollectionSelectorComponent implements OnInit {
             }
         });
 
-        if (this.data.images.length === 1) {
+        if (this.data.images && this.data.images.length === 1) {
             this.image = this.data.images[0];
         }
     }
 
-    public link() {
-        this.collectionSvc.link(this.collection, this.data.images).subscribe(() => {
-            if (this.data.images.length === 1 && this.data.images[0].collections) {
-                this.data.images[0].collections.push(this.collection);
+    public link(): void {
+        this.linkInternal(this.collection);
+    }
+
+    private linkInternal(collection): void {
+        let observable;
+        if (this.data.images) {
+            observable = this.collectionSvc.link(collection, this.data.images);
+        } else {
+            observable = this.collectionSvc.linkCollectionToCollection(this.data.collection, collection);
+        }
+
+        observable.subscribe(() => {
+            if (this.data.images && this.data.images.length === 1 && this.data.images[0].collections) {
+                this.data.images[0].collections.push(collection);
             }
-            this.dialogRef.close(this.collection);
+            this.dialogRef.close(collection);
         });
+
     }
 
     public unlink(image, collection) {
@@ -61,11 +73,9 @@ export class CollectionSelectorComponent implements OnInit {
         });
     }
 
-    public createAndLink() {
+    public createAndLink(): void {
         this.collectionSvc.create(this.newCollection).subscribe(collection => {
-            this.collectionSvc.link(collection, this.data.images).subscribe(() => {
-                this.dialogRef.close(collection);
-            });
+            this.linkInternal(collection);
         });
     }
 }

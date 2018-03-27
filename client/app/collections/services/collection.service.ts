@@ -6,6 +6,7 @@ import {
     createCollectionMutation,
     deleteCollectionsMutation,
     updateCollectionMutation,
+    linkCollectionToCollectionMutation,
 } from './collectionQueries';
 import { AbstractModelService } from '../../shared/services/abstract-model.service';
 import {
@@ -67,4 +68,13 @@ export class CollectionService
         return Observable.forkJoin(observables);
     }
 
+    public linkCollectionToCollection(sourceCollection, targetCollection) {
+        return this.apollo.mutate({
+            mutation: linkCollectionToCollectionMutation,
+            variables: {
+                sourceCollection: sourceCollection.id,
+                targetCollection: targetCollection.id,
+            },
+        });
+    }
 }
