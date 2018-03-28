@@ -68,7 +68,7 @@ class ChangeRepository extends AbstractRepository implements LimitedAccessSubQue
             $qb = $this->getEntityManager()->getConnection()->createQueryBuilder()
                 ->select('`change`.id')
                 ->from('`change`')
-                ->where('`change`.creator_id = ' . $this->getEntityManager()->getConnection()->quote($user->getId()));
+                ->where('`change`.owner_id = ' . $this->getEntityManager()->getConnection()->quote($user->getId()));
         } else {
             return '-1';
         }

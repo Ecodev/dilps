@@ -8,6 +8,7 @@ use Application\Api\Field\FieldInterface;
 use Application\Api\Helper;
 use Application\Model\Card;
 use Application\Model\Change;
+use Application\Model\User;
 use GraphQL\Type\Definition\Type;
 
 class AcceptChange implements FieldInterface
@@ -30,6 +31,7 @@ class AcceptChange implements FieldInterface
                 switch ($change->getType()) {
                     case Change::TYPE_CREATE:
                         $image = $change->getSuggestion();
+                        $image->setOwner(User::getCurrent());
                         $image->timestampUpdate();
 
                         break;

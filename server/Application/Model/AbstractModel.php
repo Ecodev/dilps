@@ -55,6 +55,13 @@ abstract class AbstractModel
      *
      * @ORM\ManyToOne(targetEntity="User")
      */
+    private $owner;
+
+    /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     */
     private $updater;
 
     /**
@@ -128,6 +135,28 @@ abstract class AbstractModel
     }
 
     /**
+     * Set owner
+     *
+     * @API\Exclude
+     *
+     * @param User $owner
+     */
+    public function setOwner(User $owner = null): void
+    {
+        $this->owner = $owner;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return null|User
+     */
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    /**
      * Set updater
      *
      * @param null|User $updater
@@ -156,6 +185,7 @@ abstract class AbstractModel
     {
         $this->setCreationDate(Utility::getNow());
         $this->setCreator(User::getCurrent());
+        $this->setOwner(User::getCurrent());
     }
 
     /**

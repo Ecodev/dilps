@@ -84,7 +84,7 @@ class CollectionRepository extends AbstractRepository implements LimitedAccessSu
             ->where('collection.visibility IN (' . $this->quoteArray($visibility) . ')');
 
         if ($user) {
-            $qb->orWhere('collection.creator_id = ' . $this->getEntityManager()->getConnection()->quote($user->getId()));
+            $qb->orWhere('collection.owner_id = ' . $this->getEntityManager()->getConnection()->quote($user->getId()));
         }
 
         return $qb->getSQL();

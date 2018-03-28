@@ -97,7 +97,7 @@ class CardRepository extends AbstractRepository implements LimitedAccessSubQuery
             ->where('card.visibility IN (' . $this->quoteArray($visibility) . ')');
 
         if ($user) {
-            $qb->orWhere('card.creator_id = ' . $this->getEntityManager()->getConnection()->quote($user->getId()));
+            $qb->orWhere('card.owner_id = ' . $this->getEntityManager()->getConnection()->quote($user->getId()));
         }
 
         return $qb->getSQL();

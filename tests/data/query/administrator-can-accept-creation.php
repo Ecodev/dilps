@@ -7,6 +7,9 @@ return [
         'query' => 'mutation {
             acceptChange(id: 7000) {
                 name
+                owner {
+                    id
+                }
                 creator {
                     id
                 }
@@ -20,6 +23,9 @@ return [
         'data' => [
             'acceptChange' => [
                 'name' => 'Test suggestion card 6001',
+                'owner' => [
+                    'id' => '1000',
+                ],
                 'creator' => [
                     'id' => '1003',
                 ],

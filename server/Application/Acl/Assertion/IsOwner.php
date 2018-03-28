@@ -26,6 +26,6 @@ class IsOwner implements AssertionInterface
     {
         $object = $resource->getInstance();
 
-        return User::getCurrent() && User::getCurrent() === $object->getCreator();
+        return User::getCurrent() && User::getCurrent() === $object->getOwner();
     }
 }

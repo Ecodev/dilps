@@ -220,7 +220,9 @@ INSERT INTO user (login)
 UPDATE collection
   JOIN ng_group ON collection.id = 1000 + ng_group.id
   JOIN user ON user.login = ng_group.owner
-SET collection.creator_id = user.id;
+SET
+  collection.owner_id = user.id,
+  collection.creator_id = user.id;
 
 
 INSERT INTO collection_card (collection_id, card_id)
@@ -292,6 +294,7 @@ UPDATE card
   JOIN ng_meta ON CONCAT(ng_meta.collectionid, ng_meta.imageid) = card.id
   JOIN user ON user.login = ng_meta.metacreator
 SET
+  card.owner_id = user.id,
   card.creator_id = user.id;
 
 -- Link card to updater
@@ -315,6 +318,7 @@ UPDATE collection
   JOIN ng_panier ON 2000 + ng_panier.id = collection.id
   JOIN user ON user.login = ng_panier.utilisateur
 SET
+  collection.owner_id = user.id,
   collection.creator_id = user.id;
 
 CALL createRelationBetweenCollectionAndCard;
@@ -544,7 +548,7 @@ UPDATE card
 
 -- Make orphan collection visible to at least administrators
 UPDATE collection SET visibility = 'administrator'
-WHERE creator_id IS NULL AND visibility = 'private';
+WHERE owner_id IS NULL AND visibility = 'private';
 
 -- Fix incorrect quote escaping
 UPDATE artist SET name = REPLACE(name, "\\'", "'");
