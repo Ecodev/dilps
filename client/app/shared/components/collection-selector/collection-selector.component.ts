@@ -61,6 +61,7 @@ export class CollectionSelectorComponent implements OnInit {
                 this.data.images[0].collections.push(collection);
             }
             this.dialogRef.close(collection);
+            this.alertSvc.info('Fiches ajoutées');
         });
 
     }
