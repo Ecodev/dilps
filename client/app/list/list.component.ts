@@ -152,10 +152,12 @@ export class ListComponent implements OnInit {
     }
 
     public reload() {
-        this.selected = [];
-        this.gallery.collection = [];
-        this.queryVariables.patch(this.firstPagination);
-        this.sub.refetch();
+        if (this.sub) {
+            this.selected = [];
+            this.gallery.collection = [];
+            this.queryVariables.patch(this.firstPagination);
+            this.sub.refetch();
+        }
     }
 
     public search(term) {
