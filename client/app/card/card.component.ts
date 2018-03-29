@@ -283,15 +283,16 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
 
     public canSuggestCreate() {
         return this.user && this.model.creator
+               && this.model.owner.id === this.user.id
                && this.model.creator.id === this.user.id
                && this.model.visibility === CardVisibility.private;
     }
 
     public canSuggestUpdate() {
-        return this.model.visibility !== CardVisibility.private;
+        return this.user && this.model.owner && this.user.id !== this.model.owner.id || this.model.visibility !== CardVisibility.private;
     }
 
     public canSuggestDelete() {
-        return this.model.visibility !== CardVisibility.private;
+        return this.canSuggestUpdate();
     }
 }

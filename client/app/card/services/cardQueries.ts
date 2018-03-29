@@ -70,6 +70,9 @@ fragment cardDetails on Card {
         code
         name
     }
+    owner {
+     ...userMeta
+    }
     creationDate
     creator {
         ...userMeta
