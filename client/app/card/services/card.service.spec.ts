@@ -100,6 +100,7 @@ describe('CardService', () => {
             __typename: 'Country',
         },
         __typename: 'Card',
+        owner: userMetaTesting,
         creationDate: '2018-01-18T11:43:31',
         creator: userMetaTesting,
         updateDate: '2018-01-18T11:43:31',
