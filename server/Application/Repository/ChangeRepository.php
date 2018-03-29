@@ -56,7 +56,7 @@ class ChangeRepository extends AbstractRepository implements LimitedAccessSubQue
      *
      * A change is accessible if:
      *
-     * - change owner is the user
+     * - change owner or creator is the user
      *
      * @param null|User $user
      *
@@ -65,10 +65,11 @@ class ChangeRepository extends AbstractRepository implements LimitedAccessSubQue
     public function getAccessibleSubQuery(?User $user): string
     {
         if ($user) {
+            $userId = $this->getEntityManager()->getConnection()->quote($user->getId());
             $qb = $this->getEntityManager()->getConnection()->createQueryBuilder()
                 ->select('`change`.id')
                 ->from('`change`')
-                ->where('`change`.owner_id = ' . $this->getEntityManager()->getConnection()->quote($user->getId()));
+                ->where('`change`.owner_id = ' . $userId . ' OR `change`.creator_id = ' . $userId);
         } else {
             return '-1';
         }

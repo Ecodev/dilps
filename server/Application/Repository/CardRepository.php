@@ -76,7 +76,7 @@ class CardRepository extends AbstractRepository implements LimitedAccessSubQuery
      * A card is accessible if:
      * - card is public
      * - card is member and user is logged in
-     * - card owner is the user
+     * - card owner or creator is the user
      *
      * @param null|User $user
      *
@@ -97,7 +97,8 @@ class CardRepository extends AbstractRepository implements LimitedAccessSubQuery
             ->where('card.visibility IN (' . $this->quoteArray($visibility) . ')');
 
         if ($user) {
-            $qb->orWhere('card.owner_id = ' . $this->getEntityManager()->getConnection()->quote($user->getId()));
+            $userId = $this->getEntityManager()->getConnection()->quote($user->getId());
+            $qb->orWhere('card.owner_id = ' . $userId . ' OR card.creator_id = ' . $userId);
         }
 
         return $qb->getSQL();

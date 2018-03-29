@@ -12,7 +12,7 @@ use Zend\Permissions\Acl\Role\RoleInterface;
 class Visibility implements AssertionInterface
 {
     /**
-     * @var string
+     * @var string[]
      */
     private $allowedVisibilities;
 
@@ -22,7 +22,9 @@ class Visibility implements AssertionInterface
     }
 
     /**
-     * Assert that the object is the given visibility, or belongs to the current user
+     * Assert that the object is the given visibility,
+     * or belongs to the current user,
+     * or has been created by the current user.
      *
      * @param Acl $acl
      * @param RoleInterface $role
@@ -35,7 +37,10 @@ class Visibility implements AssertionInterface
     {
         $object = $resource->getInstance();
         $isOwner = new IsOwner();
+        $isCreator = new IsCreator();
 
-        return in_array($object->getVisibility(), $this->allowedVisibilities, true) || $isOwner->assert($acl, $role, $resource, $privilege);
+        return in_array($object->getVisibility(), $this->allowedVisibilities, true)
+            || $isOwner->assert($acl, $role, $resource, $privilege)
+            || $isCreator->assert($acl, $role, $resource, $privilege);
     }
 }
