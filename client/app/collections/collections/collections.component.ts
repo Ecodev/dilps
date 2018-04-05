@@ -6,6 +6,8 @@ import { MatDialog } from '@angular/material';
 import { CollectionComponent } from '../collection/collection.component';
 import { Literal } from '../../shared/types';
 import { UserService } from '../../users/services/user.service';
+import { UserRole } from '../../shared/generated-types';
+import { isArray } from 'lodash';
 
 @Component({
     selector: 'app-collections',
@@ -64,11 +66,13 @@ export class CollectionsComponent implements OnInit {
         this.userSvc.getCurrentUser().subscribe(user => {
             this.user = user;
             this.showEditButtons = this.showEditionButtons();
+            this.canCreate = this.showCreateButton(this.route.snapshot.data.creationButtonForRoles, this.user);
+
         });
 
         this.queryVariables.patch(this.defaultFilters);
         this.route.data.subscribe((data: Literal) => {
-            this.canCreate = !!data.canCreate;
+            this.canCreate = this.showCreateButton(data.creationButtonForRoles, this.user);
             this.showUnclassified = data.showUnclassified;
             this.showMyCards = data.showMyCards;
 
@@ -91,6 +95,27 @@ export class CollectionsComponent implements OnInit {
             this.hasMore = collections.length > this.collections.length;
         });
 
+    }
+
+    private showCreateButton(allowedRoles: boolean | UserRole[], user) {
+
+        if (!allowedRoles || !user) {
+            return false;
+        }
+
+        if (allowedRoles === true) {
+            return true;
+        }
+
+        if (isArray(allowedRoles) && allowedRoles.length) {
+            for (const allowedRole of allowedRoles) {
+                if (allowedRole === user.role) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public showEditionButtons() {

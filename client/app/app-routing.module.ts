@@ -87,6 +87,7 @@ export const routes: Routes = [
                 path: 'collection',
                 component: CollectionsComponent,
                 data: {
+                    creationButtonForRoles : false,
                     editionButtonsForRoles : [UserRole.administrator, UserRole.senior],
                     filters: {
                         isSource: false,
@@ -106,7 +107,7 @@ export const routes: Routes = [
                 component: CollectionsComponent,
                 resolve: {creator: UserResolver},
                 data: {
-                    canCreate: true,
+                    creationButtonForRoles: true,
                     showLogo: false,
                     showUnclassified: true,
                     showMyCards: true,
@@ -136,9 +137,9 @@ export const routes: Routes = [
             {
                 path: 'source',
                 component: CollectionsComponent,
-                canActivate: [AuthAdminGuard],
                 data: {
-                    canCreate: true,
+                    creationButtonForRoles : [UserRole.administrator],
+                    editionButtonsForRoles : [UserRole.administrator],
                     filters: {
                         isSource: true,
                     },
