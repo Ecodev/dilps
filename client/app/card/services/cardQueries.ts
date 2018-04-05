@@ -99,29 +99,13 @@ export const cardsQuery = gql`
 query Cards($filters: CardFilter, $pagination: PaginationInput, $sort: String) {
     cards(filters: $filters, pagination: $pagination, sort: $sort) {
         items {
-            id
-            name
-            width
-            height
-            hasImage
-            artists {
-                id
-                name
-            }
-            institution {
-                id
-                name
-            }
-            permissions {
-                update
-                delete
-            }
+            ...cardDetails
         }
         pageSize
         pageIndex
         length
     }
-}`;
+}${cardDetailsFragment}`;
 
 export const cardQuery = gql`
 query Card($id: CardID!) {

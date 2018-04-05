@@ -128,36 +128,7 @@ describe('CardService', () => {
         },
     };
 
-    const expectedOneForAll = {
-        id: '456',
-        name: 'test string',
-        width: 1,
-        height: 1,
-        hasImage: true,
-        artists: [
-            {
-                id: '456',
-                name: 'test string',
-                __typename: 'Artist',
-            },
-            {
-                id: '456',
-                name: 'test string',
-                __typename: 'Artist',
-            },
-        ],
-        institution: {
-            id: '456',
-            name: 'test string',
-            __typename: 'Institution',
-        },
-        permissions: {
-            update: true,
-            delete: true,
-            __typename: 'Permissions',
-        },
-        __typename: 'Card',
-    };
+    const expectedOneForAll = expectedOne;
 
     const expectedAll = {
         items: [
