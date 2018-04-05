@@ -110,7 +110,7 @@
                     ></textarea>
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.expandedName">
+                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.expandedName && model.expandedName != model.name">
                     <textarea [readonly]="!isEdit()"
                               matTextareaAutosize
                               matAutosizeMinRows="1"
