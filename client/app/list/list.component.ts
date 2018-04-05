@@ -125,8 +125,13 @@ export class ListComponent implements OnInit {
                 eHeight: big.height,
             };
 
+            let title = card.name ? card.name : null;
+            if (card.artists && card.artists.length) {
+                title += title ? ', ' + card.artists[0].name : card.artists[0].name;
+            }
+
             const fields: any = {
-                title: card.name ? card.name : 'Voir le détail',
+                title: title ? title : 'Voir le détail',
             };
 
             if (this.user) {
