@@ -419,9 +419,9 @@ angular-file@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/angular-file/-/angular-file-0.5.1.tgz#553ed4863306d0dbfcb9c185252e4275df80f602"
 
-angular-natural-gallery@^0.3.0:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/angular-natural-gallery/-/angular-natural-gallery-0.3.3.tgz#08dbd0367602d98305ba603592bfc243dfd41e66"
+angular-natural-gallery@^0.3.4:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/angular-natural-gallery/-/angular-natural-gallery-0.3.4.tgz#3b8e8a724fddff72a40ca614e34bad3f249c1f0e"
   dependencies:
     natural-gallery-js "^2.7.1"
 
