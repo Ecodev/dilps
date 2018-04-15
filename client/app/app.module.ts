@@ -52,7 +52,6 @@ import { LoginComponent } from './login/login.component';
 import { BootLoaderComponent } from './shared/components/boot-loader/boot-loader.component';
 import { ListComponent } from './list/list.component';
 import { CardComponent } from './card/card.component';
-import { NaturalGalleryModule } from 'angular-natural-gallery';
 import { UsersComponent } from './users/users/users.component';
 import { TableButtonComponent } from './shared/components/table-button/table-button.component';
 import { CollectionsComponent } from './collections/collections/collections.component';
@@ -93,6 +92,8 @@ import { QuizzComponent } from './quizz/quizz.component';
 import { NumberSelectorComponent } from './quizz/shared/number-selector/number-selector.component';
 import { MassEditComponent } from './shared/components/mass-edit/mass-edit.component';
 import { RelationsComponent } from './shared/components/relations/relations.component';
+
+import { NaturalGalleryModule } from '@ecodev/angular-natural-gallery';
 
 @NgModule({
     declarations: [

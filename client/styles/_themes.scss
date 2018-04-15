@@ -4,7 +4,7 @@
  */
 // Import theming files full relative way or karma will display warning
 @import '../../node_modules/@angular/material/theming';
-@import '../../node_modules/angular-natural-gallery/theming/natural-gallery.theme';
+@import '../../node_modules/@ecodev/angular-natural-gallery/theming/natural-gallery.theme';
 @import 'typography';
 @import '../app/app.theme';
 @import '../app/shared/components/boot-loader/boot-loader.theme';
@@ -30,7 +30,7 @@
     @include scroll($theme);
     @include home($theme);
     @include toolbar($theme);
-    @include natural-gallery-theme($theme);
+    @include gallery-theme($theme);
     @include table($theme);
     @include table-button($theme);
     @include collections($theme);

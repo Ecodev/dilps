@@ -204,6 +204,18 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
+"@ecodev/angular-natural-gallery@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@ecodev/angular-natural-gallery/-/angular-natural-gallery-1.0.0.tgz#86e948151c36adaa97bcc870cbab525dba71b3b0"
+  dependencies:
+    "@ecodev/natural-gallery-js" "^3.0.3"
+
+"@ecodev/natural-gallery-js@^3.0.3":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@ecodev/natural-gallery-js/-/natural-gallery-js-3.0.3.tgz#703c9e6fa4c9c42362251c644c1c3eea4bf38f21"
+  dependencies:
+    photoswipe "^4.1.2"
+
 "@ngtools/json-schema@1.1.0", "@ngtools/json-schema@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@ngtools/json-schema/-/json-schema-1.1.0.tgz#c3a0c544d62392acc2813a42c8a0dc6f58f86922"
@@ -418,12 +430,6 @@ amqplib@^0.5.2:
 angular-file@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/angular-file/-/angular-file-0.5.1.tgz#553ed4863306d0dbfcb9c185252e4275df80f602"
-
-angular-natural-gallery@^0.3.4:
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/angular-natural-gallery/-/angular-natural-gallery-0.3.4.tgz#3b8e8a724fddff72a40ca614e34bad3f249c1f0e"
-  dependencies:
-    natural-gallery-js "^2.7.1"
 
 ansi-html@0.0.7:
   version "0.0.7"
@@ -4898,12 +4904,6 @@ nanomatch@^1.2.5:
     regex-not "^1.0.0"
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
-
-natural-gallery-js@^2.7.1:
-  version "2.7.4"
-  resolved "https://registry.yarnpkg.com/natural-gallery-js/-/natural-gallery-js-2.7.4.tgz#b40969ad6acf0a890280d51b29d40410e8326fb8"
-  dependencies:
-    photoswipe "^4.1.2"
 
 ncname@1.0.x:
   version "1.0.0"

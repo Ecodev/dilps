@@ -9,7 +9,6 @@ import { MatDialog } from '@angular/material';
 import { CollectionSelectorComponent } from '../shared/components/collection-selector/collection-selector.component';
 import { CollectionService } from '../collections/services/collection.service';
 import { AlertService } from '../shared/components/alert/alert.service';
-import { NaturalGalleryComponent } from 'angular-natural-gallery';
 import { Literal } from '../shared/types';
 import { UserService } from '../users/services/user.service';
 import { UtilityService } from '../shared/services/utility.service';
@@ -18,6 +17,8 @@ import { map } from 'rxjs/operators';
 import { MassEditComponent } from '../shared/components/mass-edit/mass-edit.component';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
+
+import { NaturalGalleryComponent } from '@ecodev/angular-natural-gallery';
 
 @Component({
     selector: 'app-list',
