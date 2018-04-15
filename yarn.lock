@@ -205,10 +205,11 @@
     to-fast-properties "^2.0.0"
 
 "@ecodev/angular-natural-gallery@^1.0.0":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@ecodev/angular-natural-gallery/-/angular-natural-gallery-1.0.1.tgz#c8b758170ef53500a07b2d76ad837d68c553d2a6"
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@ecodev/angular-natural-gallery/-/angular-natural-gallery-1.0.2.tgz#ce49f9f6dcb277b79527810ad9a085322b9e396d"
   dependencies:
     "@ecodev/natural-gallery-js" "^3.0.3"
+    tslib "^1.7.1"
 
 "@ecodev/natural-gallery-js@^3.0.3":
   version "3.0.3"
