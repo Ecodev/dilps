@@ -10,7 +10,7 @@ import { ArtistComponent } from '../artists/artist/artist.component';
 import { InstitutionComponent } from '../institutions/institution/institution.component';
 import { ChangeService } from '../changes/services/change.service';
 import { UploadService } from '../shared/services/upload.service';
-import { CardVisibility } from '../shared/generated-types';
+import { CardVisibility, UserRole } from '../shared/generated-types';
 import { CollectionSelectorComponent } from '../shared/components/collection-selector/collection-selector.component';
 import { MatDialog } from '@angular/material';
 import { UserService } from '../users/services/user.service';
@@ -281,6 +281,14 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
         this.router.navigateByUrl('/card/' + card.id);
     }
 
+    public getSuggestAddLabel() {
+        if (this.user.role === UserRole.junior || this.user.role === UserRole.senior) {
+            return 'Soumettre';
+        }
+
+        return 'Suggérer l\'ajout';
+    }
+
     public canSuggestCreate() {
         return this.user && this.model.creator
                && this.model.owner.id === this.user.id
@@ -289,6 +297,7 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     public canSuggestUpdate() {
+        console.log(this.user, this.model.owner);
         return this.user && this.model.owner && this.user.id !== this.model.owner.id || this.model.visibility !== CardVisibility.private;
     }
 

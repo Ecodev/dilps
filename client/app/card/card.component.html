@@ -22,7 +22,7 @@
                     Suggérer la suppression
                 </button>
                 <button mat-menu-item (click)="suggestCreation()" *ngIf="canSuggestCreate()">
-                    Suggérer l'ajout
+                    {{ getSuggestAddLabel() }}
                 </button>
             </mat-menu>
 
@@ -32,13 +32,6 @@
             </mat-menu>
 
             <ng-container *ngIf="!hideTools">
-                <button mat-icon-button
-                        (click)="update()"
-                        matTooltip="Enregistrer"
-                        *ngIf="isEdit() && model.id && model?.permissions?.update"
-                >
-                    <mat-icon>save</mat-icon>
-                </button>
 
                 <button mat-icon-button
                         (click)="toggleEdit()"
@@ -48,17 +41,28 @@
                     <mat-icon>edit</mat-icon>
                 </button>
 
-                <button mat-icon-button (click)="create()" matTooltip="Créer" *ngIf="!model.id && user?.globalPermissions?.card?.create">
-                    <mat-icon>add</mat-icon>
+                <button mat-icon-button
+                        mat-raised-button
+                        color="primary"
+                        (click)="update()"
+                        matTooltip="Enregistrer"
+                        *ngIf="isEdit() && model.id && model?.permissions?.update"
+                >
+                    <mat-icon>save</mat-icon>
                 </button>
 
                 <button mat-icon-button
-                        color="warn"
-                        (click)="confirmDelete()"
-                        matTooltip="Supprimer"
-                        *ngIf="model.id && model?.permissions?.delete"
+                        mat-raised-button
+                        color="primary"
+                        [matMenuTriggerFor]="changeMenu"
+                        matTooltip="Sousmettre"
+                        *ngIf="user && !isEdit()"
                 >
-                    <mat-icon>delete_forever</mat-icon>
+                    <mat-icon>add_alert</mat-icon>
+                </button>
+
+                <button mat-icon-button (click)="create()" matTooltip="Créer" *ngIf="!model.id && user?.globalPermissions?.card?.create">
+                    <mat-icon>add</mat-icon>
                 </button>
 
                 <button mat-icon-button
@@ -69,16 +73,22 @@
                     <mat-icon>spellcheck</mat-icon>
                 </button>
 
+                <button mat-icon-button (click)="download(model)" matTooltip="Télécharger">
+                    <mat-icon>file_download</mat-icon>
+                </button>
+
+
                 <button mat-icon-button (click)="linkToCollection()" matTooltip="Ajouter à une collection" *ngIf="model.id && user">
                     <mat-icon>library_add</mat-icon>
                 </button>
 
-                <button mat-icon-button [matMenuTriggerFor]="changeMenu" matTooltip="Signaler un changement" *ngIf="user">
-                    <mat-icon>add_alert</mat-icon>
-                </button>
-
-                <button mat-icon-button (click)="download(model)" matTooltip="Télécharger">
-                    <mat-icon>file_download</mat-icon>
+                <button mat-icon-button
+                        color="warn"
+                        (click)="confirmDelete()"
+                        matTooltip="Supprimer"
+                        *ngIf="model.id && model?.permissions?.delete"
+                >
+                    <mat-icon>delete_forever</mat-icon>
                 </button>
             </ng-container>
         </mat-toolbar>
@@ -204,15 +214,15 @@
                 </mat-form-field>
 
                 <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.page">
-                    <input [readonly]="!isEdit()" matInput [(ngModel)]="model.page" placeholder="Page" >
+                    <input [readonly]="!isEdit()" matInput [(ngModel)]="model.page" placeholder="Page">
                 </mat-form-field>
 
                 <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.figure">
-                    <input [readonly]="!isEdit()" matInput [(ngModel)]="model.figure" placeholder="Figure" >
+                    <input [readonly]="!isEdit()" matInput [(ngModel)]="model.figure" placeholder="Figure">
                 </mat-form-field>
 
                 <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.table">
-                    <input [readonly]="!isEdit()" matInput [(ngModel)]="model.table" placeholder="Planche" >
+                    <input [readonly]="!isEdit()" matInput [(ngModel)]="model.table" placeholder="Planche">
                 </mat-form-field>
 
                 <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.isbn">
@@ -250,7 +260,6 @@
                 ></app-thesaurus>
 
                 <app-address [(model)]="model" [vertical]="true" [readonly]="!isEdit()"></app-address>
-
 
                 <mat-form-field class="innerSpacing padding-top" *ngIf="isEdit() || !!model.literature">
                     <textarea [readonly]="!isEdit()"

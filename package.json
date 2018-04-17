@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "dev": "yarn codegen && ng serve --port 9382 --open",
+    "dev": "yarn codegen && ng serve --port 4300 --open",
     "prod": "yarn codegen && ng build --aot -prod --build-optimizer false",
     "test": "yarn codegen && ng test",
     "lint": "ng lint",
