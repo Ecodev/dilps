@@ -21,12 +21,8 @@
 
         <ng-container *ngIf="selected?.length">
 
-            <div *ngIf="selected.length === 1" class="mat-body-1">{{ selected.length }} élément sélectionné</div>
-            <div *ngIf="selected.length > 1" class="mat-body-1">{{ selected.length }} éléments sélectionnés</div>
-
-            <button mat-icon-button (click)="gallery.unselectAll()" matTooltip="Désélectionner tout">
-                <mat-icon>select_all</mat-icon>
-            </button>
+            <!--<div *ngIf="selected.length === 1" class="mat-body-1">{{ selected.length }} élément sélectionné</div>-->
+            <!--<div *ngIf="selected.length > 1" class="mat-body-1">{{ selected.length }} éléments sélectionnés</div>-->
 
             <button mat-icon-button (click)="linkSelectionToCollection(selected)" matTooltip="Ajouter à une collection">
                 <mat-icon>library_add</mat-icon>
@@ -71,6 +67,14 @@
                 <mat-icon>burst_mode</mat-icon>
             </button>
         </ng-container>
+
+        <button mat-icon-button (click)="gallery.gallery.unselectAll()" matTooltip="Désélectionner tout" *ngIf="selected?.length">
+            <mat-icon>select_all</mat-icon>
+        </button>
+
+        <button mat-icon-button (click)="gallery.gallery.selectVisibleItems()" matTooltip="Sélectionner les images visibles" *ngIf="!selected?.length">
+            <mat-icon>select_all</mat-icon>
+        </button>
 
     </mat-toolbar>
 

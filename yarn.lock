@@ -204,12 +204,11 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
-"@ecodev/angular-natural-gallery@^1.0.0":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@ecodev/angular-natural-gallery/-/angular-natural-gallery-1.0.2.tgz#ce49f9f6dcb277b79527810ad9a085322b9e396d"
+"@ecodev/angular-natural-gallery@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@ecodev/angular-natural-gallery/-/angular-natural-gallery-2.0.0.tgz#f5ea9828f207eea95574abc562a2f6cbe2471cdb"
   dependencies:
     "@ecodev/natural-gallery-js" "^3.0.3"
-    tslib "^1.7.1"
 
 "@ecodev/natural-gallery-js@^3.0.3":
   version "3.0.3"

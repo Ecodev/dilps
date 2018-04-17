@@ -154,7 +154,6 @@ export class ListComponent implements OnInit {
 
     public select(items) {
         this.selected = items;
-
     }
 
     public reload() {
@@ -189,7 +188,7 @@ export class ListComponent implements OnInit {
         if (!this.sub) {
             this.sub = this.cardSvc.watchAll(this.queryVariables);
             this.sub.valueChanges.subscribe(data => {
-                this.gallery.addItems(this.formatImages(data.items));
+                this.gallery.gallery.addItems(this.formatImages(data.items));
             });
         }
     }
