@@ -60,6 +60,7 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
     public artistComponent = ArtistComponent;
     private uploadSub;
 
+    public institution;
     public user;
 
     @Input()
@@ -100,7 +101,9 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
         } else {
             this.route.params.subscribe(params => {
                 if (params.cardId) {
-                    this.model = merge({}, this.route.snapshot.data['card']);
+                    const card = this.route.snapshot.data['card'];
+                    this.institution = card.institution;
+                    this.model = merge({}, card);
                     this.initCard();
                 } else if (!params.cardId && this.model && this.model.id) {
                     this.initCard();
@@ -297,7 +300,6 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     public canSuggestUpdate() {
-        console.log(this.user, this.model.owner);
         return this.user && this.model.owner && this.user.id !== this.model.owner.id || this.model.visibility !== CardVisibility.private;
     }
 

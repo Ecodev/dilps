@@ -77,7 +77,6 @@
                     <mat-icon>file_download</mat-icon>
                 </button>
 
-
                 <button mat-icon-button (click)="linkToCollection()" matTooltip="Ajouter à une collection" *ngIf="model.id && user">
                     <mat-icon>library_add</mat-icon>
                 </button>
@@ -227,7 +226,13 @@
                                [matTooltip]="!isEdit() ? '' : 'L\'institution où se trouve l\'oeuvre.\n\nL\'institution s\'écrit en principe dans la langue originale du pays.'"
                 ></app-thesaurus>
 
-                <app-address [(model)]="model" [vertical]="true" [readonly]="!isEdit()"></app-address>
+                <app-address [(model)]="institution" [vertical]="true" [readonly]="!isEdit()" *ngIf="!(model.locality || isEdit())"></app-address>
+
+
+                <div *ngIf="model.locality || isEdit()">
+                    <div class="mat-title innerSpacing">Adresse de l'oeuvre</div>
+                    <app-address [(model)]="model" [vertical]="true" [readonly]="!isEdit()"></app-address>
+                </div>
 
                 <mat-form-field class="innerSpacing padding-top" *ngIf="isEdit() || !!model.literature">
                     <textarea [readonly]="!isEdit()"
@@ -240,7 +245,6 @@
                               [matTooltip]="!isEdit() ? '' : 'La source est la référence bibliographique de l\'ouvrage d\'où provient l\'image.\n\nLa notice s\'écrit en principe sur le schéma :\n&quot;Prénom Nom, Titre et sous-titre, Lieu de publication : éditeur, année (première édition).&quot;\n\nNe pas oublier de noter le numéro de page ou de planche correspondant à l\'image.'"
                     ></textarea>
                 </mat-form-field>
-
 
                 <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.page">
                     <input [readonly]="!isEdit()" matInput [(ngModel)]="model.page" placeholder="Page">
@@ -275,7 +279,6 @@
                 </mat-form-field>
 
                 <!-- Don't show related cards if current card has no id : it's required to create a relation-->
-
                 <div *ngIf="!hideCards && model && model.id">
                     <br />
                     <div class="mat-title innerSpacing">Fiches additionnelles</div>
