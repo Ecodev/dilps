@@ -94,7 +94,6 @@ export class RelationsComponent implements OnInit {
 
         this.loadingRemove = true;
         const index = this.items.findIndex(i => i.id === relation.id);
-        console.log('unlink', index, relation.id, this.items.map(i => i.id));
         if (index > -1) {
             this.linkMutationService.unlink(this.main, relation).subscribe(() => {
                 this.items.splice(index, 1);
@@ -113,7 +112,6 @@ export class RelationsComponent implements OnInit {
     public link(relation) {
         this.loadingAdd = true;
         const index = this.items.findIndex(i => i.id === relation.id);
-        console.log('link', index, relation.id, this.items.map(v => v.id));
         if (index === -1) {
             this.linkMutationService.link(this.main, relation).subscribe(() => {
                 this.items.push(relation);
