@@ -205,14 +205,15 @@
     to-fast-properties "^2.0.0"
 
 "@ecodev/angular-natural-gallery@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@ecodev/angular-natural-gallery/-/angular-natural-gallery-2.0.0.tgz#f5ea9828f207eea95574abc562a2f6cbe2471cdb"
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@ecodev/angular-natural-gallery/-/angular-natural-gallery-2.0.1.tgz#cc0e08c75dee35e788ea2b9115011b80148fc89c"
   dependencies:
     "@ecodev/natural-gallery-js" "^3.0.3"
+    tslib "^1.7.1"
 
 "@ecodev/natural-gallery-js@^3.0.3":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@ecodev/natural-gallery-js/-/natural-gallery-js-3.0.3.tgz#703c9e6fa4c9c42362251c644c1c3eea4bf38f21"
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@ecodev/natural-gallery-js/-/natural-gallery-js-3.1.0.tgz#cbad9b56e51e8f17a83af6ec53b561ec926246a3"
   dependencies:
     photoswipe "^4.1.2"
 
