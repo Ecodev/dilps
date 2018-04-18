@@ -59,7 +59,7 @@
                 <mat-icon>library_add</mat-icon>
             </button>
 
-            <button mat-icon-button *ngIf="collection?.id" (click)="downloadCollection(collection)" matTooltip="Télécharger la collection">
+            <button mat-icon-button *ngIf="showDownloadCollection" (click)="downloadCollection(collection)" matTooltip="Télécharger la collection">
                 <mat-icon>file_download</mat-icon>
             </button>
 

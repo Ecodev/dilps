@@ -98,7 +98,10 @@ export const routes: Routes = [
                     {
                         path: ':collectionId',
                         component: ListComponent,
-                        data: {showLogo: false},
+                        data: {
+                            showLogo: false,
+                            showDownloadCollectionForRoles: [UserRole.administrator],
+                        },
                     },
                 ],
             },
@@ -149,8 +152,9 @@ export const routes: Routes = [
                         path: ':collectionId',
                         component: ListComponent,
                         data: {
+                            showDownloadCollectionForRoles: [UserRole.administrator],
                             showLogo: false,
-                            filters: {},
+                            filters: {}
                         },
                     },
                 ],

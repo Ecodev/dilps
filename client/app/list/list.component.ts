@@ -52,6 +52,8 @@ export class ListComponent implements OnInit {
 
     public lastUpload;
 
+    public showDownloadCollection = true;
+
     constructor(private router: Router,
                 private route: ActivatedRoute,
                 private cardSvc: CardService,
@@ -63,7 +65,11 @@ export class ListComponent implements OnInit {
 
     ngOnInit() {
 
-        this.userSvc.getCurrentUser().subscribe(user => this.user = user);
+        this.userSvc.getCurrentUser().subscribe(user => {
+            this.user = user;
+            this.updateShowDownloadCollection();
+
+        });
 
         this.route.params.subscribe(params => {
 
@@ -84,6 +90,7 @@ export class ListComponent implements OnInit {
         this.route.data.subscribe(data => {
 
             this.showLogo = data.showLogo;
+            this.updateShowDownloadCollection();
 
             const filters: Literal = {hasImage: true};
 
@@ -106,6 +113,13 @@ export class ListComponent implements OnInit {
             zoomRotation: false,
         };
 
+    }
+
+    public updateShowDownloadCollection() {
+        const roles = this.route.snapshot.data.showDownloadCollectionForRoles;
+        const roleIsAllowed = this.user && this.user.role && (!roles || roles && roles.indexOf(this.user.role) > -1);
+        const hasCollection = this.collection && this.collection.id;
+        this.showDownloadCollection = hasCollection && roleIsAllowed;
     }
 
     private formatImages(cards) {
