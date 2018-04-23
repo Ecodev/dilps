@@ -4,18 +4,18 @@
 --
 -- Typical usage would be:
 --
---     more bin/generate-script-to-migrate-files.sql | mysql -u dilps -p dilps
+--     more bin/generate-script-to-migrate-files.sql | mysql --raw -u dilps -p dilps
 
 SELECT CONCAT(
            'mv "',
            ng_img_base.base,
            '/',
-           REPLACE(filename, "\\'", "'"),
+           REPLACE(REPLACE(filename, "\\'", "'"), "$", "\\$"),
            '" ',
            '"data/images/',
            ng_img.collectionid,
            imageid,
-           REPLACE(filename, "\\'", "'"),
+           REPLACE(REPLACE(filename, "\\'", "'"), "$", "\\$"),
            '"'
        ) AS '#!/usr/bin/env bash'
 FROM ng_img
