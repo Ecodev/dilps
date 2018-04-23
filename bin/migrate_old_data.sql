@@ -1,4 +1,4 @@
--- This scripts will migrate from the old data structure to the new one.
+-- This script will migrate from the old data structure to the new one.
 -- It assumes that old tables and new tables are in the same database, side-by-side.
 -- New tables must already exists and be up-to-date.
 --

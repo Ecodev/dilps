@@ -40,4 +40,24 @@ abstract class Utility
 
         return $reflect->getShortName();
     }
+
+    /**
+     * Print a list of files if non empty
+     *
+     * @param string $title
+     * @param array $files
+     */
+    public static function printFiles(string $title, array $files): void
+    {
+        if (!$files) {
+            return;
+        }
+
+        echo $title . PHP_EOL . PHP_EOL;
+
+        foreach ($files as $file) {
+            echo '    ' . escapeshellarg($file) . PHP_EOL;
+        }
+        echo PHP_EOL;
+    }
 }

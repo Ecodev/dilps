@@ -103,4 +103,20 @@ class CardRepository extends AbstractRepository implements LimitedAccessSubQuery
 
         return $qb->getSQL();
     }
+
+    /**
+     * Returns all unique filename in DB
+     *
+     * @return string[]
+     */
+    public function getFilenames(): array
+    {
+        $filenames = $this->getEntityManager()->getConnection()->createQueryBuilder()
+            ->from('card')
+            ->select('DISTINCT CONCAT("data/images/", filename)')
+            ->where('filename != ""')
+            ->orderBy('filename')->execute()->fetchAll(\PDO::FETCH_COLUMN);
+
+        return $filenames;
+    }
 }

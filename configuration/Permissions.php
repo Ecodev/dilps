@@ -28,6 +28,10 @@ return [
         'permissions' => '0770',
     ],
     [
+        'path' => 'bin/check-files.php',
+        'permissions' => '0770',
+    ],
+    [
         'path' => 'bin/dump-data.php',
         'permissions' => '0770',
     ],
