@@ -16,7 +16,7 @@ class SuggestCreation implements FieldInterface
     {
         return [
             'name' => 'suggestCreation',
-            'type' => Type::nonNull(_types()->get(Change::class)),
+            'type' => Type::nonNull(_types()->getOutput(Change::class)),
             'description' => 'Suggest the creation of a new image',
             'args' => [
                 'id' => Type::nonNull(_types()->getId(Card::class)),

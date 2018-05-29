@@ -31,7 +31,7 @@
         "beberlei/DoctrineExtensions": "^1.0",
         "dasprid/container-interop-doctrine": "^1.0",
         "doctrine/migrations": "^1.6",
-        "ecodev/graphql-doctrine": "^1.0",
+        "ecodev/graphql-doctrine": "^3.0",
         "ecodev/graphql-upload": "^2.0",
         "imagine/imagine": "^0.7.1",
         "phpoffice/phppresentation": "^0.9.0",

@@ -15,7 +15,7 @@ class ValidateData implements FieldInterface
     {
         return [
             'name' => 'validateData',
-            'type' => Type::nonNull(_types()->get(Card::class)),
+            'type' => Type::nonNull(_types()->getOutput(Card::class)),
             'description' => 'Mark the data of the card as validated now by current user',
             'args' => [
                 'id' => Type::nonNull(_types()->getId(Card::class)),

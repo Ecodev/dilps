@@ -15,7 +15,7 @@ class ValidateImage implements FieldInterface
     {
         return [
             'name' => 'validateImage',
-            'type' => Type::nonNull(_types()->get(Card::class)),
+            'type' => Type::nonNull(_types()->getOutput(Card::class)),
             'description' => 'Mark the image of the card as validated now by current user',
             'args' => [
                 'id' => Type::nonNull(_types()->getId(Card::class)),

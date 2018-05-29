@@ -16,7 +16,7 @@ class SuggestDeletion implements FieldInterface
     {
         return [
             'name' => 'suggestDeletion',
-            'type' => Type::nonNull(_types()->get(Change::class)),
+            'type' => Type::nonNull(_types()->getOutput(Change::class)),
             'description' => 'Suggest the deletion of an existing image',
             'args' => [
                 'id' => Type::nonNull(_types()->getId(Card::class)),

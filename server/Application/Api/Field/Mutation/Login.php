@@ -17,7 +17,7 @@ abstract class Login implements FieldInterface
     {
         return [
             'name' => 'login',
-            'type' => Type::nonNull(_types()->get(User::class)),
+            'type' => Type::nonNull(_types()->getOutput(User::class)),
             'description' => 'Log in a user',
             'args' => [
                 'login' => Type::nonNull(_types()->get(LoginType::class)),

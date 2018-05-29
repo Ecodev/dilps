@@ -17,7 +17,7 @@ class AcceptChange implements FieldInterface
     {
         return [
             'name' => 'acceptChange',
-            'type' => _types()->get(Card::class),
+            'type' => _types()->getOutput(Card::class),
             'description' => 'Accept the change and return the modified Image, unless if it has been deleted',
             'args' => [
                 'id' => Type::nonNull(_types()->getId(Change::class)),

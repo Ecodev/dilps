@@ -15,7 +15,7 @@ class LinkCollectionToCollection implements FieldInterface
     {
         return [
             'name' => 'linkCollectionToCollection',
-            'type' => Type::nonNull(_types()->get(Collection::class)),
+            'type' => Type::nonNull(_types()->getOutput(Collection::class)),
             'description' => 'This will link all images from the source collection to the target collection. The returned collection is the target',
             'args' => [
                 'sourceCollection' => Type::nonNull(_types()->getId(Collection::class)),

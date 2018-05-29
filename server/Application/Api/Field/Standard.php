@@ -8,7 +8,6 @@ use Application\Api\Enum\OrderType;
 use Application\Api\Helper;
 use Application\Api\Input\Filter\Filters;
 use Application\Api\Input\PaginationInputType;
-use Application\Api\Output\PaginationType;
 use Application\Model\AbstractModel;
 use Application\Model\Card;
 use Application\Model\Collection;
@@ -31,6 +30,7 @@ abstract class Standard
     {
         $reflect = new ReflectionClass($class);
         $name = lcfirst($reflect->getShortName());
+        $shortName = $reflect->getShortName();
         $plural = self::makePlural($name);
 
         $listArgs = self::getListArguments($class, $name);
@@ -39,7 +39,7 @@ abstract class Standard
         return [
             [
                 'name' => $plural,
-                'type' => PaginationType::build($class),
+                'type' => _types()->get($shortName . 'Pagination'),
                 'args' => $listArgs,
                 'resolve' => function ($root, array $args) use ($class): array {
                     $queryArgs = [$args['filters'] ?? []];
@@ -54,7 +54,7 @@ abstract class Standard
             ],
             [
                 'name' => $name,
-                'type' => _types()->get($class),
+                'type' => _types()->getOutput($class),
                 'args' => $singleArgs,
                 'resolve' => function ($root, array $args): ?AbstractModel {
                     $object = $args['id']->getEntity();
@@ -84,7 +84,7 @@ abstract class Standard
         return [
             [
                 'name' => 'create' . $name,
-                'type' => Type::nonNull(_types()->get($class)),
+                'type' => Type::nonNull(_types()->getOutput($class)),
                 'description' => 'Create a new ' . $name,
                 'args' => [
                     'input' => Type::nonNull(_types()->getInput($class)),
@@ -105,7 +105,7 @@ abstract class Standard
             ],
             [
                 'name' => 'update' . $name,
-                'type' => Type::nonNull(_types()->get($class)),
+                'type' => Type::nonNull(_types()->getOutput($class)),
                 'description' => 'Update an existing ' . $name,
                 'args' => [
                     'id' => Type::nonNull(_types()->getId($class)),
@@ -184,7 +184,7 @@ abstract class Standard
         return [
             [
                 'name' => 'link' . $ownerName . $otherName,
-                'type' => Type::nonNull(_types()->get($ownerClass)),
+                'type' => Type::nonNull(_types()->getOutput($ownerClass)),
                 'description' => 'Create a relation between ' . $ownerName . ' and ' . $otherName . '.' . PHP_EOL . PHP_EOL .
                     'If the relation already exists, it will have no effect.',
                 'args' => $args,
@@ -209,7 +209,7 @@ abstract class Standard
             ],
             [
                 'name' => 'unlink' . $ownerName . $otherName,
-                'type' => Type::nonNull(_types()->get($ownerClass)),
+                'type' => Type::nonNull(_types()->getOutput($ownerClass)),
                 'description' => 'Delete a relation between ' . $ownerName . ' and ' . $otherName . '.' . PHP_EOL . PHP_EOL .
                     'If the relation does not exist, it will have no effect.',
                 'args' => $args,

@@ -8,12 +8,7 @@ use GraphQL\Type\Definition\ObjectType;
 
 class PaginationType extends ObjectType
 {
-    public static function build(string $class)
-    {
-        return new self($class);
-    }
-
-    public function __construct(string $class)
+    public function __construct(string $class, string $name)
     {
         $c = new \ReflectionClass($class);
         $s = $c->getShortName();
@@ -41,7 +36,7 @@ class PaginationType extends ObjectType
                         'description' => 'The length of the total number of items that are being paginated',
                     ],
                     'items' => [
-                        'type' => self::nonNull(self::listOf(_types()->get($class))),
+                        'type' => self::nonNull(self::listOf(self::nonNull(_types()->getOutput($class)))),
                         'description' => 'Paginated items',
                     ],
                 ];

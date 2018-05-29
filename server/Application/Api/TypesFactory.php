@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace Application\Api;
 
-use Application\Api\Output\GlobalPermissionsListType;
-use Application\Api\Output\GlobalPermissionsType;
-use Application\Api\Output\PermissionsType;
-use Application\Api\Scalar\DateTimeType;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManager;
 use GraphQL\Doctrine\Types;
 use Interop\Container\ContainerInterface;
+use Zend\ServiceManager\ServiceManager;
 
 class TypesFactory
 {
@@ -19,14 +15,54 @@ class TypesFactory
     {
         $entityManager = $container->get(EntityManager::class);
 
-        $mapping = [
-            DateTimeImmutable::class => DateTimeType::class,
-            PermissionsType::class => PermissionsType::class,
-            GlobalPermissionsType::class => GlobalPermissionsType::class,
-            GlobalPermissionsListType::class => GlobalPermissionsListType::class,
+        $invokables = [
+            \Application\Api\Enum\CardVisibilityType::class,
+            \Application\Api\Enum\ChangeTypeType::class,
+            \Application\Api\Enum\CollectionVisibilityType::class,
+            \Application\Api\Enum\OrderType::class,
+            \Application\Api\Enum\UserRoleType::class,
+            \Application\Api\Enum\UserTypeType::class,
+            \Application\Api\Input\Filter\ArtistFilterType::class,
+            \Application\Api\Input\Filter\CardFilterType::class,
+            \Application\Api\Input\Filter\CollectionFilterType::class,
+            \Application\Api\Input\Filter\InstitutionFilterType::class,
+            \Application\Api\Input\Filter\UserFilterType::class,
+            \Application\Api\Input\PaginationInputType::class,
+            \Application\Api\MutationType::class,
+            \Application\Api\Output\GlobalPermissionsListType::class,
+            \Application\Api\Output\GlobalPermissionsType::class,
+            \Application\Api\Output\PermissionsType::class,
+            \Application\Api\QueryType::class,
+            \Application\Api\Scalar\DateTimeType::class,
+            \Application\Api\Scalar\LoginType::class,
+            \GraphQL\Upload\UploadType::class,
         ];
 
-        $types = new Types($entityManager, $mapping);
+        $aliases = [
+            \DateTimeImmutable::class => \Application\Api\Scalar\DateTimeType::class,
+        ];
+
+        // Automatically add aliases for GraphQL type name from the invokable types
+        foreach ($invokables as $type) {
+            $parts = explode('\\', $type);
+            $alias = preg_replace('~Type$~', '', end($parts));
+            $aliases[$alias] = $type;
+        }
+
+        $customTypes = new ServiceManager([
+            'invokables' => $invokables,
+            'aliases' => $aliases,
+            'services' => [
+//                // This is not quite right because it allow to compare a string with a json array.
+//                // TODO: either hide the json_array filter or find a cleaner solution
+//                'json_array' => GraphQL\Type\Definition\Type::string(),
+            ],
+            'abstract_factories' => [
+                \Application\Api\Output\PaginationTypeFactory::class,
+            ],
+        ]);
+
+        $types = new Types($entityManager, $customTypes);
 
         return $types;
     }
