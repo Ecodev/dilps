@@ -2,8 +2,8 @@ import gql from 'graphql-tag';
 import { userMetaFragment } from '../../shared/queries/fragments';
 
 export const collectionsQuery = gql`
-query Collections($filters : CollectionFilter, $pagination: PaginationInput) {
-    collections(filters : $filters, pagination: $pagination) {
+query Collections($filters: OldCollectionFilter, $pagination: PaginationInput) {
+    collections(filters: $filters, pagination: $pagination) {
         items {
             id
             name
@@ -70,7 +70,7 @@ mutation CreateCollection ($input: CollectionInput!) {
 }${userMetaFragment}`;
 
 export const updateCollectionMutation = gql`
-mutation UpdateCollection($id: CollectionID!, $input: CollectionInput!) {
+mutation UpdateCollection($id: CollectionID!, $input: CollectionPartialInput!) {
     updateCollection(id: $id, input: $input) {
         updateDate
         updater {

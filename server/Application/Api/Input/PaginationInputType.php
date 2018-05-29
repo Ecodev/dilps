@@ -36,7 +36,7 @@ class PaginationInputType extends InputObjectType
                         'description' => 'The zero-based page index of the displayed list of items',
                     ],
                     'pageSize' => [
-                        'type' => self::nonNull(self::int()),
+                        'type' => self::int(),
                         'description' => 'Number of items to display on a page',
                     ],
                 ];

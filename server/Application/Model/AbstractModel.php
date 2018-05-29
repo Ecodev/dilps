@@ -17,6 +17,10 @@ use GraphQL\Doctrine\Annotation as API;
  *
  * @ORM\MappedSuperclass
  * @ORM\HasLifecycleCallbacks
+ * @API\Filters({
+ *     @API\Filter(field="custom", operator="Application\Api\Input\Operator\SearchOperatorType", type="string"),
+ * })
+ * @API\Sorting({"Application\Api\Input\Sorting\Random"})
  */
 abstract class AbstractModel
 {

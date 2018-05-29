@@ -43,7 +43,7 @@ class CardRepositoryTest extends AbstractRepositoryTest
     public function testRandom(): void
     {
         User::setCurrent(_em()->getReference(User::class, 1000));
-        $result = $this->repository->getFindAllQuery([], 'random')->getQuery()->getResult();
+        $result = $this->repository->getFindAllQuery([], [['field' => 'random', 'order' => 'ASC']])->getQuery()->getResult();
         self::assertCount(7, $result);
     }
 }

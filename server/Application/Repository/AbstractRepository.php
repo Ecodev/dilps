@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Application\Repository;
 
+use Application\Api\Input\Sorting\Random;
 use Application\ORM\Query\Filter\AclFilter;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
 abstract class AbstractRepository extends EntityRepository
 {
-    public function getFindAllQuery(array $filters = [], string $sort = 'id', string $order = 'ASC'): QueryBuilder
+    public function getFindAllQuery(array $filters = [], array $sorting = []): QueryBuilder
     {
         $reflect = $this->getClassMetadata()->getReflectionClass();
         $name = lcfirst($reflect->getShortName());
@@ -20,9 +21,21 @@ abstract class AbstractRepository extends EntityRepository
             $qb->andWhere($name . '.' . $key . '=' . $this->getEntityManager()->getConnection()->quote($value));
         }
 
-        $qb->addOrderBy($sort, $order);
+        $this->applySorting($qb, $name, $sorting);
 
         return $qb;
+    }
+
+    protected function applySorting(QueryBuilder $qb, string $alias, array $sorting): void
+    {
+        foreach ($sorting as $sort) {
+            if ($sort['field'] === 'random') {
+                $random = new Random();
+                $random($qb, $sort['order']);
+            } else {
+                $qb->addOrderBy($alias . '.' . $sort['field'], $sort['order']);
+            }
+        }
     }
 
     /**

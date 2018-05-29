@@ -22,11 +22,11 @@ class TypesFactory
             \Application\Api\Enum\OrderType::class,
             \Application\Api\Enum\UserRoleType::class,
             \Application\Api\Enum\UserTypeType::class,
-            \Application\Api\Input\Filter\ArtistFilterType::class,
-            \Application\Api\Input\Filter\CardFilterType::class,
-            \Application\Api\Input\Filter\CollectionFilterType::class,
-            \Application\Api\Input\Filter\InstitutionFilterType::class,
-            \Application\Api\Input\Filter\UserFilterType::class,
+            \Application\Api\Input\Filter\OldArtistFilterType::class,
+            \Application\Api\Input\Filter\OldCardFilterType::class,
+            \Application\Api\Input\Filter\OldCollectionFilterType::class,
+            \Application\Api\Input\Filter\OldInstitutionFilterType::class,
+            \Application\Api\Input\Filter\OldUserFilterType::class,
             \Application\Api\Input\PaginationInputType::class,
             \Application\Api\MutationType::class,
             \Application\Api\Output\GlobalPermissionsListType::class,
@@ -40,6 +40,7 @@ class TypesFactory
 
         $aliases = [
             \DateTimeImmutable::class => \Application\Api\Scalar\DateTimeType::class,
+            'datetime_immutable' => \Application\Api\Scalar\DateTimeType::class,
         ];
 
         // Automatically add aliases for GraphQL type name from the invokable types

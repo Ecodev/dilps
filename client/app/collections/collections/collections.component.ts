@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material';
 import { CollectionComponent } from '../collection/collection.component';
 import { Literal } from '../../shared/types';
 import { UserService } from '../../users/services/user.service';
-import { UserRole } from '../../shared/generated-types';
+import { CollectionsQueryVariables, UserRole } from '../../shared/generated-types';
 import { isArray } from 'lodash';
 
 @Component({
@@ -17,7 +17,7 @@ import { isArray } from 'lodash';
 export class CollectionsComponent implements OnInit {
 
     public collections = [];
-    private queryVariables = new IncrementSubject({});
+    private queryVariables = new IncrementSubject<CollectionsQueryVariables>();
 
     /**
      * Show "unclassified" category on the top of the page

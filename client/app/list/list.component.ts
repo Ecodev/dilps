@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CardService } from '../card/services/card.service';
 import { clone, defaults, isArray, isString, merge, pickBy } from 'lodash';
 import { DownloadComponent } from '../shared/components/download/download.component';
+import { CardSortingField, CardsQueryVariables } from '../shared/generated-types';
 import { IncrementSubject } from '../shared/services/increment-subject';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { MatDialog } from '@angular/material';
@@ -40,7 +41,7 @@ export class ListComponent implements OnInit {
     private enlargedHeight = 2000;
     private sub;
 
-    private queryVariables = new IncrementSubject({});
+    private queryVariables = new IncrementSubject<CardsQueryVariables>();
 
     private firstPagination;
 
@@ -283,7 +284,7 @@ export class ListComponent implements OnInit {
             }).afterClosed().subscribe(number => {
                 if (number > 0) {
                     const quizzVars = this.queryVariables.pipe(map(options => {
-                        options.sort = 'random';
+                        options.sorting = [{field: CardSortingField.random}];
                         options.pagination.pageIndex = 0;
                         options.pagination.pageSize = number;
                         return options;

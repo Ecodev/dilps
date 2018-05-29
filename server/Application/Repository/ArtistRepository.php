@@ -9,13 +9,13 @@ use Doctrine\ORM\QueryBuilder;
 
 class ArtistRepository extends AbstractRepository
 {
-    public function getFindAllQuery(array $filters = [], string $sort = 'artist.id', string $order = 'ASC'): QueryBuilder
+    public function getFindAllQuery(array $filters = [], array $sorting = []): QueryBuilder
     {
         $qb = $this->createQueryBuilder('artist');
 
         $this->addSearch($qb, $filters['search'] ?? '', ['artist.name']);
 
-        $qb->addOrderBy($sort, $order);
+        $this->applySorting($qb, 'artist', $sorting);
 
         return $qb;
     }

@@ -9,13 +9,13 @@ use Doctrine\ORM\QueryBuilder;
 
 class InstitutionRepository extends AbstractRepository
 {
-    public function getFindAllQuery(array $filters = [], string $sort = 'institution.id', string $order = 'ASC'): QueryBuilder
+    public function getFindAllQuery(array $filters = [], array $sorting = []): QueryBuilder
     {
         $qb = $this->createQueryBuilder('institution');
 
         $this->addSearch($qb, $filters['search'] ?? '', ['institution.name', 'institution.locality']);
 
-        $qb->addOrderBy($sort, $order);
+        $this->applySorting($qb, 'institution', $sorting);
 
         return $qb;
     }

@@ -6,27 +6,27 @@ namespace Application\Api\Input\Filter;
 
 use GraphQL\Type\Definition\InputObjectType;
 
-class CollectionFilterType extends InputObjectType
+class OldCardFilterType extends InputObjectType
 {
     public function __construct()
     {
         $config = [
             'fields' => function (): array {
                 return [
-                    'creators' => [
-                        'type' => self::listOf(self::nonNull(self::id())),
-                    ],
-                    'parents' => [
-                        'type' => self::listOf(self::nonNull(self::id())),
-                    ],
-                    'isSource' => [
-                        'type' => self::boolean(),
-                    ],
                     'search' => [
                         'type' => self::string(),
                     ],
-                    'visibilities' => [
-                        'type' => self::listOf(self::nonNull(self::string())),
+                    'ids' => [
+                        'type' => self::listOf(self::nonNull(self::id())),
+                    ],
+                    'collections' => [
+                        'type' => self::listOf(self::nonNull(self::id())),
+                    ],
+                    'creators' => [
+                        'type' => self::listOf(self::nonNull(self::id())),
+                    ],
+                    'hasImage' => [
+                        'type' => self::boolean(),
                     ],
                 ];
             },

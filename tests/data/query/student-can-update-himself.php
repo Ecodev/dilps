@@ -6,7 +6,7 @@ use Application\Model\User;
 
 return [
     [
-        'query' => 'mutation ($inputUser: UserInput!) {
+        'query' => 'mutation ($inputUser: UserPartialInput!) {
             updateUser(id: 1003 input: $inputUser) {
                 id
                 login

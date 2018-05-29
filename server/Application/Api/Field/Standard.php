@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Application\Api\Field;
 
-use Application\Api\Enum\OrderType;
+use Application\Api\Exception;
 use Application\Api\Helper;
 use Application\Api\Input\Filter\Filters;
 use Application\Api\Input\PaginationInputType;
 use Application\Model\AbstractModel;
 use Application\Model\Card;
 use Application\Model\Collection;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use GraphQL\Type\Definition\Type;
 use ReflectionClass;
 
@@ -28,12 +29,13 @@ abstract class Standard
      */
     public static function buildQuery(string $class): array
     {
-        $reflect = new ReflectionClass($class);
+        $metadata = _em()->getClassMetadata($class);
+        $reflect = $metadata->getReflectionClass();
         $name = lcfirst($reflect->getShortName());
         $shortName = $reflect->getShortName();
         $plural = self::makePlural($name);
 
-        $listArgs = self::getListArguments($class, $name);
+        $listArgs = self::getListArguments($metadata, $class, $name);
         $singleArgs = self::getSingleArguments($class);
 
         return [
@@ -42,12 +44,19 @@ abstract class Standard
                 'type' => _types()->get($shortName . 'Pagination'),
                 'args' => $listArgs,
                 'resolve' => function ($root, array $args) use ($class): array {
-                    $queryArgs = [$args['filters'] ?? []];
-                    $queryArgs[] = $args['sort'];
-                    $queryArgs[] = $args['order'];
+                    if (($args['filters'] ?? false) && ($args['filter'] ?? false)) {
+                        throw new Exception('Cannot use `filter` and `filters` at the same time');
+                    }
+                    if ($args['filters'] ?? false) {
+                        $queryArgs = [$args['filters'] ?? []];
+                        $queryArgs[] = $args['sorting'];
 
-                    $query = _em()->getRepository($class)->getFindAllQuery(...$queryArgs);
-                    $result = Helper::paginate($args['pagination'], $query);
+                        $qb = _em()->getRepository($class)->getFindAllQuery(...$queryArgs);
+                    } else {
+                        $qb = _types()->createFilteredQueryBuilder($class, $args['filter'] ?? [], $args['sorting'] ?? []);
+                    }
+
+                    $result = Helper::paginate($args['pagination'], $qb);
 
                     return $result;
                 },
@@ -109,7 +118,7 @@ abstract class Standard
                 'description' => 'Update an existing ' . $name,
                 'args' => [
                     'id' => Type::nonNull(_types()->getId($class)),
-                    'input' => Type::nonNull(_types()->getInput($class)),
+                    'input' => Type::nonNull(_types()->getPartialInput($class)),
                 ],
                 'resolve' => function ($root, array $args) use ($lowerName): AbstractModel {
                     $object = $args['id']->getEntity();
@@ -283,36 +292,27 @@ abstract class Standard
      *
      * @return array
      */
-    private static function getListArguments(string $class, string $name): array
+    private static function getListArguments(ClassMetadata $class, string $classs, string $name): array
     {
-        $listArgs = [];
-        $filters = Filters::build($class);
-        if ($filters) {
-            $listArgs[] = $filters;
-        }
-
-        $defaultSort = $name . '.id';
-        $defaultOrder = 'ASC';
-        if ($class === Collection::class) {
-            $defaultSort = 'collection.name';
-        } elseif ($class === Card::class) {
-            $defaultSort = 'card.creationDate';
-            $defaultOrder = 'DESC';
-        }
-
-        $listArgs[] = [
-            'name' => 'sort',
-            'type' => Type::string(),
-            'description' => 'Field to sort by, eg: `user.name`, `collection.id`',
-            'defaultValue' => $defaultSort,
+        $listArgs = [
+            [
+                'name' => 'filter',
+                'type' => _types()->getFilter($class->getName()),
+            ],
+            [
+                'name' => 'sorting',
+                'type' => _types()->getSorting($class->getName()),
+                'defaultValue' => self::getDefaultSorting($class),
+            ],
         ];
 
-        $listArgs[] = [
-            'name' => 'order',
-            'type' => _types()->get(OrderType::class),
-            'description' => 'Order sort by, either: `ASC` or `DESC`',
-            'defaultValue' => $defaultOrder,
-        ];
+        $filterTypeClass = 'Old' . $class->getReflectionClass()->getShortName() . 'Filter';
+        if (_types()->has($filterTypeClass)) {
+            $listArgs[] = [
+                'name' => 'filters',
+                'type' => _types()->get($filterTypeClass),
+            ];
+        }
 
         $listArgs[] = PaginationInputType::build();
 
@@ -333,5 +333,35 @@ abstract class Standard
         ];
 
         return $args;
+    }
+
+    /**
+     * Get default sorting values with some fallback for some special cases
+     *
+     * @param ClassMetadata $class
+     *
+     * @return array
+     */
+    private static function getDefaultSorting(ClassMetadata $class): array
+    {
+        $defaultSorting = [];
+        if ($class->getName() === Card::class) {
+            $defaultSorting[] = [
+                'field' => 'creationDate',
+                'order' => 'DESC',
+            ];
+        } elseif ($class->getName() === Collection::class) {
+            $defaultSorting[] = [
+                'field' => 'name',
+                'order' => 'ASC',
+            ];
+        }
+
+        $defaultSorting[] = [
+            'field' => 'id',
+            'order' => 'ASC',
+        ];
+
+        return $defaultSorting;
     }
 }

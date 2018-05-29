@@ -6,7 +6,7 @@ namespace Application\Api\Input\Filter;
 
 use GraphQL\Type\Definition\InputObjectType;
 
-class UserFilterType extends InputObjectType
+class OldUserFilterType extends InputObjectType
 {
     public function __construct()
     {

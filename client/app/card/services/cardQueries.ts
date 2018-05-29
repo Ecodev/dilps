@@ -96,8 +96,8 @@ fragment cardDetails on Card {
 }${userMetaFragment}`;
 
 export const cardsQuery = gql`
-query Cards($filters: CardFilter, $pagination: PaginationInput, $sort: String) {
-    cards(filters: $filters, pagination: $pagination, sort: $sort) {
+query Cards($filters: OldCardFilter, $pagination: PaginationInput, $sorting: [CardSorting!]) {
+    cards(filters: $filters, pagination: $pagination, sorting: $sorting) {
         items {
             ...cardDetails
         }
@@ -126,7 +126,7 @@ mutation CreateCard ($input: CardInput!) {
 }${userMetaFragment}`;
 
 export const updateCardMutation = gql`
-mutation UpdateCard($id: CardID!, $input: CardInput!) {
+mutation UpdateCard($id: CardID!, $input: CardPartialInput!) {
     updateCard(id: $id, input: $input) {
         updateDate
         updater {

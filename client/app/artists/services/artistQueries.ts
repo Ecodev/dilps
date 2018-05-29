@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 import { userMetaFragment } from '../../shared/queries/fragments';
 
 export const artistsQuery = gql`
-query Artists($filters: ArtistFilter, $pagination: PaginationInput) {
+query Artists($filters: OldArtistFilter, $pagination: PaginationInput) {
     artists(filters: $filters, pagination: $pagination) {
         items {
             id
@@ -46,7 +46,7 @@ mutation CreateArtist ($input: ArtistInput!) {
 }${userMetaFragment}`;
 
 export const updateArtistMutation = gql`
-mutation UpdateArtist($id: ArtistID!, $input: ArtistInput!) {
+mutation UpdateArtist($id: ArtistID!, $input: ArtistPartialInput!) {
     updateArtist(id: $id, input: $input) {
         updateDate
         updater {

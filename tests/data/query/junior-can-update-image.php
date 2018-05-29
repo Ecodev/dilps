@@ -7,7 +7,7 @@ use Zend\Diactoros\UploadedFile;
 
 return [
     [
-        'query' => 'mutation ($inputCard: CardInput!) {
+        'query' => 'mutation ($inputCard: CardPartialInput!) {
             updateCard(id: 6006 input: $inputCard) {
                 name
                 fileSize

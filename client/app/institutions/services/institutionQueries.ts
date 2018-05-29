@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 import { userMetaFragment } from '../../shared/queries/fragments';
 
 export const institutionsQuery = gql`
-query Institutions($filters: InstitutionFilter, $pagination: PaginationInput) {
+query Institutions($filters: OldInstitutionFilter, $pagination: PaginationInput) {
     institutions(filters: $filters, pagination: $pagination) {
         items {
             id
@@ -57,7 +57,7 @@ mutation CreateInstitution ($input: InstitutionInput!) {
 }${userMetaFragment}`;
 
 export const updateInstitutionMutation = gql`
-mutation UpdateInstitution($id: InstitutionID!, $input: InstitutionInput!) {
+mutation UpdateInstitution($id: InstitutionID!, $input: InstitutionPartialInput!) {
     updateInstitution(id: $id, input: $input) {
         updateDate
         updater {

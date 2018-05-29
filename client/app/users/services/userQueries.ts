@@ -29,7 +29,7 @@ fragment userDetails on User {
 }${userMetaFragment}`;
 
 export const usersQuery = gql`
-query Users($filters: UserFilter, $pagination: PaginationInput) {
+query Users($filters: OldUserFilter, $pagination: PaginationInput) {
     users(filters: $filters, pagination: $pagination) {
         items {
             id
@@ -64,7 +64,7 @@ mutation CreateUser ($input: UserInput!) {
 }${userMetaFragment}`;
 
 export const updateUserMutation = gql`
-mutation UpdateUser($id: UserID!, $input: UserInput!) {
+mutation UpdateUser($id: UserID!, $input: UserPartialInput!) {
     updateUser(id: $id, input: $input) {
         updateDate
         updater {
