@@ -107,7 +107,7 @@ export class LoginComponent implements OnInit, OnDestroy {
      * Redirect to home or redirect URL from GET params
      */
     private redirect(): void {
-        this.router.navigate([this.returnUrl || '/']);
+        this.router.navigateByUrl(this.returnUrl || '/');
     }
 
 }
