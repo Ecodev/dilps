@@ -52,11 +52,21 @@
                 </button>
 
                 <button mat-icon-button
-                        mat-raised-button
+                        mat-button
                         color="primary"
                         [matMenuTriggerFor]="changeMenu"
-                        matTooltip="Sousmettre"
-                        *ngIf="user && !isEdit()"
+                        matTooltip="Soumettre"
+                        *ngIf="user && !isEdit() && (canSuggestUpdate() || canSuggestDelete())"
+                >
+                    <mat-icon>add_alert</mat-icon>
+                </button>
+
+                <button mat-icon-button
+                        mat-button
+                        color="primary"
+                        (click)="suggestCreation()"
+                        matTooltip="Soumettre"
+                        *ngIf="user && !isEdit() && !canSuggestUpdate() && !canSuggestDelete() && canSuggestCreate()"
                 >
                     <mat-icon>add_alert</mat-icon>
                 </button>
