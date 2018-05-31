@@ -13,6 +13,11 @@ import { InstitutionComponent } from '../institution/institution.component';
 })
 export class InstitutionsComponent extends AbstractList {
 
+    public displayedColumns = [
+        'name',
+        'locality',
+    ];
+
     constructor(service: InstitutionService,
                 router: Router,
                 route: ActivatedRoute,
