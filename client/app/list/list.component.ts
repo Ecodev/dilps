@@ -141,9 +141,10 @@ export class ListComponent implements OnInit {
             };
 
             let title = card.name ? card.name : null;
-            if (card.artists && card.artists.length) {
-                title += title ? ', ' + card.artists[0].name : card.artists[0].name;
-            }
+
+            card.artists.forEach(artist => {
+                title += ', ' + artist.name;
+            });
 
             const fields: any = {
                 title: title ? title : 'Voir le détail',
