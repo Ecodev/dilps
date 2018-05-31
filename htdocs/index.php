@@ -12,20 +12,21 @@ chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
 
 // Self-called anonymous function that creates its own scope and keep the global namespace clean.
-call_user_func(function (): void {
-    /** @var \Interop\Container\ContainerInterface $container */
+(function (): void {
+    /** @var \Psr\Container\ContainerInterface $container */
     $container = require 'config/container.php';
 
     /** @var \Zend\Expressive\Application $app */
     $app = $container->get(\Zend\Expressive\Application::class);
+    $factory = $container->get(\Zend\Expressive\MiddlewareFactory::class);
 
-    // Import programmatic/declarative middleware pipeline and routing
+    // Execute programmatic/declarative middleware pipeline and routing
     // configuration statements
-    require 'config/pipeline.php';
-    require 'config/routes.php';
+    (require 'config/pipeline.php')($app, $factory, $container);
+    (require 'config/routes.php')($app, $factory, $container);
 
     // we only run the application if this file was NOT included (otherwise, the file was included to access misc functions)
     if (realpath(__FILE__) === realpath($_SERVER['SCRIPT_FILENAME'])) {
         $app->run();
     }
-});
+})();

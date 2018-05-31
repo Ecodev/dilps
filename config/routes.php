@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 use Application\Action\GraphQLAction;
 use GraphQL\Upload\UploadMiddleware;
+use Psr\Container\ContainerInterface;
+use Zend\Expressive\Application;
 use Zend\Expressive\Helper\BodyParams\BodyParamsMiddleware;
+use Zend\Expressive\MiddlewareFactory;
 
 /*
  * Setup routes with a single request method:
@@ -33,33 +36,35 @@ use Zend\Expressive\Helper\BodyParams\BodyParamsMiddleware;
  * );
  */
 
-/** @var \Zend\Expressive\Application $app */
-$app->post('/graphql', [
-    BodyParamsMiddleware::class,
-    UploadMiddleware::class,
-    GraphQLAction::class,
-], 'graphql');
+return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
+    /** @var \Zend\Expressive\Application $app */
+    $app->post('/graphql', [
+        BodyParamsMiddleware::class,
+        UploadMiddleware::class,
+        GraphQLAction::class,
+    ], 'graphql');
 
-$app->get('/image/{id:\d+}[/{maxHeight:\d+}]', [
-    Application\Action\ImageAction::class,
-], 'image');
+    $app->get('/image/{id:\d+}[/{maxHeight:\d+}]', [
+        \Application\Action\ImageAction::class,
+    ], 'image');
 
-$app->get('/pptx/{ids:\d+[,\d]*}[/{backgroundColor:[\da-fA-F]{8}}[/{textColor:[\da-fA-F]{8}}]]', [
-    \Application\Middleware\CardsFetcherMiddleware::class,
-    Application\Action\PptxAction::class,
-], 'pptx');
+    $app->get('/pptx/{ids:\d+[,\d]*}[/{backgroundColor:[\da-fA-F]{8}}[/{textColor:[\da-fA-F]{8}}]]', [
+        \Application\Middleware\CardsFetcherMiddleware::class,
+        \Application\Action\PptxAction::class,
+    ], 'pptx');
 
-$app->get('/zip/{ids:\d+[,\d]*}[/{includeLegend:0|1}[/{maxHeight:\d+}]]', [
-    \Application\Middleware\CardsFetcherMiddleware::class,
-    Application\Action\ZipAction::class,
-], 'zip');
+    $app->get('/zip/{ids:\d+[,\d]*}[/{includeLegend:0|1}[/{maxHeight:\d+}]]', [
+        \Application\Middleware\CardsFetcherMiddleware::class,
+        \Application\Action\ZipAction::class,
+    ], 'zip');
 
-$app->get('/pptx/collection/{ids:\d+[,\d]*}[/{backgroundColor:[\da-fA-F]{8}}[/{textColor:[\da-fA-F]{8}}]]', [
-    \Application\Middleware\CollectionFetcherMiddleware::class,
-    Application\Action\PptxAction::class,
-], 'pptx/collection');
+    $app->get('/pptx/collection/{ids:\d+[,\d]*}[/{backgroundColor:[\da-fA-F]{8}}[/{textColor:[\da-fA-F]{8}}]]', [
+        \Application\Middleware\CollectionFetcherMiddleware::class,
+        \Application\Action\PptxAction::class,
+    ], 'pptx/collection');
 
-$app->get('/zip/collection/{ids:\d+[,\d]*}[/{includeLegend:0|1}[/{maxHeight:\d+}]]', [
-    \Application\Middleware\CollectionFetcherMiddleware::class,
-    Application\Action\ZipAction::class,
-], 'zip/collection');
+    $app->get('/zip/collection/{ids:\d+[,\d]*}[/{includeLegend:0|1}[/{maxHeight:\d+}]]', [
+        \Application\Middleware\CollectionFetcherMiddleware::class,
+        \Application\Action\ZipAction::class,
+    ], 'zip/collection');
+};
