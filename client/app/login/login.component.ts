@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                 this.status = 'default';
                 this.snackBar.open(errors[0].message, null, {
                     duration: 5000,
-                    extraClasses: ['snackbar-error'],
+                    panelClass: ['snackbar-error'],
                 });
             }
         });

@@ -7,7 +7,7 @@ if [ "$files" != "" ]; then
 
     # Run TypeScript syntax check before commit
     # TODO: For now we run on the entire project, it would be best to only run on changed files
-    ./node_modules/.bin/ng lint --type-check
+    ./node_modules/.bin/ng lint
     if [ $? -ne 0 ]; then
         pass=false
     fi
