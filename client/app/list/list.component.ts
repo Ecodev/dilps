@@ -1,3 +1,4 @@
+import { forkJoin } from 'rxjs';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CardService } from '../card/services/card.service';
@@ -16,8 +17,6 @@ import { UtilityService } from '../shared/services/utility.service';
 import { NumberSelectorComponent } from '../quizz/shared/number-selector/number-selector.component';
 import { map } from 'rxjs/operators';
 import { MassEditComponent } from '../shared/components/mass-edit/mass-edit.component';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/forkJoin';
 
 import { NaturalGalleryComponent } from '@ecodev/angular-natural-gallery';
 
@@ -326,7 +325,7 @@ export class ListComponent implements OnInit {
                 observables.push(this.cardSvc.update(changes as { id: any }));
             }
 
-            Observable.forkJoin(observables).subscribe(() => {
+            forkJoin(observables).subscribe(() => {
                 this.alertSvc.info('Mis à jour');
                 this.reload();
             });

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { NgProgress } from 'ngx-progressbar';
+import { BehaviorSubject } from 'rxjs';
+import { NgProgress } from '@ngx-progressbar/core';
 
 @Injectable()
 export class NetworkActivityService {
@@ -39,7 +39,7 @@ export class NetworkActivityService {
         if (this.pending === 0) {
             setTimeout(() => {
                 if (this.pending === 0) {
-                    this.progressService.done();
+                    this.progressService.complete();
                 }
             }, 20);
 

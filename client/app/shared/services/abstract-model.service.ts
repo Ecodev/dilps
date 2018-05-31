@@ -1,12 +1,10 @@
 import { Apollo, QueryRef } from 'apollo-angular';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable, BehaviorSubject, OperatorFunction } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { Literal } from '../types';
 import { QueryVariablesService } from './query-variables.service';
 import { DocumentNode } from 'graphql';
 import { defaults, merge, pick } from 'lodash';
-import { OperatorFunction } from 'rxjs/interfaces';
 import { UtilityService } from './utility.service';
 import { RefetchQueryDescription } from 'apollo-client/core/watchQueryOptions';
 import { FetchResult } from 'apollo-link';

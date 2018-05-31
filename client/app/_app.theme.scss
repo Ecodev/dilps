@@ -19,15 +19,15 @@
         }
     }
 
-    ng-progress-bar {
+    ng-progress {
 
-        .bar {
+        .ng-bar {
             height: 3px !important;
             background-color: mat-color($accent) !important;
             box-shadow: mat-color($accent) 0 0 5px !important;
         }
 
-        .bar-shadow {
+        .ng-meteor {
             opacity: 1 !important;
             transform: none !important;
             width: 25px !important;

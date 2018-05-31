@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { CollectionService } from '../../../collections/services/collection.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ArtistComponent } from '../../../artists/artist/artist.component';
-import 'rxjs/add/observable/forkJoin';
+
 import { UserService } from '../../../users/services/user.service';
 import { Literal } from '../../types';
 import { UserRole, CollectionVisibility } from '../../generated-types';

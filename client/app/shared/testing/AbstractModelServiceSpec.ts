@@ -1,7 +1,7 @@
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 import { fakeAsync, inject, tick } from '@angular/core/testing';
 import { AbstractModelService } from '../services/abstract-model.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Literal } from '../types';
 
 export abstract class AbstractModelServiceSpec {

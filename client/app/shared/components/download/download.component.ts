@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ArtistComponent } from '../../../artists/artist/artist.component';
-import 'rxjs/add/observable/forkJoin';
+
 
 @Component({
     selector: 'app-download',

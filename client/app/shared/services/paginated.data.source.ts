@@ -5,7 +5,7 @@
  * we return a stream that contains only one set of data that doesn't change.
  */
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { PageEvent } from '@angular/material';
 import { BasicDataSource } from './basic.data.source';
 import { Inject } from '@angular/core';

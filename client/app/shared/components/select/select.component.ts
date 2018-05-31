@@ -8,10 +8,9 @@ import { isObject, merge } from 'lodash';
 import { filter, map, sampleTime, startWith } from 'rxjs/operators';
 import { QueryRef } from 'apollo-angular';
 import { MatAutocompleteTrigger } from '@angular/material';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Literal } from '../../types';
 import { AbstractModelService } from '../../services/abstract-model.service';
-import { Observable } from 'rxjs/Observable';
 
 /**
  * Default usage:
@@ -217,12 +216,12 @@ export class SelectComponent implements OnInit {
         });
 
         this.filteredItems = this.formCtrl.valueChanges
-                                 .pipe(
-                                     startWith(''),
-                                     map((searchedTerm: any) => {
-                                         return searchedTerm ? this.filterList(searchedTerm) : this.items.slice();
-                                     }),
-                                 );
+            .pipe(
+                startWith(''),
+                map((searchedTerm: any) => {
+                    return searchedTerm ? this.filterList(searchedTerm) : this.items.slice();
+                }),
+            );
     }
 
     private filterList(searchedTerm) {

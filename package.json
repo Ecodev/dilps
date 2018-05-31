@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "dev": "yarn codegen && ng serve --port 4300 --open",
+    "dev": "yarn codegen && ng serve --port 4300",
     "prod": "yarn codegen && ng build --aot --prod --build-optimizer false",
     "test": "yarn codegen && ng test",
     "lint": "ng lint",
@@ -26,6 +26,7 @@
     "@angular/platform-browser-dynamic": "^6.0.3",
     "@angular/router": "^6.0.3",
     "@ecodev/angular-natural-gallery": "^2.0.0",
+    "@ngx-progressbar/core": "^5.0.1",
     "angular-file": "^0.5.1",
     "apollo-angular": "^1.1.0",
     "apollo-angular-link-http": "^1.0.2-beta.0",
@@ -45,11 +46,9 @@
     "lodash": "^4.17.5",
     "material-design-icons": "^3.0.1",
     "ngx-perfect-scrollbar": "^6.1.0",
-    "ngx-progressbar": "^2.1.1",
     "node-sass": "^4.9.0",
     "puppeteer": "^1.0.0",
     "rxjs": "6.2.0",
-    "rxjs-compat": "^6.0.0-rc.0",
     "shelljs": "^0.8.1",
     "zone.js": "^0.8.26"
   },

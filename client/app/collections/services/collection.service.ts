@@ -1,3 +1,4 @@
+import { forkJoin } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import {
@@ -18,8 +19,7 @@ import {
     UpdateCollectionMutation,
     CollectionVisibility,
 } from '../../shared/generated-types';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/forkJoin';
+
 import { LinkMutationService } from '../../shared/services/link-mutation.service';
 
 @Injectable()
@@ -56,7 +56,7 @@ export class CollectionService
             observables.push(this.linkSvc.link(collection, image));
         });
 
-        return Observable.forkJoin(observables);
+        return forkJoin(observables);
     }
 
     public unlink(collection, images) {
@@ -65,7 +65,7 @@ export class CollectionService
             observables.push(this.linkSvc.unlink(collection, image));
         });
 
-        return Observable.forkJoin(observables);
+        return forkJoin(observables);
     }
 
     public linkCollectionToCollection(sourceCollection, targetCollection) {

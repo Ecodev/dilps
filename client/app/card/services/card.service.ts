@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import 'rxjs/add/observable/of';
 import { merge } from 'lodash';
 import { map } from 'rxjs/operators';
 import {

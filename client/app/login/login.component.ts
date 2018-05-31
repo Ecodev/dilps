@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { UserService } from '../users/services/user.service';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { NetworkActivityService } from '../shared/services/network-activity.service';

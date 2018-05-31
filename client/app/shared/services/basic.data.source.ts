@@ -5,9 +5,8 @@
  * we return a stream that contains only one set of data that doesn't change.
  */
 
+import { of, Observable } from 'rxjs';
 import { DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/observable/of';
 import { map } from 'rxjs/operators';
 
 export class BasicDataSource extends DataSource<any> {
@@ -22,7 +21,7 @@ export class BasicDataSource extends DataSource<any> {
                 return data.items ? data.items : data;
             }));
         } else {
-            return Observable.of(this.data.items ? this.data.items : this.data);
+            return of(this.data.items ? this.data.items : this.data);
         }
     }
 

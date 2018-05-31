@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -35,7 +36,7 @@ import {
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { NgProgressModule } from 'ngx-progressbar';
+import { NgProgressModule } from '@ngx-progressbar/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { DownloadComponent } from './shared/components/download/download.component';
@@ -154,7 +155,7 @@ import { NaturalGalleryModule } from '@ecodev/angular-natural-gallery';
         MatButtonModule,
         MatCheckboxModule,
         MatIconModule,
-        NgProgressModule,
+        NgProgressModule.forRoot(),
         PerfectScrollbarModule,
         MatInputModule,
         MatSnackBarModule,

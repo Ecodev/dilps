@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import { Apollo } from 'apollo-angular';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { MutationsQuery } from '../generated-types';
 import { FetchResult } from 'apollo-link';
 import { UtilityService } from './utility.service';
@@ -13,11 +13,11 @@ export class LinkMutationService {
      * Query to get list of mutations
      */
     private queriesQuery = gql`query Mutations{
-      __type(name:"Mutation") {
-        fields {
-          name
+        __type(name:"Mutation") {
+            fields {
+                name
+            }
         }
-      }
     }`;
 
     /**

@@ -7,7 +7,7 @@ import {
     institutionsQuery,
     updateInstitutionMutation,
 } from './institutionQueries';
-import 'rxjs/add/observable/of';
+
 import {
     CreateInstitutionMutation,
     DeleteInstitutionsMutation,

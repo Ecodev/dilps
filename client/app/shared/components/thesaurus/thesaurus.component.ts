@@ -3,11 +3,10 @@ import { MatAutocompleteTrigger, MatDialog } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { IncrementSubject } from '../../services/increment-subject';
 import { QueryRef } from 'apollo-angular';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Literal } from '../../types';
 import { filter, map, sampleTime } from 'rxjs/operators';
 import { clone, isArray, isObject, merge } from 'lodash';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'app-thesaurus',

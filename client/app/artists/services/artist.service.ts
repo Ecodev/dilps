@@ -7,7 +7,7 @@ import {
     artistsQuery,
     updateArtistMutation,
 } from './artistQueries';
-import 'rxjs/add/observable/of';
+
 import {
     CreateArtistMutation,
     DeleteArtistsMutation,

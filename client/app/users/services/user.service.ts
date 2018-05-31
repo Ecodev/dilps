@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import { Subject } from 'rxjs/Subject';
+import { Observable, Subject } from 'rxjs';
 import {
     CreateUserMutation,
     DeleteUsersMutation,

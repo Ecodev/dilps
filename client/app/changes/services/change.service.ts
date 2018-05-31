@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { AbstractModelService } from '../../shared/services/abstract-model.service';
-import { acceptChange, changeQuery, changesQuery, rejectChange, suggestCreation, suggestDeletion, suggestUpdate } from './changeQueries';
+import {
+    acceptChange,
+    changeQuery,
+    changesQuery,
+    rejectChange,
+    suggestCreation,
+    suggestDeletion,
+    suggestUpdate,
+} from './changeQueries';
 import { ChangesQuery } from '../../shared/generated-types';
 import { map } from 'rxjs/operators';
 

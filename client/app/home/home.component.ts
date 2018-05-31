@@ -1,3 +1,4 @@
+import { forkJoin } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { ThemeService } from '../shared/services/theme.service';
 import { UserService } from '../users/services/user.service';
@@ -8,7 +9,6 @@ import { UserComponent } from '../users/user/user.component';
 import { UploadService } from '../shared/services/upload.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CardService } from '../card/services/card.service';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'app-home',
@@ -20,7 +20,6 @@ export class HomeComponent implements OnInit {
     public initialized;
     public errors = [];
     public user;
-
 
     constructor(public themeSvc: ThemeService,
                 public route: ActivatedRoute,
@@ -59,7 +58,7 @@ export class HomeComponent implements OnInit {
             observables.push(this.cardSvc.create(card));
         }
         files.length = 0;
-        Observable.forkJoin(observables).subscribe(() => {
+        forkJoin(observables).subscribe(() => {
             this.router.navigateByUrl('my-collection;upload=' + Date.now());
         });
 
