@@ -209,7 +209,7 @@ export class AddressComponent implements OnInit {
 
         this.countryService.getAll({pagination: {pageSize: 9999}}).subscribe(countries => this.countries = countries.items);
 
-        if (this.model.latitude && this.model.longitude) {
+        if (this.model && this.model.latitude && this.model.longitude) {
             this.latitude = this.model.latitude;
             this.longitude = this.model.longitude;
             this.zoom = 12;
