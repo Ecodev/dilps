@@ -10,6 +10,8 @@ coding_style:
                 concatenation: true
 
 build:
+    environment:
+        node: '8.11.2'
     nodes:
         analysis:
             tests:
