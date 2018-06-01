@@ -1,4 +1,3 @@
-import { map } from 'rxjs/operators';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -95,6 +94,7 @@ import { MassEditComponent } from './shared/components/mass-edit/mass-edit.compo
 import { RelationsComponent } from './shared/components/relations/relations.component';
 
 import { NaturalGalleryModule } from '@ecodev/angular-natural-gallery';
+import { NaturalSearchModule } from '@ecodev/natural-search';
 
 @NgModule({
     declarations: [
@@ -166,6 +166,7 @@ import { NaturalGalleryModule } from '@ecodev/angular-natural-gallery';
         MatListModule,
         MatToolbarModule,
         NaturalGalleryModule,
+        NaturalSearchModule,
         MatTableModule,
         MatProgressSpinnerModule,
         MatPaginatorModule,

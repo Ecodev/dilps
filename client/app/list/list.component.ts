@@ -1,10 +1,12 @@
 import { forkJoin } from 'rxjs';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NaturalFilterService } from '../shared/services/natural-filter.service';
 import { CardService } from '../card/services/card.service';
 import { clone, defaults, isArray, isString, merge, pickBy } from 'lodash';
 import { DownloadComponent } from '../shared/components/download/download.component';
-import { CardSortingField, CardsQueryVariables } from '../shared/generated-types';
+import { CardFilter, CardSortingField, CardsQueryVariables } from '../shared/generated-types';
+import { cardsConfiguration } from '../shared/natural-search-configurations';
 import { IncrementSubject } from '../shared/services/increment-subject';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { MatDialog } from '@angular/material';
@@ -19,6 +21,7 @@ import { map } from 'rxjs/operators';
 import { MassEditComponent } from '../shared/components/mass-edit/mass-edit.component';
 
 import { NaturalGalleryComponent } from '@ecodev/angular-natural-gallery';
+import { NaturalSearchConfiguration, NaturalSearchValues } from '@ecodev/natural-search';
 
 @Component({
     selector: 'app-list',
@@ -54,13 +57,20 @@ export class ListComponent implements OnInit {
 
     public showDownloadCollection = true;
 
+    public config: NaturalSearchConfiguration = cardsConfiguration;
+
+    public values: NaturalSearchValues = [
+        [],
+    ];
+
     constructor(private router: Router,
                 private route: ActivatedRoute,
                 private cardSvc: CardService,
                 private dialog: MatDialog,
                 private collectionSvc: CollectionService,
                 private alertSvc: AlertService,
-                private userSvc: UserService) {
+                private userSvc: UserService,
+                private naturalFilterService: NaturalFilterService) {
     }
 
     ngOnInit() {
@@ -92,7 +102,9 @@ export class ListComponent implements OnInit {
             this.showLogo = data.showLogo;
             this.updateShowDownloadCollection();
 
-            const filters: Literal = {hasImage: true};
+            const filters: Literal = {
+                // hasImage: true
+            };
 
             if (data.filters) {
                 merge(filters, this.route.snapshot.data.filters);
@@ -180,9 +192,10 @@ export class ListComponent implements OnInit {
         }
     }
 
-    public search(term) {
+    public search(term: NaturalSearchValues) {
+        const filter = this.naturalFilterService.cards(this.config, term);
         this.reload();
-        this.queryVariables.patch({filters: {search: term}});
+        this.queryVariables.patch({filter});
     }
 
     public loadMore(ev) {

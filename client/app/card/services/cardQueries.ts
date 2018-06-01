@@ -96,8 +96,8 @@ fragment cardDetails on Card {
 }${userMetaFragment}`;
 
 export const cardsQuery = gql`
-query Cards($filters: OldCardFilter, $pagination: PaginationInput, $sorting: [CardSorting!]) {
-    cards(filters: $filters, pagination: $pagination, sorting: $sorting) {
+query Cards($filter: CardFilter, $filters: OldCardFilter, $pagination: PaginationInput, $sorting: [CardSorting!]) {
+    cards(filter: $filter, filters: $filters, pagination: $pagination, sorting: $sorting) {
         items {
             ...cardDetails
         }

@@ -4,19 +4,7 @@
         <img *ngIf="showLogo" src="assets/images/logo-bleu.svg" style="max-width:100%;height:30px;" />
 
         <div fxFlex>
-            <mat-form-field fxFlex class="searchField width-auto no-padding" floatLabel="never">
-                <input matInput
-                       appFocus
-                       placeholder="Rechercher"
-                       [(ngModel)]="searchedTerm"
-                       (change)="search($event.target.value)"
-                       (keyup.esc)="search(''); searchedTerm = ''"
-                >
-                <mat-icon matPrefix>search</mat-icon>
-                <button mat-icon-button matSuffix (click)="search(''); searchedTerm = ''">
-                    <mat-icon>close</mat-icon>
-                </button>
-            </mat-form-field>
+            <natural-search class="searchField" [configurations]="config" [(values)]="values" (valuesChange)="search($event)"></natural-search>
         </div>
 
         <ng-container *ngIf="selected?.length">
@@ -90,6 +78,11 @@
                              (selectChange)="select($event)"
                              (pagination)="loadMore($event)"
             ></natural-gallery>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="20px">
+            <pre class="debug" fxFlex><strong>Config : </strong>{{ config | json }}</pre>
+            <pre class="debug" fxFlex><strong>Values : </strong>{{ values | json }}</pre>
         </div>
     </perfect-scrollbar>
 </div>
