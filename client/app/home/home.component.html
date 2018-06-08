@@ -157,7 +157,7 @@
 </div>
 
 <mat-menu #errorsMenu="matMenu" [overlapTrigger]="false" class="padding error-menu" fxLayout="column" fxLayoutGap="60px">
-    <div mat-menu-item *ngFor="let error of errors" fxLayout="column" class="error">
+    <div mat-menu-item *ngFor="let error of errors" fxLayout="column" class="error" (click)="$event.stopPropagation()" style="user-select: text">
         <span class="mat-caption" style="font-weight:bold">{{ error.category }}</span>
         <span class="mat-caption">{{ error.message }}</span>
         <span class="mat-caption">{{ error.debugMessage }}</span>
