@@ -1,7 +1,6 @@
 import { forkJoin } from 'rxjs';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NaturalFilterService } from '../shared/services/natural-filter.service';
 import { CardService } from '../card/services/card.service';
 import { clone, defaults, isArray, isString, merge, pickBy } from 'lodash';
 import { DownloadComponent } from '../shared/components/download/download.component';
@@ -21,7 +20,7 @@ import { map } from 'rxjs/operators';
 import { MassEditComponent } from '../shared/components/mass-edit/mass-edit.component';
 
 import { NaturalGalleryComponent } from '@ecodev/angular-natural-gallery';
-import { NaturalSearchConfiguration, NaturalSearchValues } from '@ecodev/natural-search';
+import { NaturalSearchConfiguration, NaturalSearchSelections, toGraphQLDoctrineFilter } from '@ecodev/natural-search';
 
 @Component({
     selector: 'app-list',
@@ -59,7 +58,8 @@ export class ListComponent implements OnInit {
 
     public config: NaturalSearchConfiguration = cardsConfiguration;
 
-    public values: NaturalSearchValues = [
+    public graphqlFilter;
+    public selections: NaturalSearchSelections = [
         [],
     ];
 
@@ -69,8 +69,7 @@ export class ListComponent implements OnInit {
                 private dialog: MatDialog,
                 private collectionSvc: CollectionService,
                 private alertSvc: AlertService,
-                private userSvc: UserService,
-                private naturalFilterService: NaturalFilterService) {
+                private userSvc: UserService) {
     }
 
     ngOnInit() {
@@ -192,8 +191,9 @@ export class ListComponent implements OnInit {
         }
     }
 
-    public search(term: NaturalSearchValues) {
-        const filter = this.naturalFilterService.cards(this.config, term);
+    public search(term: NaturalSearchSelections) {
+        const filter = toGraphQLDoctrineFilter(this.config, term);
+        this.graphqlFilter = filter;
         this.reload();
         this.queryVariables.patch({filter});
     }

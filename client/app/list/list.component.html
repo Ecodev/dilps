@@ -4,7 +4,7 @@
         <img *ngIf="showLogo" src="assets/images/logo-bleu.svg" style="max-width:100%;height:30px;" />
 
         <div fxFlex>
-            <natural-search class="searchField" [configurations]="config" [(values)]="values" (valuesChange)="search($event)"></natural-search>
+            <natural-search class="searchField" [configurations]="config" [(selections)]="selections" (selectionsChange)="search($event)"></natural-search>
         </div>
 
         <ng-container *ngIf="selected?.length">
@@ -82,7 +82,8 @@
 
         <div fxLayout="row" fxLayoutGap="20px">
             <pre class="debug" fxFlex><strong>Config : </strong>{{ config | json }}</pre>
-            <pre class="debug" fxFlex><strong>Values : </strong>{{ values | json }}</pre>
+            <pre class="debug" fxFlex><strong>Selections : </strong>{{ selections | json }}</pre>
+            <pre class="debug" fxFlex><strong>GraphQL : </strong>{{ graphqlFilter | json }}</pre>
         </div>
     </perfect-scrollbar>
 </div>

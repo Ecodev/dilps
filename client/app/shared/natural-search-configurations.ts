@@ -3,6 +3,7 @@ import {
     TypeNumericRangeComponent,
     TypeNumericComponent,
     TypeSelectComponent,
+    Selection,
 } from '@ecodev/natural-search';
 import { CardVisibility } from './generated-types';
 
@@ -12,60 +13,121 @@ function yearToJulian(year: number, endOfYear: boolean): number {
     return Math.trunc(date.getTime() / 86400000 + 2440587.5);
 }
 
+function wrapLike(s: Selection): Selection {
+    s.condition.like.value = '%' + s.condition.like.value + '%';
+    return s;
+}
+
 export const cardsConfiguration: NaturalSearchConfiguration = [
     {
-        display: 'Institution',
-        attribute: 'locality.name',
+        display: 'Titre',
+        field: 'name',
+        transform: wrapLike,
+    },
+    {
+        display: 'Titre étendu',
+        field: 'expandedName',
+        transform: wrapLike,
+    },
+    {
+        display: 'Artistes',
+        field: 'artists.name',
+        transform: wrapLike,
+    },
+    {
+        display: 'Auteur technique',
+        field: 'techniqueAuthor',
+        transform: wrapLike,
+    },
+    {
+        display: 'Supplément',
+        field: 'addition',
+        transform: wrapLike,
     },
     {
         display: 'Datation',
-        attribute: 'datings.from-to',
+        field: 'datings.from-to',
         component: TypeNumericRangeComponent,
-        configuration: {
-            transformValue: (v) => {
-                return {from: yearToJulian(v.from, false), to: yearToJulian(v.to, true)};
-            },
+        transform: (s: Selection): Selection => {
+            s.condition.between.from = yearToJulian(s.condition.between.from as number, false);
+            s.condition.between.to = yearToJulian(s.condition.between.to as number, true);
+            return s;
         },
     },
     {
-        display: 'Datation pour les geeks en Julian',
-        attribute: 'datings.from-to',
-        component: TypeNumericRangeComponent,
-        configuration: {},
+        display: 'Technique',
+        field: 'technique',
+        transform: wrapLike,
     },
     {
-        display: 'Artiste',
-        attribute: 'artists.name',
+        display: 'Matériel',
+        field: 'material',
+        transform: wrapLike,
     },
     {
         display: 'Institution',
-        attribute: 'institution.name',
+        field: 'institution.name',
+        transform: wrapLike,
+    },
+    {
+        display: 'Localité',
+        field: 'locality.name',
+        transform: wrapLike,
+    },
+
+    {
+        display: 'Source',
+        field: 'literature',
+        transform: wrapLike,
+    },
+    {
+        display: 'Page',
+        field: 'page',
+        transform: wrapLike,
+    },
+    {
+        display: 'Figure',
+        field: 'figure',
+        transform: wrapLike,
+    },
+
+    {
+        display: 'Planche',
+        field: 'table',
+        transform: wrapLike,
+    },
+
+    {
+        display: 'ISBN',
+        field: 'isbn',
+        transform: wrapLike,
+    },
+
+    {
+        display: 'Droits d\'auteur',
+        field: 'rights',
+        transform: wrapLike,
     },
     {
         display: 'Visibilité',
-        attribute: 'visibility',
+        field: 'visibility',
         component: TypeSelectComponent,
         configuration: {
             items: [
                 {
-                    value: CardVisibility.private,
-                    text: 'par moi',
-                    color: null,
+                    id: CardVisibility.private,
+                    name: 'par moi',
                 },
                 {
-                    value: CardVisibility.member,
-                    text: 'par les membres',
-                    color: 'accent',
+                    id: CardVisibility.member,
+                    name: 'par les membres',
                 },
                 {
-                    value: CardVisibility.public,
-                    text: 'par tout le monde',
-                    color: 'primary',
+                    id: CardVisibility.public,
+                    name: 'par tout le monde',
                 },
             ],
             multiple: true,
-            displayWith: (item) => item.text,
-            matchItems: (a, b) => a.value === b.value,
         },
     },
 ];
