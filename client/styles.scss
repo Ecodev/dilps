@@ -1,6 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700);
 @import '../node_modules/material-design-icons/iconfont/material-icons.css';
-@import '../node_modules/@ecodev/natural-search/theming/natural-search.theme';
 
 @import 'styles/themes';
 @import 'app/shared/components/boot-loader/boot-loader.external';
@@ -9,11 +8,6 @@
 @import 'styles/layout';
 @import 'app/card/card.external';
 @import 'app/list/list.external';
-
-// Include components themes
-@mixin components-theme($theme) {
-    @include natural-search-theme($theme);
-}
 
 body {
     margin: 0;

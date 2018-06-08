@@ -5,6 +5,7 @@
 // Import theming files full relative way or karma will display warning
 @import '../../node_modules/@angular/material/theming';
 @import '../../node_modules/@ecodev/angular-natural-gallery/theming/natural-gallery.theme';
+@import '../../node_modules/@ecodev/natural-search/theming/natural-search.theme';
 @import 'typography';
 @import '../app/app.theme';
 @import '../app/shared/components/boot-loader/boot-loader.theme';
@@ -39,6 +40,7 @@
     @include upload($theme);
     @include card($theme);
     @include quizz($theme);
+    @include natural-search-theme($theme);
 }
 
 $mat-dilps: (
