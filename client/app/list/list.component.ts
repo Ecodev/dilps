@@ -4,23 +4,21 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CardService } from '../card/services/card.service';
 import { clone, defaults, isArray, isString, merge, pickBy } from 'lodash';
 import { DownloadComponent } from '../shared/components/download/download.component';
-import { CardFilter, CardSortingField, CardsQueryVariables } from '../shared/generated-types';
+import { CardFilter, CardSortingField } from '../shared/generated-types';
 import { cardsConfiguration } from '../shared/natural-search-configurations';
-import { IncrementSubject } from '../shared/services/increment-subject';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { MatDialog } from '@angular/material';
 import { CollectionSelectorComponent } from '../shared/components/collection-selector/collection-selector.component';
 import { CollectionService } from '../collections/services/collection.service';
 import { AlertService } from '../shared/components/alert/alert.service';
-import { Literal } from '../shared/types';
 import { UserService } from '../users/services/user.service';
 import { UtilityService } from '../shared/services/utility.service';
 import { NumberSelectorComponent } from '../quizz/shared/number-selector/number-selector.component';
-import { map } from 'rxjs/operators';
 import { MassEditComponent } from '../shared/components/mass-edit/mass-edit.component';
 
 import { NaturalGalleryComponent } from '@ecodev/angular-natural-gallery';
 import { NaturalSearchConfiguration, NaturalSearchSelections, toGraphQLDoctrineFilter } from '@ecodev/natural-search';
+import { FilterManager } from '../shared/classes/filter-manager';
 
 @Component({
     selector: 'app-list',
@@ -42,8 +40,6 @@ export class ListComponent implements OnInit {
     private enlargedHeight = 2000;
     private sub;
 
-    private queryVariables = new IncrementSubject<CardsQueryVariables>();
-
     private firstPagination;
 
     public collection;
@@ -63,6 +59,8 @@ export class ListComponent implements OnInit {
         [],
     ];
 
+    private filterManager: FilterManager = new FilterManager();
+
     constructor(private router: Router,
                 private route: ActivatedRoute,
                 private cardSvc: CardService,
@@ -77,7 +75,6 @@ export class ListComponent implements OnInit {
         this.userSvc.getCurrentUser().subscribe(user => {
             this.user = user;
             this.updateShowDownloadCollection();
-
         });
 
         this.route.params.subscribe(params => {
@@ -92,7 +89,13 @@ export class ListComponent implements OnInit {
                     __typename: 'Collection',
                 };
                 this.galleryCollection = [];
-                this.queryVariables.patch({filters: {collections: [params.collectionId]}});
+                this.filterManager.set('collection', {
+                    filter: {
+                        conditions: [
+                            {fields: {collections: {have: {values: [params.collectionId]}}}},
+                        ],
+                    },
+                });
             }
         });
 
@@ -101,20 +104,31 @@ export class ListComponent implements OnInit {
             this.showLogo = data.showLogo;
             this.updateShowDownloadCollection();
 
-            const filters: Literal = {
-                // hasImage: true
+            const filters: CardFilter = {
+                conditions: [
+                    {
+                        fields: {
+                            filename: {
+                                equal: {
+                                    value: '',
+                                    not: true,
+                                },
+                            },
+                        },
+                    },
+                ],
             };
 
-            if (data.filters) {
-                merge(filters, this.route.snapshot.data.filters);
+            if (data.filter) {
+                this.filterManager.set('route-context', {filter : data.filter});
             }
 
             if (data.creator && !this.collection) {
-                filters.creators = [data.creator.id];
+                filters.conditions[filters.conditions.length - 1].fields.creator = {equal: {value: data.creator.id}};
             }
 
             this.galleryCollection = [];
-            this.queryVariables.patch({filters: filters});
+            this.filterManager.set('controller-variables', {filter: filters});
         });
 
         this.options = {
@@ -186,7 +200,7 @@ export class ListComponent implements OnInit {
         if (this.sub) {
             this.selected = [];
             this.gallery.collection = [];
-            this.queryVariables.patch(this.firstPagination);
+            this.filterManager.set('pagination', this.firstPagination);
             this.sub.refetch();
         }
     }
@@ -195,7 +209,7 @@ export class ListComponent implements OnInit {
         const filter = toGraphQLDoctrineFilter(this.config, term);
         this.graphqlFilter = filter;
         this.reload();
-        this.queryVariables.patch({filter});
+        this.filterManager.set('search', {filter: filter});
     }
 
     public loadMore(ev) {
@@ -211,10 +225,10 @@ export class ListComponent implements OnInit {
             this.firstPagination = pagination;
         }
 
-        this.queryVariables.patch(pagination);
+        this.filterManager.set('pagination', pagination);
 
         if (!this.sub) {
-            this.sub = this.cardSvc.watchAll(this.queryVariables);
+            this.sub = this.cardSvc.watchAll(this.filterManager.filters);
             this.sub.valueChanges.subscribe(data => {
                 this.gallery.gallery.addItems(this.formatImages(data.items));
             });
@@ -296,13 +310,10 @@ export class ListComponent implements OnInit {
                 },
             }).afterClosed().subscribe(number => {
                 if (number > 0) {
-                    const quizzVars = this.queryVariables.pipe(map(options => {
-                        options.sorting = [{field: CardSortingField.random}];
-                        options.pagination.pageIndex = 0;
-                        options.pagination.pageSize = number;
-                        return options;
-                    }));
-
+                    const quizzVars = clone(this.filterManager.filters.value);
+                    quizzVars.sorting = [{field: CardSortingField.random}];
+                    quizzVars.pagination.pageIndex = 0;
+                    quizzVars.pagination.pageSize = +number;
                     this.cardSvc.getAll(quizzVars).subscribe(cards => {
                         this.router.navigateByUrl('quizz;cards=' + cards.items.map(e => e.id).join(','));
                     });

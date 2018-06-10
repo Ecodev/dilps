@@ -87,11 +87,17 @@ export const routes: Routes = [
                 path: 'collection',
                 component: CollectionsComponent,
                 data: {
-                    creationButtonForRoles : false,
-                    editionButtonsForRoles : [UserRole.administrator, UserRole.senior],
+                    creationButtonForRoles: false,
+                    editionButtonsForRoles: [
+                        UserRole.administrator,
+                        UserRole.senior,
+                    ],
                     filters: {
                         isSource: false,
-                        visibilities: [CollectionVisibility.administrator, CollectionVisibility.member]
+                        visibilities: [
+                            CollectionVisibility.administrator,
+                            CollectionVisibility.member,
+                        ],
                     },
                 },
                 children: [
@@ -123,7 +129,15 @@ export const routes: Routes = [
                         path: '',
                         component: ListComponent,
                         data: {
-                            filters: {collections: []},
+                            filter: {
+                                conditions: [
+                                    {
+                                        fields: {
+                                            collections: {empty: {not: false}},
+                                        },
+                                    },
+                                ],
+                            },
                         },
                     },
                     {
@@ -141,9 +155,9 @@ export const routes: Routes = [
                 path: 'source',
                 component: CollectionsComponent,
                 data: {
-                    creationButtonForRoles : [UserRole.administrator],
-                    editionButtonsForRoles : [UserRole.administrator],
-                    filters: {
+                    creationButtonForRoles: [UserRole.administrator],
+                    editionButtonsForRoles: [UserRole.administrator],
+                    filter: {
                         isSource: true,
                     },
                 },
@@ -154,7 +168,7 @@ export const routes: Routes = [
                         data: {
                             showDownloadCollectionForRoles: [UserRole.administrator],
                             showLogo: false,
-                            filters: {}
+                            filter: {},
                         },
                     },
                 ],
