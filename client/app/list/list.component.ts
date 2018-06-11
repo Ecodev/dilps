@@ -2,10 +2,10 @@ import { forkJoin } from 'rxjs';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CardService } from '../card/services/card.service';
-import { clone, defaults, isArray, isString, merge, pickBy } from 'lodash';
+import { clone, defaults, isArray, isString, isUndefined, merge, pickBy } from 'lodash';
 import { DownloadComponent } from '../shared/components/download/download.component';
 import { CardFilter, CardSortingField } from '../shared/generated-types';
-import { cardsConfiguration } from '../shared/natural-search-configurations';
+import { cardsFullConfiguration, cardsMinimalConfiguration } from '../shared/natural-search-configurations';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { MatDialog } from '@angular/material';
 import { CollectionSelectorComponent } from '../shared/components/collection-selector/collection-selector.component';
@@ -20,13 +20,22 @@ import { NaturalGalleryComponent } from '@ecodev/angular-natural-gallery';
 import { NaturalSearchConfiguration, NaturalSearchSelections, toGraphQLDoctrineFilter } from '@ecodev/natural-search';
 import { FilterManager } from '../shared/classes/filter-manager';
 
+import { animate, state, style, transition, trigger } from '@angular/animations';
+
 @Component({
     selector: 'app-list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss'],
+    animations: [
+        trigger('searchState', [
+            state('afterForcedSearch', style({transform: 'translateY(0vh)'})),
+            state('beforeForcedSearch', style({transform: 'translateY(calc(50vh - 45px))'})),
+            transition('beforeForcedSearch => afterForcedSearch', animate('1s ease-in-out')),
+        ]),
+    ],
 })
 export class ListComponent implements OnInit {
-
+    public test = 0;
     @ViewChild('gallery') gallery: NaturalGalleryComponent;
     @ViewChild('scrollable') private scrollable: PerfectScrollbarComponent;
 
@@ -52,7 +61,7 @@ export class ListComponent implements OnInit {
 
     public showDownloadCollection = true;
 
-    public config: NaturalSearchConfiguration = cardsConfiguration;
+    public config: NaturalSearchConfiguration = cardsMinimalConfiguration;
 
     public graphqlFilter;
     public selections: NaturalSearchSelections = [
@@ -60,6 +69,8 @@ export class ListComponent implements OnInit {
     ];
 
     private filterManager: FilterManager = new FilterManager();
+
+    public showGallery = false;
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
@@ -101,6 +112,14 @@ export class ListComponent implements OnInit {
 
         this.route.data.subscribe(data => {
 
+            // If nothing specified or does not force search, show gallery when component init
+            // If we have to force search, that means gallery is only visible after a first search (see search() fn)
+            if (isUndefined(data.forceSearch) || data.forceSearch === false) {
+                this.showGallery = true;
+            } else {
+                this.showGallery = false;
+            }
+
             this.showLogo = data.showLogo;
             this.updateShowDownloadCollection();
 
@@ -120,7 +139,7 @@ export class ListComponent implements OnInit {
             };
 
             if (data.filter) {
-                this.filterManager.set('route-context', {filter : data.filter});
+                this.filterManager.set('route-context', {filter: data.filter});
             }
 
             if (data.creator && !this.collection) {
@@ -206,6 +225,9 @@ export class ListComponent implements OnInit {
     }
 
     public search(term: NaturalSearchSelections) {
+        this.config = cardsFullConfiguration;
+        this.showGallery = true;
+
         const filter = toGraphQLDoctrineFilter(this.config, term);
         this.graphqlFilter = filter;
         this.reload();

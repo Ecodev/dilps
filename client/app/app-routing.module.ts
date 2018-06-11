@@ -34,7 +34,10 @@ export const routes: Routes = [
             {
                 path: '',
                 component: ListComponent,
-                data: {showLogo: true},
+                data: {
+                    showLogo: true,
+                    forceSearch: true,
+                },
             },
             {
                 path: 'card/new',
