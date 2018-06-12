@@ -18,7 +18,7 @@ import { MassEditComponent } from '../shared/components/mass-edit/mass-edit.comp
 
 import { NaturalGalleryComponent } from '@ecodev/angular-natural-gallery';
 import { NaturalSearchConfiguration, NaturalSearchSelections, toGraphQLDoctrineFilter } from '@ecodev/natural-search';
-import { FilterManager } from '../shared/classes/filter-manager';
+import { QueryVariablesManager } from '../shared/classes/query-variables-manager';
 
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
@@ -68,7 +68,7 @@ export class ListComponent implements OnInit {
         [],
     ];
 
-    private filterManager: FilterManager = new FilterManager();
+    private variablesManager: QueryVariablesManager = new QueryVariablesManager();
 
     public showGallery = false;
 
@@ -100,7 +100,7 @@ export class ListComponent implements OnInit {
                     __typename: 'Collection',
                 };
                 this.galleryCollection = [];
-                this.filterManager.set('collection', {
+                this.variablesManager.set('collection', {
                     filter: {
                         conditions: [
                             {fields: {collections: {have: {values: [params.collectionId]}}}},
@@ -139,7 +139,7 @@ export class ListComponent implements OnInit {
             };
 
             if (data.filter) {
-                this.filterManager.set('route-context', {filter: data.filter});
+                this.variablesManager.set('route-context', {filter: data.filter});
             }
 
             if (data.creator && !this.collection) {
@@ -147,7 +147,7 @@ export class ListComponent implements OnInit {
             }
 
             this.galleryCollection = [];
-            this.filterManager.set('controller-variables', {filter: filters});
+            this.variablesManager.set('controller-variables', {filter: filters});
         });
 
         this.options = {
@@ -219,7 +219,7 @@ export class ListComponent implements OnInit {
         if (this.sub) {
             this.selected = [];
             this.gallery.collection = [];
-            this.filterManager.set('pagination', this.firstPagination);
+            this.variablesManager.set('pagination', this.firstPagination);
             this.sub.refetch();
         }
     }
@@ -231,7 +231,7 @@ export class ListComponent implements OnInit {
         const filter = toGraphQLDoctrineFilter(this.config, term);
         this.graphqlFilter = filter;
         this.reload();
-        this.filterManager.set('search', {filter: filter});
+        this.variablesManager.set('search', {filter: filter});
     }
 
     public loadMore(ev) {
@@ -247,10 +247,10 @@ export class ListComponent implements OnInit {
             this.firstPagination = pagination;
         }
 
-        this.filterManager.set('pagination', pagination);
+        this.variablesManager.set('pagination', pagination);
 
         if (!this.sub) {
-            this.sub = this.cardSvc.watchAll(this.filterManager.filters);
+            this.sub = this.cardSvc.watchAll(this.variablesManager.variables);
             this.sub.valueChanges.subscribe(data => {
                 this.gallery.gallery.addItems(this.formatImages(data.items));
             });
@@ -332,7 +332,7 @@ export class ListComponent implements OnInit {
                 },
             }).afterClosed().subscribe(number => {
                 if (number > 0) {
-                    const quizzVars = clone(this.filterManager.filters.value);
+                    const quizzVars = clone(this.variablesManager.variables.value);
                     quizzVars.sorting = [{field: CardSortingField.random}];
                     quizzVars.pagination.pageIndex = 0;
                     quizzVars.pagination.pageSize = +number;
