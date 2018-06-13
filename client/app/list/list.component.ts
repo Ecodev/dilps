@@ -103,7 +103,7 @@ export class ListComponent implements OnInit {
                 this.variablesManager.set('collection', {
                     filter: {
                         conditions: [
-                            {fields: {collections: {have: {values: [params.collectionId]}}}},
+                            {fields: [{collections: {have: {values: [params.collectionId]}}}]},
                         ],
                     },
                 });
@@ -126,14 +126,14 @@ export class ListComponent implements OnInit {
             const filters: CardFilter = {
                 conditions: [
                     {
-                        fields: {
+                        fields: [{
                             filename: {
                                 equal: {
                                     value: '',
                                     not: true,
                                 },
                             },
-                        },
+                        }],
                     },
                 ],
             };
@@ -143,7 +143,7 @@ export class ListComponent implements OnInit {
             }
 
             if (data.creator && !this.collection) {
-                filters.conditions[filters.conditions.length - 1].fields.creator = {equal: {value: data.creator.id}};
+                filters.conditions[filters.conditions.length - 1].fields[0].creator = {equal: {value: data.creator.id}};
             }
 
             this.galleryCollection = [];

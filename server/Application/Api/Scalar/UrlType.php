@@ -48,12 +48,11 @@ class UrlType extends ScalarType
      * Parses an externally provided literal value to use as an input (e.g. in Query AST)
      *
      * @param $ast Node
-     *
-     * @throws Error
+     * @param null|array $variables
      *
      * @return null|string
      */
-    public function parseLiteral($ast)
+    public function parseLiteral($ast, array $variables = null)
     {
         // Note: throwing GraphQL\Error\Error vs \UnexpectedValueException to benefit from GraphQL
         // error location in query:

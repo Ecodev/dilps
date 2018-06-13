@@ -57,12 +57,11 @@ class EmailType
      * Parses an externally provided literal value (hardcoded in GraphQL query) to use as an input
      *
      * @param \GraphQL\Language\AST\Node $valueNode
-     *
-     * @throws Error
+     * @param null|array $variables
      *
      * @return string
      */
-    public static function parseLiteral($valueNode)
+    public static function parseLiteral($valueNode, array $variables = null)
     {
         // Note: throwing GraphQL\Error\Error vs \UnexpectedValueException to benefit from GraphQL
         // error location in query:

@@ -135,9 +135,9 @@ export const routes: Routes = [
                             filter: {
                                 conditions: [
                                     {
-                                        fields: {
+                                        fields: [{
                                             collections: {empty: {not: false}},
-                                        },
+                                        }],
                                     },
                                 ],
                             },
