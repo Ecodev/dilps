@@ -153,9 +153,9 @@ export class QueryVariablesManager<T = QueryVariables> {
      */
     public updateVariables() {
 
-        const naturalSearch = this.channels.get('natural-search');
-
-        const mergedVariables = naturalSearch ? cloneDeep(naturalSearch) : {};
+        let naturalSearch = this.channels.get('natural-search');
+        naturalSearch = naturalSearch && naturalSearch.filter && naturalSearch.filter.conditions ? cloneDeep(naturalSearch) : null;
+        const mergedVariables = naturalSearch ? naturalSearch : {};
 
         this.channels.forEach((variables: Literal | BehaviorSubject<Literal>, channelName: string) => {
 

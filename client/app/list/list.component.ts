@@ -21,7 +21,7 @@ import { NaturalSearchConfiguration, NaturalSearchSelections, toGraphQLDoctrineF
 import { QueryVariablesManager } from '../shared/classes/query-variables-manager';
 
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { CardFilter, CardFilterConditionFields, CardSortingField } from '../shared/generated-types';
+import { CardFilter, CardSortingField } from '../shared/generated-types';
 
 @Component({
     selector: 'app-list',
@@ -83,8 +83,6 @@ export class ListComponent implements OnInit {
     }
 
     ngOnInit() {
-
-        this.variablesManager.variables.subscribe(variables => console.log('variables', variables));
 
         this.userSvc.getCurrentUser().subscribe(user => {
             this.user = user;
