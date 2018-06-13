@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CardService } from '../card/services/card.service';
 import { clone, defaults, isArray, isString, isUndefined, merge, pickBy } from 'lodash';
 import { DownloadComponent } from '../shared/components/download/download.component';
-import { CardFilter, CardSortingField } from '../shared/generated-types';
+
 import { cardsFullConfiguration, cardsMinimalConfiguration } from '../shared/natural-search-configurations';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { MatDialog } from '@angular/material';
@@ -21,6 +21,7 @@ import { NaturalSearchConfiguration, NaturalSearchSelections, toGraphQLDoctrineF
 import { QueryVariablesManager } from '../shared/classes/query-variables-manager';
 
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { CardFilter, CardFilterConditionFields, CardSortingField } from '../shared/generated-types';
 
 @Component({
     selector: 'app-list',
@@ -83,6 +84,8 @@ export class ListComponent implements OnInit {
 
     ngOnInit() {
 
+        this.variablesManager.variables.subscribe(variables => console.log('variables', variables));
+
         this.userSvc.getCurrentUser().subscribe(user => {
             this.user = user;
             this.updateShowDownloadCollection();
@@ -100,13 +103,14 @@ export class ListComponent implements OnInit {
                     __typename: 'Collection',
                 };
                 this.galleryCollection = [];
-                this.variablesManager.set('collection', {
-                    filter: {
-                        conditions: [
-                            {fields: [{collections: {have: {values: [params.collectionId]}}}]},
-                        ],
-                    },
-                });
+
+                const filter: CardFilter = {
+                    conditions: [
+                        {fields: [{collections: {have: {values: [params.collectionId]}}}]},
+                    ],
+                };
+
+                this.variablesManager.set('collection', {filter: filter});
             }
         });
 
@@ -123,30 +127,20 @@ export class ListComponent implements OnInit {
             this.showLogo = data.showLogo;
             this.updateShowDownloadCollection();
 
-            const filters: CardFilter = {
-                conditions: [
-                    {
-                        fields: [{
-                            filename: {
-                                equal: {
-                                    value: '',
-                                    not: true,
-                                },
-                            },
-                        }],
-                    },
-                ],
-            };
-
             if (data.filter) {
                 this.variablesManager.set('route-context', {filter: data.filter});
             }
 
+            // const contextFields: CardFilterConditionFields[] = [{filename: {equal: {value: '', not: true}}}];
+            const filters: CardFilter = {conditions: [{fields: [{filename: {equal: {value: '', not: true}}}]}]};
+
             if (data.creator && !this.collection) {
+                // contextFields.push({creator: {equal: {value: data.creator.id}}});
                 filters.conditions[filters.conditions.length - 1].fields[0].creator = {equal: {value: data.creator.id}};
             }
 
             this.galleryCollection = [];
+            console.log('contextFields', filters);
             this.variablesManager.set('controller-variables', {filter: filters});
         });
 
@@ -231,7 +225,7 @@ export class ListComponent implements OnInit {
         const filter = toGraphQLDoctrineFilter(this.config, term);
         this.graphqlFilter = filter;
         this.reload();
-        this.variablesManager.set('search', {filter: filter});
+        this.variablesManager.set('natural-search', {filter: filter});
     }
 
     public loadMore(ev) {

@@ -2,6 +2,55 @@ import { Literal } from '../types';
 import { BehaviorSubject } from 'rxjs';
 import { cloneDeep, defaultsDeep, isArray, mergeWith } from 'lodash';
 
+import {
+    ArtistFilter,
+    CardFilter,
+    ChangeFilter,
+    CollectionFilter,
+    CountryFilter,
+    DatingFilter,
+    InstitutionFilter,
+    TagFilter,
+    UserFilter,
+} from '../generated-types';
+
+type Filter =
+    CardFilter
+    & UserFilter
+    & InstitutionFilter
+    & CountryFilter
+    & CollectionFilter
+    & ArtistFilter
+    & TagFilter
+    & DatingFilter
+    & ChangeFilter;
+
+export interface QueryVariables {
+    filter?: Filter | null;
+    pagination?: PaginationInput | null;
+    sorting?: Array<Sorting> | null;
+}
+
+export interface PaginationInput {
+    // The zero-based index of the displayed list of items
+    offset?: number | null;
+    // The zero-based page index of the displayed list of items
+    pageIndex?: number | null;
+    // Number of items to display on a page
+    pageSize?: number | null;
+}
+
+export interface Sorting {
+    field: string;
+    order?: SortingOrder | null;
+}
+
+// Order to be used in DQL
+export enum SortingOrder {
+    ASC = 'ASC',
+    DESC = 'DESC',
+}
+
 /**
  * During lodash merge, overrides arrays
  * @param value
@@ -51,10 +100,9 @@ function mergeConcatArray(destValue, source) {
  * fm.merge('componentB-variables', {a : [3, 4]);
  * console.log(fm.variables.value); // {a : [1, 2, 3, 4]}
  */
-export class QueryVariablesManager<T = Literal> {
+export class QueryVariablesManager<T = QueryVariables> {
 
     private readonly channels: Map<string, T> = new Map<string, T>();
-    private readonly contextChannels: Map<string, Literal> = new Map<string, Literal>();
     public readonly variables: BehaviorSubject<T> = new BehaviorSubject<T>(null);
 
     constructor() {
@@ -62,17 +110,8 @@ export class QueryVariablesManager<T = Literal> {
 
     /**
      * Set or override all the variables that may exist in the given channel
-     * @param {string} channelName
-     * @param {Literal} variables
      */
     public set(channelName: string, variables: T) {
-
-        const contextFields = this.contextChannels.get(channelName);
-        if (contextFields) {
-            variables = this.applyFieldsOnEachConditionField(variables, contextFields);
-            this.channels.set(channelName, variables);
-        }
-
         this.channels.set(channelName, cloneDeep(variables)); // cloneDeep to change reference and prevent some interactions when merge
         this.updateVariables();
     }
@@ -83,16 +122,9 @@ export class QueryVariablesManager<T = Literal> {
      * @param {Literal} newVariables
      */
     public merge(channelName: string, newVariables: T) {
-        let variables = this.channels.get(channelName);
+        const variables = this.channels.get(channelName);
         if (variables) {
             mergeWith(variables, cloneDeep(newVariables), mergeOverrideArray); // merge preserves references, cloneDeep prevent that
-
-            const contextFields = this.contextChannels.get(channelName);
-            if (contextFields) {
-                variables = this.applyFieldsOnEachConditionField(variables, contextFields);
-                this.channels.set(channelName, variables);
-            }
-
             this.updateVariables();
         } else {
             this.set(channelName, newVariables);
@@ -120,34 +152,30 @@ export class QueryVariablesManager<T = Literal> {
      * Arrays are concatenated
      */
     public updateVariables() {
-        const mergedVariables = {};
 
-        this.channels.forEach((variables: Literal | BehaviorSubject<Literal>) => {
+        const naturalSearch = this.channels.get('natural-search');
+
+        const mergedVariables = naturalSearch ? cloneDeep(naturalSearch) : {};
+
+        this.channels.forEach((variables: Literal | BehaviorSubject<Literal>, channelName: string) => {
+
+            if (channelName === 'natural-search') {
+                return;
+            }
+
             if (variables instanceof BehaviorSubject) {
                 variables = variables.getValue();
             }
-            mergeWith(mergedVariables, variables, mergeConcatArray);
+
+            if (naturalSearch && variables && variables.filter && variables.filter.conditions && variables.filter.conditions.length === 1) {
+                this.applyFieldsOnEachGroupField(mergedVariables, variables.filter.conditions[0].fields);
+            } else {
+                mergeWith(mergedVariables, variables, mergeConcatArray);
+            }
+
         });
 
         this.variables.next(mergedVariables as T);
-    }
-
-    /**
-     * Todo : replace second param "variables: T" by ConditionField[] (or whatever it's name is)
-     * @param {string[]} channelName
-     * @param {Literal} contextFields
-     */
-    public contextualizeChannel(channelName: string, contextFields: Literal) {
-
-        // cloneDeep to change reference and prevent some interactions when merge
-        this.contextChannels.set(channelName, cloneDeep(contextFields));
-
-        let variables = this.channels.get(channelName) as any;
-        if (variables) {
-            variables = this.applyFieldsOnEachConditionField(variables, contextFields);
-            this.channels.set(channelName, variables);
-            this.updateVariables();
-        }
     }
 
     /**
@@ -155,10 +183,12 @@ export class QueryVariablesManager<T = Literal> {
      * @param {any[]} destConditions destination list of fields
      * @param srcFields Fields source that will by merged with conditions fields
      */
-    private applyFieldsOnEachConditionField(destVariables: any, srcFields: Literal) {
+    private applyFieldsOnEachGroupField(destVariables: any, srcFields: Literal[]) {
 
-        for (const condition of destVariables.filter.conditions) {
-            mergeWith(condition, {fields: cloneDeep(srcFields)}, mergeConcatArray);
+        if (destVariables.filter && destVariables.filter.conditions) {
+            for (const condition of destVariables.filter.conditions) {
+                mergeWith(condition, {fields: cloneDeep(srcFields)}, mergeConcatArray);
+            }
         }
 
         return destVariables;

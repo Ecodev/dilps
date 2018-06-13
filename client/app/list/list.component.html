@@ -4,15 +4,19 @@
         <img *ngIf="showLogo" src="assets/images/logo-bleu.svg" style="max-width:100%;height:30px;" />
 
         <div id="natural-search-container" fxFlex [@searchState]="showGallery ? 'afterForcedSearch' : 'beforeForcedSearch'">
-            <natural-search class="searchField" [configurations]="config" [(selections)]="selections" (selectionsChange)="search($event)"></natural-search>
+            <natural-search class="searchField"
+                            [configurations]="config"
+                            [(selections)]="selections"
+                            (selectionsChange)="search($event)"
+            ></natural-search>
         </div>
 
-        <ng-container *ngIf="selected?.length">
+        <ng-container *ngIf="selected?.length && showGallery">
 
             <!--<div *ngIf="selected.length === 1" class="mat-body-1">{{ selected.length }} élément sélectionné</div>-->
             <!--<div *ngIf="selected.length > 1" class="mat-body-1">{{ selected.length }} éléments sélectionnés</div>-->
 
-            <button mat-icon-button (click)="linkSelectionToCollection(selected)" matTooltip="Ajouter à une collection" *ngIf="showGallery">
+            <button mat-icon-button (click)="linkSelectionToCollection(selected)" matTooltip="Ajouter à une collection">
                 <mat-icon>library_add</mat-icon>
             </button>
             <button mat-icon-button *ngIf="collection?.id" (click)="unlinkFromCollection(selected)" matTooltip="Supprimer de la collection">
@@ -23,7 +27,7 @@
                 <mat-icon>file_download</mat-icon>
             </button>
 
-            <button mat-icon-button (click)="goToQuizz(selected)" matTooltip="Lecture d'oeuvre" *ngIf="!!user && showGallery">
+            <button mat-icon-button (click)="goToQuizz(selected)" matTooltip="Lecture d'oeuvre" *ngIf="!!user">
                 <mat-icon>burst_mode</mat-icon>
             </button>
 
@@ -42,7 +46,7 @@
 
         </ng-container>
 
-        <ng-container *ngIf="!selected?.length && user">
+        <ng-container *ngIf="!selected?.length && user && showGallery">
             <button mat-icon-button
                     *ngIf="collection?.id"
                     (click)="linkCollectionToCollection(collection)"
@@ -71,7 +75,7 @@
         <button mat-icon-button
                 (click)="gallery.gallery.selectVisibleItems()"
                 matTooltip="Sélectionner les images visibles"
-                *ngIf="!selected?.length"
+                *ngIf="!selected?.length && showGallery"
         >
             <mat-icon>select_all</mat-icon>
         </button>

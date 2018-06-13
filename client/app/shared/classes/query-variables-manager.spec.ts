@@ -2,10 +2,10 @@ import { QueryVariablesManager } from './query-variables-manager';
 
 describe('QueryVariablesManager', () => {
 
-    let manager: QueryVariablesManager;
+    let manager: QueryVariablesManager<any>;
 
     beforeEach(() => {
-        manager = new QueryVariablesManager();
+        manager = new QueryVariablesManager<any>();
         // expect(manager.variables.value).toEqual(null);
     });
 
@@ -386,14 +386,22 @@ describe('QueryVariablesManager', () => {
         expect(manager.variables.value).toEqual(result);
     });
 
-    it('should apply context on an existing channel', () => {
+    it('should contextualize target channel when context is applied after target', () => {
 
-        const contextFields = [
-            {x: {equal: 'xxxx'}},
-            {y: {equal: 'yyyy'}},
-        ];
+        const varsA = {
+            filter: {
+                conditions: [
+                    {
+                        fields: [
+                            {x: {equal: 'xxxx'}},
+                            {y: {equal: 'yyyy'}},
+                        ],
+                    },
+                ],
+            },
+        };
 
-        const variables = {
+        const naturalSearch = {
             filter: {
                 conditions: [
                     {
@@ -404,8 +412,8 @@ describe('QueryVariablesManager', () => {
                     },
                     {
                         fields: [
-                            {c: {equal: 123}},
-                            {d: {equal: 456}},
+                            {c: {equal: 1234}},
+                            {d: {equal: 5678}},
                         ],
                     },
                 ],
@@ -425,8 +433,8 @@ describe('QueryVariablesManager', () => {
                     },
                     {
                         fields: [
-                            {c: {equal: 123}},
-                            {d: {equal: 456}},
+                            {c: {equal: 1234}},
+                            {d: {equal: 5678}},
                             {x: {equal: 'xxxx'}},
                             {y: {equal: 'yyyy'}},
                         ],
@@ -435,22 +443,17 @@ describe('QueryVariablesManager', () => {
             },
         };
 
-        manager.merge('a', variables);
-        expect(manager.variables.value).toEqual(variables);
+        manager.set('natural-search', naturalSearch);
+        expect(manager.variables.value).toEqual(naturalSearch);
 
-        manager.contextualizeChannel('a', contextFields);
+        manager.set('a', varsA);
         expect(manager.variables.value).toEqual(result);
 
     });
 
-    it('should set channel after a context as been setted', () => {
+    it('should contextualize target channel when target is applied after context', () => {
 
-        const contextFields = [
-            {x: {equal: 'xxxx'}},
-            {y: {equal: 'yyyy'}},
-        ];
-
-        const variables = {
+        const naturalSearch1 = {
             filter: {
                 conditions: [
                     {
@@ -461,146 +464,21 @@ describe('QueryVariablesManager', () => {
                     },
                     {
                         fields: [
-                            {c: {equal: 123}},
-                            {d: {equal: 456}},
+                            {c: {equal: 1234}},
+                            {d: {equal: 5678}},
                         ],
                     },
                 ],
             },
         };
 
-        const result = {
+        const varsA = {
             filter: {
                 conditions: [
                     {
                         fields: [
-                            {a: {equal: 1405}},
-                            {b: {equal: 1605}},
                             {x: {equal: 'xxxx'}},
                             {y: {equal: 'yyyy'}},
-                        ],
-                    },
-                    {
-                        fields: [
-                            {c: {equal: 123}},
-                            {d: {equal: 456}},
-                            {x: {equal: 'xxxx'}},
-                            {y: {equal: 'yyyy'}},
-                        ],
-                    },
-                ],
-            },
-        };
-
-
-        manager.contextualizeChannel('a', contextFields);
-        expect(manager.variables.value).toEqual(null);
-
-        manager.set('a', variables);
-        expect(manager.variables.value).toEqual(result);
-
-    });
-
-
-    it('should update (when called for the first time) a channel after a context as been setted', () => {
-
-        const contextFields = [
-            {x: {equal: 'xxxx'}},
-            {y: {equal: 'yyyy'}},
-        ];
-
-        const variables = {
-            filter: {
-                conditions: [
-                    {
-                        fields: [
-                            {a: {equal: 1405}},
-                            {b: {equal: 1605}},
-                        ],
-                    },
-                    {
-                        fields: [
-                            {c: {equal: 123}},
-                            {d: {equal: 456}},
-                        ],
-                    },
-                ],
-            },
-        };
-
-        const result = {
-            filter: {
-                conditions: [
-                    {
-                        fields: [
-                            {a: {equal: 1405}},
-                            {b: {equal: 1605}},
-                            {x: {equal: 'xxxx'}},
-                            {y: {equal: 'yyyy'}},
-                        ],
-                    },
-                    {
-                        fields: [
-                            {c: {equal: 123}},
-                            {d: {equal: 456}},
-                            {x: {equal: 'xxxx'}},
-                            {y: {equal: 'yyyy'}},
-                        ],
-                    },
-                ],
-            },
-        };
-
-
-        manager.contextualizeChannel('a', contextFields);
-        expect(manager.variables.value).toEqual(null);
-
-        manager.merge('a', variables);
-        expect(manager.variables.value).toEqual(result);
-    });
-
-
-    it('should apply context on an existing channel and then update channel', () => {
-
-        const contextFields = [
-            {x: {equal: 'xxxx'}},
-            {y: {equal: 'yyyy'}},
-        ];
-
-        const variablesA = {
-            filter: {
-                conditions: [
-                    {
-                        fields: [
-                            {a: {equal: 1405}},
-                            {b: {equal: 1605}},
-                        ],
-                    },
-                    {
-                        fields: [
-                            {c: {equal: 123}},
-                            {d: {equal: 456}},
-                        ],
-                    },
-                ],
-            },
-        };
-
-        const variablesB = {
-            filter: {
-                conditions: [
-                    {
-                        fields: [
-                            {a: {equal: 1}},
-                            {b: {equal: 2}},
-                            {c: {equal: 3}},
-                        ],
-                    },
-                    {
-                        fields: [
-                            {d: {equal: 4}},
-                            {e: {equal: 5}},
-                            {f: {equal: 6}},
                         ],
                     },
                 ],
@@ -620,10 +498,23 @@ describe('QueryVariablesManager', () => {
                     },
                     {
                         fields: [
-                            {c: {equal: 123}},
-                            {d: {equal: 456}},
+                            {c: {equal: 1234}},
+                            {d: {equal: 5678}},
                             {x: {equal: 'xxxx'}},
                             {y: {equal: 'yyyy'}},
+                        ],
+                    },
+                ],
+            },
+        };
+
+        const varsB = {
+            filter: {
+                conditions: [
+                    {
+                        fields: [
+                            {x: {equal: 'x'}},
+                            {w: {equal: 'wwww'}},
                         ],
                     },
                 ],
@@ -635,34 +526,65 @@ describe('QueryVariablesManager', () => {
                 conditions: [
                     {
                         fields: [
-                            {a: {equal: 1}},
-                            {b: {equal: 2}},
-                            {c: {equal: 3}},
-                            {x: {equal: 'xxxx'}},
-                            {y: {equal: 'yyyy'}},
+                            {a: {equal: 1405}},
+                            {b: {equal: 1605}},
+                            {x: {equal: 'x'}},
+                            {w: {equal: 'wwww'}},
                         ],
                     },
                     {
                         fields: [
-                            {d: {equal: 4}},
-                            {e: {equal: 5}},
-                            {f: {equal: 6}},
-                            {x: {equal: 'xxxx'}},
-                            {y: {equal: 'yyyy'}},
+                            {c: {equal: 1234}},
+                            {d: {equal: 5678}},
+                            {x: {equal: 'x'}},
+                            {w: {equal: 'wwww'}},
                         ],
                     },
                 ],
             },
         };
 
-        manager.set('a', variablesA);
-        expect(manager.variables.value).toEqual(variablesA);
 
-        manager.contextualizeChannel('a', contextFields);
+        const naturalSearch2 = {
+            filter: {
+                conditions: [
+                    {
+                        fields: [
+                            {a: {equal: 'aaa'}},
+                            {b: {equal: 'bbb'}},
+                        ],
+                    },
+                ],
+            },
+        };
+
+
+        const resultC = {
+            filter: {
+                conditions: [
+                    {
+                        fields: [
+                            {a: {equal: 'aaa'}},
+                            {b: {equal: 'bbb'}},
+                            {x: {equal: 'x'}},
+                            {w: {equal: 'wwww'}},
+                        ],
+                    },
+                ],
+            },
+        };
+
+        manager.set('a', varsA);
+        expect(manager.variables.value).toEqual(varsA);
+
+        manager.set('natural-search', naturalSearch1);
         expect(manager.variables.value).toEqual(resultA);
 
-        manager.merge('a', variablesB);
+        manager.merge('a', varsB);
         expect(manager.variables.value).toEqual(resultB);
+
+        manager.set('natural-search', naturalSearch2);
+        expect(manager.variables.value).toEqual(resultC);
 
     });
 
