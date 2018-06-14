@@ -18,7 +18,7 @@ import { MassEditComponent } from '../shared/components/mass-edit/mass-edit.comp
 
 import { NaturalGalleryComponent } from '@ecodev/angular-natural-gallery';
 import { NaturalSearchConfiguration, NaturalSearchSelections, toGraphQLDoctrineFilter } from '@ecodev/natural-search';
-import { QueryVariablesManager } from '../shared/classes/query-variables-manager';
+import { QueryVariablesManager, SortingOrder } from '../shared/classes/query-variables-manager';
 
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CardFilter, CardSortingField } from '../shared/generated-types';
@@ -130,7 +130,22 @@ export class ListComponent implements OnInit {
             }
 
             // const contextFields: CardFilterConditionFields[] = [{filename: {equal: {value: '', not: true}}}];
-            const filters: CardFilter = {conditions: [{fields: [{filename: {equal: {value: '', not: true}}}]}]};
+            const filters: CardFilter = {
+                conditions: [
+                    {
+                        fields: [
+                            {
+                                filename: {
+                                    equal: {
+                                        value: '',
+                                        not: true,
+                                    },
+                                },
+                            },
+                        ],
+                    },
+                ],
+            };
 
             if (data.creator && !this.collection) {
                 // contextFields.push({creator: {equal: {value: data.creator.id}}});
@@ -149,6 +164,30 @@ export class ListComponent implements OnInit {
             zoomRotation: false,
         };
 
+    }
+
+    public sort(field: string, direction: SortingOrder) {
+
+        this.reset();
+
+        if (field) {
+            this.variablesManager.set('sorting', {
+                sorting: [
+                    {
+                        field: field,
+                        order: direction,
+                    },
+                    {
+                        field: 'id',
+                        order: SortingOrder.ASC,
+                    },
+                ],
+            });
+        } else {
+            this.variablesManager.set('sorting', {
+                sorting: undefined,
+            });
+        }
     }
 
     public updateShowDownloadCollection() {
@@ -207,11 +246,15 @@ export class ListComponent implements OnInit {
         this.selected = items;
     }
 
+    public reset() {
+        this.selected = [];
+        this.gallery.collection = [];
+        this.variablesManager.set('pagination', this.firstPagination);
+    }
+
     public reload() {
         if (this.sub) {
-            this.selected = [];
-            this.gallery.collection = [];
-            this.variablesManager.set('pagination', this.firstPagination);
+            this.reset();
             this.sub.refetch();
         }
     }

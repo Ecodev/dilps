@@ -4,12 +4,21 @@
         <img *ngIf="showLogo" src="assets/images/logo-bleu.svg" style="max-width:100%;height:30px;" />
 
         <div id="natural-search-container" fxFlex [@searchState]="showGallery ? 'afterForcedSearch' : 'beforeForcedSearch'">
-            <natural-search class="searchField"
-                            [configurations]="config"
-                            [(selections)]="selections"
-                            (selectionsChange)="search($event)"
+            <natural-search class="searchField" [configurations]="config" [(selections)]="selections" (selectionsChange)="search($event)"
             ></natural-search>
         </div>
+
+        <button mat-icon-button mat-button [matMenuTriggerFor]="soringMenu" matTooltip="Trier" *ngIf="showGallery">
+            <mat-icon>sort</mat-icon>
+        </button>
+
+        <mat-menu #soringMenu="matMenu" [overlapTrigger]="false">
+            <div mat-menu-item (click)="sort(null)">Aucun</div>
+            <div mat-menu-item (click)="sort('name', 'ASC')">Titre</div>
+            <div mat-menu-item (click)="sort('creationDate', 'DESC')">Date insertion</div>
+            <div mat-menu-item (click)="sort('dating', 'ASC')">Datation</div>
+            <div mat-menu-item (click)="sort('locality', 'ASC')">Lieu</div>
+        </mat-menu>
 
         <ng-container *ngIf="selected?.length && showGallery">
 
