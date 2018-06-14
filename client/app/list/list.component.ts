@@ -18,10 +18,11 @@ import { MassEditComponent } from '../shared/components/mass-edit/mass-edit.comp
 
 import { NaturalGalleryComponent } from '@ecodev/angular-natural-gallery';
 import { NaturalSearchConfiguration, NaturalSearchSelections, toGraphQLDoctrineFilter } from '@ecodev/natural-search';
-import { QueryVariablesManager, SortingOrder } from '../shared/classes/query-variables-manager';
+import { QueryVariables, QueryVariablesManager, SortingOrder } from '../shared/classes/query-variables-manager';
 
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CardFilter, CardSortingField } from '../shared/generated-types';
+import { PersistenceService } from '../shared/services/persistence.service';
 
 @Component({
     selector: 'app-list',
@@ -79,10 +80,13 @@ export class ListComponent implements OnInit {
                 private dialog: MatDialog,
                 private collectionSvc: CollectionService,
                 private alertSvc: AlertService,
-                private userSvc: UserService) {
+                private userSvc: UserService,
+                private persistenceSvc: PersistenceService) {
     }
 
     ngOnInit() {
+
+        this.initFromUrl();
 
         this.userSvc.getCurrentUser().subscribe(user => {
             this.user = user;
@@ -114,9 +118,11 @@ export class ListComponent implements OnInit {
 
         this.route.data.subscribe(data => {
 
+            const naturalSelections = this.selections.filter(e => e.length).length; // because empty natural search return [[]]
+
             // If nothing specified or does not force search, show gallery when component init
             // If we have to force search, that means gallery is only visible after a first search (see search() fn)
-            if (isUndefined(data.forceSearch) || data.forceSearch === false) {
+            if (isUndefined(data.forceSearch) || data.forceSearch === false || naturalSelections) {
                 this.showGallery = true;
             } else {
                 this.showGallery = false;
@@ -148,12 +154,10 @@ export class ListComponent implements OnInit {
             };
 
             if (data.creator && !this.collection) {
-                // contextFields.push({creator: {equal: {value: data.creator.id}}});
                 filters.conditions[filters.conditions.length - 1].fields[0].creator = {equal: {value: data.creator.id}};
             }
 
             this.galleryCollection = [];
-            console.log('contextFields', filters);
             this.variablesManager.set('controller-variables', {filter: filters});
         });
 
@@ -166,12 +170,31 @@ export class ListComponent implements OnInit {
 
     }
 
+    private initFromUrl() {
+        const naturalSearchSelections = this.persistenceSvc.getFromUrl('natural-search', this.route);
+        const sorting = this.persistenceSvc.getFromUrl('sorting', this.route);
+
+        if (naturalSearchSelections) {
+            this.selections = naturalSearchSelections;
+            this.translateSearchAndUpdate(naturalSearchSelections);
+        }
+
+        if (sorting) {
+            this.variablesManager.set('sorting', sorting);
+        }
+
+    }
+
     public sort(field: string, direction: SortingOrder) {
 
         this.reset();
 
+        let sorting = {
+            sorting: undefined,
+        };
+
         if (field) {
-            this.variablesManager.set('sorting', {
+            sorting = {
                 sorting: [
                     {
                         field: field,
@@ -182,12 +205,11 @@ export class ListComponent implements OnInit {
                         order: SortingOrder.ASC,
                     },
                 ],
-            });
-        } else {
-            this.variablesManager.set('sorting', {
-                sorting: undefined,
-            });
+            };
         }
+
+        this.variablesManager.set('sorting', sorting);
+        this.persistenceSvc.persistInUrl('sorting', sorting, this.route);
     }
 
     public updateShowDownloadCollection() {
@@ -248,7 +270,11 @@ export class ListComponent implements OnInit {
 
     public reset() {
         this.selected = [];
-        this.gallery.collection = [];
+
+        if (this.gallery) {
+            this.gallery.collection = [];
+        }
+
         this.variablesManager.set('pagination', this.firstPagination);
     }
 
@@ -259,14 +285,28 @@ export class ListComponent implements OnInit {
         }
     }
 
-    public search(term: NaturalSearchSelections) {
-        this.config = cardsFullConfiguration;
+    public search(selections: NaturalSearchSelections) {
         this.showGallery = true;
 
-        const filter = toGraphQLDoctrineFilter(this.config, term);
-        this.graphqlFilter = filter;
-        this.reload();
-        this.variablesManager.set('natural-search', {filter: filter});
+        // Persist in url before translation to graphql
+        this.persistenceSvc.persistInUrl('natural-search', selections, this.route);
+        this.translateSearchAndUpdate(selections);
+    }
+
+    /**
+     *
+     * @param {NaturalSearchSelections} selections
+     */
+    private translateSearchAndUpdate(selections: NaturalSearchSelections) {
+
+        this.config = cardsFullConfiguration;
+
+        // Convert to graphql and update query variables
+        const translatedSelection = toGraphQLDoctrineFilter(this.config, selections);
+        this.graphqlFilter = translatedSelection;
+
+        this.reset();
+        this.variablesManager.set('natural-search', {filter: translatedSelection});
     }
 
     public loadMore(ev) {

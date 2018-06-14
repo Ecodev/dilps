@@ -2,28 +2,7 @@ import { Literal } from '../types';
 import { BehaviorSubject } from 'rxjs';
 import { cloneDeep, defaultsDeep, isArray, mergeWith } from 'lodash';
 
-import {
-    ArtistFilter,
-    CardFilter,
-    ChangeFilter,
-    CollectionFilter,
-    CountryFilter,
-    DatingFilter,
-    InstitutionFilter,
-    TagFilter,
-    UserFilter,
-} from '../generated-types';
-
-type Filter =
-    CardFilter
-    & UserFilter
-    & InstitutionFilter
-    & CountryFilter
-    & CollectionFilter
-    & ArtistFilter
-    & TagFilter
-    & DatingFilter
-    & ChangeFilter;
+import { CardFilter } from '../generated-types';
 
 export interface QueryVariables {
     filter?: Filter | null;
@@ -31,12 +10,11 @@ export interface QueryVariables {
     sorting?: Array<Sorting> | null;
 }
 
+type Filter = CardFilter;
+
 export interface PaginationInput {
-    // The zero-based index of the displayed list of items
     offset?: number | null;
-    // The zero-based page index of the displayed list of items
     pageIndex?: number | null;
-    // Number of items to display on a page
     pageSize?: number | null;
 }
 
@@ -45,7 +23,6 @@ export interface Sorting {
     order?: SortingOrder | null;
 }
 
-// Order to be used in DQL
 export enum SortingOrder {
     ASC = 'ASC',
     DESC = 'DESC',
@@ -100,7 +77,7 @@ function mergeConcatArray(destValue, source) {
  * fm.merge('componentB-variables', {a : [3, 4]);
  * console.log(fm.variables.value); // {a : [1, 2, 3, 4]}
  */
-export class QueryVariablesManager<T = QueryVariables> {
+export class QueryVariablesManager<T extends QueryVariables = QueryVariables> {
 
     private readonly channels: Map<string, T> = new Map<string, T>();
     public readonly variables: BehaviorSubject<T> = new BehaviorSubject<T>(null);
@@ -114,6 +91,12 @@ export class QueryVariablesManager<T = QueryVariables> {
     public set(channelName: string, variables: T) {
         this.channels.set(channelName, cloneDeep(variables)); // cloneDeep to change reference and prevent some interactions when merge
         this.updateVariables();
+    }
+
+    public get(channelName: string) {
+        // Avoid to return the same reference to prevent an attribut change, then another channel update that would used this changed
+        // attribute without having explicitely asked QueryVariablesManager to update it.
+        return cloneDeep(this.channels.get(channelName));
     }
 
     /**
