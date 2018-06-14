@@ -18,7 +18,7 @@ import { MassEditComponent } from '../shared/components/mass-edit/mass-edit.comp
 
 import { NaturalGalleryComponent } from '@ecodev/angular-natural-gallery';
 import { NaturalSearchConfiguration, NaturalSearchSelections, toGraphQLDoctrineFilter } from '@ecodev/natural-search';
-import { QueryVariables, QueryVariablesManager, SortingOrder } from '../shared/classes/query-variables-manager';
+import { QueryVariablesManager, SortingOrder } from '../shared/classes/query-variables-manager';
 
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CardFilter, CardSortingField } from '../shared/generated-types';
@@ -33,6 +33,7 @@ import { PersistenceService } from '../shared/services/persistence.service';
             state('afterForcedSearch', style({transform: 'translateY(0vh)'})),
             state('beforeForcedSearch', style({transform: 'translateY(calc(50vh - 45px))'})),
             transition('beforeForcedSearch => afterForcedSearch', animate('1s ease-in-out')),
+            transition('afterForcedSearch => beforeForcedSearch', animate('.5s ease-in-out')),
         ]),
     ],
 })
@@ -86,11 +87,13 @@ export class ListComponent implements OnInit {
 
     ngOnInit() {
 
-        this.initFromUrl();
-
         this.userSvc.getCurrentUser().subscribe(user => {
             this.user = user;
             this.updateShowDownloadCollection();
+        });
+
+        this.route.queryParams.subscribe(() => {
+            this.initFromUrl();
         });
 
         this.route.params.subscribe(params => {
@@ -118,15 +121,9 @@ export class ListComponent implements OnInit {
 
         this.route.data.subscribe(data => {
 
-            const naturalSelections = this.selections.filter(e => e.length).length; // because empty natural search return [[]]
-
             // If nothing specified or does not force search, show gallery when component init
             // If we have to force search, that means gallery is only visible after a first search (see search() fn)
-            if (isUndefined(data.forceSearch) || data.forceSearch === false || naturalSelections) {
-                this.showGallery = true;
-            } else {
-                this.showGallery = false;
-            }
+            this.updateGalleryVisibility();
 
             this.showLogo = data.showLogo;
             this.updateShowDownloadCollection();
@@ -170,19 +167,28 @@ export class ListComponent implements OnInit {
 
     }
 
+    private updateGalleryVisibility() {
+
+        if (isUndefined(this.route.snapshot.data.forceSearch) ||
+            this.route.snapshot.data.forceSearch ===
+            false ||
+            this.hasSelections(this.selections)) {
+            this.showGallery = true;
+        } else {
+            this.showGallery = false;
+        }
+    }
+
     private initFromUrl() {
-        const naturalSearchSelections = this.persistenceSvc.getFromUrl('natural-search', this.route);
+        let naturalSearchSelections = this.persistenceSvc.getFromUrl('natural-search', this.route);
         const sorting = this.persistenceSvc.getFromUrl('sorting', this.route);
 
-        if (naturalSearchSelections) {
-            this.selections = naturalSearchSelections;
-            this.translateSearchAndUpdate(naturalSearchSelections);
-        }
+        // prevent null value that is actually not supported
+        naturalSearchSelections = naturalSearchSelections ? naturalSearchSelections : [[]];
 
-        if (sorting) {
-            this.variablesManager.set('sorting', sorting);
-        }
-
+        this.selections = naturalSearchSelections;
+        this.translateSearchAndUpdate(naturalSearchSelections);
+        this.variablesManager.set('sorting', sorting);
     }
 
     public sort(field: string, direction: SortingOrder) {
@@ -286,8 +292,6 @@ export class ListComponent implements OnInit {
     }
 
     public search(selections: NaturalSearchSelections) {
-        this.showGallery = true;
-
         // Persist in url before translation to graphql
         this.persistenceSvc.persistInUrl('natural-search', selections, this.route);
         this.translateSearchAndUpdate(selections);
@@ -301,12 +305,24 @@ export class ListComponent implements OnInit {
 
         this.config = cardsFullConfiguration;
 
+        this.updateGalleryVisibility();
+
         // Convert to graphql and update query variables
         const translatedSelection = toGraphQLDoctrineFilter(this.config, selections);
         this.graphqlFilter = translatedSelection;
 
         this.reset();
         this.variablesManager.set('natural-search', {filter: translatedSelection});
+    }
+
+    /**
+     * Return true wherever natural-search has selection or not.
+     * Natural-search actual "no value" equals [[]]
+     * @param selections
+     * @returns {boolean}
+     */
+    private hasSelections(selections): boolean {
+        return !!selections.filter(e => e.length).length; // because empty natural search return [[]]
     }
 
     public loadMore(ev) {
@@ -327,7 +343,9 @@ export class ListComponent implements OnInit {
         if (!this.sub) {
             this.sub = this.cardSvc.watchAll(this.variablesManager.variables);
             this.sub.valueChanges.subscribe(data => {
-                this.gallery.gallery.addItems(this.formatImages(data.items));
+                if (this.gallery) {
+                    this.gallery.gallery.addItems(this.formatImages(data.items));
+                }
             });
         }
     }

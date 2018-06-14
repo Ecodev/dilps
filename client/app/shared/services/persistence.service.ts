@@ -16,18 +16,13 @@ export class PersistenceService {
     }
 
     public persistInUrl(key: string, value: any, route: ActivatedRoute) {
-        console.warn('persistInUrl', key, value);
-        console.log('is root route', !route.snapshot.url.length, route);
-
         const params = clone(route.snapshot.queryParams);
-        console.log('params', params);
-
         params[key] = JSON.stringify(value);
         this.router.navigate([], {queryParams: params});
     }
 
     public persistInStorage(key: string, value: any) {
-
+        // @todo, but not required for the moment
     }
 
     public get(key: string, route: ActivatedRoute): any {
@@ -44,7 +39,7 @@ export class PersistenceService {
     }
 
     public getFromStorage(key: string): any {
-
+        // @todo, but not required for the moment
     }
 
 }
