@@ -191,7 +191,7 @@ export class ListComponent implements OnInit {
         this.variablesManager.set('sorting', sorting);
     }
 
-    public sort(field: string, direction: SortingOrder) {
+    public sort(field: string, direction: string) {
 
         this.reset();
 

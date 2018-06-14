@@ -247,9 +247,9 @@
   dependencies:
     photoswipe "^4.1.2"
 
-"@ecodev/natural-search@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@ecodev/natural-search/-/natural-search-0.0.7.tgz#ce99b92b40e90ac6bec89c8be6ea715ee7a34a21"
+"@ecodev/natural-search@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@ecodev/natural-search/-/natural-search-0.0.9.tgz#2d829483cc6c9abf470066391eee7cb90686d9fa"
   dependencies:
     tslib "^1.9.0"
 
