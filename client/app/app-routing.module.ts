@@ -133,9 +133,9 @@ export const routes: Routes = [
                         component: ListComponent,
                         data: {
                             filter: {
-                                conditions: [
+                                groups: [
                                     {
-                                        fields: [{
+                                        conditions: [{
                                             collections: {empty: {not: false}},
                                         }],
                                     },

@@ -110,8 +110,8 @@ export class ListComponent implements OnInit {
                 this.galleryCollection = [];
 
                 const filter: CardFilter = {
-                    conditions: [
-                        {fields: [{collections: {have: {values: [params.collectionId]}}}]},
+                    groups: [
+                        {conditions: [{collections: {have: {values: [params.collectionId]}}}]},
                     ],
                 };
 
@@ -134,9 +134,9 @@ export class ListComponent implements OnInit {
 
             // const contextFields: CardFilterConditionFields[] = [{filename: {equal: {value: '', not: true}}}];
             const filters: CardFilter = {
-                conditions: [
+                groups: [
                     {
-                        fields: [
+                        conditions: [
                             {
                                 filename: {
                                     equal: {
@@ -151,7 +151,7 @@ export class ListComponent implements OnInit {
             };
 
             if (data.creator && !this.collection) {
-                filters.conditions[filters.conditions.length - 1].fields[0].creator = {equal: {value: data.creator.id}};
+                filters.groups[filters.groups.length - 1].conditions[0].creator = {equal: {value: data.creator.id}};
             }
 
             this.galleryCollection = [];

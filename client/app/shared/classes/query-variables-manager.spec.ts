@@ -265,15 +265,15 @@ describe('QueryVariablesManager', () => {
 
         const variablesA = {
             filter: {
-                conditions: [
+                groups: [
                     {
-                        fields: [
+                        conditions: [
                             {a: {equal: 1405}},
                             {b: {equal: 1605}},
                         ],
                     },
                     {
-                        fields: [
+                        conditions: [
                             {c: {equal: 123}},
                             {d: {equal: 456}},
                         ],
@@ -284,15 +284,15 @@ describe('QueryVariablesManager', () => {
 
         const variablesB = {
             filter: {
-                conditions: [
+                groups: [
                     {
-                        fields: [
+                        conditions: [
                             {e: {equal: 1405}},
                             {f: {equal: 1605}},
                         ],
                     },
                     {
-                        fields: [
+                        conditions: [
                             {g: {equal: 123}},
                             {g: {equal: 456}},
                         ],
@@ -312,15 +312,15 @@ describe('QueryVariablesManager', () => {
 
         const variablesA = {
             filter: {
-                conditions: [
+                groups: [
                     {
-                        fields: [
+                        conditions: [
                             {a: {equal: 1405}},
                             {b: {equal: 1605}},
                         ],
                     },
                     {
-                        fields: [
+                        conditions: [
                             {c: {equal: 123}},
                             {d: {equal: 456}},
                         ],
@@ -331,15 +331,15 @@ describe('QueryVariablesManager', () => {
 
         const variablesB = {
             filter: {
-                conditions: [
+                groups: [
                     {
-                        fields: [
+                        conditions: [
                             {e: {equal: 1405}},
                             {f: {equal: 1605}},
                         ],
                     },
                     {
-                        fields: [
+                        conditions: [
                             {g: {equal: 123}},
                             {g: {equal: 456}},
                         ],
@@ -350,27 +350,27 @@ describe('QueryVariablesManager', () => {
 
         const result = {
             filter: {
-                conditions: [
+                groups: [
                     {
-                        fields: [
+                        conditions: [
                             {a: {equal: 1405}},
                             {b: {equal: 1605}},
                         ],
                     },
                     {
-                        fields: [
+                        conditions: [
                             {c: {equal: 123}},
                             {d: {equal: 456}},
                         ],
                     },
                     {
-                        fields: [
+                        conditions: [
                             {e: {equal: 1405}},
                             {f: {equal: 1605}},
                         ],
                     },
                     {
-                        fields: [
+                        conditions: [
                             {g: {equal: 123}},
                             {g: {equal: 456}},
                         ],
@@ -390,9 +390,9 @@ describe('QueryVariablesManager', () => {
 
         const varsA = {
             filter: {
-                conditions: [
+                groups: [
                     {
-                        fields: [
+                        conditions: [
                             {x: {equal: 'xxxx'}},
                             {y: {equal: 'yyyy'}},
                         ],
@@ -403,15 +403,15 @@ describe('QueryVariablesManager', () => {
 
         const naturalSearch = {
             filter: {
-                conditions: [
+                groups: [
                     {
-                        fields: [
+                        conditions: [
                             {a: {equal: 1405}},
                             {b: {equal: 1605}},
                         ],
                     },
                     {
-                        fields: [
+                        conditions: [
                             {c: {equal: 1234}},
                             {d: {equal: 5678}},
                         ],
@@ -422,9 +422,9 @@ describe('QueryVariablesManager', () => {
 
         const result = {
             filter: {
-                conditions: [
+                groups: [
                     {
-                        fields: [
+                        conditions: [
                             {a: {equal: 1405}},
                             {b: {equal: 1605}},
                             {x: {equal: 'xxxx'}},
@@ -432,7 +432,7 @@ describe('QueryVariablesManager', () => {
                         ],
                     },
                     {
-                        fields: [
+                        conditions: [
                             {c: {equal: 1234}},
                             {d: {equal: 5678}},
                             {x: {equal: 'xxxx'}},
@@ -455,15 +455,15 @@ describe('QueryVariablesManager', () => {
 
         const naturalSearch1 = {
             filter: {
-                conditions: [
+                groups: [
                     {
-                        fields: [
+                        conditions: [
                             {a: {equal: 1405}},
                             {b: {equal: 1605}},
                         ],
                     },
                     {
-                        fields: [
+                        conditions: [
                             {c: {equal: 1234}},
                             {d: {equal: 5678}},
                         ],
@@ -474,9 +474,9 @@ describe('QueryVariablesManager', () => {
 
         const varsA = {
             filter: {
-                conditions: [
+                groups: [
                     {
-                        fields: [
+                        conditions: [
                             {x: {equal: 'xxxx'}},
                             {y: {equal: 'yyyy'}},
                         ],
@@ -487,9 +487,9 @@ describe('QueryVariablesManager', () => {
 
         const resultA = {
             filter: {
-                conditions: [
+                groups: [
                     {
-                        fields: [
+                        conditions: [
                             {a: {equal: 1405}},
                             {b: {equal: 1605}},
                             {x: {equal: 'xxxx'}},
@@ -497,7 +497,7 @@ describe('QueryVariablesManager', () => {
                         ],
                     },
                     {
-                        fields: [
+                        conditions: [
                             {c: {equal: 1234}},
                             {d: {equal: 5678}},
                             {x: {equal: 'xxxx'}},
@@ -510,9 +510,9 @@ describe('QueryVariablesManager', () => {
 
         const varsB = {
             filter: {
-                conditions: [
+                groups: [
                     {
-                        fields: [
+                        conditions: [
                             {x: {equal: 'x'}},
                             {w: {equal: 'wwww'}},
                         ],
@@ -523,9 +523,9 @@ describe('QueryVariablesManager', () => {
 
         const resultB = {
             filter: {
-                conditions: [
+                groups: [
                     {
-                        fields: [
+                        conditions: [
                             {a: {equal: 1405}},
                             {b: {equal: 1605}},
                             {x: {equal: 'x'}},
@@ -533,7 +533,7 @@ describe('QueryVariablesManager', () => {
                         ],
                     },
                     {
-                        fields: [
+                        conditions: [
                             {c: {equal: 1234}},
                             {d: {equal: 5678}},
                             {x: {equal: 'x'}},
@@ -547,9 +547,9 @@ describe('QueryVariablesManager', () => {
 
         const naturalSearch2 = {
             filter: {
-                conditions: [
+                groups: [
                     {
-                        fields: [
+                        conditions: [
                             {a: {equal: 'aaa'}},
                             {b: {equal: 'bbb'}},
                         ],
@@ -561,9 +561,9 @@ describe('QueryVariablesManager', () => {
 
         const resultC = {
             filter: {
-                conditions: [
+                groups: [
                     {
-                        fields: [
+                        conditions: [
                             {a: {equal: 'aaa'}},
                             {b: {equal: 'bbb'}},
                             {x: {equal: 'x'}},

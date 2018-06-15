@@ -137,7 +137,7 @@ export class QueryVariablesManager<T extends QueryVariables = QueryVariables> {
     public updateVariables() {
 
         let naturalSearch = this.channels.get('natural-search');
-        naturalSearch = naturalSearch && naturalSearch.filter && naturalSearch.filter.conditions ? cloneDeep(naturalSearch) : null;
+        naturalSearch = naturalSearch && naturalSearch.filter && naturalSearch.filter.groups ? cloneDeep(naturalSearch) : null;
         const mergedVariables = naturalSearch ? naturalSearch : {};
 
         this.channels.forEach((variables: Literal | BehaviorSubject<Literal>, channelName: string) => {
@@ -150,8 +150,8 @@ export class QueryVariablesManager<T extends QueryVariables = QueryVariables> {
                 variables = variables.getValue();
             }
 
-            if (naturalSearch && variables && variables.filter && variables.filter.conditions && variables.filter.conditions.length === 1) {
-                this.applyFieldsOnEachGroupField(mergedVariables, variables.filter.conditions[0].fields);
+            if (naturalSearch && variables && variables.filter && variables.filter.groups && variables.filter.groups.length === 1) {
+                this.applyConditionsOnEachGroup(mergedVariables, variables.filter.groups[0].conditions);
             } else {
                 mergeWith(mergedVariables, variables, mergeConcatArray);
             }
@@ -162,15 +162,14 @@ export class QueryVariablesManager<T extends QueryVariables = QueryVariables> {
     }
 
     /**
-     *
-     * @param {any[]} destConditions destination list of fields
-     * @param srcFields Fields source that will by merged with conditions fields
+     * @param destVariables destination variables
+     * @param srcConditions Conditions source that will by merged into each filter groups
      */
-    private applyFieldsOnEachGroupField(destVariables: any, srcFields: Literal[]) {
+    private applyConditionsOnEachGroup(destVariables: any, srcConditions: Literal[]) {
 
-        if (destVariables.filter && destVariables.filter.conditions) {
-            for (const condition of destVariables.filter.conditions) {
-                mergeWith(condition, {fields: cloneDeep(srcFields)}, mergeConcatArray);
+        if (destVariables.filter && destVariables.filter.groups) {
+            for (const group of destVariables.filter.groups) {
+                mergeWith(group, {conditions: cloneDeep(srcConditions)}, mergeConcatArray);
             }
         }
 
