@@ -37,23 +37,6 @@ class CardRepository extends AbstractRepository implements LimitedAccessSubQuery
             }
         }
 
-        if (@$filters['search']) {
-            $qb->leftJoin('card.institution', 'institution');
-            $qb->leftJoin('card.artists', 'artist');
-            $fields = [
-                'card.name',
-                'card.expandedName',
-                'card.material',
-                'card.technique',
-                'card.addition',
-                'card.locality',
-                'institution.name',
-                'artist.name',
-            ];
-
-            $this->addSearch($qb, $filters['search'] ?? '', $fields);
-        }
-
         if (isset($filters['hasImage'])) {
             if ($filters['hasImage'] === true) {
                 $qb->andWhere("card.filename != ''");
@@ -62,7 +45,8 @@ class CardRepository extends AbstractRepository implements LimitedAccessSubQuery
             }
         }
 
-        $this->applySorting($qb, 'card', $sorting);
+        $this->applySearch($qb, $filters, 'card');
+        $this->applySorting($qb, $sorting, 'card');
 
         return $qb;
     }

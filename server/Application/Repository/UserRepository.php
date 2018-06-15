@@ -24,13 +24,8 @@ class UserRepository extends AbstractRepository implements LimitedAccessSubQuery
             $qb->setParameter('email', '%' . $filters['email'] . '%');
         }
 
-        $fields = [
-            'user.login',
-            'user.email',
-        ];
-        $this->addSearch($qb, $filters['search'] ?? '', $fields);
-
-        $this->applySorting($qb, 'user', $sorting);
+        $this->applySearch($qb, $filters, 'user');
+        $this->applySorting($qb, $sorting, 'user');
 
         return $qb;
     }

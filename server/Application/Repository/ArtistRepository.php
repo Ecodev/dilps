@@ -13,9 +13,8 @@ class ArtistRepository extends AbstractRepository
     {
         $qb = $this->createQueryBuilder('artist');
 
-        $this->addSearch($qb, $filters['search'] ?? '', ['artist.name']);
-
-        $this->applySorting($qb, 'artist', $sorting);
+        $this->applySearch($qb, $filters, 'artist');
+        $this->applySorting($qb, $sorting, 'artist');
 
         return $qb;
     }

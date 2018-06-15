@@ -13,9 +13,8 @@ class InstitutionRepository extends AbstractRepository
     {
         $qb = $this->createQueryBuilder('institution');
 
-        $this->addSearch($qb, $filters['search'] ?? '', ['institution.name', 'institution.locality']);
-
-        $this->applySorting($qb, 'institution', $sorting);
+        $this->applySearch($qb, $filters, 'institution');
+        $this->applySorting($qb, $sorting, 'institution');
 
         return $qb;
     }

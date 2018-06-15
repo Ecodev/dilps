@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Application\Repository;
 
+use Application\Api\Input\Operator\SearchOperatorType;
 use Application\Api\Input\Sorting\Random;
 use Application\ORM\Query\Filter\AclFilter;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use GraphQL\Doctrine\Factory\UniqueNameFactory;
+use GraphQL\Type\Definition\Type;
 
 abstract class AbstractRepository extends EntityRepository
 {
@@ -21,12 +24,12 @@ abstract class AbstractRepository extends EntityRepository
             $qb->andWhere($name . '.' . $key . '=' . $this->getEntityManager()->getConnection()->quote($value));
         }
 
-        $this->applySorting($qb, $name, $sorting);
+        $this->applySorting($qb, $sorting, $name);
 
         return $qb;
     }
 
-    protected function applySorting(QueryBuilder $qb, string $alias, array $sorting): void
+    protected function applySorting(QueryBuilder $qb, array $sorting, string $alias): void
     {
         foreach ($sorting as $sort) {
             if ($sort['field'] === 'random') {
@@ -76,33 +79,18 @@ abstract class AbstractRepository extends EntityRepository
      * Modify $qb to add a constraint to search for all words contained in $search.
      *
      * @param QueryBuilder $qb
-     * @param string $search
-     * @param array $fields an array of table.field strings
+     * @param array $filters
+     * @param string $alias
      */
-    protected function addSearch(QueryBuilder $qb, string $search, array $fields): void
+    protected function applySearch(QueryBuilder $qb, array $filters, string $alias): void
     {
-        if (!trim($search)) {
-            return;
-        }
+        $search = $filters['search'] ?? '';
+        $operator = new SearchOperatorType(_types(), Type::string());
+        $unique = new UniqueNameFactory();
 
-        // Build the WHERE clause
-        $wordWheres = [];
-        foreach (preg_split('/[[:space:]]+/', $search, -1, PREG_SPLIT_NO_EMPTY) as $i => $word) {
-            $parameterName = 'searchWord' . $i;
-
-            $fieldWheres = [];
-            foreach ($fields as $field) {
-                $fieldWheres[] = $field . ' LIKE :' . $parameterName;
-            }
-
-            if ($fieldWheres) {
-                $wordWheres[] = '(' . implode(' OR ', $fieldWheres) . ')';
-                $qb->setParameter($parameterName, '%' . $word . '%');
-            }
-        }
-
-        if ($wordWheres) {
-            $qb->andWhere('(' . implode(' AND ', $wordWheres) . ')');
+        $dqlCondition = $operator->getDqlCondition($unique, $this->getClassMetadata(), $qb, $alias, 'non-used-field-name', ['value' => $search]);
+        if ($dqlCondition) {
+            $qb->andWhere($dqlCondition);
         }
     }
 }
