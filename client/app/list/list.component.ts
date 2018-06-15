@@ -66,7 +66,6 @@ export class ListComponent implements OnInit {
 
     public config: NaturalSearchConfiguration = cardsMinimalConfiguration;
 
-    public graphqlFilter;
     public selections: NaturalSearchSelections = [
         [],
     ];
@@ -309,7 +308,6 @@ export class ListComponent implements OnInit {
 
         // Convert to graphql and update query variables
         const translatedSelection = toGraphQLDoctrineFilter(this.config, selections);
-        this.graphqlFilter = translatedSelection;
 
         this.reset();
         this.variablesManager.set('natural-search', {filter: translatedSelection});
