@@ -17,7 +17,7 @@ import { NumberSelectorComponent } from '../quizz/shared/number-selector/number-
 import { MassEditComponent } from '../shared/components/mass-edit/mass-edit.component';
 
 import { NaturalGalleryComponent } from '@ecodev/angular-natural-gallery';
-import { NaturalSearchConfiguration, NaturalSearchSelections, toGraphQLDoctrineFilter } from '@ecodev/natural-search';
+import { fromUrl, NaturalSearchConfiguration, NaturalSearchSelections, toGraphQLDoctrineFilter, toUrl } from '@ecodev/natural-search';
 import { QueryVariablesManager, SortingOrder } from '../shared/classes/query-variables-manager';
 
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -184,7 +184,7 @@ export class ListComponent implements OnInit {
         const sorting = this.persistenceSvc.getFromUrl('sorting', this.route);
 
         // prevent null value that is actually not supported
-        naturalSearchSelections = naturalSearchSelections ? naturalSearchSelections : [[]];
+        naturalSearchSelections = naturalSearchSelections ? fromUrl(naturalSearchSelections) : [[]];
 
         this.selections = naturalSearchSelections;
         this.translateSearchAndUpdate(naturalSearchSelections);
@@ -293,7 +293,7 @@ export class ListComponent implements OnInit {
 
     public search(selections: NaturalSearchSelections) {
         // Persist in url before translation to graphql
-        this.persistenceSvc.persistInUrl('natural-search', selections, this.route);
+        this.persistenceSvc.persistInUrl('natural-search', toUrl(selections), this.route);
         this.translateSearchAndUpdate(selections);
     }
 
