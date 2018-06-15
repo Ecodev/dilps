@@ -25,7 +25,6 @@
 /.idea/
 /logs/
 /node_modules/
-/.php_cs.cache
 /phpunit.xml
 /vendor/
 client/app/shared/generated-types.ts
