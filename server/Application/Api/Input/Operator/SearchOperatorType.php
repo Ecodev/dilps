@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Application\Api\Input\Operator;
 
+use Application\Model\Artist;
+use Application\Model\Card;
+use Application\Model\Institution;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
 use GraphQL\Doctrine\Definition\Operator\AbstractOperator;
@@ -35,7 +38,7 @@ class SearchOperatorType extends AbstractOperator
             return null;
         }
 
-        $fields = $this->getSearchableFields($metadata, $alias);
+        $fields = $this->getSearchableFields($uniqueNameFactory, $metadata, $queryBuilder, $alias);
 
         // Build the WHERE clause
         $wordWheres = [];
@@ -56,7 +59,7 @@ class SearchOperatorType extends AbstractOperator
         return '(' . implode(' AND ', $wordWheres) . ')';
     }
 
-    private function getSearchableFields(ClassMetadata $metadata, string $alias): array
+    private function getSearchableFields(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias): array
     {
         $whitelistedFields = [
             'name',
@@ -78,6 +81,18 @@ class SearchOperatorType extends AbstractOperator
 
                 $fields[] = $field;
             }
+        }
+
+        // Special case for Card to add joined fields
+        if ($metadata->name === Card::class) {
+            $institution = $uniqueNameFactory->createAliasName(Institution::class);
+            $artist = $uniqueNameFactory->createAliasName(Artist::class);
+
+            $queryBuilder->leftJoin($alias . '.institution', $institution);
+            $queryBuilder->leftJoin($alias . '.artists', $artist);
+
+            $fields[] = $institution . '.name';
+            $fields[] = $artist . '.name';
         }
 
         return $fields;

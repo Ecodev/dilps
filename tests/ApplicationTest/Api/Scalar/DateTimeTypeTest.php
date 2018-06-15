@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ApplicationTests\Api\Scalar;
+namespace ApplicationTest\Api\Scalar;
 
 use Application\Api\Scalar\DateTimeType;
 use PHPUnit\Framework\TestCase;
