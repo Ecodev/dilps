@@ -186,7 +186,9 @@ export class ListComponent implements OnInit {
         naturalSearchSelections = naturalSearchSelections ? fromUrl(naturalSearchSelections) : [[]];
 
         this.selections = naturalSearchSelections;
-        this.translateSearchAndUpdate(naturalSearchSelections);
+        if (this.hasSelections(this.selections)) {
+            this.translateSearchAndUpdate(naturalSearchSelections);
+        }
         this.variablesManager.set('sorting', sorting);
     }
 
