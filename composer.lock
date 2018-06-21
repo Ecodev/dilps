@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "84817724ba4d4592ae6d46c08f41239d",
+    "content-hash": "66faef784be7777eb77eae58f2a81c24",
     "packages": [
         {
             "name": "beberlei/DoctrineExtensions",
@@ -879,16 +879,16 @@
         },
         {
             "name": "ecodev/graphql-doctrine",
-            "version": "dev-master",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ecodev/graphql-doctrine.git",
-                "reference": "c7cbdb5d2ebfba4320b99e6056a559a747d19437"
+                "reference": "09460d1242b04c941637c70c5ffff703601fd860"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ecodev/graphql-doctrine/zipball/c7cbdb5d2ebfba4320b99e6056a559a747d19437",
-                "reference": "c7cbdb5d2ebfba4320b99e6056a559a747d19437",
+                "url": "https://api.github.com/repos/Ecodev/graphql-doctrine/zipball/09460d1242b04c941637c70c5ffff703601fd860",
+                "reference": "09460d1242b04c941637c70c5ffff703601fd860",
                 "shasum": ""
             },
             "require": {
@@ -920,11 +920,11 @@
                 "doctrine-orm",
                 "graphql"
             ],
-            "time": "2018-06-15T03:34:49+00:00"
+            "time": "2018-06-21T09:25:59+00:00"
         },
         {
             "name": "ecodev/graphql-upload",
-            "version": "dev-master",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ecodev/graphql-upload.git",
@@ -5142,10 +5142,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "ecodev/graphql-doctrine": 20,
-        "ecodev/graphql-upload": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
