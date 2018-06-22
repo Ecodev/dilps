@@ -90,8 +90,8 @@ export const cardsFullConfiguration: NaturalSearchConfiguration = [
         transform: wrapLike,
     },
     {
-        display: 'Localité',
-        field: 'locality.name',
+        display: 'Localité de l\'institution',
+        field: 'institution.locality',
         transform: wrapLike,
     },
     // {
