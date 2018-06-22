@@ -33,6 +33,7 @@ abstract class Login implements FieldInterface
 
                 // If we successfully authenticated or we already were logged in, keep going
                 if ($user) {
+                    $session->regenerate();
                     $session->set('user', $user->getId());
                     User::setCurrent($user);
 
