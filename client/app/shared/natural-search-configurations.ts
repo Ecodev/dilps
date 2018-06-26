@@ -17,49 +17,24 @@ function wrapLike(s: Selection): Selection {
     return s;
 }
 
-export const cardsMinimalConfiguration: NaturalSearchConfiguration = [
+export const cardsConfiguration: NaturalSearchConfiguration = [
     {
-        display: 'Titre',
+        display: 'Titre', // todo : + expandedName
         field: 'name',
         transform: wrapLike,
     },
     {
-        display: 'Artistes',
-        field: 'artists.name',
-        transform: wrapLike,
-    },
-    {
-        display: 'Supplément',
-        field: 'addition',
-        transform: wrapLike,
-    },
-    {
-        display: 'Datation',
-        field: 'datings.from-to',
-        component: TypeNumericRangeComponent,
-        transform: transformDate,
-    },
-];
-
-
-export const cardsFullConfiguration: NaturalSearchConfiguration = [
-    {
-        display: 'Titre',
-        field: 'name',
-        transform: wrapLike,
-    },
-    {
-        display: 'Titre étendu',
+        display: 'Titre étendu', // todo : remove
         field: 'expandedName',
         transform: wrapLike,
     },
     {
-        display: 'Artistes',
+        display: 'Artistes', // todo : + techniqueAuthor
         field: 'artists.name',
         transform: wrapLike,
     },
     {
-        display: 'Auteur technique',
+        display: 'Auteur technique', // todo : remove
         field: 'techniqueAuthor',
         transform: wrapLike,
     },
@@ -85,6 +60,11 @@ export const cardsFullConfiguration: NaturalSearchConfiguration = [
         transform: wrapLike,
     },
     {
+        display: 'Lieu',
+        field: 'locality.name',
+        transform: wrapLike,
+    },
+    {
         display: 'Institution',
         field: 'institution.name',
         transform: wrapLike,
@@ -92,58 +72,10 @@ export const cardsFullConfiguration: NaturalSearchConfiguration = [
     {
         display: 'Localité de l\'institution',
         field: 'institution.locality',
+    },
+    {
+        display: 'Source',
+        field: 'literature',
         transform: wrapLike,
     },
-    // {
-    //     display: 'Source',
-    //     field: 'literature',
-    //     transform: wrapLike,
-    // },
-    // {
-    //     display: 'Page',
-    //     field: 'page',
-    //     transform: wrapLike,
-    // },
-    // {
-    //     display: 'Figure',
-    //     field: 'figure',
-    //     transform: wrapLike,
-    // },
-    // {
-    //     display: 'Planche',
-    //     field: 'table',
-    //     transform: wrapLike,
-    // },
-    // {
-    //     display: 'ISBN',
-    //     field: 'isbn',
-    //     transform: wrapLike,
-    // },
-    // {
-    //     display: 'Droits d\'auteur',
-    //     field: 'rights',
-    //     transform: wrapLike,
-    // },
-    // {
-    //     display: 'Visibilité',
-    //     field: 'visibility',
-    //     component: TypeSelectComponent,
-    //     configuration: {
-    //         items: [
-    //             {
-    //                 id: CardVisibility.private,
-    //                 name: 'par moi',
-    //             },
-    //             {
-    //                 id: CardVisibility.member,
-    //                 name: 'par les membres',
-    //             },
-    //             {
-    //                 id: CardVisibility.public,
-    //                 name: 'par tout le monde',
-    //             },
-    //         ],
-    //         multiple: true,
-    //     },
-    // },
 ];

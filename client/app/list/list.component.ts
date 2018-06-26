@@ -5,7 +5,7 @@ import { CardService } from '../card/services/card.service';
 import { clone, defaults, isArray, isString, isUndefined, merge, pickBy } from 'lodash';
 import { DownloadComponent } from '../shared/components/download/download.component';
 
-import { cardsFullConfiguration, cardsMinimalConfiguration } from '../shared/natural-search-configurations';
+import { cardsConfiguration } from '../shared/natural-search-configurations';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { MatDialog } from '@angular/material';
 import { CollectionSelectorComponent } from '../shared/components/collection-selector/collection-selector.component';
@@ -64,7 +64,7 @@ export class ListComponent implements OnInit {
 
     public showDownloadCollection = true;
 
-    public config: NaturalSearchConfiguration = cardsMinimalConfiguration;
+    public config: NaturalSearchConfiguration = cardsConfiguration;
 
     public selections: NaturalSearchSelections = [
         [],
@@ -315,8 +315,6 @@ export class ListComponent implements OnInit {
      * @param {NaturalSearchSelections} selections
      */
     private translateSearchAndUpdate(selections: NaturalSearchSelections) {
-
-        this.config = cardsFullConfiguration;
 
         this.updateGalleryVisibility();
 
