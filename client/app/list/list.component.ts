@@ -5,7 +5,7 @@ import { CardService } from '../card/services/card.service';
 import { clone, defaults, isArray, isString, merge, pickBy } from 'lodash';
 import { DownloadComponent } from '../shared/components/download/download.component';
 
-import { cardsConfiguration } from '../shared/natural-search-configurations';
+import { adminConfig, cardsConfiguration } from '../shared/natural-search-configurations';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { MatDialog } from '@angular/material';
 import { CollectionSelectorComponent } from '../shared/components/collection-selector/collection-selector.component';
@@ -19,7 +19,7 @@ import { MassEditComponent } from '../shared/components/mass-edit/mass-edit.comp
 import { NaturalGalleryComponent } from '@ecodev/angular-natural-gallery';
 import { fromUrl, NaturalSearchConfiguration, NaturalSearchSelections, toGraphQLDoctrineFilter, toUrl } from '@ecodev/natural-search';
 import { QueryVariablesManager, SortingOrder } from '../shared/classes/query-variables-manager';
-import { CardFilter, CardSortingField } from '../shared/generated-types';
+import { CardFilter, CardSortingField, UserRole, ViewerQuery } from '../shared/generated-types';
 import { PersistenceService } from '../shared/services/persistence.service';
 
 @Component({
@@ -46,7 +46,7 @@ export class ListComponent implements OnInit {
 
     public collection;
 
-    public user;
+    public user: ViewerQuery['viewer'];
 
     public searchedTerm;
 
@@ -77,6 +77,11 @@ export class ListComponent implements OnInit {
         this.userSvc.getCurrentUser().subscribe(user => {
             this.user = user;
             this.updateShowDownloadCollection();
+
+            if (this.user.role === UserRole.administrator) {
+                this.config = cardsConfiguration.concat(adminConfig);
+            }
+
         });
 
         this.route.queryParams.subscribe(() => {

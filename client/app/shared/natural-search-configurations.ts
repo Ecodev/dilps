@@ -1,4 +1,5 @@
-import { NaturalSearchConfiguration, Selection, TypeNumericRangeComponent } from '@ecodev/natural-search';
+import { NaturalSearchConfiguration, Selection, TypeNumericRangeComponent, TypeSelectComponent } from '@ecodev/natural-search';
+import { CardVisibility } from './generated-types';
 
 function yearToJulian(year: number, endOfYear: boolean): number {
     const date = new Date(year, endOfYear ? 11 : 0, endOfYear ? 31 : 1);
@@ -16,6 +17,22 @@ function wrapLike(s: Selection): Selection {
     s.condition.like.value = '%' + s.condition.like.value + '%';
     return s;
 }
+
+export const adminConfig: NaturalSearchConfiguration = [
+    {
+        display: 'Visibilité',
+        field: 'visibility',
+        component: TypeSelectComponent,
+        configuration: {
+            items: [
+                CardVisibility.public,
+                CardVisibility.member,
+                CardVisibility.private,
+            ],
+            multiple: true,
+        },
+    },
+];
 
 export const cardsConfiguration: NaturalSearchConfiguration = [
     {
