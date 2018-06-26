@@ -48,7 +48,7 @@ export class ListComponent implements OnInit {
 
     public showLogo = true;
 
-    private thumbnailHeight = 400;
+    private thumbnailHeight = 300;
     private enlargedHeight = 2000;
     private sub;
 
