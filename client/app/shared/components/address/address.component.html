@@ -51,6 +51,7 @@
              [styles]="mapStyles"
              [scrollwheel]="false"
              *ngIf="!readonly || (!!model?.latitude && !!model?.longitude)"
+             style="height:300px;"
     >
         <agm-marker [latitude]="model?.latitude"
                     [longitude]="model?.longitude"
