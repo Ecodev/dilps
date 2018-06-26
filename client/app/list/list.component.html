@@ -14,7 +14,6 @@
              fxFlex
              fxLayout="row"
              fxLayoutAlign="start center"
-             [@searchState]="showGallery ? 'afterForcedSearch' : 'beforeForcedSearch'"
         >
             <natural-search fxFlex
                             class="searchField"
@@ -22,12 +21,12 @@
                             [(selections)]="selections"
                             (selectionsChange)="search($event)"
             ></natural-search>
-            <button mat-icon-button mat-button [matMenuTriggerFor]="sortingMenu" matTooltip="Trier" *ngIf="showGallery">
+            <button mat-icon-button mat-button [matMenuTriggerFor]="sortingMenu" matTooltip="Trier">
                 <mat-icon>sort</mat-icon>
             </button>
         </div>
 
-        <ng-container *ngIf="selected?.length && showGallery">
+        <ng-container *ngIf="selected?.length">
 
             <!--<div *ngIf="selected.length === 1" class="mat-body-1">{{ selected.length }} élément sélectionné</div>-->
             <!--<div *ngIf="selected.length > 1" class="mat-body-1">{{ selected.length }} éléments sélectionnés</div>-->
@@ -62,7 +61,7 @@
 
         </ng-container>
 
-        <ng-container *ngIf="!selected?.length && user && showGallery">
+        <ng-container *ngIf="!selected?.length && user">
             <button mat-icon-button
                     *ngIf="collection?.id"
                     (click)="linkCollectionToCollection(collection)"
@@ -91,14 +90,14 @@
         <button mat-icon-button
                 (click)="gallery.gallery.selectVisibleItems()"
                 matTooltip="Sélectionner les images visibles"
-                *ngIf="!selected?.length && showGallery"
+                *ngIf="!selected?.length"
         >
             <mat-icon>select_all</mat-icon>
         </button>
 
     </mat-toolbar>
 
-    <perfect-scrollbar fxFlex #scrollable *ngIf="showGallery">
+    <perfect-scrollbar fxFlex #scrollable>
         <div class="scrolled" fxFlex fxLayout="row">
             <natural-gallery #gallery
                              fxFlex

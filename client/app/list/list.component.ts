@@ -2,7 +2,7 @@ import { forkJoin } from 'rxjs';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CardService } from '../card/services/card.service';
-import { clone, defaults, isArray, isString, isUndefined, merge, pickBy } from 'lodash';
+import { clone, defaults, isArray, isString, merge, pickBy } from 'lodash';
 import { DownloadComponent } from '../shared/components/download/download.component';
 
 import { cardsConfiguration } from '../shared/natural-search-configurations';
@@ -19,8 +19,6 @@ import { MassEditComponent } from '../shared/components/mass-edit/mass-edit.comp
 import { NaturalGalleryComponent } from '@ecodev/angular-natural-gallery';
 import { fromUrl, NaturalSearchConfiguration, NaturalSearchSelections, toGraphQLDoctrineFilter, toUrl } from '@ecodev/natural-search';
 import { QueryVariablesManager, SortingOrder } from '../shared/classes/query-variables-manager';
-
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CardFilter, CardSortingField } from '../shared/generated-types';
 import { PersistenceService } from '../shared/services/persistence.service';
 
@@ -28,14 +26,6 @@ import { PersistenceService } from '../shared/services/persistence.service';
     selector: 'app-list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss'],
-    animations: [
-        trigger('searchState', [
-            state('afterForcedSearch', style({transform: 'translateY(0vh)'})),
-            state('beforeForcedSearch', style({transform: 'translateY(calc(50vh - 45px))'})),
-            transition('beforeForcedSearch => afterForcedSearch', animate('1s ease-in-out')),
-            transition('afterForcedSearch => beforeForcedSearch', animate('.5s ease-in-out')),
-        ]),
-    ],
 })
 export class ListComponent implements OnInit {
     public test = 0;
@@ -71,8 +61,6 @@ export class ListComponent implements OnInit {
     ];
 
     private variablesManager: QueryVariablesManager = new QueryVariablesManager();
-
-    public showGallery = false;
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
@@ -120,10 +108,6 @@ export class ListComponent implements OnInit {
 
         this.route.data.subscribe(data => {
 
-            // If nothing specified or does not force search, show gallery when component init
-            // If we have to force search, that means gallery is only visible after a first search (see search() fn)
-            this.updateGalleryVisibility();
-
             this.showLogo = data.showLogo;
             this.updateShowDownloadCollection();
 
@@ -164,18 +148,6 @@ export class ListComponent implements OnInit {
             zoomRotation: false,
         };
 
-    }
-
-    private updateGalleryVisibility() {
-
-        if (isUndefined(this.route.snapshot.data.forceSearch) ||
-            this.route.snapshot.data.forceSearch ===
-            false ||
-            this.hasSelections(this.selections)) {
-            this.showGallery = true;
-        } else {
-            this.showGallery = false;
-        }
     }
 
     private initFromUrl() {
@@ -224,7 +196,7 @@ export class ListComponent implements OnInit {
                 ],
             };
             this.persistenceSvc.persistInUrl('sorting', sorting, this.route);
-        } else  {
+        } else {
             this.persistenceSvc.persistInUrl('sortging', null, this.route);
         }
 
@@ -315,8 +287,6 @@ export class ListComponent implements OnInit {
      * @param {NaturalSearchSelections} selections
      */
     private translateSearchAndUpdate(selections: NaturalSearchSelections) {
-
-        this.updateGalleryVisibility();
 
         // Convert to graphql and update query variables
         const translatedSelection = toGraphQLDoctrineFilter(this.config, selections);
