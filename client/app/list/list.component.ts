@@ -192,15 +192,25 @@ export class ListComponent implements OnInit {
         this.variablesManager.set('sorting', sorting);
     }
 
-    public sort(field: string, direction: string) {
+    public sort(field: string, direction: SortingOrder) {
 
         this.reset();
 
         let sorting = {
-            sorting: undefined,
+            sorting: [
+                {
+                    field: 'creationDate',
+                    order: SortingOrder.DESC,
+                },
+                {
+                    field: 'id',
+                    order: SortingOrder.ASC,
+                },
+            ],
         };
 
-        if (field) {
+        // If field but different from default (creationDate), don't add to url
+        if (field && field !== 'creationDate') {
             sorting = {
                 sorting: [
                     {
@@ -213,10 +223,12 @@ export class ListComponent implements OnInit {
                     },
                 ],
             };
+            this.persistenceSvc.persistInUrl('sorting', sorting, this.route);
+        } else  {
+            this.persistenceSvc.persistInUrl('sortging', null, this.route);
         }
 
         this.variablesManager.set('sorting', sorting);
-        this.persistenceSvc.persistInUrl('sorting', sorting, this.route);
     }
 
     public updateShowDownloadCollection() {
