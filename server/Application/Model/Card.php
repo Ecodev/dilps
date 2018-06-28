@@ -31,6 +31,10 @@ use Psr\Http\Message\UploadedFileInterface;
  *     @ORM\Index(columns={"latitude"}),
  *     @ORM\Index(columns={"longitude"}),
  * })
+ * @API\Filters({
+ *     @API\Filter(field="nameOrExpandedName", operator="Application\Api\Input\Operator\NameOrExpandedNameOperatorType", type="string"),
+ *     @API\Filter(field="artistOrTechniqueAuthor", operator="Application\Api\Input\Operator\ArtistOrTechniqueAuthorOperatorType", type="string"),
+ * })
  */
 class Card extends AbstractModel
 {

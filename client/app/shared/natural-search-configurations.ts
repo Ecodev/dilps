@@ -1,4 +1,9 @@
-import { NaturalSearchConfiguration, Selection, TypeNumericRangeComponent, TypeSelectComponent } from '@ecodev/natural-search';
+import {
+    NaturalSearchConfiguration,
+    Selection,
+    TypeNumericRangeComponent,
+    TypeSelectComponent,
+} from '@ecodev/natural-search';
 import { CardVisibility } from './generated-types';
 
 function yearToJulian(year: number, endOfYear: boolean): number {
@@ -15,6 +20,13 @@ function transformDate(s: Selection): Selection {
 
 function wrapLike(s: Selection): Selection {
     s.condition.like.value = '%' + s.condition.like.value + '%';
+    return s;
+}
+
+function replaceOperatorByField(s: Selection): Selection {
+    s.condition[s.field] = s.condition.like;
+    delete s.condition.like;
+
     return s;
 }
 
@@ -36,24 +48,14 @@ export const adminConfig: NaturalSearchConfiguration = [
 
 export const cardsConfiguration: NaturalSearchConfiguration = [
     {
-        display: 'Titre', // todo : + expandedName
-        field: 'name',
-        transform: wrapLike,
+        display: 'Titre',
+        field: 'nameOrExpandedName',
+        transform: replaceOperatorByField,
     },
     {
-        display: 'Titre étendu', // todo : remove
-        field: 'expandedName',
-        transform: wrapLike,
-    },
-    {
-        display: 'Artistes', // todo : + techniqueAuthor
-        field: 'artists.name',
-        transform: wrapLike,
-    },
-    {
-        display: 'Auteur technique', // todo : remove
-        field: 'techniqueAuthor',
-        transform: wrapLike,
+        display: 'Artistes',
+        field: 'artistOrTechniqueAuthor',
+        transform: replaceOperatorByField,
     },
     {
         display: 'Supplément',

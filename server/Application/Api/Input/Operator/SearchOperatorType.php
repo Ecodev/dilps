@@ -59,7 +59,7 @@ class SearchOperatorType extends AbstractOperator
         return '(' . implode(' AND ', $wordWheres) . ')';
     }
 
-    private function getSearchableFields(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias): array
+    protected function getSearchableFields(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias): array
     {
         $whitelistedFields = [
             'name',

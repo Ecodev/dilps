@@ -32,11 +32,10 @@ class SearchOperatorTypeTest extends \PHPUnit\Framework\TestCase
 
         self::assertSame($expected, $actual);
 
+        $joins = $qb->getDQLPart('join');
         if ($class === Card::class) {
-            $joins = $qb->getDQLPart('join');
             self::assertCount(2, $joins[$alias], 'Card should have 2 new joins');
         } else {
-            $joins = $qb->getDQLPart('join');
             self::assertEmpty($joins, 'Non-card should not have any joins');
         }
     }
