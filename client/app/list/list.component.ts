@@ -203,7 +203,7 @@ export class ListComponent implements OnInit {
             };
             this.persistenceSvc.persistInUrl('sorting', sorting, this.route);
         } else {
-            this.persistenceSvc.persistInUrl('sortging', null, this.route);
+            this.persistenceSvc.persistInUrl('sorting', null, this.route);
         }
 
         this.variablesManager.set('sorting', sorting);
