@@ -18,8 +18,8 @@ import { MassEditComponent } from '../shared/components/mass-edit/mass-edit.comp
 
 import { NaturalGalleryComponent } from '@ecodev/angular-natural-gallery';
 import { fromUrl, NaturalSearchConfiguration, NaturalSearchSelections, toGraphQLDoctrineFilter, toUrl } from '@ecodev/natural-search';
-import { QueryVariablesManager, SortingOrder } from '../shared/classes/query-variables-manager';
-import { CardFilter, CardSortingField, UserRole, ViewerQuery } from '../shared/generated-types';
+import { QueryVariablesManager } from '../shared/classes/query-variables-manager';
+import { CardFilter, CardSortingField, SortingOrder, UserRole, ViewerQuery } from '../shared/generated-types';
 import { PersistenceService } from '../shared/services/persistence.service';
 
 @Component({
@@ -32,6 +32,7 @@ export class ListComponent implements OnInit {
     @ViewChild('gallery') gallery: NaturalGalleryComponent;
     @ViewChild('scrollable') private scrollable: PerfectScrollbarComponent;
 
+    public SortingOrder = SortingOrder;
     public galleryCollection = null;
     public options = null;
     public selected;

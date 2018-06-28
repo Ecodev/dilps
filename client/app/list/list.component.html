@@ -1,8 +1,8 @@
 <mat-menu #sortingMenu="matMenu" [overlapTrigger]="false">
-    <div mat-menu-item (click)="sort('name', 'ASC')">Titre</div>
-    <div mat-menu-item (click)="sort('creationDate', 'DESC')">Date d'insertion en tête</div>
-    <div mat-menu-item (click)="sort('dating', 'ASC')">Datation</div>
-    <div mat-menu-item (click)="sort('locality', 'ASC')">Lieu</div>
+    <div mat-menu-item (click)="sort('name', SortingOrder.ASC)">Titre</div>
+    <div mat-menu-item (click)="sort('creationDate', SortingOrder.DESC)">Date d'insertion en tête</div>
+    <div mat-menu-item (click)="sort('dating', SortingOrder.ASC)">Datation</div>
+    <div mat-menu-item (click)="sort('locality', SortingOrder.ASC)">Lieu</div>
 </mat-menu>
 
 <div fxFlex fxLayout="column" class="containerWithToolbar">
