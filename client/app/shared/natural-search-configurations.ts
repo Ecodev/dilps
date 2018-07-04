@@ -79,18 +79,14 @@ export const cardsConfiguration: NaturalSearchConfiguration = [
         transform: wrapLike,
     },
     {
-        display: 'Lieu',
-        field: 'locality.name',
-        transform: wrapLike,
+        display: 'Localité',
+        field: 'localityOrInstitutionLocality',
+        transform: replaceOperatorByField,
     },
     {
         display: 'Institution',
         field: 'institution.name',
         transform: wrapLike,
-    },
-    {
-        display: 'Localité de l\'institution',
-        field: 'institution.locality',
     },
     {
         display: 'Source',

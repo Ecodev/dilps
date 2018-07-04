@@ -34,7 +34,7 @@ class SearchOperatorTypeTest extends \PHPUnit\Framework\TestCase
 
         $joins = $qb->getDQLPart('join');
         if ($class === Card::class) {
-            self::assertCount(2, $joins[$alias], 'Card should have 2 new joins');
+            self::assertCount(2, $joins[$alias], 'Card should have new joins');
         } else {
             self::assertEmpty($joins, 'Non-card should not have any joins');
         }
