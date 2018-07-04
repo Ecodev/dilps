@@ -63,12 +63,12 @@ export const routes: Routes = [
             {
                 path: 'institution',
                 component: InstitutionsComponent,
-                canActivate: [AuthAdminGuard],
+                canActivate: [AuthGuard],
             },
             {
                 path: 'artist',
                 component: ArtistsComponent,
-                canActivate: [AuthAdminGuard],
+                canActivate: [AuthGuard],
             },
             {
                 path: 'notification',

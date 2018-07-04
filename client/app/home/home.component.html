@@ -77,8 +77,8 @@
                                 <mat-icon mat-list-icon>file_upload</mat-icon>
                             </a>
                         </mat-nav-list>
-                        <mat-divider *ngIf="user.role === 'administrator'"></mat-divider>
-                        <mat-nav-list *ngIf="user.role === 'administrator'">
+                        <mat-divider *ngIf="user.role === 'administrator' || user.role === 'senior' || user.role === 'junior'"></mat-divider>
+                        <mat-nav-list *ngIf="user.role === 'administrator' || user.role === 'senior' || user.role === 'junior'">
 
                             <!-- Institutions -->
                             <a mat-list-item

@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
 import { UserService } from '../../users/services/user.service';
 import { map } from 'rxjs/operators';
 import { UserRole } from '../generated-types';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthAdminGuard implements CanActivate {
@@ -17,7 +18,7 @@ export class AuthAdminGuard implements CanActivate {
      * @param {RouterStateSnapshot} state
      * @returns {Observable<boolean>}
      */
-    public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.userService.getCurrentUser().pipe(map(user => {
             if (user && user.role === UserRole.administrator) {
                 return true;
