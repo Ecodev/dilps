@@ -1,6 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700);
 @import '../node_modules/material-design-icons/iconfont/material-icons.css';
-
 @import 'styles/themes';
 @import 'app/shared/components/boot-loader/boot-loader.external';
 @import 'app/collections/collections/collections.external';
@@ -49,11 +48,11 @@ pre.debug {
 
 .mat-autocomplete-panel {
     .mat-option.multiline {
-        min-height:48px;
+        min-height: 48px;
         height: auto;
         line-height: 1.6em;
-        padding-top:10px;
-        padding-bottom:10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
     }
 }
 
@@ -115,4 +114,9 @@ perfect-scrollbar {
 // Allow newline in tooltips
 .mat-tooltip {
     white-space: pre-line;
+}
+
+.mat-table mat-cell {
+    align-items: flex-start;
+    padding:0 3px;
 }
