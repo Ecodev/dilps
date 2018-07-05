@@ -8,7 +8,7 @@
         Supprimer
     </button>
 
-    <button *ngIf="item.id && item?.permissions?.update" mat-raised-button (click)="update.emit(item)" color="primary">
+    <button *ngIf="item.id && item?.permissions?.update" mat-raised-button (click)="update.emit(item)" color="primary" [disabled]="formCtrl?.errors">
         <mat-icon>save</mat-icon>
         Enregistrer
     </button>

@@ -148,8 +148,6 @@ class User extends AbstractModel
     /**
      * Encrypt and change the user password
      *
-     * @API\Exclude
-     *
      * @param string $password
      */
     public function setPassword(string $password): void
