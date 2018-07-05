@@ -5,7 +5,7 @@ import { AbstractDetail } from '../../shared/components/AbstractDetail';
 import { ArtistComponent } from '../../artists/artist/artist.component';
 import { InstitutionService } from '../../institutions/services/institution.service';
 import { UserService } from '../services/user.service';
-import { FormControl, ValidationErrors, FormGroup, AbstractControl } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 
 function matchPassword(ac: AbstractControl): ValidationErrors | null {
     const password = ac.get('password').value; // to get value in input tag
@@ -41,8 +41,8 @@ export class UserComponent extends AbstractDetail {
 
         this.roles = service.getRoles();
 
-        this.passwordCtrl = new FormControl();
-        this.passwordConfirmationCtrl = new FormControl();
+        this.passwordCtrl = new FormControl('');
+        this.passwordConfirmationCtrl = new FormControl('');
         this.passwordGroupCtrl = new FormGroup(
             {
                 password: this.passwordCtrl,
