@@ -4,7 +4,12 @@
         <mat-chip *ngFor="let item of items" [removable]="!readonly" (removed)="removeTerm(item)" fxLayoutRow="row" fxLayoutGap="10px"
         >
             <mat-icon *ngIf="previewComponent" class="mat-chip-remove" (click)="openItem(item)">remove_red_eye</mat-icon>
-            <span fxFlex>{{ item.name }}</span>
+            <span fxFlex>
+                <span>{{ item.name }}</span>
+                <br *ngIf="item.locality && !readonly">
+                <span *ngIf="item.locality && !readonly">{{ item.locality }}</span>
+            </span>
+
             <mat-icon matChipRemove *ngIf="!readonly">cancel</mat-icon>
         </mat-chip>
         <input #input
