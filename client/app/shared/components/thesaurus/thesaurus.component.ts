@@ -28,6 +28,7 @@ export class ThesaurusComponent implements OnInit {
     private _model;
     @Input() set model(val) {
         this._model = val;
+        this.convertModel();
     }
 
     @Output() modelChange = new EventEmitter();
@@ -68,7 +69,7 @@ export class ThesaurusComponent implements OnInit {
 
     ngOnInit() {
 
-        setTimeout(() => this.convertModel());
+        this.convertModel();
 
         const options = {
             filters: {
@@ -183,7 +184,7 @@ export class ThesaurusComponent implements OnInit {
 
     private notifyModel() {
         if (!this.multiple) {
-            this.modelChange.emit(this.items[0].name);
+            this.modelChange.emit(this.items[0] ? this.items[0].name : null);
         } else {
             this.modelChange.emit(this.items.map(v => v.name));
         }
