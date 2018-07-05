@@ -1,7 +1,7 @@
 <div fxFlex fxLayout="column" appFileDrop>
 
     <mat-sidenav-container #navContainer fxFlex fxLayout="column">
-        <mat-sidenav *ngIf="initialized" id="menu" position="start" mode="side" opened="true" class="menuMinimized">
+        <mat-sidenav id="menu" position="start" mode="side" opened="true" class="menuMinimized">
             <div fxFlex fxLayout="row" fxFlexAlign="start center">
                 <perfect-scrollbar fxLayout="column">
 
@@ -148,8 +148,8 @@
             </div>
         </mat-sidenav>
 
-        <div id="appBody" fxFlex fxLayout="column">
-            <router-outlet (activate)="initialized = true"></router-outlet>
+        <div id="appContent" fxFlex fxLayout="column">
+            <router-outlet></router-outlet>
         </div>
 
     </mat-sidenav-container>

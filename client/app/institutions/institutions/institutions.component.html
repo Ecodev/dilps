@@ -1,4 +1,4 @@
-<div fxFlex class="containerWithToolbar" fxLayout="column">
+<perfect-scrollbar>
     <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
         <img src="assets/images/logo-bleu.svg" style="max-width:100%;height:30px;" />
 
@@ -25,54 +25,52 @@
         </div>
     </mat-toolbar>
 
-    <perfect-scrollbar>
-        <div class="padding scrolled">
+    <div class="padding">
 
-            <div class="mat-headline">Institutions</div>
+        <div class="mat-headline">Institutions</div>
 
-            <mat-table [dataSource]="dataSource">
+        <mat-table [dataSource]="dataSource">
 
-                <!-- Id Column -->
-                <ng-container matColumnDef="id">
-                    <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
-                    <mat-cell *matCellDef="let element">{{ element.id }}</mat-cell>
-                </ng-container>
+            <!-- Id Column -->
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{ element.id }}</mat-cell>
+            </ng-container>
 
-                <!-- Name Column -->
-                <ng-container matColumnDef="name">
-                    <mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
-                    <mat-cell *matCellDef="let element">
-                        <app-table-button [label]="element.name" icon="edit" (click)="edit(element)" matTooltip="Éditer"
-                        ></app-table-button>
-                    </mat-cell>
-                </ng-container>
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <app-table-button [label]="element.name" icon="edit" (click)="edit(element)" matTooltip="Éditer"
+                    ></app-table-button>
+                </mat-cell>
+            </ng-container>
 
-                <ng-container matColumnDef="locality">
-                    <mat-header-cell *matHeaderCellDef>Localité</mat-header-cell>
-                    <mat-cell *matCellDef="let element">
-                        {{ element.locality }}
-                    </mat-cell>
-                </ng-container>
+            <ng-container matColumnDef="locality">
+                <mat-header-cell *matHeaderCellDef>Localité</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    {{ element.locality }}
+                </mat-cell>
+            </ng-container>
 
-                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-            </mat-table>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
 
-            <div fxLayout="column" fxLayoutAlign="center center" class="margin" *ngIf="dataSource.snapshot.data.length === 0">
-                <div i18n>Pas de résultats</div>
-            </div>
-
-            <div fxLayout="column" fxLayoutAlign="center center" class="margin" *ngIf="!dataSource.snapshot.data.items">
-                <mat-progress-spinner mode="indeterminate" [diameter]="40"></mat-progress-spinner>
-            </div>
-
-            <mat-paginator *ngIf="dataSource.snapshot.data.length > 0"
-                           [length]="dataSource.snapshot.data.length"
-                           [pageSize]="dataSource.snapshot.options.pagination.pageSize"
-                           [pageIndex]="dataSource.snapshot.options.pagination.pageIndex"
-                           [pageSizeOptions]="dataSource.pageSizeOptions"
-                           (page)="dataSource.paging($event)"
-            ></mat-paginator>
+        <div fxLayout="column" fxLayoutAlign="center center" class="margin" *ngIf="dataSource.snapshot.data.length === 0">
+            <div i18n>Pas de résultats</div>
         </div>
-    </perfect-scrollbar>
-</div>
+
+        <div fxLayout="column" fxLayoutAlign="center center" class="margin" *ngIf="!dataSource.snapshot.data.items">
+            <mat-progress-spinner mode="indeterminate" [diameter]="40"></mat-progress-spinner>
+        </div>
+
+        <mat-paginator *ngIf="dataSource.snapshot.data.length > 0"
+                       [length]="dataSource.snapshot.data.length"
+                       [pageSize]="dataSource.snapshot.options.pagination.pageSize"
+                       [pageIndex]="dataSource.snapshot.options.pagination.pageIndex"
+                       [pageSizeOptions]="dataSource.pageSizeOptions"
+                       (page)="dataSource.paging($event)"
+        ></mat-paginator>
+    </div>
+</perfect-scrollbar>

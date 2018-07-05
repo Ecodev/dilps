@@ -17,7 +17,6 @@ import { CardService } from '../card/services/card.service';
 })
 export class HomeComponent implements OnInit {
 
-    public initialized;
     public errors = [];
     public user;
 
