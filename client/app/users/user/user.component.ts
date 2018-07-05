@@ -30,6 +30,8 @@ export class UserComponent extends AbstractDetail {
     public passwordCtrl: FormControl;
     public passwordConfirmationCtrl: FormControl;
 
+    public institution;
+
     constructor(public institutionService: InstitutionService,
                 service: UserService,
                 alertSvc: AlertService,
@@ -53,6 +55,14 @@ export class UserComponent extends AbstractDetail {
                 validators: [matchPassword],
             });
 
+    }
+
+    protected postQuery() {
+        this.institution = this.data.item.institution;
+    }
+
+    protected postUpdate(model) {
+        this.institution = model.institution;
     }
 
 }

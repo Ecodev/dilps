@@ -47,6 +47,7 @@ export class CollectionService
             isSource: false,
             sorting: 0,
             visibility: CollectionVisibility.private,
+            institution: null,
         };
     }
 

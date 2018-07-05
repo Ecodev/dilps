@@ -33,6 +33,8 @@ export class CollectionComponent extends AbstractDetail implements OnInit {
         },
     };
 
+    public institution;
+
     constructor(public institutionSvc: InstitutionService,
                 service: CollectionService,
                 userSvc: UserService,
@@ -48,6 +50,12 @@ export class CollectionComponent extends AbstractDetail implements OnInit {
         this.visibility = +findKey(this.visibilities, (s) => {
             return s.value === this.data.item.visibility;
         });
+
+        this.institution = this.data.item.institution;
+    }
+
+    protected postUpdate(model) {
+        this.institution = model.institution;
     }
 
     public updateVisibility(ev) {

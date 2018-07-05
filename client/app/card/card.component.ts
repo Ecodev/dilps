@@ -10,7 +10,7 @@ import { ArtistComponent } from '../artists/artist/artist.component';
 import { InstitutionComponent } from '../institutions/institution/institution.component';
 import { ChangeService } from '../changes/services/change.service';
 import { UploadService } from '../shared/services/upload.service';
-import { CardVisibility, UpdateCardMutation, UserRole } from '../shared/generated-types';
+import { CardVisibility, UserRole } from '../shared/generated-types';
 import { CollectionSelectorComponent } from '../shared/components/collection-selector/collection-selector.component';
 import { MatDialog } from '@angular/material';
 import { UserService } from '../users/services/user.service';
@@ -61,6 +61,7 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
     private uploadSub;
 
     public institution;
+    public artists;
     public user;
 
     @Input()
@@ -175,6 +176,9 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
                 return s.value === this.model.visibility;
             });
 
+            this.artists = this.model.artists;
+            this.institution = this.model.institution;
+
             const src = CardService.getImageLink(this.model, 2000);
             if (src) {
                 this.imageSrc = src;
@@ -203,6 +207,7 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
         this.cardSvc.update(this.model).subscribe((card: any) => {
             this.alertSvc.info('Mis à jour');
             this.institution = card.institution;
+            this.artists = card.artists;
             this.edit = false;
         });
     }

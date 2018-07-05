@@ -24,10 +24,9 @@
                     </mat-form-field>
                 </div>
 
-                <app-thesaurus [readonly]="true"
-                               [service]="institutionService"
+                <app-thesaurus [service]="institutionService"
                                placeholder="Institution"
-                               [model]="data.item.institution"
+                               [model]="institution"
                                (modelChange)="data.item.institution = $event"
                                [multiple]="false"
                 ></app-thesaurus>

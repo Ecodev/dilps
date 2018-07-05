@@ -6,10 +6,10 @@ import {
     CardInput,
     CardQuery,
     CardsQuery,
+    CardVisibility,
     CreateCardMutation,
     DeleteCardsMutation,
     UpdateCardMutation,
-    CardVisibility,
 } from '../../shared/generated-types';
 import { AbstractModelService } from '../../shared/services/abstract-model.service';
 import {

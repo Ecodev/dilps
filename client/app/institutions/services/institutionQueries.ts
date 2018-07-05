@@ -1,6 +1,23 @@
 import gql from 'graphql-tag';
 import { userMetaFragment } from '../../shared/queries/fragments';
 
+export const institutionDetails = gql`
+fragment institutionDetails on Institution {
+    id
+    name
+    locality
+    street
+    postcode
+    latitude
+    longitude
+    creationDate
+    country {
+        id
+        code
+        name
+    }
+}`;
+
 export const institutionsQuery = gql`
 query Institutions($filters: OldInstitutionFilter, $pagination: PaginationInput) {
     institutions(filters: $filters, pagination: $pagination) {
@@ -18,19 +35,7 @@ query Institutions($filters: OldInstitutionFilter, $pagination: PaginationInput)
 export const institutionQuery = gql`
 query Institution($id: InstitutionID!) {
     institution(id: $id) {
-        id
-        name
-        locality
-        street
-        postcode
-        latitude
-        longitude
-        creationDate
-        country {
-            id
-            code
-            name
-        }
+        ...institutionDetails
         creator {
             ...userMeta
         }
@@ -43,7 +48,9 @@ query Institution($id: InstitutionID!) {
             delete
         }
     }
-}${userMetaFragment}`;
+}
+${userMetaFragment}
+${institutionDetails}`;
 
 export const createInstitutionMutation = gql`
 mutation CreateInstitution ($input: InstitutionInput!) {

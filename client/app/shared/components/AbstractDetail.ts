@@ -34,11 +34,13 @@ export class AbstractDetail implements OnInit {
     }
 
     protected postQuery() {}
+    protected postUpdate(model) {}
 
     public update() {
-        this.service.update(this.data.item).subscribe(() => {
+        this.service.update(this.data.item).subscribe((model) => {
             this.alertSvc.info('Mis à jour');
             this.dialogRef.close(this.data.item);
+            this.postUpdate(model);
         });
     }
 

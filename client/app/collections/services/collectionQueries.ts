@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 import { userMetaFragment } from '../../shared/queries/fragments';
+import { institutionDetails } from '../../institutions/services/institutionQueries';
 
 export const collectionsQuery = gql`
 query Collections($filters: OldCollectionFilter, $pagination: PaginationInput) {
@@ -76,8 +77,13 @@ mutation UpdateCollection($id: CollectionID!, $input: CollectionPartialInput!) {
         updater {
             ...userMeta
         }
+        institution {
+            ...institutionDetails
+        }
     }
-}${userMetaFragment}`;
+}
+${userMetaFragment}
+${institutionDetails}`;
 
 export const deleteCollectionsMutation = gql`
 mutation DeleteCollections ($ids: [CollectionID!]!){

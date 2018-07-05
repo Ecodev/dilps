@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 import { userMetaFragment } from '../../shared/queries/fragments';
+import { institutionDetails } from '../../institutions/services/institutionQueries';
 
 export const cardDetailsFragment = gql`
 fragment cardDetails on Card {
@@ -129,15 +130,20 @@ export const updateCardMutation = gql`
 mutation UpdateCard($id: CardID!, $input: CardPartialInput!) {
     updateCard(id: $id, input: $input) {
         institution {
+            ...institutionDetails
+        }
+        artists {
             id
-            locality
+            name
         }
         updateDate
         updater {
             ...userMeta
         }
     }
-}${userMetaFragment}`;
+}
+${userMetaFragment}
+${institutionDetails}`;
 
 export const deleteCardsMutation = gql`
 mutation DeleteCards ($ids: [CardID!]!){

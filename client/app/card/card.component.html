@@ -141,11 +141,11 @@
                     ></textarea>
                 </mat-form-field>
 
-                <app-thesaurus *ngIf="isEdit() || !!model.artists?.length"
+                <app-thesaurus *ngIf="isEdit() || !!artists?.length"
                                [readonly]="!isEdit()"
                                [service]="artistService"
                                placeholder="Artistes"
-                               [model]="model.artists"
+                               [model]="artists"
                                (modelChange)="model.artists = $event"
                                [previewComponent]="artistComponent"
                                matTooltipPosition="after"
@@ -222,13 +222,13 @@
                     ></textarea>
                 </mat-form-field>
 
-                <div class="mat-title innerSpacing" *ngIf="isEdit() || !!model.institution">Lieu</div>
+                <div class="mat-title innerSpacing" *ngIf="isEdit() || !!institution">Lieu</div>
 
-                <app-thesaurus *ngIf="isEdit() || !!model.institution"
+                <app-thesaurus *ngIf="isEdit() || !!institution"
                                [readonly]="!isEdit()"
                                [service]="institutionSvc"
                                placeholder="Institution"
-                               [model]="model.institution"
+                               [model]="institution"
                                (modelChange)="model.institution = $event"
                                [multiple]="false"
                                [previewComponent]="institutionComponent"
