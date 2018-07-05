@@ -10,7 +10,7 @@ import { ArtistComponent } from '../artists/artist/artist.component';
 import { InstitutionComponent } from '../institutions/institution/institution.component';
 import { ChangeService } from '../changes/services/change.service';
 import { UploadService } from '../shared/services/upload.service';
-import { CardVisibility, UserRole } from '../shared/generated-types';
+import { CardVisibility, UpdateCardMutation, UserRole } from '../shared/generated-types';
 import { CollectionSelectorComponent } from '../shared/components/collection-selector/collection-selector.component';
 import { MatDialog } from '@angular/material';
 import { UserService } from '../users/services/user.service';
@@ -200,8 +200,9 @@ export class CardComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     public update() {
-        this.cardSvc.update(this.model).subscribe(() => {
+        this.cardSvc.update(this.model).subscribe((card: any) => {
             this.alertSvc.info('Mis à jour');
+            this.institution = card.institution;
             this.edit = false;
         });
     }

@@ -128,6 +128,10 @@ mutation CreateCard ($input: CardInput!) {
 export const updateCardMutation = gql`
 mutation UpdateCard($id: CardID!, $input: CardPartialInput!) {
     updateCard(id: $id, input: $input) {
+        institution {
+            id
+            locality
+        }
         updateDate
         updater {
             ...userMeta

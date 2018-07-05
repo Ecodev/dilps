@@ -236,9 +236,14 @@
                                [matTooltip]="!isEdit() ? '' : 'L\'institution où se trouve l\'oeuvre.\n\nL\'institution s\'écrit en principe dans la langue originale du pays.'"
                 ></app-thesaurus>
 
-                <app-address [(model)]="institution" [vertical]="true" [readonly]="!isEdit()" *ngIf="!(model.locality || isEdit())"></app-address>
+                <!-- Institution address -->
+                <app-address [(model)]="institution"
+                             [vertical]="true"
+                             [readonly]="!isEdit()"
+                             *ngIf="!(model.locality || isEdit())"
+                ></app-address>
 
-
+                <!-- Card address, if given -->
                 <div *ngIf="model.locality || isEdit()">
                     <div class="mat-title innerSpacing">Adresse de l'oeuvre</div>
                     <app-address [(model)]="model" [vertical]="true" [readonly]="!isEdit()"></app-address>
