@@ -35,6 +35,7 @@ use Psr\Http\Message\UploadedFileInterface;
  *     @API\Filter(field="nameOrExpandedName", operator="Application\Api\Input\Operator\NameOrExpandedNameOperatorType", type="string"),
  *     @API\Filter(field="artistOrTechniqueAuthor", operator="Application\Api\Input\Operator\ArtistOrTechniqueAuthorOperatorType", type="string"),
  *     @API\Filter(field="localityOrInstitutionLocality", operator="Application\Api\Input\Operator\LocalityOrInstitutionLocalityOperatorType", type="string"),
+ *     @API\Filter(field="yearRange", operator="Application\Api\Input\Operator\YearRangeOperatorType", type="string"),
  * })
  * @API\Sorting({"Application\Api\Input\Sorting\Artists"})
  */
