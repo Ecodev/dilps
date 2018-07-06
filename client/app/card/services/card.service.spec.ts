@@ -152,6 +152,35 @@ describe('CardService', () => {
         id: 123,
         updateDate: '2018-01-18T11:43:31',
         updater: userMetaTesting,
+        artists: [
+            {
+                id: '456',
+                name: 'test string',
+                __typename: 'Artist',
+            },
+            {
+                id: '456',
+                name: 'test string',
+                __typename: 'Artist',
+            },
+        ],
+        institution: {
+            id: '456',
+            name: 'test string',
+            street: 'test string',
+            postcode: 'test string',
+            locality: 'test string',
+            latitude: 0.5,
+            longitude: 0.5,
+            creationDate: '2018-01-18T11:43:31',
+            country: {
+                id: '456',
+                code: 'test string',
+                name: 'test string',
+                __typename: 'Country',
+            },
+            __typename: 'Institution',
+        },
         __typename: 'Card',
     };
 

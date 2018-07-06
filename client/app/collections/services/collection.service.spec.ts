@@ -29,7 +29,7 @@ describe('CollectionService', () => {
         permissions: {
             update: true,
             delete: true,
-            __typename : 'Permissions'
+            __typename: 'Permissions',
         },
     };
 
@@ -242,6 +242,23 @@ describe('CollectionService', () => {
         id: 123,
         updateDate: '2018-01-18T11:43:31',
         updater: userMetaTesting,
+        institution: {
+            id: '456',
+            name: 'test string',
+            street: 'test string',
+            postcode: 'test string',
+            locality: 'test string',
+            latitude: 0.5,
+            longitude: 0.5,
+            creationDate: '2018-01-18T11:43:31',
+            country: {
+                id: '456',
+                code: 'test string',
+                name: 'test string',
+                __typename: 'Country',
+            },
+            __typename: 'Institution',
+        },
         __typename: 'Collection',
     };
 
