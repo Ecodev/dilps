@@ -83,14 +83,37 @@ DELIMITER ;
 
 START TRANSACTION;
 
-INSERT INTO institution (name)
-  SELECT institution FROM ng_meta
+INSERT INTO institution (name, locality, area)
+  SELECT
+    ng_meta.institution AS name,
+    IFNULL(ng_location.location, '') AS locality,
+    IFNULL(ng_location.hierarchy, '') AS area
+  FROM ng_meta
+  LEFT JOIN ng_location ON ng_meta.locationid = ng_location.id
+
   UNION DISTINCT
-  SELECT institution FROM ng_meta_additional
+
+  SELECT
+    ng_meta_additional.institution AS name,
+    IFNULL(ng_location.location, '') AS locality,
+    IFNULL(ng_location.hierarchy, '') AS area
+  FROM ng_meta_additional
+  LEFT JOIN ng_location ON ng_meta_additional.locationid = ng_location.id
+
   UNION DISTINCT
-  SELECT CONVERT(CAST(institution AS BINARY) USING utf8mb4) FROM ng_users
+
+  SELECT
+    CONVERT(CAST(ng_users.institution AS BINARY) USING utf8mb4) AS name,
+    '' AS locality,
+    '' AS area
+  FROM ng_users
+
   UNION DISTINCT
-  SELECT sammlung_ort FROM ng_collection;
+  SELECT
+    ng_collection.sammlung_ort AS name,
+    '' AS locality,
+    '' AS area
+  FROM ng_collection;
 
 -- Delete a few invalid institution
 DELETE FROM institution
@@ -125,7 +148,11 @@ INSERT INTO collection (id, name, description, sorting, is_source, visibility)
 
 UPDATE collection
   JOIN ng_collection ON collection.id = ng_collection.collectionid
-  JOIN institution ON institution.name = ng_collection.sammlung_ort
+  JOIN institution ON (
+    institution.name = ng_collection.sammlung_ort
+    AND institution.locality = ''
+    AND institution.area = ''
+  )
 SET collection.institution_id = institution.id;
 
 
@@ -181,11 +208,14 @@ INSERT INTO user (id, creation_date, login, password, email, role, active_until,
     IF(type = 'externe', 'default', 'unil')
   FROM ng_users;
 
--- Update card with their institution
+-- Update user with their institution
 UPDATE user
   JOIN ng_users ON user.id = ng_users.id
-  JOIN institution
-    ON CONVERT(institution.name USING utf8mb4) = CONVERT(CAST(ng_users.institution AS BINARY) USING utf8mb4)
+  JOIN institution ON (
+    CONVERT(institution.name USING utf8mb4) = CONVERT(CAST(ng_users.institution AS BINARY) USING utf8mb4)
+    AND institution.locality = ''
+    AND institution.area = ''
+  )
 SET user.institution_id = institution.id;
 
 -- Inject non-existing user based on their agreement
@@ -243,7 +273,6 @@ INSERT INTO card_tag (card_id, tag_id)
 
 UPDATE card
   JOIN ng_meta ON CONCAT(ng_meta.collectionid, ng_meta.imageid) = card.id
-  LEFT JOIN ng_location ON ng_meta.locationid = ng_location.id
 SET
   card.visibility       = CASE ng_meta.status WHEN 'reviewed' THEN 'member' ELSE 'private' END,
   card.addition         = ng_meta.addition,
@@ -264,13 +293,17 @@ SET
   card.rights           = ng_meta.imagerights,
   card.museris_url      = ng_meta.museris_link,
   card.museris_cote     = ng_meta.museris_cote,
-  card.technique_author = ng_meta.auteur_technique,
-  card.locality         = IFNULL(ng_location.location, ''),
-  card.area             = IFNULL(ng_location.hierarchy, '');
+  card.technique_author = ng_meta.auteur_technique;
 
+-- Update card with their institution
 UPDATE card
   JOIN ng_meta ON card.id = CONCAT(ng_meta.collectionid, ng_meta.imageid)
-  JOIN institution ON institution.name = ng_meta.institution
+  LEFT JOIN ng_location ON ng_meta.locationid = ng_location.id
+  JOIN institution ON (
+    institution.name = ng_meta.institution
+    AND institution.locality = IFNULL(ng_location.location, '')
+    AND institution.area = IFNULL(ng_location.hierarchy, '')
+)
 SET card.institution_id = institution.id;
 
 -- Link card to artist 1
@@ -337,9 +370,7 @@ INSERT INTO card (
   page,
   figure,
   `table`,
-  isbn,
-  locality,
-  area
+  isbn
 )
   SELECT
     CONCAT(ng_meta.collectionid, ng_meta.imageid),
@@ -354,20 +385,23 @@ INSERT INTO card (
     ng_meta_additional.page,
     ng_meta_additional.figure,
     ng_meta_additional.table,
-    ng_meta_additional.isbn,
-    IFNULL(ng_location.location, ''),
-    IFNULL(ng_location.hierarchy, '')
+    ng_meta_additional.isbn
 
   FROM ng_meta_additional
-    JOIN ng_meta ON ng_meta.imageid = ng_meta_additional.parentid
-    LEFT JOIN ng_location ON ng_meta_additional.locationid = ng_location.id;
+    JOIN ng_meta ON ng_meta.imageid = ng_meta_additional.parentid;
 
 -- Link related card to institution
 UPDATE card
   JOIN ng_meta ON card.original_id = CONCAT(ng_meta.collectionid, ng_meta.imageid)
   JOIN ng_meta_additional ON ng_meta.imageid = ng_meta_additional.parentid
-  JOIN institution ON institution.name = ng_meta_additional.institution
-SET card.institution_id = institution.id;
+  LEFT JOIN ng_location ON ng_meta_additional.locationid = ng_location.id
+  JOIN institution ON (
+    institution.name = ng_meta_additional.institution
+    AND institution.locality = IFNULL(ng_location.location, '')
+    AND institution.area = IFNULL(ng_location.hierarchy, '')
+  )
+SET card.institution_id = institution.id
+WHERE card.institution_id IS NULL;
 
 -- Link related card to artist 1
 REPLACE INTO card_artist (card_id, artist_id)
@@ -415,23 +449,22 @@ UPDATE card SET locality = '' WHERE locality IN('-', '?', '.');
 DELETE FROM ng_geocodes WHERE address != CONVERT(CAST(address AS BINARY) USING utf8mb4) AND CONVERT(CAST(address AS BINARY) USING utf8mb4) IN (SELECT * FROM (SELECT address FROM ng_geocodes) AS tmp);
 UPDATE ng_geocodes SET address = CONVERT(CAST(address AS BINARY) USING utf8mb4);
 
--- First, attempt to match coordinates with institution, which should be the most precise
-UPDATE card
-  JOIN institution ON card.institution_id = institution.id
-  JOIN ng_geocodes ON CONCAT(card.locality, ', ', institution.name) = ng_geocodes.address
-SET card.latitude = ng_geocodes.lat,
-  card.longitude  = ng_geocodes.lon
-WHERE card.locality != '' AND card.longitude IS NULL AND card.latitude IS NULL;
+-- First, attempt to match coordinates with institution name, which should be the most precise
+UPDATE institution
+  JOIN ng_geocodes ON CONCAT(institution.locality, ', ', institution.name) = ng_geocodes.address
+SET institution.latitude = ng_geocodes.lat,
+  institution.longitude  = ng_geocodes.lon
+WHERE institution.locality != '' AND institution.longitude IS NULL AND institution.latitude IS NULL;
 
 -- Then, attempt to match coordinates with only the locality
-UPDATE card
-  JOIN ng_geocodes ON CONCAT(card.locality, ', ') = ng_geocodes.address
-SET card.latitude = ng_geocodes.lat,
-  card.longitude  = ng_geocodes.lon
-WHERE card.locality != '' AND card.longitude IS NULL AND card.latitude IS NULL;
+UPDATE institution
+  JOIN ng_geocodes ON CONCAT(institution.locality, ', ') = ng_geocodes.address
+SET institution.latitude = ng_geocodes.lat,
+  institution.longitude  = ng_geocodes.lon
+WHERE institution.locality != '' AND institution.longitude IS NULL AND institution.latitude IS NULL;
 
 -- Attempt to extract country from old hierarchy if no known country yet
-UPDATE card
+UPDATE institution
 SET country_id =
 IF(INSTR(area, '| France |'), 2,
    IF(INSTR(area, '| Italia |'), 15,
@@ -474,10 +507,10 @@ IF(INSTR(area, '| France |'), 2,
          )
       )
    )
-) WHERE card.country_id IS NULL;
+) WHERE institution.country_id IS NULL;
 
 -- Normalize a few things to have a better chance to match
-UPDATE card
+UPDATE institution
 SET locality =
 REPLACE(
     REPLACE(
@@ -504,47 +537,10 @@ WHERE locality != '';
 
 -- Attempt to extract country from old location if no known country yet
 -- In this case we assume that the country is the last word at the end of the string enclosed by parenthesis
-UPDATE card
-  JOIN country ON INSTR(card.locality, CONCAT(country.name, ')'))
-SET card.country_id = country.id
-WHERE locality != '' AND card.country_id IS NULL;
-
--- Copy address from card to institution if all cards of that institution have exactly the same address
 UPDATE institution
-  JOIN card ON institution.id = card.institution_id
-SET
-  institution.locality   = card.locality,
-  institution.area       = card.area,
-  institution.latitude   = card.latitude,
-  institution.longitude  = card.longitude,
-  institution.country_id = card.country_id
-WHERE card.institution_id IN (
-  SELECT tmp.institution_id FROM (
-     SELECT
-       institution_id,
-       COUNT(institution_id) AS institutionCount,
-       COUNT(DISTINCT CONCAT_WS(';', locality, area, IFNULL(latitude, 'NULL'), IFNULL(longitude, 'NULL'), IFNULL(country_id, 'NULL'))) AS localityCount
-     FROM card
-     WHERE institution_id IS NOT NULL
-     GROUP BY institution_id
-   ) AS tmp
-  WHERE tmp.localityCount = 1
-);
-
--- Remove address from card if it is exactly the same as its institution
-UPDATE card
-  JOIN institution ON institution.id = card.institution_id
-    AND institution.locality = card.locality
-    AND institution.area = card.area
-    AND (institution.latitude = card.latitude OR (institution.latitude IS NULL AND card.latitude IS NULL))
-    AND (institution.longitude = card.longitude OR (institution.longitude IS NULL AND card.longitude IS NULL))
-    AND (institution.country_id = card.country_id OR (institution.country_id IS NULL AND card.country_id IS NULL))
-    SET
-      card.locality   = '',
-      card.area       = '',
-      card.latitude   = NULL,
-      card.longitude  = NULL,
-      card.country_id = NULL;
+  JOIN country ON INSTR(institution.locality, CONCAT(country.name, ')'))
+SET institution.country_id = country.id
+WHERE locality != '' AND institution.country_id IS NULL;
 
 -- Make orphan collection visible to at least administrators
 UPDATE collection SET visibility = 'administrator'
