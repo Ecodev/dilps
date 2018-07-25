@@ -6,6 +6,7 @@ import { ArtistComponent } from '../../artists/artist/artist.component';
 import { InstitutionService } from '../../institutions/services/institution.service';
 import { UserService } from '../services/user.service';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { UserType } from '../../shared/generated-types';
 
 function matchPassword(ac: AbstractControl): ValidationErrors | null {
     const password = ac.get('password').value; // to get value in input tag
@@ -55,6 +56,10 @@ export class UserComponent extends AbstractDetail {
                 validators: [matchPassword],
             });
 
+    }
+
+    public isShibbolethUser() {
+        return this.data.item.type === UserType.unil;
     }
 
     protected postQuery() {

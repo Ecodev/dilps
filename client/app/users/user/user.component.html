@@ -9,10 +9,10 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                    <input matInput type="email" name="email" placeholder="Email" [(ngModel)]="data.item.email" >
+                    <input matInput [disabled]="isShibbolethUser()" type="email" name="email" placeholder="Email" [(ngModel)]="data.item.email" >
                 </mat-form-field>
 
-                <div *ngIf="data.item?.permissions?.update" [formGroup]="passwordGroupCtrl" fxLayout="column" fxLayoutGap="10px" >
+                <div *ngIf="data.item?.permissions?.update && !isShibbolethUser()" [formGroup]="passwordGroupCtrl" fxLayout="column" fxLayoutGap="10px" >
                     <mat-form-field>
                         <input matInput type="password" name="password" placeholder="Mot de passe" [(ngModel)]="data.item.password" [formControl]="passwordCtrl" >
                     </mat-form-field>

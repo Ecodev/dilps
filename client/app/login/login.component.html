@@ -5,46 +5,69 @@
         <div class="login padding-v centered-content" fxFlex fxLayout="column" fxLayoutAlign="center center">
 
             <div fxLayout="column" fxLayoutGap="15px">
-
                 <img src="assets/images/logo-bleu.svg" />
 
-                <mat-form-field class="width-auto">
-                    <input matInput
-                           autofocus
-                           name="login"
-                           [(ngModel)]="loginForm.login"
-                           placeholder="login"
-                           required="required"
-                           [disabled]="loading"
-                           (focus)="snackBar.dismiss()"
-                    >
-                </mat-form-field>
-
-                <mat-form-field class="width-auto">
-                    <input matInput
-                           type="password"
-                           name="password"
-                           color="warn"
-                           [(ngModel)]="loginForm.password"
-                           placeholder="password"
-                           required="required"
-                           [disabled]="loading"
-                           (focus)="snackBar.dismiss()"
-                    >
-                </mat-form-field>
-
-                <div fxLayout="column" fxLayoutGap="10px">
-                    <button type="submit"
-                            mat-button
-                            mat-raised-button
-                            color="primary"
-                            (click)="login()"
-                            [disabled]="loading || !loginForm.login || !loginForm.password"
-                    >Se connecter</button>
-
-                    <a mat-button (click)="userService.startTempAccess()">Accès direct</a>
-
+                <div fxLayout="column" fxLayoutGap="15px" class="login-info">
+                    Veuillez choisir une méthode d'authentification ou<br>
+                    utiliser le bouton "Accès public"
                 </div>
+
+                <a mat-raised-button href="/auth" class="shib-link">
+                    <img src="assets/images/logo-unil-blanc.svg" />
+                </a>
+
+                <mat-divider></mat-divider>
+
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Utilisateur externe
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <div fxLayout="column" fxLayoutGap="10px">
+                        <mat-form-field class="width-auto">
+                            <input matInput
+                                   autofocus
+                                   name="login"
+                                   [(ngModel)]="loginForm.login"
+                                   placeholder="login"
+                                   required="required"
+                                   [disabled]="loading"
+                                   (focus)="snackBar.dismiss()"
+                            >
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="column" fxLayoutGap="10px">
+                        <mat-form-field class="width-auto">
+                            <input matInput
+                                   type="password"
+                                   name="password"
+                                   color="warn"
+                                   [(ngModel)]="loginForm.password"
+                                   placeholder="password"
+                                   required="required"
+                                   [disabled]="loading"
+                                   (focus)="snackBar.dismiss()"
+                            >
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="column" fxLayoutGap="10px">
+                        <button type="submit"
+                                mat-button
+                                mat-raised-button
+                                color="primary"
+                                (click)="login()"
+                                [disabled]="loading || !loginForm.login || !loginForm.password"
+                        >Se connecter</button>
+                    </div>
+                </mat-expansion-panel>
+
+                <mat-divider></mat-divider>
+
+                <a mat-raised-button (click)="userService.startTempAccess()">Accès public</a>
             </div>
         </div>
 
