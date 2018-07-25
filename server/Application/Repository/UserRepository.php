@@ -113,7 +113,7 @@ class UserRepository extends AbstractRepository implements LimitedAccessSubQuery
     public function getOneByEmail(?string $mail): ?User
     {
         $this->getAclFilter()->setEnabled(false);
-        $user = $this->findOneByEmail($mail);
+        $user = $this->findOneBy(['email' => $mail]);
         $this->getAclFilter()->setEnabled(true);
 
         return $user;
@@ -125,7 +125,7 @@ class UserRepository extends AbstractRepository implements LimitedAccessSubQuery
      * @param string $login
      * @param string $mail
      * @param string $type
-     * @param string role
+     * @param string $role
      *
      * @return null|User
      */
