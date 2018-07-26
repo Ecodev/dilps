@@ -124,18 +124,16 @@ class UserRepository extends AbstractRepository implements LimitedAccessSubQuery
      *
      * @param string $login
      * @param string $mail
-     * @param string $type
-     * @param string $role
      *
-     * @return null|User
+     * @return User
      */
-    public function createShibboleth(string $login, string $mail, string $type = User::TYPE_UNIL, string $role = User::ROLE_STUDENT)
+    public function createShibboleth(string $login, string $mail): User
     {
         $user = new User();
         $user->setLogin($login);
         $user->setEmail($mail);
-        $user->setType($type);
-        $user->setRole($role);
+        $user->setType(User::TYPE_UNIL);
+        $user->setRole(User::ROLE_STUDENT);
 
         _em()->persist($user);
         _em()->flush();
