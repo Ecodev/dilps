@@ -71,8 +71,11 @@ class AuthenticationMiddleware implements MiddlewareInterface
                 $user = $this->userRepository->getOneByEmail($serverParams['mail']);
 
                 if (!$user) {
+                    $login = array_key_exists('uid', $serverParams) ?
+                        $serverParams['uid'] : $serverParams['mail'];
+
                     $user = $this->userRepository->createShibboleth(
-                        $serverParams['givenName'],
+                        $login,
                         $serverParams['mail']
                     );
                 }
