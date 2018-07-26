@@ -102,6 +102,46 @@ class UserRepository extends AbstractRepository implements LimitedAccessSubQuery
     }
 
     /**
+     * Unsecured way to get a user from its email.
+     *
+     * This should only be used in tests or controlled environment.
+     *
+     * @param null|string $mail
+     *
+     * @return null|User
+     */
+    public function getOneByEmail(?string $mail): ?User
+    {
+        $this->getAclFilter()->setEnabled(false);
+        $user = $this->findOneBy(['email' => $mail]);
+        $this->getAclFilter()->setEnabled(true);
+
+        return $user;
+    }
+
+    /**
+     * Create new Shibboleth user.
+     *
+     * @param string $login
+     * @param string $mail
+     *
+     * @return User
+     */
+    public function createShibboleth(string $login, string $mail): User
+    {
+        $user = new User();
+        $user->setLogin($login);
+        $user->setEmail($mail);
+        $user->setType(User::TYPE_UNIL);
+        $user->setRole(User::ROLE_STUDENT);
+
+        _em()->persist($user);
+        _em()->flush();
+
+        return $user;
+    }
+
+    /**
      * Returns pure SQL to get ID of all objects that are accessible to given user.
      *
      * @param null|User $user

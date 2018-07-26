@@ -14,5 +14,9 @@
   "/zip": {
     "target": "https://dilps.lan",
     "secure": false
+  },
+  "/auth": {
+    "target": "https://dilps.lan",
+    "secure": false
   }
 }
