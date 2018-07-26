@@ -31,6 +31,7 @@ import {
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
+    MatExpansionModule,
 } from '@angular/material';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
@@ -173,6 +174,7 @@ import { NaturalSearchModule } from '@ecodev/natural-search';
         MatMenuModule,
         MatDialogModule,
         MatTooltipModule,
+        MatExpansionModule,
         MatSlideToggleModule,
         MatSliderModule,
         MatTabsModule,

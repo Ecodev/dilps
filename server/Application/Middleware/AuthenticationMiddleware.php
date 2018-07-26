@@ -38,6 +38,10 @@ class AuthenticationMiddleware implements MiddlewareInterface
     {
         /** @var SessionInterface $session */
         $session = $request->getAttribute(SessionMiddleware::SESSION_ATTRIBUTE);
+        /** @var array $serverParams */
+        $serverParams = $request->getServerParams();
+
+        $this->shibboleth($session, $serverParams);
 
         if ($session->has('user')) {
             $user = $this->userRepository->getOneById($session->get('user'));
@@ -52,5 +56,29 @@ class AuthenticationMiddleware implements MiddlewareInterface
         }
 
         return $handler->handle($request);
+    }
+
+    /**
+     * Check if Shibboleth session is available and if the user is already created in the database
+     *
+     * @param SessionInterface $session
+     */
+    private function shibboleth(SessionInterface $session, array $serverParams): void
+    {
+        if (array_key_exists('Shib-Identity-Provider', $serverParams) && !$session->has('user')) {
+            // User has Shibboleth session but no user session
+            if (array_key_exists('mail', $serverParams)) {
+                $user = $this->userRepository->getOneByEmail($serverParams['mail']);
+
+                if (!$user) {
+                    $user = $this->userRepository->createShibboleth(
+                        $serverParams['givenName'],
+                        $serverParams['mail']
+                    );
+                }
+
+                $session->set('user', $user->getId());
+            }
+        }
     }
 }
