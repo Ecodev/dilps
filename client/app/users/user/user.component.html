@@ -8,8 +8,8 @@
                     <input matInput [disabled]="!!data.item.id" name="login" placeholder="Login" [(ngModel)]="data.item.login" >
                 </mat-form-field>
 
-                <mat-form-field>
-                    <input matInput [disabled]="isShibbolethUser()" type="email" name="email" placeholder="Email" [(ngModel)]="data.item.email" >
+                <mat-form-field *ngIf="!isShibbolethUser()">
+                    <input matInput type="email" name="email" placeholder="Email" [(ngModel)]="data.item.email" >
                 </mat-form-field>
 
                 <div *ngIf="data.item?.permissions?.update && !isShibbolethUser()" [formGroup]="passwordGroupCtrl" fxLayout="column" fxLayoutGap="10px" >
