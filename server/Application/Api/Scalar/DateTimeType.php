@@ -10,7 +10,7 @@ use GraphQL\Error\Error;
 use GraphQL\Language\AST\Node;
 use GraphQL\Language\AST\StringValueNode;
 use GraphQL\Type\Definition\ScalarType;
-use GraphQL\Utils;
+use GraphQL\Utils\Utils;
 
 class DateTimeType extends ScalarType
 {
@@ -46,6 +46,10 @@ class DateTimeType extends ScalarType
     {
         if (!is_string($value)) { // quite naive, but after all this is example
             throw new \UnexpectedValueException('Cannot represent value as date: ' . Utils::printSafe($value));
+        }
+
+        if ($value === '') {
+            return null;
         }
 
         $date = new DateTimeImmutable($value);
