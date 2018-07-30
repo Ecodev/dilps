@@ -152,6 +152,12 @@ class User extends AbstractModel
      */
     public function setPassword(string $password): void
     {
+        // Ignore empty password that could be sent "by mistake" by the client
+        // when agreeing to terms
+        if ($password === '') {
+            return;
+        }
+
         $this->password = password_hash($password, PASSWORD_DEFAULT);
     }
 
