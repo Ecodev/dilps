@@ -5,7 +5,6 @@ declare(strict_types=1);
 use Application\Action\GraphQLAction;
 use GraphQL\Upload\UploadMiddleware;
 use Psr\Container\ContainerInterface;
-use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Expressive\Application;
 use Zend\Expressive\Helper\BodyParams\BodyParamsMiddleware;
 use Zend\Expressive\MiddlewareFactory;
@@ -69,7 +68,5 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
         \Application\Action\ZipAction::class,
     ], 'zip/collection');
 
-    $app->get('/auth', function () {
-        return new RedirectResponse('/', 302);
-    });
+    $app->get('/auth', \Application\Middleware\ShibbolethMiddleware::class);
 };

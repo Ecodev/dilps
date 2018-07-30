@@ -40,6 +40,7 @@ return [
             \Application\Middleware\CollectionFetcherMiddleware::class => \Application\Middleware\CollectionFetcherFactory::class,
             \Application\Service\ImageService::class => \Application\Service\ImageFactory::class,
             \Application\Middleware\AuthenticationMiddleware::class => \Application\Middleware\AuthenticationFactory::class,
+            \Application\Middleware\ShibbolethMiddleware::class => \Application\Middleware\ShibbolethFactory::class,
             \GraphQL\Doctrine\Types::class => \Application\Api\TypesFactory::class,
             \Imagine\Image\ImagineInterface::class => \Application\Service\ImagineFactory::class,
         ],
