@@ -1,5 +1,5 @@
 import { forkJoin } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { ThemeService } from '../shared/services/theme.service';
 import { UserService } from '../users/services/user.service';
 import { NetworkActivityService } from '../shared/services/network-activity.service';
@@ -15,10 +15,13 @@ import { CardService } from '../card/services/card.service';
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
+
+    private routeParamsSub;
 
     public errors = [];
     public user;
+    public nav = 1;
 
     constructor(public themeSvc: ThemeService,
                 public route: ActivatedRoute,
@@ -34,8 +37,11 @@ export class HomeComponent implements OnInit {
         this.network.errors.next([]);
     }
 
-    ngOnInit() {
+    ngOnDestroy() {
+        this.routeParamsSub.unsubscribe();
+    }
 
+    ngOnInit() {
         // Watch errors
         this.network.errors.subscribe(errors => {
             this.errors = this.errors.concat(errors);
@@ -46,6 +52,12 @@ export class HomeComponent implements OnInit {
 
         this.userSvc.getCurrentUser().subscribe(user => {
             this.user = user;
+        });
+
+        this.routeParamsSub = this.route.firstChild.params.subscribe(params => {
+            if (params.nav) {
+                this.nav = +params.nav;
+            }
         });
     }
 
@@ -71,6 +83,10 @@ export class HomeComponent implements OnInit {
                 data: {item: user},
             });
         });
+    }
+
+    public showNavigationMenu() {
+        return !!this.nav;
     }
 
 }

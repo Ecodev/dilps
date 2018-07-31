@@ -25,7 +25,9 @@ class ShibbolethMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         // Redirect to quizz url if quizz parameter is found in the query params
-        $quizzUrl = array_key_exists('quizz', $request->getQueryParams()) ? 'quizz;cards=' . $request->getQueryParams()['quizz'] : '';
+        $quizzUrl = array_key_exists('quizz', $request->getQueryParams()) ?
+            'quizz;cards=' . $request->getQueryParams()['quizz'] . ';nav=0' :
+            '';
 
         return new RedirectResponse('/' . $quizzUrl, 302);
     }
