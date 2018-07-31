@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         });
 
         this.routeParamsSub = this.route.firstChild.params.subscribe(params => {
-            if (params.nav) {
+            if (params.nav && /^[01]$/.test(params.nav)) {
                 this.nav = +params.nav;
             }
         });
