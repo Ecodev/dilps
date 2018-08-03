@@ -1,5 +1,5 @@
 import { forkJoin } from 'rxjs';
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ThemeService } from '../shared/services/theme.service';
 import { UserService } from '../users/services/user.service';
 import { NetworkActivityService } from '../shared/services/network-activity.service';
@@ -9,6 +9,7 @@ import { UserComponent } from '../users/user/user.component';
 import { UploadService } from '../shared/services/upload.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CardService } from '../card/services/card.service';
+import { environment } from '../../environments/environment';
 
 @Component({
     selector: 'app-home',
@@ -16,9 +17,9 @@ import { CardService } from '../card/services/card.service';
     styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-
     private routeParamsSub;
 
+    public isProduction = environment.production;
     public errors = [];
     public user;
     public nav = 1;
