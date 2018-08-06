@@ -1,7 +1,14 @@
 <div fxFlex fxLayout="column" appFileDrop>
 
     <mat-sidenav-container #navContainer fxFlex fxLayout="column">
-        <mat-sidenav *ngIf="showNavigationMenu()" id="menu" position="start" mode="side" opened="true" class="menuMinimized" [ngStyle]="{ 'backgroundColor': !isProduction ? '#2ca02c' : '' }">
+        <mat-sidenav *ngIf="showNavigationMenu()"
+                     id="menu"
+                     position="start"
+                     mode="side"
+                     opened="true"
+                     class="menuMinimized"
+                     [ngStyle]="{ 'backgroundColor': !isProduction ? '#2ca02c' : '' }"
+        >
             <div fxFlex fxLayout="row" fxFlexAlign="start center">
                 <perfect-scrollbar fxLayout="column">
 
@@ -9,7 +16,12 @@
 
                         <mat-nav-list>
                             <!-- Dashboard -->
-                            <a mat-list-item routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" [queryParams]="null">
+                            <a mat-list-item
+                               routerLink="/"
+                               routerLinkActive="active"
+                               [routerLinkActiveOptions]="{ exact: true }"
+                               [queryParams]="null"
+                            >
                                 <mat-icon mat-list-icon>home</mat-icon>
                                 <span matLine>Accueil</span>
                             </a>
@@ -35,11 +47,7 @@
                             </a>
 
                             <!-- Fonds -->
-                            <a mat-list-item
-                               routerLink="/source"
-                               routerLinkActive="active"
-                               matTooltipPosition="after"
-                               matTooltip="Fonds"
+                            <a mat-list-item routerLink="/source" routerLinkActive="active" matTooltipPosition="after" matTooltip="Fonds"
                             >
                                 <mat-icon mat-list-icon>folder_special</mat-icon>
                             </a>
@@ -148,7 +156,7 @@
             </div>
         </mat-sidenav>
 
-        <div id="appContent" fxFlex fxLayout="column">
+        <div id="appContent" fxFlex fxLayout="row">
             <router-outlet></router-outlet>
         </div>
 
@@ -157,7 +165,13 @@
 </div>
 
 <mat-menu #errorsMenu="matMenu" [overlapTrigger]="false" class="padding error-menu" fxLayout="column" fxLayoutGap="60px">
-    <div mat-menu-item *ngFor="let error of errors" fxLayout="column" class="error" (click)="$event.stopPropagation()" style="user-select: text">
+    <div mat-menu-item
+         *ngFor="let error of errors"
+         fxLayout="column"
+         class="error"
+         (click)="$event.stopPropagation()"
+         style="user-select: text"
+    >
         <span class="mat-caption" style="font-weight:bold">{{ error.category }}</span>
         <span class="mat-caption">{{ error.message }}</span>
         <span class="mat-caption">{{ error.debugMessage }}</span>

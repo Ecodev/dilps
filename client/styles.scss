@@ -56,49 +56,27 @@ pre.debug {
     }
 }
 
-//#appContent {
-//    overflow-y: hidden;
-//    & > *:not(router-outlet) {
-//        display: flex;
-//        flex: 1;
-//        flex-direction:column;
-//        border: 1px solid green;
-//    }
-//}
+perfect-scrollbar {
+    display: flex !important;
+    flex-direction: column;
+
+    .ps {
+        height: auto;
+        flex: 1;
+    }
+}
 
 #appContent {
-    overflow: hidden;
-    display: flex;
-    flex-direction: row;
-    & > router-outlet + * {
+    height: 100vh;
+    router-outlet + * {
+        height: 100vh;
+        min-height: 0;
         flex: 1;
     }
 }
 
 .mat-form-field textarea.mat-autosize {
     overflow: hidden;
-}
-
-router-outlet + * {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-perfect-scrollbar {
-    position: relative;
-    overflow: hidden;
-    .ps-content {
-        flex: auto;
-    }
-    .ps {
-        display: inherit !important;
-    }
-}
-
-.mat-drawer-content {
-    display: flex !important;
-    flex: 1 1 auto !important;
 }
 
 .mat-form-field.width-auto {
@@ -127,5 +105,5 @@ perfect-scrollbar {
 
 .mat-table mat-cell {
     align-items: flex-start;
-    padding:0 3px;
+    padding: 0 3px;
 }

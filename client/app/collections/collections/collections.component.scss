@@ -1,7 +1,8 @@
 @import '../../../styles/utils';
 
 :host {
-    flex: auto;
+    display: flex;
+    flex-direction: row;
     @include fixedToolbar();
 
     mat-nav-list {
@@ -10,8 +11,7 @@
         }
 
         .description {
-            margin-top:4px;
+            margin-top: 4px;
         }
-
     }
 }

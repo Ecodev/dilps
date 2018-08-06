@@ -11,10 +11,7 @@
     <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
         <img *ngIf="showLogo" src="assets/images/logo-bleu.svg" style="max-width:100%;height:30px;" />
 
-        <div id="natural-search-container"
-             fxFlex
-             fxLayout="row"
-             fxLayoutAlign="start center"
+        <div id="natural-search-container" fxFlex fxLayout="row" fxLayoutAlign="start center"
         >
             <natural-search fxFlex
                             class="searchField"
@@ -98,7 +95,7 @@
 
     </mat-toolbar>
 
-    <perfect-scrollbar fxFlex #scrollable>
+    <perfect-scrollbar #scrollable>
         <div class="scrolled" fxFlex fxLayout="row">
             <natural-gallery #gallery
                              fxFlex
