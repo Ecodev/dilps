@@ -270,4 +270,24 @@ class CardTest extends TestCase
             [User::ROLE_ADMINISTRATOR, Card::VISIBILITY_PUBLIC, Card::VISIBILITY_PUBLIC, false],
         ];
     }
+
+    public function testSetInstitution(): void
+    {
+        $card = new Card();
+        self::assertNull($card->getInstitution());
+
+        $card->setInstitution('foo');
+        $institution1 = $card->getInstitution();
+        self::assertSame('foo', $institution1->getName(), 'can set new institution');
+
+        $card->setInstitution('foo');
+        $institution2 = $card->getInstitution();
+        self::assertSame($institution1, $institution2, 'change for same same will have no effect at all');
+        self::assertSame('foo', $institution2->getName(), 'did not change');
+
+        $card->setInstitution('bar');
+        $institution3 = $card->getInstitution();
+        self::assertNotSame($institution1, $institution3, 'can change for something else');
+        self::assertSame('bar', $institution3->getName(), 'new name');
+    }
 }

@@ -40,6 +40,13 @@ trait HasInstitution
      */
     public function setInstitution(?string $institutionName): void
     {
+        // Ignore change if it already is the same name, to avoid inadvertently
+        // changing to another institution with a duplicated name
+        $institution = $this->getInstitution();
+        if ($institution && $institution->getName() === $institutionName) {
+            return;
+        }
+
         $this->institution = _em()->getRepository(Institution::class)->getOrCreateByName($institutionName);
     }
 }
