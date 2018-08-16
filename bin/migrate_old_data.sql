@@ -29,6 +29,10 @@ ALTER TABLE ng_img_tag
 ALTER TABLE `ng_geocodes` ADD INDEX(`address`);
 ALTER TABLE `ng_location` ADD INDEX(`id`);
 
+-- Temporarily remove unique constraints
+ALTER TABLE institution DROP INDEX unique_name, ADD INDEX IDX_3A9F98E55E237E06 (name);
+ALTER TABLE artist DROP INDEX unique_name, ADD INDEX IDX_15996875E237E06 (name);
+
 -- Procedure to try as best as we can to explode concatenated ID and migrate them into proper FK
 -- However some of those IDs don't exist anymore and will thus be ignored
 DROP PROCEDURE IF EXISTS createRelationBetweenCollectionAndCard;
@@ -574,6 +578,49 @@ UPDATE card SET
   filename = REPLACE(filename, "\\'", "'"),
   `comment` = REPLACE(`comment`, "\\'", "'");
 
+-- Migrate duplicated artist to always use the same one
+UPDATE IGNORE card_artist
+JOIN artist ON card_artist.artist_id = artist.id
+JOIN (SELECT MIN(id) AS id, name FROM artist GROUP BY name HAVING COUNT(*) > 1) AS dup ON artist.name = dup.name
+SET artist_id = dup.id;
+
+-- Delete duplicated artists that are not the one we kept
+DELETE artist
+FROM artist
+JOIN (SELECT MIN(id) AS id, name FROM artist GROUP BY name HAVING COUNT(*) > 1) AS dup
+  ON artist.name = dup.name
+  AND artist.id != dup.id;
+
+
+-- Make institution name as unique as possible
+UPDATE institution SET name = CONCAT(name, IF(locality != '', CONCAT(' - ', locality), ''));
+
+-- Migrate duplicated institution to always use the same one
+UPDATE IGNORE card
+JOIN institution ON card.institution_id = institution.id
+JOIN (SELECT MIN(id) AS id, name FROM institution GROUP BY name HAVING COUNT(*) > 1) AS dup ON institution.name = dup.name
+SET institution_id = dup.id;
+
+UPDATE IGNORE user
+JOIN institution ON user.institution_id = institution.id
+JOIN (SELECT MIN(id) AS id, name FROM institution GROUP BY name HAVING COUNT(*) > 1) AS dup ON institution.name = dup.name
+SET institution_id = dup.id;
+
+UPDATE IGNORE collection
+JOIN institution ON collection.institution_id = institution.id
+JOIN (SELECT MIN(id) AS id, name FROM institution GROUP BY name HAVING COUNT(*) > 1) AS dup ON institution.name = dup.name
+SET institution_id = dup.id;
+
+-- Delete duplicated institutions that are not the one we kept
+DELETE institution
+FROM institution
+JOIN (SELECT MIN(id) AS id, name FROM institution GROUP BY name HAVING COUNT(*) > 1) AS dup
+  ON institution.name = dup.name
+  AND institution.id != dup.id;
+
 COMMIT;
 
 DROP PROCEDURE createRelationBetweenCollectionAndCard;
+
+ALTER TABLE institution DROP INDEX IDX_3A9F98E55E237E06, ADD UNIQUE INDEX unique_name (name);
+ALTER TABLE artist DROP INDEX IDX_15996875E237E06, ADD UNIQUE INDEX unique_name (name);
