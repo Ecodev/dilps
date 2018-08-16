@@ -11,7 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
  * A country
  *
  * @ORM\Entity(repositoryClass="Application\Repository\CountryRepository")
- * @ORM\Table(indexes={@ORM\Index(columns={"name"})})
  */
 class Country extends AbstractModel
 {
