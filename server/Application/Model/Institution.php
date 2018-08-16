@@ -13,11 +13,13 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Entity(repositoryClass="Application\Repository\InstitutionRepository")
  * @ORM\Table(indexes={
- *     @ORM\Index(columns={"name"}),
  *     @ORM\Index(columns={"locality"}),
  *     @ORM\Index(columns={"area"}),
  *     @ORM\Index(columns={"latitude"}),
  *     @ORM\Index(columns={"longitude"}),
+ * },
+ * uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="unique_name", columns={"name"})
  * })
  */
 class Institution extends AbstractModel
