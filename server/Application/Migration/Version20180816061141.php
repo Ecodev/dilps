@@ -12,6 +12,13 @@ class Version20180816061141 extends AbstractMigration
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
+        $this->addSql('ALTER TABLE institution CHANGE name name VARCHAR(191) NOT NULL');
+        $this->addSql('ALTER TABLE collection CHANGE name name VARCHAR(191) NOT NULL');
+        $this->addSql('ALTER TABLE country CHANGE name name VARCHAR(191) NOT NULL');
+        $this->addSql('ALTER TABLE artist CHANGE name name VARCHAR(191) NOT NULL');
+        $this->addSql('ALTER TABLE card CHANGE name name VARCHAR(191) NOT NULL');
+        $this->addSql('ALTER TABLE tag CHANGE name name VARCHAR(191) NOT NULL');
+
         // Migrate duplicated artist to always use the same one
         $this->addSql('
 UPDATE IGNORE card_artist
