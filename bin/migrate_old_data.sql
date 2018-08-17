@@ -163,7 +163,7 @@ SET collection.institution_id = institution.id;
 INSERT INTO card (id, filename, creation_date, update_date, width, height, file_size)
   SELECT
     CONCAT(collectionid, imageid),
-    CONCAT(collectionid, imageid, filename),
+    CONCAT(collectionid, imageid, '.', SUBSTRING_INDEX(filename, '.', -1)),
     insert_date,
     modify_date,
     width,

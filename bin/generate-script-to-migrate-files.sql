@@ -7,7 +7,7 @@
 --     more bin/generate-script-to-migrate-files.sql | mysql --raw -u dilps -p dilps
 
 SELECT CONCAT(
-           'mv "',
+           'cp "',
            ng_img_base.base,
            '/',
            REPLACE(REPLACE(filename, "\\'", "'"), "$", "\\$"),
@@ -15,7 +15,8 @@ SELECT CONCAT(
            '"data/images/',
            ng_img.collectionid,
            imageid,
-           REPLACE(REPLACE(filename, "\\'", "'"), "$", "\\$"),
+           '.',
+           SUBSTRING_INDEX(filename, '.', -1),
            '"'
        ) AS '#!/usr/bin/env bash'
 FROM ng_img
