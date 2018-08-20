@@ -1,9 +1,10 @@
 language: php
 php:
   - 7.1
+  - 7.2
 
 addons:
-    mariadb: 10.1
+    mariadb: 10.0
 
 cache:
   directories:
