@@ -9,14 +9,12 @@
 SELECT CONCAT(
            'cp "',
            ng_img_base.base,
-           '/',
-           REPLACE(REPLACE(filename, "\\'", "'"), "$", "\\$"),
-           '" ',
-           '"data/images/',
+           '/cache/',
            ng_img.collectionid,
-           imageid,
-           '.',
-           SUBSTRING_INDEX(filename, '.', -1),
+           '-',
+           ng_img.imageid,
+           '.jpg" ',
+           '"data/images/',
            '"'
        ) AS '#!/usr/bin/env bash'
 FROM ng_img
