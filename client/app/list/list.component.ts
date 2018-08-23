@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CardService } from '../card/services/card.service';
 import { clone, defaults, isArray, isString, merge, pickBy } from 'lodash';
 import { DownloadComponent } from '../shared/components/download/download.component';
+import { debounceTime } from 'rxjs/operators';
 
 import { adminConfig, cardsConfiguration } from '../shared/natural-search-configurations';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
@@ -109,6 +110,9 @@ export class ListComponent implements OnInit {
                 };
 
                 this.variablesManager.set('collection', {filter: filter});
+
+                // Reset pagination when we change collection
+                this.variablesManager.set('pagination', this.firstPagination);
             }
         });
 
@@ -330,7 +334,7 @@ export class ListComponent implements OnInit {
         this.variablesManager.set('pagination', pagination);
 
         if (!this.sub) {
-            this.sub = this.cardSvc.watchAll(this.variablesManager.variables);
+            this.sub = this.cardSvc.watchAll(this.variablesManager.variables.pipe(debounceTime(5)));
             this.sub.valueChanges.subscribe(data => {
                 if (this.gallery) {
                     this.gallery.gallery.addItems(this.formatImages(data.items));
