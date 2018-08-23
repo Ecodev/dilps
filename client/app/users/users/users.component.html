@@ -59,6 +59,12 @@
                 <mat-cell *matCellDef="let element">{{ element.role | role }}</mat-cell>
             </ng-container>
 
+            <!-- Type Column -->
+            <ng-container matColumnDef="type">
+                <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{ element.type | type }}</mat-cell>
+            </ng-container>
+
             <!-- activeUntil Column -->
             <ng-container matColumnDef="activeUntil">
                 <mat-header-cell *matHeaderCellDef>Validité</mat-header-cell>

@@ -88,6 +88,7 @@ import { FileDropDirective } from './shared/directives/file-drop.directive';
 import { CollectionSelectorComponent } from './shared/components/collection-selector/collection-selector.component';
 import { LinkMutationService } from './shared/services/link-mutation.service';
 import { RolePipe } from './shared/pipes/role.pipe';
+import { TypePipe } from './shared/pipes/type.pipe';
 import { AuthAdminGuard } from './shared/services/auth.admin.guard';
 import { QuizzComponent } from './quizz/quizz.component';
 import { NumberSelectorComponent } from './quizz/shared/number-selector/number-selector.component';
@@ -128,6 +129,7 @@ import { NaturalSearchModule } from '@ecodev/natural-search';
         CollectionSelectorComponent,
         DownloadComponent,
         RolePipe,
+        TypePipe,
         QuizzComponent,
         NumberSelectorComponent,
         MassEditComponent,
