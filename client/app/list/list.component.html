@@ -81,12 +81,12 @@
             </button>
         </ng-container>
 
-        <button mat-icon-button (click)="gallery.gallery.unselectAll()" matTooltip="Désélectionner tout" *ngIf="selected?.length">
+        <button mat-icon-button (click)="unselectAll()" matTooltip="Désélectionner tout" *ngIf="selected?.length">
             <mat-icon>select_all</mat-icon>
         </button>
 
         <button mat-icon-button
-                (click)="gallery.gallery.selectVisibleItems()"
+                (click)="selectAll()"
                 matTooltip="Sélectionner les images visibles"
                 *ngIf="!selected?.length"
         >
@@ -100,11 +100,10 @@
             <natural-gallery #gallery
                              fxFlex
                              class="padding"
-                             [collection]="galleryCollection"
                              [options]="options"
                              [scrollable]="scrollable.directiveRef.elementRef.nativeElement"
                              (activate)="activate($event)"
-                             (selectChange)="select($event)"
+                             (select)="select($event)"
                              (pagination)="loadMore($event)"
             ></natural-gallery>
         </div>

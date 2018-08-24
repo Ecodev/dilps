@@ -1,6 +1,7 @@
 @import '../../styles/utils';
 
 :host {
+    display: flex;
     flex: auto;
     @include fixedToolbar();
 

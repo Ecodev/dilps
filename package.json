@@ -25,7 +25,7 @@
     "@angular/platform-browser": "^6.0.3",
     "@angular/platform-browser-dynamic": "^6.0.3",
     "@angular/router": "^6.0.3",
-    "@ecodev/angular-natural-gallery": "^2.0.0",
+    "@ecodev/angular-natural-gallery": "^4.0.2",
     "@ecodev/natural-search": "^0.0.20",
     "@ngx-progressbar/core": "^5.0.1",
     "angular-file": "^0.5.1",
