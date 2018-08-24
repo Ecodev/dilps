@@ -22,6 +22,7 @@ import { fromUrl, NaturalSearchConfiguration, NaturalSearchSelections, toGraphQL
 import { QueryVariablesManager } from '../shared/classes/query-variables-manager';
 import { CardFilter, CardSortingField, SortingOrder, UserRole, ViewerQuery } from '../shared/generated-types';
 import { PersistenceService } from '../shared/services/persistence.service';
+import { NaturalGalleryOptions } from '@ecodev/natural-gallery-js';
 
 @Component({
     selector: 'app-list',
@@ -29,13 +30,12 @@ import { PersistenceService } from '../shared/services/persistence.service';
     styleUrls: ['./list.component.scss'],
 })
 export class ListComponent implements OnInit {
-    public test = 0;
+
     @ViewChild('gallery') gallery: NaturalGalleryComponent;
     @ViewChild('scrollable') private scrollable: PerfectScrollbarComponent;
 
     public SortingOrder = SortingOrder;
     public galleryCollection = null;
-    public options = null;
     public selected;
 
     public showLogo = true;
@@ -44,7 +44,14 @@ export class ListComponent implements OnInit {
     private enlargedHeight = 2000;
     private sub;
 
-    private firstPagination;
+    public options: NaturalGalleryOptions = {
+        gap: 5,
+        showLabels: 'always',
+        rowHeight: this.thumbnailHeight,
+        activable: true,
+        selectable: true,
+        lightbox: true,
+    };
 
     public collection;
 
@@ -58,9 +65,7 @@ export class ListComponent implements OnInit {
 
     public config: NaturalSearchConfiguration = cardsConfiguration;
 
-    public selections: NaturalSearchSelections = [
-        [],
-    ];
+    public selections: NaturalSearchSelections = [[]];
 
     private variablesManager: QueryVariablesManager = new QueryVariablesManager();
 
@@ -97,22 +102,15 @@ export class ListComponent implements OnInit {
             }
 
             if (params.collectionId) {
+
                 this.collection = {
                     id: params.collectionId,
                     __typename: 'Collection',
                 };
-                this.galleryCollection = [];
 
-                const filter: CardFilter = {
-                    groups: [
-                        {conditions: [{collections: {have: {values: [params.collectionId]}}}]},
-                    ],
-                };
-
+                const filter: CardFilter = {groups: [{conditions: [{collections: {have: {values: [params.collectionId]}}}]}]};
                 this.variablesManager.set('collection', {filter: filter});
-
-                // Reset pagination when we change collection
-                this.variablesManager.set('pagination', this.firstPagination);
+                this.reset();
             }
         });
 
@@ -127,36 +125,16 @@ export class ListComponent implements OnInit {
 
             // const contextFields: CardFilterConditionFields[] = [{filename: {equal: {value: '', not: true}}}];
             const filters: CardFilter = {
-                groups: [
-                    {
-                        conditions: [
-                            {
-                                filename: {
-                                    equal: {
-                                        value: '',
-                                        not: true,
-                                    },
-                                },
-                            },
-                        ],
-                    },
-                ],
+                groups: [{conditions: [{filename: {equal: {value: '', not: true}}}]}],
             };
 
             if (data.creator && !this.collection) {
                 filters.groups[filters.groups.length - 1].conditions[0].creator = {equal: {value: data.creator.id}};
             }
 
-            this.galleryCollection = [];
             this.variablesManager.set('controller-variables', {filter: filters});
+            this.reset();
         });
-
-        this.options = {
-            margin: 5,
-            showLabels: 'true',
-            rowHeight: this.thumbnailHeight,
-            zoomRotation: false,
-        };
 
     }
 
@@ -227,19 +205,19 @@ export class ListComponent implements OnInit {
             let big = CardService.formatImage(card, this.enlargedHeight);
 
             thumb = {
-                thumbnail: thumb.src,
-                tWidth: thumb.width,
-                tHeight: thumb.height,
+                thumbnailSrc: thumb.src,
+                thumbnailWidth: thumb.width,
+                thumbnailHeight: thumb.height,
             };
 
             big = {
-                enlarged: big.src,
-                eWidth: big.width,
-                eHeight: big.height,
+                enlargedSrc: big.src,
+                enlargedWidth: big.width,
+                enlargedHeight: big.height,
             };
 
             let title = card.name ? card.name : null;
-            const artists = card.artists.map(a => a.name).join(', ');
+            const artists = card.artists.map(a => a.name).join('<br/>');
 
             if (artists && title) {
                 title = artists + ' : ' + title;
@@ -251,20 +229,17 @@ export class ListComponent implements OnInit {
                 title: title ? title : 'Voir le détail',
             };
 
-            if (this.user) {
-                fields.link = 'true';
-            }
-
             return merge({}, card, thumb, big, fields);
         });
 
         return cards;
     }
 
-    public activate(item) {
+    public activate(event) {
+        console.log('activate', event);
         this.router.navigate([
             'card',
-            item.id,
+            event.model.id,
         ]);
     }
 
@@ -274,12 +249,9 @@ export class ListComponent implements OnInit {
 
     public reset() {
         this.selected = [];
-
-        if (this.gallery) {
-            this.gallery.collection = [];
+        if (this.gallery && this.gallery.gallery) {
+            this.gallery.gallery.clear();
         }
-
-        this.variablesManager.set('pagination', this.firstPagination);
     }
 
     public reload() {
@@ -320,18 +292,7 @@ export class ListComponent implements OnInit {
 
     public loadMore(ev) {
 
-        const pagination = {
-            pagination: {
-                offset: ev.offset,
-                pageSize: ev.limit,
-            },
-        };
-
-        if (!this.firstPagination) {
-            this.firstPagination = pagination;
-        }
-
-        this.variablesManager.set('pagination', pagination);
+        this.variablesManager.set('pagination', {pagination: {offset: ev.offset, pageSize: ev.limit}});
 
         if (!this.sub) {
             this.sub = this.cardSvc.watchAll(this.variablesManager.variables.pipe(debounceTime(5)));
@@ -464,5 +425,14 @@ export class ListComponent implements OnInit {
             });
         });
 
+    }
+
+    public selectAll() {
+        this.selected = this.gallery.gallery.selectVisibleItems();
+    }
+
+    public unselectAll() {
+        this.gallery.gallery.unselectAllItems();
+        this.selected.length = [];
     }
 }
