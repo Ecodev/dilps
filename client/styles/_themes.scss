@@ -4,7 +4,7 @@
  */
 // Import theming files full relative way or karma will display warning
 @import '../../node_modules/@angular/material/theming';
-@import '~@ecodev/angular-natural-gallery/theming/natural-gallery.theme';
+@import '../../node_modules/@ecodev/angular-natural-gallery/theming/natural-gallery.theme';
 @import '../../node_modules/@ecodev/natural-search/theming/natural-search.theme';
 @import 'typography';
 @import '../app/app.theme';
