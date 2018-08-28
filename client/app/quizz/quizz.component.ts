@@ -87,38 +87,51 @@ export class QuizzComponent implements OnInit, OnDestroy {
         return artists.map(a => a.name).join(', ');
     }
 
-    private test(formValue) {
+    private test(formValue: string): void {
+        const commonPlaces = /(eglise|chapelle|musee)/g;
+        const words = this.sanitize(formValue).replace(commonPlaces, '').split(/\W/).filter(word => word.length > 3);
+
         for (const attribute of Object.keys(this.attributes)) {
             const value = this.card[attribute];
             if (attribute === 'institution') {
-                this.attributes[attribute] = this.testSingleThesaurus(formValue, value);
+                this.attributes[attribute] = this.testSingleThesaurus(words, value);
             } else if (attribute === 'artists') {
-                this.attributes[attribute] = this.testMultipleThesaurus(formValue, value);
+                this.attributes[attribute] = this.testMultipleThesaurus(words, value);
             } else if (attribute === 'dating') {
                 this.attributes[attribute] = this.testDate(formValue, this.card.datings);
             } else if (isString(value)) {
-                this.attributes[attribute] = this.testString(formValue, value);
+                this.attributes[attribute] = this.testString(words, value);
             }
         }
 
     }
 
-    private testString(formValue, attributeValue) {
-        formValue = this.stripVowelAccent(formValue.toLowerCase()).replace(/\W/g, '');
-        attributeValue = this.stripVowelAccent(attributeValue.toLowerCase()).replace(/\W/g, '');
-        return formValue.indexOf(attributeValue) > -1;
+    private sanitize(string: string): string {
+        return this.stripVowelAccent(string.toLowerCase());
     }
 
-    private testSingleThesaurus(formValue, attributeValue) {
-        if (attributeValue) {
-            return this.testString(formValue, attributeValue.name);
+    private testString(words: string[], attributeValue: string): boolean {
+        attributeValue = this.sanitize(attributeValue);
+        for (const word of words) {
+            if (attributeValue.indexOf(word) > -1) {
+                return true;
+            }
         }
+
+        return false;
     }
 
-    private testMultipleThesaurus(formValue, attributeValue) {
+    private testSingleThesaurus(words: string[], attributeValue): boolean {
+        if (!attributeValue) {
+            return false;
+        }
+
+        return this.testString(words, attributeValue.name);
+    }
+
+    private testMultipleThesaurus(words: string[], attributeValue): boolean {
         for (const item of attributeValue) {
-            const match = this.testSingleThesaurus(formValue, item);
-            if (match) {
+            if (this.testSingleThesaurus(words, item)) {
                 return true;
             }
         }
