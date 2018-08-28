@@ -51,6 +51,7 @@ export class ListComponent implements OnInit {
         activable: true,
         selectable: true,
         lightbox: true,
+        infiniteScrollOffset: -200,
     };
 
     public collection;
