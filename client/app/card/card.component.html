@@ -220,7 +220,10 @@
                     ></textarea>
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.format" matTooltipPosition="after"
+                <mat-form-field class="innerSpacing"
+                                *ngIf="isEdit() || !!model.format"
+                                matTooltipPosition="after"
+                                [matTooltip]="!isEdit() ? '' : 'Les dimensions s\'expriment en centimètres (exemple : &quot;19,9 x 32,5 cm&quot;).'"
                 >
                     <textarea [readonly]="!isEdit()"
                               matInput
@@ -228,7 +231,6 @@
                               matAutosizeMinRows="1"
                               [(ngModel)]="model.format"
                               placeholder="Dimensions"
-                              [matTooltip]="!isEdit() ? '' : 'Les dimensions s\'expriment en centimètres (exemple : &quot;19,9 x 32,5 cm&quot;).'"
                     ></textarea>
                 </mat-form-field>
 
