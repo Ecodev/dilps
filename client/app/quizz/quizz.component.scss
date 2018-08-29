@@ -11,6 +11,14 @@
         background-color: rgba(0, 0, 0, 0.33);
     }
 
+    .instructions {
+        margin-bottom: 10px;
+    }
+
+    .instructions p:first-child {
+        font-weight: bold;
+    }
+
     .attribute {
         margin: 0 10px 10px 10px;
         & > div {

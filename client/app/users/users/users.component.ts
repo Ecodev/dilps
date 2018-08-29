@@ -16,6 +16,7 @@ export class UsersComponent extends AbstractList implements OnInit {
         'name',
         'email',
         'role',
+        'type',
         'activeUntil',
         'termsAgreement'
     ];

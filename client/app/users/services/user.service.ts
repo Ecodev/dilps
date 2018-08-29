@@ -84,6 +84,27 @@ export class UserService extends AbstractModelService<UserQuery['user'],
         ];
     }
 
+    public getType(type: UserType) {
+        return this.getTypes().find(t => t.name === type);
+    }
+
+    public getTypes() {
+        return [
+            {
+                name: UserType.unil,
+                text: 'AAI',
+            },
+            {
+                name: UserType.default,
+                text: 'Externe',
+            },
+            {
+                name: UserType.legacy,
+                text: 'Legacy',
+            },
+        ];
+    }
+
     public login(loginData): Observable<LoginMutation['login']> {
         return this.apollo.mutate<LoginMutation>({
             mutation: loginMutation,

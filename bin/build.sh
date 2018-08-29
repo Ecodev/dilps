@@ -30,21 +30,21 @@ else
     export PROGRESS_NG=
 fi
 
-echo "Installing git hooks..."
+echo "********************* Installing git hooks..."
 ln -fs ../../bin/pre-commit.sh .git/hooks/pre-commit
 
-echo "Updating Node.js packages..."
+echo "********************* Updating Node.js packages..."
 yarn install $NO_PROGRESS
 
-echo "Updating all PHP dependencies via composer..."
+echo "********************* Updating all PHP dependencies via composer..."
 composer install --classmap-authoritative $NO_PROGRESS
 
-echo "Clear cache"
+echo "********************* Clear cache"
 composer clear-config-cache
 
-echo "Updating database..."
+echo "********************* Updating database..."
 ./vendor/bin/doctrine-migrations migrations:migrate --no-interaction
 ./vendor/bin/doctrine orm:generate-proxies
 
-echo "Building Angular application..."
+echo "********************* Building Angular application..."
 yarn run prod

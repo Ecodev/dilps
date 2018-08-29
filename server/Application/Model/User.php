@@ -32,6 +32,11 @@ class User extends AbstractModel
      */
     const TYPE_UNIL = 'unil';
 
+    /**
+     * Empty shell used for legacy
+     */
+    const TYPE_LEGACY = 'legacy';
+
     const ROLE_ANONYMOUS = 'anonymous';
     const ROLE_STUDENT = 'student';
     const ROLE_JUNIOR = 'junior';
