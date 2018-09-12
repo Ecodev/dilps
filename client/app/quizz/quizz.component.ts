@@ -63,16 +63,8 @@ export class QuizzComponent implements OnInit, OnDestroy {
         this.imageSrc = CardService.getImageLink(card, 2000);
         this.attributes = {
             name: false,
-            expandedName: false,
             artists: false,
-            addition: false,
-            technique: false,
-            techniqueAuthor: false,
-            material: false,
-            literature: false,
-            table: false,
             institution: false,
-            locality: false,
             dating: false,
         };
     }
