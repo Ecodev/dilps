@@ -42,8 +42,11 @@
             <ng-container matColumnDef="name">
                 <mat-header-cell *matHeaderCellDef>Login</mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <app-table-button [label]="element.login" icon="edit" (click)="edit(element)" matTooltip="Éditer"
-                    ></app-table-button>
+                    <app-table-button [disable]="isLegacyUser(element)"
+                                      [label]="element.login"
+                                      icon="edit"
+                                      (click)="isLegacyUser(element) || edit(element)">
+                    </app-table-button>
                 </mat-cell>
             </ng-container>
 

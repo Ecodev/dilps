@@ -1,10 +1,15 @@
 <!-- Because directives can't be applied conditionally (routerLink, mat-button and mat-icon-button), we have to use different elements -->
 
 <!-- App without navigation -->
-<a *ngIf="!navigate && label" mat-button>
+<a *ngIf="!navigate && label && !disable" mat-button>
     <mat-icon *ngIf="icon">{{ icon }}</mat-icon>
     <span>{{ label }}</span>
 </a>
+
+<!-- ... and disabled -->
+<div *ngIf="!navigate && label && disable">
+    <span>{{ label }}</span>
+</div>
 
 <!-- App routed link with label... -->
 <a *ngIf="navigate && label" mat-button [routerLink]="navigate" [queryParams]="queryParams">
