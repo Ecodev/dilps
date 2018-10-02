@@ -60,7 +60,9 @@ class ImageAction extends AbstractAction
 
         $resource = fopen($path, 'r');
         $type = mime_content_type($path);
-        $response = new Response($resource, 200, ['content-type' => $type]);
+        $extension = explode('/', $type)[1]; // quick and dirty workaround that should always work for common images format
+        $filename = $id . '.' . $extension;
+        $response = new Response($resource, 200, ['content-type' => $type, 'Content-Disposition' => 'attachment; filename=' . $filename]);
 
         return $response;
     }
