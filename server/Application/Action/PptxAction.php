@@ -178,7 +178,7 @@ class PptxAction extends AbstractAction
 
         $this->needSeparator = false;
         foreach ($card->getArtists() as $artist) {
-            $this->appendText($shape, true, true, false, $artist->getName());
+            $this->appendText($shape, true, true, false, str_replace(', ', ' ', $artist->getName()));
         }
 
         $this->appendText($shape, true, false, true, $card->getName());
@@ -205,7 +205,7 @@ class PptxAction extends AbstractAction
             $this->setFont($textRun, $big, false, false);
         }
 
-        $textRun = $shape->createTextRun(str_replace(',', ' ', $value));
+        $textRun = $shape->createTextRun($value);
         $this->setFont($textRun, $big, $bold, $italic);
 
         $this->needSeparator = true;
