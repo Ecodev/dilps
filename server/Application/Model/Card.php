@@ -15,6 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection as DoctrineCollection;
 use Doctrine\ORM\Mapping as ORM;
 use GraphQL\Doctrine\Annotation as API;
+use Imagine\Filter\Basic\Autorotate;
 use Imagine\Image\ImagineInterface;
 use InvalidArgumentException;
 use Psr\Http\Message\UploadedFileInterface;
@@ -588,7 +589,14 @@ class Card extends AbstractModel
 
         /** @var ImagineInterface $imagine */
         $imagine = $container->get(ImagineInterface::class);
-        $size = $imagine->open($path)->getSize();
+        $image = $imagine->open($path);
+
+        // Auto-rotate image if EXIF says it's rotated
+        $autorotate = new Autorotate();
+        $autorotate->apply($image);
+        $image->save($path);
+
+        $size = $image->getSize();
 
         $this->setWidth($size->getWidth());
         $this->setHeight($size->getHeight());
