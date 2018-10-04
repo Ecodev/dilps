@@ -9,6 +9,7 @@ use Application\Model\User;
 use Application\Service\ImageService;
 use Application\Stream\TemporaryFile;
 use Imagine\Image\ImagineInterface;
+use PhpOffice\PhpPresentation\DocumentLayout;
 use PhpOffice\PhpPresentation\PhpPresentation;
 use PhpOffice\PhpPresentation\Shape\RichText;
 use PhpOffice\PhpPresentation\Shape\RichText\Run;
@@ -26,6 +27,9 @@ use Zend\Diactoros\Response;
  */
 class PptxAction extends AbstractAction
 {
+    private const MARGIN = 10;
+    private const LEGEND_HEIGHT = 75;
+
     /**
      * @var ImagineInterface
      */
@@ -153,27 +157,32 @@ class PptxAction extends AbstractAction
         $height = $size->getHeight();
         $ratio = $width / $height;
 
+        // Get available space for our image
+        $availableWidth = $slide->getParent()->getLayout()->getCX(DocumentLayout::UNIT_PIXEL);
+        $availableHeight = $slide->getParent()->getLayout()->getCY(DocumentLayout::UNIT_PIXEL) - self::LEGEND_HEIGHT - 2 * self::MARGIN;
+        $availableRatio = $availableWidth / $availableHeight;
+
         $shape = $slide->createDrawingShape();
         $shape->setPath($path);
 
-        if ($height < 1100) {
-            $shape->setWidth(915);
-            $shape->setOffsetX(21);
-            $shape->setOffsetY(((615 - (915 / $ratio)) / 2) + 10);
+        if ($ratio > $availableRatio) {
+            $shape->setWidth($availableWidth - 2 * self::MARGIN);
+            $shape->setOffsetX(self::MARGIN);
+            $shape->setOffsetY(($availableHeight - $shape->getHeight()) / 2 + self::MARGIN);
         } else {
-            $shape->setHeight(615);
-            $shape->setOffsetX(((950 - (615 * $ratio)) / 2) + 3);
-            $shape->setOffsetY(10);
+            $shape->setHeight($availableHeight - 2 * self::MARGIN);
+            $shape->setOffsetX(($availableWidth - $shape->getWidth()) / 2 + self::MARGIN);
+            $shape->setOffsetY(self::MARGIN);
         }
     }
 
     private function insertLegend(Slide $slide, Card $card): void
     {
         $shape = $slide->createRichTextShape();
-        $shape->setHeight(75);
-        $shape->setWidth(900);
-        $shape->setOffsetX(25);
-        $shape->setOffsetY(625);
+        $shape->setHeight(self::LEGEND_HEIGHT);
+        $shape->setWidth($slide->getParent()->getLayout()->getCX(DocumentLayout::UNIT_PIXEL) - 2 * self::MARGIN);
+        $shape->setOffsetX(self::MARGIN);
+        $shape->setOffsetY($slide->getParent()->getLayout()->getCY(DocumentLayout::UNIT_PIXEL) - self::LEGEND_HEIGHT - self::MARGIN);
         $shape->getActiveParagraph()->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
         $this->needSeparator = false;
