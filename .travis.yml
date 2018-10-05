@@ -25,6 +25,9 @@ before_script:
   - cp config/autoload/local.php.dist config/autoload/local.php
   - ./bin/build.sh
   - ./bin/load-test-data.php
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - sleep 3
 
 script:
   - ./vendor/bin/doctrine orm:validate-schema
