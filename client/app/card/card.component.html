@@ -1,4 +1,4 @@
-<div fxFlex fxLayout="row" *ngIf="model" appFileDrop>
+<div fxFlex fxLayout="row" *ngIf="model" appFileDrop [ngfFixOrientation]="false">
 
     <div fxFlex="400px" [ngClass]="{'containerWithToolbar': !hideToolbar}" fxLayout="column">
         <mat-toolbar fxFlex="none"

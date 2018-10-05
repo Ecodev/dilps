@@ -28,6 +28,8 @@
     "require": {
         "php": "^7.1",
         "ext-gd": "*",
+        "ext-fileinfo": "*",
+        "ext-zip": "*",
         "beberlei/DoctrineExtensions": "^1.0",
         "dasprid/container-interop-doctrine": "^1.1",
         "doctrine/migrations": "^1.7",

@@ -33,40 +33,31 @@
         </button>
     </mat-toolbar>
 
-    <perfect-scrollbar fxFlex>
-        <div class="scrolled" fxFlex fxLayout="row">
-            <div fxFlex fxLayout="row" *ngIf="loaded">
+    <div fxFlex fxLayout="row" *ngIf="loaded" class="test">
 
-                <!-- Original -->
-                <div fxFlex *ngIf="!change?.original && !original" fxLayout="column" fxLayoutAlign="center center">
-                    <div class="mat-display-1">Nouvelle fiche</div>
-                </div>
-                <div fxFlex fxLayout="column" *ngIf="change && change.original">
-                    <app-card fxFlex [(model)]="change.original" title="Original"></app-card>
-                </div>
-                <div fxFlex fxLayout="column" *ngIf="original">
-                    <app-card fxFlex [(model)]="original" title="Original"></app-card>
-                </div>
-
-                <!-- Suggestion -->
-                <div fxFlex *ngIf="!change?.suggestion && !suggestion" fxLayout="column" fxLayoutAlign="center center">
-                    <div class="mat-display-1">Suppression de la fiche</div>
-                </div>
-                <div fxFlex fxLayout="column" *ngIf="change && change.suggestion">
-                    <app-card fxFlex title="Suggestion" [(model)]="change.suggestion" [imageSrc]="suggestionImageSrc" [editable]="true"
-                    ></app-card>
-                </div>
-                <div fxFlex fxLayout="column" *ngIf="suggestion">
-                    <app-card fxFlex
-                              [(model)]="suggestion"
-                              title="Suggestion"
-                              [imageSrc]="suggestionImageSrc"
-                              [editable]="true"
-                              [hideTools]="true"
-                    ></app-card>
-                </div>
-            </div>
+        <!-- Original -->
+        <div fxFlex *ngIf="!change?.original && !original" fxLayout="column" fxLayoutAlign="center center">
+            <div class="mat-display-1">Nouvelle fiche</div>
         </div>
-    </perfect-scrollbar>
+        <div fxFlex fxLayout="column" *ngIf="change && change.original">
+            <app-card fxFlex [(model)]="change.original" title="Original"></app-card>
+        </div>
+        <div fxFlex fxLayout="column" *ngIf="original">
+            <app-card fxFlex [(model)]="original" title="Original"></app-card>
+        </div>
+
+        <!-- Suggestion -->
+        <div fxFlex *ngIf="!change?.suggestion && !suggestion" fxLayout="column" fxLayoutAlign="center center">
+            <div class="mat-display-1">Suppression de la fiche</div>
+        </div>
+        <div fxFlex fxLayout="column" *ngIf="change && change.suggestion">
+            <app-card fxFlex title="Suggestion" [(model)]="change.suggestion" [imageSrc]="suggestionImageSrc" [editable]="true"
+            ></app-card>
+        </div>
+        <div fxFlex fxLayout="column" *ngIf="suggestion">
+            <app-card fxFlex [(model)]="suggestion" title="Suggestion" [imageSrc]="suggestionImageSrc" [editable]="true" [hideTools]="true"
+            ></app-card>
+        </div>
+    </div>
 
 </div>

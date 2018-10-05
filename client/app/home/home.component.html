@@ -1,4 +1,4 @@
-<div fxFlex fxLayout="column" appFileDrop>
+<div fxFlex fxLayout="column" appFileDrop [ngfFixOrientation]="false">
 
     <mat-sidenav-container #navContainer fxFlex fxLayout="column">
         <mat-sidenav *ngIf="showNavigationMenu()"
@@ -78,6 +78,7 @@
                                matTooltipPosition="after"
                                matTooltip="Ajouter une image"
                                ngfSelect
+                               [ngfFixOrientation]="false"
                                multiple="1"
                                (filesChange)="uploadPhoto($event)"
                                *ngIf="user.role === 'administrator' || user.role === 'senior' || user.role === 'junior'"

@@ -34,7 +34,8 @@ class DatingRule
      */
     public function compute(string $input): array
     {
-        $replaced = trim(preg_replace(array_keys($this->replace), array_values($this->replace), mb_strtolower($input)));
+        $romanReplaced = $this->replaceRoman($input);
+        $replaced = trim(preg_replace(array_keys($this->replace), array_values($this->replace), mb_strtolower($romanReplaced)));
         $dates = explode(';', $replaced);
         $result = [];
         foreach ($dates as $date) {
@@ -52,6 +53,27 @@ class DatingRule
         }
 
         return $result;
+    }
+
+    /**
+     * Replace roman number into numeric
+     *
+     * This use hardcoded Roman numbers as seen in old Dilps
+     *
+     * @param string $input
+     *
+     * @return string
+     */
+    private function replaceRoman(string $input): string
+    {
+        $romain = ['XXI', 'XX', 'XIX', 'XVIII', 'XVII', 'XVI', 'XV', 'XIV', 'XIII', 'XII', 'XI', 'X', 'IX', 'VIII', 'VII', 'VI', 'V', 'IV', 'III', 'II', 'I'];
+        $numeric = ['2001-2100', '1901-2000', '1801-1900', '1701-1800', '1601-1700', '1501-1600', '1401-1500', '1301-1400', '1201-1300', '1101-1200', '1001-1100', '901-1000', '801-900', '701-800', '601-700', '501-600', '401-500', '301-400', '201-300', '101-200', '1-100'];
+
+        $numeric = array_map(function ($a) {
+            return ';' . $a . ';';
+        }, $numeric);
+
+        return str_replace($romain, $numeric, $input);
     }
 
     /**
