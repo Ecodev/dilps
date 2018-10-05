@@ -1,4 +1,4 @@
-import {$, browser, by, element, ExpectedConditions} from 'protractor';
+import { browser, by, element, ExpectedConditions} from 'protractor';
 
 export class LoginPage {
     navigateTo() {
@@ -9,10 +9,10 @@ export class LoginPage {
         element(by.css('.mat-expansion-panel')).click();
 
         const login = element(by.css('[name="login"]'));
-        browser.wait(ExpectedConditions.visibilityOf(login), 3000, 'input took too long to appear');
+        browser.wait(ExpectedConditions.visibilityOf(login), 3000, 'login took too long to appear');
         login.sendKeys(credentials.username);
         const password = element(by.css('[name="password"]'));
-        browser.wait(ExpectedConditions.visibilityOf(password), 3000, 'input took too long to appear');
+        browser.wait(ExpectedConditions.visibilityOf(password), 3000, 'password took too long to appear');
         password.sendKeys(credentials.password);
 
         element(by.css('[type="submit"]')).click();
@@ -26,12 +26,6 @@ export class LoginPage {
 
     getParagraphText() {
         return element(by.css('app-root .login-info')).getText();
-    }
-
-    getMenu() {
-        const menu = element(by.css('.menuMinimized'));
-        browser.wait(ExpectedConditions.presenceOf(menu), 3000, 'menu took too long to appear');
-        return menu;
     }
 
     getErrorMessage() {

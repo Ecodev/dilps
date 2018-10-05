@@ -30,7 +30,7 @@ script:
   - ./vendor/bin/php-cs-fixer fix --diff --verbose --dry-run
   - ./vendor/bin/phpunit --coverage-clover coverage-clover.xml
   - ./node_modules/.bin/ng test --progress false --watch=false --browsers ChromeHeadlessCustom
-
+  - ./node_modules/.bin/ng e2e
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage-clover.xml
