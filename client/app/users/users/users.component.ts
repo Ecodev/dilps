@@ -18,8 +18,7 @@ export class UsersComponent extends AbstractList implements OnInit {
         'email',
         'role',
         'type',
-        'activeUntil',
-        'termsAgreement'
+        'activeUntil'
     ];
     constructor(service: UserService,
                 router: Router,

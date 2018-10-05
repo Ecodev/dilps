@@ -1,14 +1,15 @@
 import { AppPage } from './app.po';
 
-describe('dilps App', () => {
+describe('dilps app', () => {
   let page: AppPage;
 
   beforeEach(() => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display auth message', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!');
+    expect(page.getParagraphText()).toEqual('Veuillez choisir une méthode d\'authentification ou\n' +
+        'utiliser le bouton "Accès public"');
   });
 });
