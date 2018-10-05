@@ -5,6 +5,7 @@ php:
 
 addons:
     mariadb: 10.0
+    chrome: stable
 
 cache:
   directories:
