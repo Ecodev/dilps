@@ -74,12 +74,6 @@
                 <mat-cell *matCellDef="let element">{{ element.activeUntil | date:'dd.MM.yyyy' }}</mat-cell>
             </ng-container>
 
-            <!-- Licence Column -->
-            <ng-container matColumnDef="termsAgreement">
-                <mat-header-cell *matHeaderCellDef>Licence</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{ element.termsAgreement | date:'dd.MM.yyyy' }}</mat-cell>
-            </ng-container>
-
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
