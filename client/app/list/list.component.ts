@@ -18,7 +18,13 @@ import { NumberSelectorComponent } from '../quizz/shared/number-selector/number-
 import { MassEditComponent } from '../shared/components/mass-edit/mass-edit.component';
 
 import { NaturalGalleryComponent } from '@ecodev/angular-natural-gallery';
-import { fromUrl, NaturalSearchConfiguration, NaturalSearchSelections, toGraphQLDoctrineFilter, toUrl } from '@ecodev/natural-search';
+import {
+    fromUrl,
+    NaturalSearchConfiguration,
+    NaturalSearchSelections,
+    toGraphQLDoctrineFilter,
+    toUrl,
+} from '@ecodev/natural-search';
 import { QueryVariablesManager } from '../shared/classes/query-variables-manager';
 import { CardFilter, CardSortingField, SortingOrder, UserRole, ViewerQuery } from '../shared/generated-types';
 import { PersistenceService } from '../shared/services/persistence.service';
@@ -86,7 +92,7 @@ export class ListComponent implements OnInit {
             this.updateShowDownloadCollection();
 
             if (this.user.role === UserRole.administrator) {
-                this.config = cardsConfiguration.concat(adminConfig);
+                this.pushAdminConfig();
             }
 
         });
@@ -144,6 +150,18 @@ export class ListComponent implements OnInit {
 
         // prevent null value that is actually not supported
         naturalSearchSelections = naturalSearchSelections ? fromUrl(naturalSearchSelections) : [[]];
+
+        const containAdminSelection = naturalSearchSelections.some(selection => {
+            return selection.some(value => {
+                return adminConfig.some(config => {
+                    return config.field === value.field;
+                });
+            });
+        });
+
+        if (containAdminSelection) {
+            this.pushAdminConfig();
+        }
 
         this.selections = naturalSearchSelections;
         if (this.hasSelections(this.selections)) {
@@ -435,4 +453,14 @@ export class ListComponent implements OnInit {
         this.gallery.gallery.unselectAllItems();
         this.selected.length = [];
     }
+
+    /**
+     * Push admin config, but only if it does not already exist
+     */
+    private pushAdminConfig(): void {
+        if (!this.config.some(conf => conf === adminConfig[0])) {
+            this.config = cardsConfiguration.concat(adminConfig);
+        }
+    }
+
 }
