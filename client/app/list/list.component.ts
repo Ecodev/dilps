@@ -239,7 +239,7 @@ export class ListComponent implements OnInit {
             const artists = card.artists.map(a => a.name).join('<br/>');
 
             if (artists && title) {
-                title = artists + ' : ' + title;
+                title = '[ ' + artists + ' ] ' + title;
             } else if (artists && !title) {
                 title = artists;
             }
