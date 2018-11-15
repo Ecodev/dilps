@@ -25,38 +25,38 @@ return [
     ],
     [
         'path' => 'bin/build.sh',
-        'permissions' => '0770',
+        'permissions' => '0750',
     ],
     [
         'path' => 'bin/check-files.php',
-        'permissions' => '0770',
+        'permissions' => '0750',
     ],
     [
         'path' => 'bin/dump-data.php',
-        'permissions' => '0770',
+        'permissions' => '0750',
     ],
     [
         'path' => 'bin/load-data.php',
-        'permissions' => '0770',
+        'permissions' => '0750',
     ],
     [
         'path' => 'bin/load-test-data.php',
-        'permissions' => '0770',
+        'permissions' => '0750',
     ],
     [
         'path' => 'node_modules/.bin/*',
-        'permissions' => '0770',
+        'permissions' => '0750',
     ],
     [
         'path' => 'bin/pre-commit.sh',
-        'permissions' => '0770',
+        'permissions' => '0750',
     ],
     [
         'path' => 'link-libraries.sh',
-        'permissions' => '0770',
+        'permissions' => '0750',
     ],
     [
         'path' => 'bin/graphql.php',
-        'permissions' => '0770',
+        'permissions' => '0750',
     ],
 ];
