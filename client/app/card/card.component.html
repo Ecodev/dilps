@@ -209,6 +209,7 @@
                 </mat-form-field>
 
                 <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.material" matTooltipPosition="after"
+                                [matTooltip]="!isEdit() ? '' : 'Matériel précise ce que technique donne de façon générique (exemple : &quot;Matériel : Huile sur toile&quot;, &quot;Technique : Peinture&quot;).'"
                 >
                     <textarea [readonly]="!isEdit()"
                               matInput
@@ -216,7 +217,6 @@
                               matAutosizeMinRows="1"
                               [(ngModel)]="model.material"
                               placeholder="Matériel"
-                              [matTooltip]="!isEdit() ? '' : 'Matériel précise ce que technique donne de façon générique (exemple : &quot;Matériel : Huile sur toile&quot;, &quot;Technique : Peinture&quot;).'"
                     ></textarea>
                 </mat-form-field>
 
@@ -258,7 +258,9 @@
                     <app-address [(model)]="model" [vertical]="true" [readonly]="!isEdit()"></app-address>
                 </div>
 
-                <mat-form-field class="innerSpacing padding-top" *ngIf="isEdit() || !!model.literature" matTooltipPosition="after"
+                <mat-form-field class="innerSpacing padding-top"
+                                *ngIf="isEdit() || !!model.literature" matTooltipPosition="after"
+                                [matTooltip]="!isEdit() ? '' : 'La source est la référence bibliographique de l\'ouvrage d\'où provient l\'image.\n\nLa notice s\'écrit en principe sur le schéma :\n&quot;Prénom Nom, Titre et sous-titre, Lieu de publication : éditeur, année (première édition).&quot;\n\nNe pas oublier de noter le numéro de page ou de planche correspondant à l\'image.'"
                 >
                     <textarea [readonly]="!isEdit()"
                               matInput
@@ -266,7 +268,6 @@
                               matAutosizeMinRows="1"
                               [(ngModel)]="model.literature"
                               placeholder="Source"
-                              [matTooltip]="!isEdit() ? '' : 'La source est la référence bibliographique de l\'ouvrage d\'où provient l\'image.\n\nLa notice s\'écrit en principe sur le schéma :\n&quot;Prénom Nom, Titre et sous-titre, Lieu de publication : éditeur, année (première édition).&quot;\n\nNe pas oublier de noter le numéro de page ou de planche correspondant à l\'image.'"
                     ></textarea>
                 </mat-form-field>
 
