@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -158,7 +159,7 @@ import { NaturalSearchModule } from '@ecodev/natural-search';
         MatButtonModule,
         MatCheckboxModule,
         MatIconModule,
-        NgProgressModule.forRoot(),
+        NgProgressModule,
         PerfectScrollbarModule,
         MatInputModule,
         MatSnackBarModule,
