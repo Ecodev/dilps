@@ -5,9 +5,7 @@
         <div class="mat-body-1">Image {{ currentIndex + 1 }} / {{ cards.length }}</div>
 
         <div fxFlex class="padding" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
-            <mat-form-field fxFlex
-                            appearance="legacy"
-            >
+            <mat-form-field fxFlex>
                 <input matInput [formControl]="formCtrl" placeholder="Saisissez votre réponse" >
             </mat-form-field>
             <button mat-button mat-raised-button color="primary" (click)="goToNext()">Suivant</button>

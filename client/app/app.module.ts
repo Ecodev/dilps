@@ -8,6 +8,8 @@ import { createUploadLink } from 'apollo-upload-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
+    MAT_FORM_FIELD_DEFAULT_OPTIONS,
+    MatFormFieldDefaultOptions,
     DateAdapter,
     MatAutocompleteModule,
     MatButtonModule,
@@ -98,6 +100,11 @@ import { RelationsComponent } from './shared/components/relations/relations.comp
 
 import { NaturalGalleryModule } from '@ecodev/angular-natural-gallery';
 import { NaturalSearchModule } from '@ecodev/natural-search';
+
+/** Custom options to configure the form field's look and feel */
+const formFieldDefaults: MatFormFieldDefaultOptions = {
+    appearance: 'legacy'
+};
 
 @NgModule({
     declarations: [
@@ -207,6 +214,7 @@ import { NaturalSearchModule } from '@ecodev/natural-search';
         ChangeService,
         UploadService,
         LinkMutationService,
+        { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: formFieldDefaults },
     ],
     bootstrap: [AppComponent],
 })
