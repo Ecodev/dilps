@@ -2,7 +2,7 @@
     <mat-tab-group>
         <mat-tab label="Images">
             <div class="padding" fxLayout="column">
-                <mat-form-field>
+                <mat-form-field appearance="legacy">
                     <mat-select [(value)]="size" placeholder="Taille des images">
                         <mat-option *ngFor="let s of sizes" [value]="s.value">
                             {{ s.label }}
@@ -20,11 +20,11 @@
         </mat-tab>
         <mat-tab label="PowerPoint">
             <div class="padding" fxLayout="column">
-                <mat-form-field>
+                <mat-form-field appearance="legacy">
                     <input matInput maxlength="7" [(ngModel)]="backgroundColor" placeholder="Couleur d'arrière-plan" >
                     <span class="color" matSuffix [style.background]="backgroundColor"></span>
                 </mat-form-field>
-                <mat-form-field>
+                <mat-form-field appearance="legacy">
                     <input matInput maxlength="7" [(ngModel)]="textColor" placeholder="Couleur du texte" >
                     <span class="color" matSuffix [style.background]="textColor"></span>
                 </mat-form-field>

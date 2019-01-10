@@ -4,20 +4,24 @@
 
             <div fxLayout="column" fxLayoutGap="10px" class="padding-v">
 
-                <mat-form-field class="width-auto" >
+                <mat-form-field class="width-auto"
+                                appearance="legacy"
+                >
                     <input matInput [disabled]="!!data.item.id" name="login" placeholder="Login" [(ngModel)]="data.item.login" >
                 </mat-form-field>
 
-                <mat-form-field *ngIf="!isShibbolethUser()">
+                <mat-form-field *ngIf="!isShibbolethUser()"
+                                appearance="legacy"
+                >
                     <input matInput type="email" name="email" placeholder="Email" [(ngModel)]="data.item.email" >
                 </mat-form-field>
 
                 <div *ngIf="(user?.globalPermissions?.user?.create || data.item?.permissions?.update) && !isShibbolethUser()" [formGroup]="passwordGroupCtrl" fxLayout="column" fxLayoutGap="10px" >
-                    <mat-form-field>
+                    <mat-form-field appearance="legacy">
                         <input matInput type="password" name="password" placeholder="Mot de passe" [(ngModel)]="data.item.password" [formControl]="passwordCtrl" >
                     </mat-form-field>
 
-                    <mat-form-field>
+                    <mat-form-field appearance="legacy">
                         <input matInput type="password" name="password_confirmation" placeholder="Confirmation du mot passe" [formControl]="passwordConfirmationCtrl">
 
                         <mat-error  *ngIf="passwordConfirmationCtrl.hasError('password')">Le mot de passe n'est pas identique</mat-error>
@@ -31,7 +35,7 @@
                                [multiple]="false"
                 ></app-thesaurus>
 
-                <mat-form-field>
+                <mat-form-field appearance="legacy">
                     <input matInput
                            name="activeUntil"
                            placeholder="Active jusqu'au"
@@ -42,7 +46,9 @@
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
 
-                <mat-form-field *ngIf="data.item.id">
+                <mat-form-field *ngIf="data.item.id"
+                                appearance="legacy"
+                >
                     <input matInput
                            disabled
                            name="termsAgreement"
@@ -54,13 +60,15 @@
                     <mat-datepicker #picker2></mat-datepicker>
                 </mat-form-field>
 
-                <mat-form-field>
+                <mat-form-field appearance="legacy">
                     <mat-select placeholder="Rôle" [(value)]="data.item.role" [disabled]="user?.id === data?.item?.id">
                         <mat-option *ngFor="let role of roles" [value]="role.name"> {{ role.text }}</mat-option>
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field *ngIf="data.item.id">
+                <mat-form-field *ngIf="data.item.id"
+                                appearance="legacy"
+                >
                     <input matInput disabled name="type" placeholder="Type d'utilisateur" [(ngModel)]="data.item.type" >
                 </mat-form-field>
             </div>

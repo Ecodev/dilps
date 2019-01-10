@@ -121,6 +121,7 @@
                                 *ngIf="isEdit() || !!model.name"
                                 matTooltipPosition="after"
                                 [matTooltip]="!isEdit() ? '' : 'Pour un objet simple (tableau, statue, etc.), le titre suffit (exemple : &quot;Les Demoiselles d\'Avignon&quot;)\n\nPour un objet lié à un lieu (une église, un monument, etc.), l\'annotation se présentera sous la forme suivante : &quot;Ville, monument, partie du monument : Sujet représenté&quot; (exemple : &quot;Chartres, Notre-Dame, façade sud : Sainte Cindy&quot;)\n\nDans le titre, le nom du lieu se met si possible en français.'"
+                                appearance="legacy"
                 >
                     <textarea [readonly]="!isEdit()"
                               matTextareaAutosize
@@ -135,6 +136,7 @@
                                 *ngIf="isEdit() || !!model.expandedName && model.expandedName != model.name"
                                 matTooltipPosition="after"
                                 [matTooltip]="!isEdit() ? '' : 'Titre étendu\n\nPour un objet simple (tableau, statue, etc.), le titre suffit (exemple : &quot;Les Demoiselles d\'Avignon&quot;)\n\nPour un objet lié à un lieu (une église, un monument, etc.), l\'annotation se présentera sous la forme suivante : &quot;Ville, monument, partie du monument : Sujet représenté&quot; (exemple : &quot;Chartres, Notre-Dame, façade sud : Sainte Cindy&quot;)\n\nDans le titre, le nom du lieu se met si possible en français.'"
+                                appearance="legacy"
                 >
                     <textarea [readonly]="!isEdit()"
                               matTextareaAutosize
@@ -156,7 +158,10 @@
                                [matTooltip]="!isEdit() ? '' : 'Le nom de l\'artiste s\'insère sous la forme\n &quot;Nom, Prénom&quot;\n\nSi l\'artiste est inconnu, le champ doit rester vide.'"
                 ></app-thesaurus>
 
-                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.techniqueAuthor">
+                <mat-form-field class="innerSpacing"
+                                *ngIf="isEdit() || !!model.techniqueAuthor"
+                                appearance="legacy"
+                >
                     <textarea [readonly]="!isEdit()"
                               matInput
                               matTextareaAutosize
@@ -170,6 +175,7 @@
                                 *ngIf="isEdit() || !!model.addition"
                                 matTooltipPosition="after"
                                 [matTooltip]="!isEdit() ? '' : 'Le champ supplément permet de saisir toute information n\'entrant pas ailleurs (complément, précision, numéro d\'inventaire, etc.).'"
+                                appearance="legacy"
                 >
                     <textarea [readonly]="!isEdit()"
                               matTextareaAutosize
@@ -184,6 +190,7 @@
                                 *ngIf="isEdit() || !!model.dating"
                                 matTooltipPosition="after"
                                 [matTooltip]="!isEdit() ? '' : 'Les siècles s\'écrivent en chiffres romains.\n&quot;Vers 1912&quot; s\'écrit &quot;c. 1912&quot; (pour circa).'"
+                                appearance="legacy"
                 >
                     <textarea [readonly]="!isEdit()"
                               matTextareaAutosize
@@ -198,6 +205,7 @@
                                 *ngIf="isEdit() || !!model.technique"
                                 matTooltipPosition="after"
                                 [matTooltip]="!isEdit() ? '' : 'Matériel précise ce que technique donne de façon générique (exemple : &quot;Matériel : Huile sur toile&quot;, &quot;Technique : Peinture&quot;).'"
+                                appearance="legacy"
                 >
                     <textarea [readonly]="!isEdit()"
                               matInput
@@ -208,8 +216,11 @@
                     ></textarea>
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.material" matTooltipPosition="after"
+                <mat-form-field class="innerSpacing"
+                                *ngIf="isEdit() || !!model.material"
+                                matTooltipPosition="after"
                                 [matTooltip]="!isEdit() ? '' : 'Matériel précise ce que technique donne de façon générique (exemple : &quot;Matériel : Huile sur toile&quot;, &quot;Technique : Peinture&quot;).'"
+                                appearance="legacy"
                 >
                     <textarea [readonly]="!isEdit()"
                               matInput
@@ -224,6 +235,7 @@
                                 *ngIf="isEdit() || !!model.format"
                                 matTooltipPosition="after"
                                 [matTooltip]="!isEdit() ? '' : 'Les dimensions s\'expriment en centimètres (exemple : &quot;19,9 x 32,5 cm&quot;).'"
+                                appearance="legacy"
                 >
                     <textarea [readonly]="!isEdit()"
                               matInput
@@ -261,6 +273,7 @@
                 <mat-form-field class="innerSpacing padding-top"
                                 *ngIf="isEdit() || !!model.literature" matTooltipPosition="after"
                                 [matTooltip]="!isEdit() ? '' : 'La source est la référence bibliographique de l\'ouvrage d\'où provient l\'image.\n\nLa notice s\'écrit en principe sur le schéma :\n&quot;Prénom Nom, Titre et sous-titre, Lieu de publication : éditeur, année (première édition).&quot;\n\nNe pas oublier de noter le numéro de page ou de planche correspondant à l\'image.'"
+                                appearance="legacy"
                 >
                     <textarea [readonly]="!isEdit()"
                               matInput
@@ -271,15 +284,24 @@
                     ></textarea>
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.page">
+                <mat-form-field class="innerSpacing"
+                                *ngIf="isEdit() || !!model.page"
+                                appearance="legacy"
+                >
                     <input [readonly]="!isEdit()" matInput [(ngModel)]="model.page" placeholder="Page">
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.figure">
+                <mat-form-field class="innerSpacing"
+                                *ngIf="isEdit() || !!model.figure"
+                                appearance="legacy"
+                >
                     <input [readonly]="!isEdit()" matInput [(ngModel)]="model.figure" placeholder="Figure">
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.table">
+                <mat-form-field class="innerSpacing"
+                                *ngIf="isEdit() || !!model.table"
+                                appearance="legacy"
+                >
                     <input [readonly]="!isEdit()" matInput [(ngModel)]="model.table" placeholder="Planche">
                 </mat-form-field>
 
@@ -287,11 +309,15 @@
                                 *ngIf="isEdit() || !!model.isbn"
                                 matTooltipPosition="after"
                                 [matTooltip]="!isEdit() ? '' : 'Numéro ISBN de l\'ouvrage source, sans les tirets.'"
+                                appearance="legacy"
                 >
                     <input [readonly]="!isEdit()" matInput [(ngModel)]="model.isbn" placeholder="ISBN">
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.rights">
+                <mat-form-field class="innerSpacing"
+                                *ngIf="isEdit() || !!model.rights"
+                                appearance="legacy"
+                >
                     <textarea [readonly]="!isEdit()"
                               matInput
                               matTextareaAutosize
