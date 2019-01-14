@@ -25,6 +25,7 @@ return [
     ],
     [
         'data' => [
+            'user' => null,
         ],
         'errors' => [
             [
