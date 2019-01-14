@@ -28,7 +28,7 @@ class ServerTest extends TestCase
         User::setCurrent(_em()->getRepository(User::class)->getOneByLogin($user));
 
         // Use this flag to easily debug API test issues
-        $debug = false;
+        $debug = true;
 
         // Configure server
         $server = new Server($debug);
