@@ -24,9 +24,6 @@ return [
         ],
     ],
     [
-        'data' => [
-            'user' => null,
-        ],
         'errors' => [
             [
                 'message' => 'User "student" with role student is not allowed on resource "User#1000" with privilege "update"',
