@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Application\Api\Output;
 
-use Application\Model\User;
 use GraphQL\Type\Definition\ObjectType;
 
 class GlobalPermissionsType extends ObjectType

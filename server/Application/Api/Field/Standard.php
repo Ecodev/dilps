@@ -6,7 +6,6 @@ namespace Application\Api\Field;
 
 use Application\Api\Exception;
 use Application\Api\Helper;
-use Application\Api\Input\Filter\Filters;
 use Application\Api\Input\PaginationInputType;
 use Application\Model\AbstractModel;
 use Application\Model\Card;
