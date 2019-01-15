@@ -29,6 +29,10 @@
             .mat-divider {
                 border-top-color: rgba(255, 255, 255, 0.2);
             }
+
+            .mat-drawer-inner-container {
+                overflow: hidden;
+            }
         }
     }
 

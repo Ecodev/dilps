@@ -156,7 +156,9 @@
                                [matTooltip]="!isEdit() ? '' : 'Le nom de l\'artiste s\'insère sous la forme\n &quot;Nom, Prénom&quot;\n\nSi l\'artiste est inconnu, le champ doit rester vide.'"
                 ></app-thesaurus>
 
-                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.techniqueAuthor">
+                <mat-form-field class="innerSpacing"
+                                *ngIf="isEdit() || !!model.techniqueAuthor"
+                >
                     <textarea [readonly]="!isEdit()"
                               matInput
                               matTextareaAutosize
@@ -208,7 +210,9 @@
                     ></textarea>
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.material" matTooltipPosition="after"
+                <mat-form-field class="innerSpacing"
+                                *ngIf="isEdit() || !!model.material"
+                                matTooltipPosition="after"
                                 [matTooltip]="!isEdit() ? '' : 'Matériel précise ce que technique donne de façon générique (exemple : &quot;Matériel : Huile sur toile&quot;, &quot;Technique : Peinture&quot;).'"
                 >
                     <textarea [readonly]="!isEdit()"
@@ -271,15 +275,21 @@
                     ></textarea>
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.page">
+                <mat-form-field class="innerSpacing"
+                                *ngIf="isEdit() || !!model.page"
+                >
                     <input [readonly]="!isEdit()" matInput [(ngModel)]="model.page" placeholder="Page">
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.figure">
+                <mat-form-field class="innerSpacing"
+                                *ngIf="isEdit() || !!model.figure"
+                >
                     <input [readonly]="!isEdit()" matInput [(ngModel)]="model.figure" placeholder="Figure">
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.table">
+                <mat-form-field class="innerSpacing"
+                                *ngIf="isEdit() || !!model.table"
+                >
                     <input [readonly]="!isEdit()" matInput [(ngModel)]="model.table" placeholder="Planche">
                 </mat-form-field>
 
@@ -291,7 +301,9 @@
                     <input [readonly]="!isEdit()" matInput [(ngModel)]="model.isbn" placeholder="ISBN">
                 </mat-form-field>
 
-                <mat-form-field class="innerSpacing" *ngIf="isEdit() || !!model.rights">
+                <mat-form-field class="innerSpacing"
+                                *ngIf="isEdit() || !!model.rights"
+                >
                     <textarea [readonly]="!isEdit()"
                               matInput
                               matTextareaAutosize

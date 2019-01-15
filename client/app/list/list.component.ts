@@ -51,6 +51,7 @@ export class ListComponent implements OnInit {
     private sub;
 
     public options: NaturalGalleryOptions = {
+        cover: true,
         gap: 5,
         showLabels: 'always',
         rowHeight: this.thumbnailHeight,
