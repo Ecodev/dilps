@@ -9,7 +9,7 @@ if (PHP_SAPI === 'cli-server'
 }
 
 chdir(dirname(__DIR__));
-require __DIR__ . 'vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 // Self-called anonymous function that creates its own scope and keep the global namespace clean.
 (function (): void {
