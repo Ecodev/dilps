@@ -9,7 +9,7 @@ addons:
 
 cache:
   directories:
-    - vendor
+    #- vendor
     - $HOME/.composer/cache
     - $HOME/.cache/yarn
     - node_modules
