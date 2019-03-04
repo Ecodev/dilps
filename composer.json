@@ -30,7 +30,7 @@
         "ext-gd": "*",
         "ext-fileinfo": "*",
         "ext-zip": "*",
-        "beberlei/DoctrineExtensions": "^1.0",
+        "beberlei/doctrineextensions": "^1.0",
         "dasprid/container-interop-doctrine": "^1.1",
         "doctrine/migrations": "^1.7",
         "ecodev/graphql-doctrine": "^4.0",
