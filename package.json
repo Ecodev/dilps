@@ -5,8 +5,8 @@
   "scripts": {
     "ng": "ng",
     "dev": "yarn codegen && ng serve --port 4300",
-    "prod": "yarn codegen && ng build --aot --prod --build-optimizer false",
-    "stage": "yarn codegen && ng build --aot --prod --configuration=stage --build-optimizer false",
+    "prod": "yarn codegen && ng build --aot --prod --configuration=prod --build-optimizer false",
+    "stage": "yarn codegen && ng build --aot --prod --configuration=staging --build-optimizer false",
     "test": "yarn codegen && ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
