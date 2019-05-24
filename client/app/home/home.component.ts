@@ -89,4 +89,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     public showNavigationMenu() {
         return !!this.nav;
     }
+
+    public environmentColor() {
+        switch (this.environmentString) {
+            case 'development':
+                return '#2ca02c';
+            case 'staging':
+                return '#ee7f00';
+            default:
+                return '';
+        }
+    }
 }

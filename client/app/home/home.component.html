@@ -6,7 +6,8 @@
                      position="start"
                      mode="side"
                      opened="true"
-                     class="menuMinimized {{environmentString}}"
+                     class="menuMinimized"
+                     [ngStyle]="{ 'backgroundColor': environmentColor() }"
         >
             <div fxFlex fxLayout="row" fxFlexAlign="start center">
                 <perfect-scrollbar fxLayout="column">
