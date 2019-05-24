@@ -47,4 +47,5 @@ echo "********************* Updating database..."
 ./vendor/bin/doctrine orm:generate-proxies
 
 echo "********************* Building Angular application..."
-yarn run prod
+# Default environment is "prod" but can be overrided with "DEPLOY_ENV" envar
+yarn run ${DEPLOY_ENV:-prod}
