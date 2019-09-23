@@ -37,6 +37,7 @@ query Users($filters: OldUserFilter, $pagination: PaginationInput) {
             login
             email
             role
+            type
             activeUntil
             termsAgreement
         }

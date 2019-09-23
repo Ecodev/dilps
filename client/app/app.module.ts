@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -7,6 +8,8 @@ import { createUploadLink } from 'apollo-upload-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
+    MAT_FORM_FIELD_DEFAULT_OPTIONS,
+    MatFormFieldDefaultOptions,
     DateAdapter,
     MatAutocompleteModule,
     MatButtonModule,
@@ -88,6 +91,7 @@ import { FileDropDirective } from './shared/directives/file-drop.directive';
 import { CollectionSelectorComponent } from './shared/components/collection-selector/collection-selector.component';
 import { LinkMutationService } from './shared/services/link-mutation.service';
 import { RolePipe } from './shared/pipes/role.pipe';
+import { TypePipe } from './shared/pipes/type.pipe';
 import { AuthAdminGuard } from './shared/services/auth.admin.guard';
 import { QuizzComponent } from './quizz/quizz.component';
 import { NumberSelectorComponent } from './quizz/shared/number-selector/number-selector.component';
@@ -96,6 +100,11 @@ import { RelationsComponent } from './shared/components/relations/relations.comp
 
 import { NaturalGalleryModule } from '@ecodev/angular-natural-gallery';
 import { NaturalSearchModule } from '@ecodev/natural-search';
+
+/** Custom options to configure the form field's look and feel */
+const formFieldDefaults: MatFormFieldDefaultOptions = {
+    appearance: 'legacy'
+};
 
 @NgModule({
     declarations: [
@@ -128,6 +137,7 @@ import { NaturalSearchModule } from '@ecodev/natural-search';
         CollectionSelectorComponent,
         DownloadComponent,
         RolePipe,
+        TypePipe,
         QuizzComponent,
         NumberSelectorComponent,
         MassEditComponent,
@@ -156,7 +166,7 @@ import { NaturalSearchModule } from '@ecodev/natural-search';
         MatButtonModule,
         MatCheckboxModule,
         MatIconModule,
-        NgProgressModule.forRoot(),
+        NgProgressModule,
         PerfectScrollbarModule,
         MatInputModule,
         MatSnackBarModule,
@@ -204,6 +214,7 @@ import { NaturalSearchModule } from '@ecodev/natural-search';
         ChangeService,
         UploadService,
         LinkMutationService,
+        { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: formFieldDefaults },
     ],
     bootstrap: [AppComponent],
 })

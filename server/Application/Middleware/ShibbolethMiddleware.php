@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Application\Middleware;
 
+use Interop\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -12,8 +13,14 @@ use Zend\Diactoros\Response\RedirectResponse;
 
 class ShibbolethMiddleware implements MiddlewareInterface
 {
-    public function __construct()
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    public function __construct(ContainerInterface $container)
     {
+        $this->container = $container;
     }
 
     /**
@@ -26,7 +33,7 @@ class ShibbolethMiddleware implements MiddlewareInterface
     {
         // Redirect to specific moodle url if moodle parameter found in the query params
         if (array_key_exists('moodle', $request->getQueryParams())) {
-            $moodleUrl = 'https://moodle.unil.ch/filter/uniltools/redirmod.php?id=' . $request->getQueryParams()['moodle'];
+            $moodleUrl = $this->container->get('config')['moodle']['redirectUrl'] . '?id=' . $request->getQueryParams()['moodle'];
 
             return new RedirectResponse($moodleUrl, 302);
         }

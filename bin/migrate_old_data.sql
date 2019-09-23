@@ -163,7 +163,7 @@ SET collection.institution_id = institution.id;
 INSERT INTO card (id, filename, creation_date, update_date, width, height, file_size)
   SELECT
     CONCAT(collectionid, imageid),
-    CONCAT(collectionid, imageid, filename),
+    CONCAT(collectionid, '-', imageid, '.jpg'),
     insert_date,
     modify_date,
     width,
@@ -227,7 +227,7 @@ INSERT INTO user (login, terms_agreement, type)
   SELECT
     utilisateur,
     date,
-    'unil'
+    'legacy'
   FROM ng_licence
   WHERE utilisateur NOT IN (SELECT login FROM user);
 
@@ -237,9 +237,11 @@ UPDATE user
 SET user.terms_agreement = ng_licence.date;
 
 -- Inject non-existing user based on all other tables
-INSERT INTO user (login)
-  SELECT login FROM
-    (
+INSERT INTO user (login, type)
+  SELECT
+    login,
+    'legacy'
+    FROM (
       SELECT DISTINCT ng_group.owner AS login FROM ng_group
       UNION
       SELECT DISTINCT ng_meta.metacreator AS login FROM ng_meta

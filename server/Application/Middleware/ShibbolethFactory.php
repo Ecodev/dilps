@@ -15,6 +15,6 @@ class ShibbolethFactory
      */
     public function __invoke(ContainerInterface $container): ShibbolethMiddleware
     {
-        return new ShibbolethMiddleware();
+        return new ShibbolethMiddleware($container);
     }
 }

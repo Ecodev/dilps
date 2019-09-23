@@ -7,7 +7,7 @@ import { CountryService } from '../../../countries/services/country.service';
 import { CountriesQuery } from '../../generated-types';
 // Format can remove following line, that is required to prevent warnings in console
 // import { } from 'googlemaps';
-import { } from 'googlemaps';
+import {} from 'googlemaps';
 
 @Component({
     selector: 'app-address',

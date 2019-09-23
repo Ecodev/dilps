@@ -4,6 +4,7 @@ import { CardService } from '../card/services/card.service';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { isString, uniq } from 'lodash';
+import { CardQuery } from '../shared/generated-types';
 
 @Component({
     selector: 'app-quizz',
@@ -16,7 +17,7 @@ export class QuizzComponent implements OnInit, OnDestroy {
     private formChangeSub;
 
     public cards: string[] = [];
-    public card;
+    public card: CardQuery['card'];
     public imageSrc;
     public currentIndex = 0;
     public attributes;
@@ -46,7 +47,7 @@ export class QuizzComponent implements OnInit, OnDestroy {
         });
     }
 
-    public getCard(id: string) {
+    private getCard(id: string) {
         if (!id) {
             return;
         }
@@ -58,21 +59,13 @@ export class QuizzComponent implements OnInit, OnDestroy {
         });
     }
 
-    private selectCard(card) {
+    private selectCard(card: CardQuery['card']) {
         this.card = card;
         this.imageSrc = CardService.getImageLink(card, 2000);
         this.attributes = {
             name: false,
-            expandedName: false,
             artists: false,
-            addition: false,
-            technique: false,
-            techniqueAuthor: false,
-            material: false,
-            literature: false,
-            table: false,
             institution: false,
-            locality: false,
             dating: false,
         };
     }
@@ -139,16 +132,28 @@ export class QuizzComponent implements OnInit, OnDestroy {
         return false;
     }
 
-    private testDate(formValue, rules) {
+    private testDate(formValue: string, datings: CardQuery['card']['datings']) {
 
         const years: string[] = uniq(formValue.match(/(-?\d+)/));
         if (years) {
             for (const year of years) {
                 const searched = (new Date(year)).getFullYear();
-                for (const date of rules) {
-                    const from = (new Date(date.from)).getFullYear();
-                    const to = (new Date(date.to)).getFullYear();
-                    if (searched >= from && searched <= to) {
+                for (const dating of datings) {
+                    const from = (new Date(dating.from)).getFullYear();
+                    const to = (new Date(dating.to)).getFullYear();
+
+                    // If expected span is small, then allow a margin of error
+                    const span = to - from;
+                    let margin;
+                    if (span === 0) {
+                        margin = 25;
+                    } else if (span < 20) {
+                        margin = 15;
+                    } else {
+                        margin = 0;
+                    }
+
+                    if (searched >= from - margin && searched <= to + margin) {
                         return true;
                     }
                 }
@@ -158,7 +163,7 @@ export class QuizzComponent implements OnInit, OnDestroy {
         return false;
     }
 
-    public stripVowelAccent(str) {
+    private stripVowelAccent(str) {
 
         const rExps = [
             {

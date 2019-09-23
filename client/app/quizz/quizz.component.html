@@ -17,49 +17,35 @@
         <div fxFlex class="image" *ngIf="imageSrc" [ngStyle]="{'background-image': 'url(' + imageSrc + ')'}"></div>
         <div fxFlex="300px" fxLayout="column" fxLayoutGap="10px;" *ngIf="card">
 
+            <mat-expansion-panel class="instructions">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Instructions
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div fxLayout="column" fxLayoutGap="10px">
+                    <p>Utilisez le champ de saisie situé en haut de la page pour commencer !</p>
+                    <p>Les différents termes peuvent être saisis sans ordre précis et sans tenir compte de la présence de majuscules ou de minuscules.</p>
+                    <p>Les dates s'écrivent en chiffres. Pour indiquer un siècle, rentrez n'importe quelle année de ce dernier (exemple: 1986 pour le XXe siècle).</p>
+                </div>
+            </mat-expansion-panel>
+
             <div class="attribute" [ngClass]="{'valid': attributes.name}" *ngIf="card.name">
                 <div class="attributeName">Titre</div>
                 <div class="attributeAnswer" [matTooltip]="card.name">Voir réponse</div>
-            </div>
-            <div class="attribute" [ngClass]="{'valid': attributes.expandedName}" *ngIf="card.expandedName">
-                <div class="attributeName">Titre étendu</div>
-                <div class="attributeAnswer" [matTooltip]="card.expandedName">Voir réponse</div>
             </div>
             <div class="attribute" [ngClass]="{'valid': attributes.artists}" *ngIf="card.artists?.length">
                 <div class="attributeName">Artistes</div>
                 <div class="attributeAnswer" [matTooltip]="getArtistsNames(card.artists)">Voir réponse</div>
             </div>
-            <div class="attribute" [ngClass]="{'valid': attributes.addition}" *ngIf="card.addition">
-                <div class="attributeName">Supplément</div>
-                <div class="attributeAnswer" [matTooltip]="card.addition">Voir réponse</div>
-            </div>
-            <div class="attribute" [ngClass]="{'valid': attributes.technique}" *ngIf="card.technique">
-                <div class="attributeName">Technique</div>
-                <div class="attributeAnswer" [matTooltip]="card.technique">Voir réponse</div>
-            </div>
-            <div class="attribute" [ngClass]="{'valid': attributes.techniqueAuthor}" *ngIf="card.techniqueAuthor">
-                <div class="attributeName">Auteur technique</div>
-                <div class="attributeAnswer" [matTooltip]="card.techniqueAuthor">Voir réponse</div>
-            </div>
             <div class="attribute" [ngClass]="{'valid': attributes.dating}" *ngIf="card.dating">
                 <div class="attributeName">Datation</div>
                 <div class="attributeAnswer" [matTooltip]="card.dating">Voir réponse</div>
             </div>
-            <div class="attribute" [ngClass]="{'valid': attributes.literature}" *ngIf="card.literature">
-                <div class="attributeName">Source</div>
-                <div class="attributeAnswer" [matTooltip]="card.literature">Voir réponse</div>
-            </div>
-            <div class="attribute" [ngClass]="{'valid': attributes.table}" *ngIf="card.table">
-                <div class="attributeName">Planche</div>
-                <div class="attributeAnswer" [matTooltip]="card.table">Voir réponse</div>
-            </div>
             <div class="attribute" [ngClass]="{'valid': attributes.institution}" *ngIf="card.institution">
-                <div class="attributeName">Institution</div>
+                <div class="attributeName">Lieu</div>
                 <div class="attributeAnswer" [matTooltip]="card.institution.name">Voir réponse</div>
-            </div>
-            <div class="attribute" [ngClass]="{'valid': attributes.locality}" *ngIf="card.locality">
-                <div class="attributeName">Localité</div>
-                <div class="attributeAnswer" [matTooltip]="card.locality">Voir réponse</div>
             </div>
         </div>
     </div>

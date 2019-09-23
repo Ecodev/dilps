@@ -3,6 +3,7 @@ app-collections {
     .mat-list-item {
         height: auto !important;
         min-height: 48px !important;
+        width: auto !important;
 
         .mat-list-item-content {
             padding-right: 6px !important;
@@ -18,5 +19,3 @@ app-collections {
     }
 
 }
-
-

@@ -1,4 +1,4 @@
-<div fxFlex fxLayout="column" appFileDrop>
+<div fxFlex fxLayout="column" appFileDrop [ngfFixOrientation]="false">
 
     <mat-sidenav-container #navContainer fxFlex fxLayout="column">
         <mat-sidenav *ngIf="showNavigationMenu()"
@@ -7,7 +7,7 @@
                      mode="side"
                      opened="true"
                      class="menuMinimized"
-                     [ngStyle]="{ 'backgroundColor': !isProduction ? '#2ca02c' : '' }"
+                     [ngStyle]="{ 'backgroundColor': environmentColor() }"
         >
             <div fxFlex fxLayout="row" fxFlexAlign="start center">
                 <perfect-scrollbar fxLayout="column">
@@ -78,6 +78,7 @@
                                matTooltipPosition="after"
                                matTooltip="Ajouter une image"
                                ngfSelect
+                               [ngfFixOrientation]="false"
                                multiple="1"
                                (filesChange)="uploadPhoto($event)"
                                *ngIf="user.role === 'administrator' || user.role === 'senior' || user.role === 'junior'"

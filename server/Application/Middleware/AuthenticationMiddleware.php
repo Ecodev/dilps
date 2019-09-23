@@ -72,7 +72,7 @@ class AuthenticationMiddleware implements MiddlewareInterface
 
                 if (!$user) {
                     $login = array_key_exists('uid', $serverParams) ?
-                        $serverParams['uid'] : $serverParams['mail'];
+                        '-aai-' . $serverParams['uid'] : $serverParams['mail'];
 
                     $user = $this->userRepository->createShibboleth(
                         $login,
