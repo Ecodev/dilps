@@ -1,34 +1,28 @@
-import { forkJoin } from 'rxjs';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CardService } from '../card/services/card.service';
-import { clone, defaults, isArray, isString, merge, pickBy } from 'lodash';
-import { DownloadComponent } from '../shared/components/download/download.component';
-import { debounceTime } from 'rxjs/operators';
-
-import { adminConfig, cardsConfiguration } from '../shared/natural-search-configurations';
-import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { MatDialog } from '@angular/material';
-import { CollectionSelectorComponent } from '../shared/components/collection-selector/collection-selector.component';
-import { CollectionService } from '../collections/services/collection.service';
-import { AlertService } from '../shared/components/alert/alert.service';
-import { UserService } from '../users/services/user.service';
-import { UtilityService } from '../shared/services/utility.service';
-import { NumberSelectorComponent } from '../quizz/shared/number-selector/number-selector.component';
-import { MassEditComponent } from '../shared/components/mass-edit/mass-edit.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { NaturalGalleryComponent } from '@ecodev/angular-natural-gallery';
-import {
-    fromUrl,
-    NaturalSearchConfiguration,
-    NaturalSearchSelections,
-    toGraphQLDoctrineFilter,
-    toUrl,
-} from '@ecodev/natural-search';
-import { QueryVariablesManager } from '../shared/classes/query-variables-manager';
-import { CardFilter, CardSortingField, SortingOrder, UserRole, ViewerQuery } from '../shared/generated-types';
-import { PersistenceService } from '../shared/services/persistence.service';
 import { NaturalGalleryOptions } from '@ecodev/natural-gallery-js';
+import { fromUrl, NaturalSearchConfiguration, NaturalSearchSelections, toGraphQLDoctrineFilter, toUrl } from '@ecodev/natural-search';
+import { clone, defaults, isArray, isString, merge, pickBy } from 'lodash';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { forkJoin } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { CardService } from '../card/services/card.service';
+import { CollectionService } from '../collections/services/collection.service';
+import { NumberSelectorComponent } from '../quizz/shared/number-selector/number-selector.component';
+import { QueryVariablesManager } from '../shared/classes/query-variables-manager';
+import { AlertService } from '../shared/components/alert/alert.service';
+import { CollectionSelectorComponent } from '../shared/components/collection-selector/collection-selector.component';
+import { DownloadComponent } from '../shared/components/download/download.component';
+import { MassEditComponent } from '../shared/components/mass-edit/mass-edit.component';
+import { CardFilter, CardSortingField, SortingOrder, UserRole, ViewerQuery } from '../shared/generated-types';
+
+import { adminConfig, cardsConfiguration } from '../shared/natural-search-configurations';
+import { PersistenceService } from '../shared/services/persistence.service';
+import { UtilityService } from '../shared/services/utility.service';
+import { UserService } from '../users/services/user.service';
 
 @Component({
     selector: 'app-list',
@@ -51,12 +45,14 @@ export class ListComponent implements OnInit {
     private sub;
 
     public options: NaturalGalleryOptions = {
+        cover: true,
         gap: 5,
         showLabels: 'always',
         rowHeight: this.thumbnailHeight,
         activable: true,
         selectable: true,
         lightbox: true,
+        infiniteScrollOffset: -200,
     };
 
     public collection;
@@ -238,7 +234,7 @@ export class ListComponent implements OnInit {
             const artists = card.artists.map(a => a.name).join('<br/>');
 
             if (artists && title) {
-                title = artists + ' : ' + title;
+                title = '[ ' + artists + ' ] ' + title;
             } else if (artists && !title) {
                 title = artists;
             }
@@ -462,5 +458,4 @@ export class ListComponent implements OnInit {
             this.config = cardsConfiguration.concat(adminConfig);
         }
     }
-
 }

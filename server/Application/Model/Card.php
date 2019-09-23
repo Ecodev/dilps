@@ -15,6 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection as DoctrineCollection;
 use Doctrine\ORM\Mapping as ORM;
 use GraphQL\Doctrine\Annotation as API;
+use Imagine\Filter\Basic\Autorotate;
 use Imagine\Image\ImagineInterface;
 use InvalidArgumentException;
 use Psr\Http\Message\UploadedFileInterface;
@@ -25,11 +26,11 @@ use Psr\Http\Message\UploadedFileInterface;
  * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="Application\Repository\CardRepository")
  * @ORM\Table(indexes={
- *     @ORM\Index(columns={"name"}),
- *     @ORM\Index(columns={"locality"}),
- *     @ORM\Index(columns={"area"}),
- *     @ORM\Index(columns={"latitude"}),
- *     @ORM\Index(columns={"longitude"}),
+ *     @ORM\Index(name="card_name_idx", columns={"name"}),
+ *     @ORM\Index(name="card_locality_idx", columns={"locality"}),
+ *     @ORM\Index(name="card_area_idx", columns={"area"}),
+ *     @ORM\Index(name="card_latitude_idx", columns={"latitude"}),
+ *     @ORM\Index(name="card_longitude_idx", columns={"longitude"}),
  * })
  * @API\Filters({
  *     @API\Filter(field="nameOrExpandedName", operator="Application\Api\Input\Operator\NameOrExpandedNameOperatorType", type="string"),
@@ -279,8 +280,13 @@ class Card extends AbstractModel
     public function deleteFile(): void
     {
         $path = $this->getPath();
-        if (file_exists($path) && is_file($path) && $this->getFilename() !== 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg') {
-            unlink($path);
+        $config = require 'config/autoload/local.php';
+        $unlink = $config['files']['unlink'];
+
+        if (file_exists($path) && is_file($path)) {
+            if ($this->getFilename() !== 'dw4jV3zYSPsqE2CB8BcP8ABD0.jpg' && $unlink) {
+                unlink($path);
+            }
         }
     }
 
@@ -588,7 +594,14 @@ class Card extends AbstractModel
 
         /** @var ImagineInterface $imagine */
         $imagine = $container->get(ImagineInterface::class);
-        $size = $imagine->open($path)->getSize();
+        $image = $imagine->open($path);
+
+        // Auto-rotate image if EXIF says it's rotated
+        $autorotate = new Autorotate();
+        $autorotate->apply($image);
+        $image->save($path);
+
+        $size = $image->getSize();
 
         $this->setWidth($size->getWidth());
         $this->setHeight($size->getHeight());

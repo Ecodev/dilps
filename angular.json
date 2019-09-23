@@ -43,6 +43,23 @@
                   "with": "client/environments/environment.prod.ts"
                 }
               ]
+            },
+            "staging": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "client/environments/environment.ts",
+                  "with": "client/environments/environment.stage.ts"
+                }
+              ]
             }
           }
         },

@@ -14,6 +14,7 @@ export class TableButtonComponent {
     @Input() icon: string;
     @Input() href: string;
     @Input() navigate: string;
+    @Input() disable: boolean;
 
     constructor() {
     }

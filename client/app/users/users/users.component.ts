@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material';
 import { AbstractList } from '../../shared/components/AbstractList';
 import { UserService } from '../services/user.service';
 import { UserComponent } from '../user/user.component';
+import {UserType} from '../../shared/generated-types';
 
 @Component({
     selector: 'app-users',
@@ -16,8 +17,8 @@ export class UsersComponent extends AbstractList implements OnInit {
         'name',
         'email',
         'role',
-        'activeUntil',
-        'termsAgreement'
+        'type',
+        'activeUntil'
     ];
     constructor(service: UserService,
                 router: Router,
@@ -26,5 +27,9 @@ export class UsersComponent extends AbstractList implements OnInit {
 
         super('users', service, UserComponent, router, route, dialog);
 
+    }
+
+    public isLegacyUser(user) {
+        return user.type === UserType.legacy;
     }
 }

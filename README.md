@@ -1,14 +1,8 @@
 # Dilps
 
-Master:
-[![Build Status](https://travis-ci.org/Ecodev/dilps.svg?branch=master)](https://travis-ci.org/Ecodev/dilps) &nbsp;
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Ecodev/dilps/badges/quality-score.png?b=master&s=2b6588a62b5d35d80bd104014502605b7520f49a)](https://scrutinizer-ci.com/g/Ecodev/dilps/?branch=master) &nbsp;
-[![Code Coverage](https://scrutinizer-ci.com/g/Ecodev/dilps/badges/coverage.png?b=master&s=cc2eec510484f44409973822e7e3a805df6a1e91)](https://scrutinizer-ci.com/g/Ecodev/dilps/?branch=master)
+Master: [![Build Status](https://travis-ci.com/unil-lettres/dilps.svg?branch=master)](https://travis-ci.com/unil-lettres/dilps) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/unil-lettres/dilps/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/unil-lettres/dilps/?branch=master)
 
-Develop:
-[![Build Status](https://travis-ci.org/Ecodev/dilps.svg?branch=develop)](https://travis-ci.org/Ecodev/dilps) &nbsp;
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Ecodev/dilps/badges/quality-score.png?b=develop&s=2b6588a62b5d35d80bd104014502605b7520f49a)](https://scrutinizer-ci.com/g/Ecodev/dilps/?branch=develop) &nbsp;
-[![Code Coverage](https://scrutinizer-ci.com/g/Ecodev/dilps/badges/coverage.png?b=develop&s=cc2eec510484f44409973822e7e3a805df6a1e91)](https://scrutinizer-ci.com/g/Ecodev/dilps/?branch=develop)
+Development: [![Build Status](https://travis-ci.com/unil-lettres/dilps.svg?branch=develop)](https://travis-ci.com/unil-lettres/dilps) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/unil-lettres/dilps/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/unil-lettres/dilps/?branch=develop)
 
 ## Introduction
 
@@ -54,7 +48,7 @@ $ composer clear-config-cache
 
 ### Client
 
-Run `yarn dev` for a dev server. Navigate to `http://dilps.lan:4200/`. The app will
+Run `yarn dev` for a dev server. Navigate to `http://dilps.lan:4300/`. The app will
 automatically reload if you change any of the source files.
 
 ## Testing

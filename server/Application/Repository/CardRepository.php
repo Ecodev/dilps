@@ -99,4 +99,23 @@ class CardRepository extends AbstractRepository implements LimitedAccessSubQuery
 
         return $filenames;
     }
+
+    /**
+     * Returns all filename in DB and their id and sizes
+     *
+     * @return string[]
+     */
+    public function getFilenamesForDimensionUpdate(): array
+    {
+        $filenames = $this->getEntityManager()->getConnection()->createQueryBuilder()
+            ->from('card')
+            ->addSelect('id')
+            ->addSelect('width')
+            ->addSelect('height')
+            ->addSelect('CONCAT("data/images/", filename) AS filename')
+            ->where('filename != ""')
+            ->orderBy('filename')->execute()->fetchAll();
+
+        return $filenames;
+    }
 }

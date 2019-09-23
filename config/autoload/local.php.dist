@@ -23,4 +23,10 @@ return [
             ],
         ],
     ],
+    'moodle' => [
+        'redirectUrl' => 'https://your.moodle.redirect.url',
+    ],
+    'files' => [
+        'unlink' => true,
+    ],
 ];

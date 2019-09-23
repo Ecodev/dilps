@@ -1,10 +1,12 @@
 <perfect-scrollbar>
 
-    <mat-toolbar fxFlex="none" color="app" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+    <mat-toolbar color="app" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
         <img src="assets/images/logo-bleu.svg" style="max-width:100%;height:30px;" />
 
         <div fxFlex>
-            <mat-form-field fxFlex class="searchField width-auto no-padding" floatLabel="never">
+            <mat-form-field fxFlex class="searchField width-auto no-padding"
+                            floatLabel="never"
+            >
                 <input matInput
                        appFocus
                        placeholder="Rechercher"
@@ -42,8 +44,11 @@
             <ng-container matColumnDef="name">
                 <mat-header-cell *matHeaderCellDef>Login</mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <app-table-button [label]="element.login" icon="edit" (click)="edit(element)" matTooltip="Éditer"
-                    ></app-table-button>
+                    <app-table-button [disable]="isLegacyUser(element)"
+                                      [label]="element.login"
+                                      icon="edit"
+                                      (click)="isLegacyUser(element) || edit(element)">
+                    </app-table-button>
                 </mat-cell>
             </ng-container>
 
@@ -59,16 +64,16 @@
                 <mat-cell *matCellDef="let element">{{ element.role | role }}</mat-cell>
             </ng-container>
 
+            <!-- Type Column -->
+            <ng-container matColumnDef="type">
+                <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{ element.type | type }}</mat-cell>
+            </ng-container>
+
             <!-- activeUntil Column -->
             <ng-container matColumnDef="activeUntil">
                 <mat-header-cell *matHeaderCellDef>Validité</mat-header-cell>
                 <mat-cell *matCellDef="let element">{{ element.activeUntil | date:'dd.MM.yyyy' }}</mat-cell>
-            </ng-container>
-
-            <!-- Licence Column -->
-            <ng-container matColumnDef="termsAgreement">
-                <mat-header-cell *matHeaderCellDef>Licence</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{ element.termsAgreement | date:'dd.MM.yyyy' }}</mat-cell>
             </ng-container>
 
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
