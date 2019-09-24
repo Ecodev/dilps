@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NaturalGalleryComponent } from '@ecodev/angular-natural-gallery';
+import { fromUrl, NaturalSearchFacets, NaturalSearchSelections, toGraphQLDoctrineFilter, toUrl } from '@ecodev/natural';
 import { NaturalGalleryOptions } from '@ecodev/natural-gallery-js';
-import { fromUrl, NaturalSearchConfiguration, NaturalSearchSelections, toGraphQLDoctrineFilter, toUrl } from '@ecodev/natural-search';
 import { clone, defaults, isArray, isString, merge, pickBy } from 'lodash';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { forkJoin } from 'rxjs';
@@ -31,8 +31,8 @@ import { UserService } from '../users/services/user.service';
 })
 export class ListComponent implements OnInit {
 
-    @ViewChild('gallery') gallery: NaturalGalleryComponent;
-    @ViewChild('scrollable') private scrollable: PerfectScrollbarComponent;
+    @ViewChild('gallery', {static: true}) gallery: NaturalGalleryComponent;
+    @ViewChild('scrollable', {static: true}) private scrollable: PerfectScrollbarComponent;
 
     public SortingOrder = SortingOrder;
     public galleryCollection = null;
@@ -65,7 +65,7 @@ export class ListComponent implements OnInit {
 
     public showDownloadCollection = true;
 
-    public config: NaturalSearchConfiguration = cardsConfiguration;
+    public config: NaturalSearchFacets = cardsConfiguration;
 
     public selections: NaturalSearchSelections = [[]];
 
